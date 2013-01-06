@@ -1,0 +1,8 @@
+/Makefile
+/_build
+/configure
+/prime.docdir
+/setup.data
+/setup.log
+/setup.ml
+/testsuite.byte

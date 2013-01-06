@@ -1,0 +1,35 @@
+OASISFormat: 0.3
+Name: ocaml-prime
+Version: 0.1
+Synopsis: Basic additions to the OCaml Standard Library
+Authors: Petter A. Urkedal
+License: LGPL-3.0 with OCaml linking exception
+Plugins: DevFiles (0.3), META (0.3)
+BuildTools: ocamlbuild
+
+Library prime
+  Path: src
+  Modules:
+    Prime_char, Prime_list, Prime_option, Prime_string,
+    Unprime_char, Unprime_list, Unprime_option, Unprime_string
+
+Document prime
+  Title: The OCaml Prime Library
+  Type: ocamlbuild (0.3)
+  InstallDir: $htmldir/html
+  BuildTools+: ocamldoc
+  XOCamlbuildPath: src
+  XOCamlbuildLibraries: prime
+  DataFiles: COPYING ($docdir), COPYING.LESSER ($docdir)
+
+Executable testsuite
+  Install: false
+  Path: tests
+  MainIs: testsuite.ml
+  BuildDepends: prime, oUnit
+  DllPath: _build/src
+
+Test "testsuite"
+  Type: Custom (0.3)
+  Command: $testsuite
+  PostCommand: echo
