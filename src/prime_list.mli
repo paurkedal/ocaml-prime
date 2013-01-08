@@ -18,31 +18,30 @@
     functions.  For a full replacement include {!Unprime_list}. *)
 
 val sample : (int -> 'a) -> int -> 'a list
-(** [sample f n] returns [[f 0; ...; f (n - 1)]]. *)
+(** [sample f n] returns [[f 0; …; f (n - 1)]]. *)
 
 val push : 'a -> 'a list -> 'a list
 (** [push] is a function alias for the [::] operator, convenient for passing
     as a function argument. *)
 
 val fold : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
-(** [fold f [x₁; ...; xₙ]] returns the composition [f x₁ ∘ ... ∘ f xₙ].
-    This is the same as [fold_left] with parameters reordered to make it more
-    composable. *)
+(** [fold f [x₁; …; xₙ]] returns the composition [f xₙ ∘ ⋯ ∘ f x₁].  This is
+    [fold_left] with parameters reordered to make it more composable. *)
 
 val fold_zip : ?trunc: bool ->
 	       ('a * 'b -> 'c -> 'c) -> 'a list * 'b list -> 'c -> 'c
 (** [fold_zip f] is an optimization of [fold f ∘ zip]. *)
 
 val zip : ?trunc: bool -> 'a list * 'b list -> ('a * 'b) list
-(** [zip ([x₁; ...; xₙ], [y₁; ...; yₙ])] returns [[(x₁, y₁); ...; (xₙ, yₙ)]].
+(** [zip ([x₁; …; xₙ], [y₁; …; yₙ])] returns [[(x₁, y₁); …; (xₙ, yₙ)]].
     If [~trunc:true] is passed to [zip], then either of the list arguments
     will be truncated to the shorter one, othewise [Invalid_argument] is
     raised if the list have different length.  This is a tail-recursive
     variant of [combine]. *)
 
 val unzip : ('a * 'b) list -> 'a list * 'b list
-(** [unzip [(x₁, y₁); ...; (xₙ, yₙ)]] returns [([x₁; ...; xₙ], [y₁; ...;
-    yₙ])].  This is a tail-recursive variant of [split]. *)
+(** [unzip [(x₁, y₁); …; (xₙ, yₙ)]] returns [([x₁; …; xₙ], [y₁; …; yₙ])].
+    This is a tail-recursive variant of [split]. *)
 
 val drop_while : ('a -> bool) -> 'a list -> 'a list
 (** [drop_while f xs] returns the longest suffix of [xs] which does not start
