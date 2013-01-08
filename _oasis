@@ -10,8 +10,8 @@ BuildTools: ocamlbuild
 Library prime
   Path: src
   Modules:
-    Prime_char, Prime_list, Prime_option, Prime_string,
-    Unprime_char, Unprime_list, Unprime_option, Unprime_string
+    Prime_array, Prime_char, Prime_list, Prime_option, Prime_string,
+    Unprime_array, Unprime_char, Unprime_list, Unprime_option, Unprime_string
 
 Document prime
   Title: The OCaml Prime Library
