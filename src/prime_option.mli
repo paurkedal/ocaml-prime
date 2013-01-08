@@ -19,8 +19,9 @@
 type 'a t = 'a option
 
 val fold : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
-val map : ('a -> 'b) -> 'a t -> 'b t
 val iter : ('a -> unit) -> 'a t -> unit
 val for_all : ('a -> bool) -> 'a t -> bool
 val exists : ('a -> bool) -> 'a t -> bool
+val search : ('a -> 'b option) -> 'a t -> 'b option
+val map : ('a -> 'b) -> 'a t -> 'b t
 val filter : ('a -> bool) -> 'a t -> 'a t

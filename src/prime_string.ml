@@ -63,6 +63,15 @@ let filter f s =
   done;
   Buffer.contents buf
 
+let search f s =
+  let n = length s in
+  let rec search_from i =
+    if i = n then None else
+    match f s.[i] with
+    | None -> search_from (i + 1)
+    | y -> y in
+  search_from 0
+
 let rec skip_while f s i =
   if i < length s && f s.[i] then skip_while f s (i + 1) else i
 

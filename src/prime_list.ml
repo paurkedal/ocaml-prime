@@ -25,6 +25,10 @@ let sample f n =
 
 let push x xs = x :: xs
 
+let rec search f = function
+  | [] -> None
+  | x :: xs -> match f x with None -> search f xs | y -> y
+
 let rec fold f xs accu =
   match xs with
   | [] -> accu

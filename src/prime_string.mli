@@ -30,6 +30,7 @@ val fold : (char -> 'a -> 'a) -> string -> 'a -> 'a
 val for_all : (char -> bool) -> string -> bool
 val exists : (char -> bool) -> string -> bool
 val filter : (char -> bool) -> string -> string
+val search : (char -> 'a option) -> string -> 'a option
 
 (** {6 Search Primitives} *)
 

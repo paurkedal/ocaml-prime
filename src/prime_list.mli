@@ -24,6 +24,10 @@ val push : 'a -> 'a list -> 'a list
 (** [push] is a function alias for the [::] operator, convenient for passing
     as a function argument. *)
 
+val search : ('a -> 'b option) -> 'a list -> 'b option
+(** [search f xs] returns the first element of [map f xs] which is different
+    from [None] if it exists, otherwise it returns [None]. *)
+
 val fold : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
 (** [fold f [x₁; …; xₙ]] returns the composition [f xₙ ∘ ⋯ ∘ f x₁].  This is
     [fold_left] with parameters reordered to make it more composable. *)

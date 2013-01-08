@@ -20,5 +20,6 @@ let fold f = function None -> fun x -> x | Some x -> f x
 let iter f = function None -> () | Some x -> f x
 let for_all f = function None -> true | Some x -> f x
 let exists f = function None -> false | Some x -> f x
+let search f = function None -> None | Some x -> f x
 let map f = function None -> None | Some x -> Some (f x)
 let filter f = function Some x when f x -> Some x | _ -> None
