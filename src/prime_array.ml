@@ -25,6 +25,13 @@ let fold f xa accu =
   done;
   !accu_r
 
+let foldi f xa accu =
+  let accu_r = ref accu in
+  for i = 0 to length xa - 1 do
+    accu_r := f i xa.(i) !accu_r
+  done;
+  !accu_r
+
 let search f xa =
   let n = length xa in
   let rec search_from i =

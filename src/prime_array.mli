@@ -24,6 +24,10 @@ val fold : ('a -> 'b -> 'b) -> 'a array -> 'b -> 'b
 (** [fold f [|x₁; …; xₙ|]] is the composition [f xₙ ∘ ⋯ ∘ f x₁].  This is
     [fold_left] with arguments reorderd to make it easy to nest and compose. *)
 
+val foldi : (int -> 'a -> 'b -> 'b) -> 'a array -> 'b -> 'b
+(** [foldi f [|x₁; …; xₙ|]] returns the composition
+    [f (n - 1) xₙ₋₁ ∘ ⋯ ∘ f 0 x₀]. *)
+
 val search : ('a -> 'b option) -> 'a array -> 'b option
 (** [search f xa] returns the first element of [map f xa] which is not [None],
     or [None] if there is no such element. *)
