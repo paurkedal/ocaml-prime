@@ -63,10 +63,10 @@ val has_suffix : string -> string -> bool
 (** [has_suffix sfx s] is true iff [s] ends with [sfx]. *)
 
 val has_slice : int -> string -> string -> bool
-(** [has_slice i sce s] is true iff [s] contains the substring [sce] starting
-    at position [i]. *)
+(** [has_slice i ss s] is true iff [s] contains the substring [ss] starting at
+    position [i]. *)
 
 val find_slice : ?start: int -> string -> string -> int option
-(** [find_slice sce s] locates the find occurrence of [sce] in [s], staring at
+(** [find_slice ss s] locates the first occurrence of [ss] in [s], staring at
     [spos] which defaults to 0.  If found, returns [Some pos] where [pos] is
-    the position of the first charaters, else returns [None]. *)
+    the position of the first match character, else returns [None]. *)
