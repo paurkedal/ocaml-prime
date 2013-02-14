@@ -26,6 +26,18 @@ module type S = sig
       where [k₁, …, kₙ] are the coinciding indices of [m0] and [m1], and [v₁,
       …, vₙ] and [w₁, …, wₙ] are the correspoding values from [m0] and [m1],
       respectively. *)
+
+  val left_union : 'a t -> 'a t -> 'a t
+  (** [left_union m0 m1] is the map whose domain is the union of the domains
+      of [m0] and [m1] and whose values agree with [m0] where present and [m1]
+      elsewhere. *)
+
+  val left_inter : 'a t -> 'a t -> 'a t
+  (** [left_inter m0 m1] is the restriction of [m0] to the indices it has in
+      common with [m1]. *)
+
+  val compl : 'a t -> 'a t -> 'a t
+  (** [compl mN mP] is the complement of [mN] relative to [mP]. *)
 end
 
 module Make (K : OrderedType) : S with type key = K.t
