@@ -47,6 +47,16 @@ val unzip : ('a * 'b) list -> 'a list * 'b list
 (** [unzip [(x₁, y₁); …; (xₙ, yₙ)]] returns [([x₁; …; xₙ], [y₁; …; yₙ])].
     This is a tail-recursive variant of [split]. *)
 
+val drop : int -> 'a list -> 'a list
+(** [drop n xs] returns the suffix of [xs] following the [n] first elements.
+    Raises [Failure] if [xs] is shorter than [n] elements and Invalid_argument
+    if [n] is negative. *)
+
+val take : int -> 'a list -> 'a list
+(** [take n xs] returns the [n]-element prefix of [xs].  Raises [Failure] if
+    [xs] is shorter than [n] elements and Invalid_argument if [n] is
+    negative. *)
+
 val drop_while : ('a -> bool) -> 'a list -> 'a list
 (** [drop_while f xs] returns the longest suffix of [xs] which does not start
     with an element on which [f] is true. *)

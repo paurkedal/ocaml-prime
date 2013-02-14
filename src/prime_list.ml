@@ -54,6 +54,23 @@ let fold_zip ?(trunc = false) f =
     | _ -> invalid_arg "Prime_list.fold_zip: Lists have different length." in
   loop
 
+let drop n xs =
+  if n < 0 then invalid_arg "Prime_list.drop" else
+  let rec loop n xs =
+    if n = 0 then xs else
+    match xs with
+    | [] -> failwith "Prime_list.drop"
+    | _ :: xs' -> loop (n - 1) xs' in
+  loop n xs
+
+let take n xs =
+  if n < 0 then invalid_arg "Prime_list.take" else
+  let rec loop zs = function
+    | 0, _ -> rev zs
+    | _, [] -> failwith "Prime_list.take"
+    | n, y :: ys -> loop (y :: zs) (n - 1, ys) in
+  loop [] (n, xs)
+
 let rec drop_while f = function
   | [] -> []
   | x :: xs -> if f x then drop_while f xs else x :: xs
