@@ -26,26 +26,45 @@ val push : 'a -> 'a list -> 'a list
 
 val search : ('a -> 'b option) -> 'a list -> 'b option
 (** [search f xs] returns the first element of [map f xs] which is different
-    from [None] if it exists, otherwise it returns [None]. *)
+    from [None] or [None] if all elements are [None].  This is an alternative
+    to [find] which is easy to nest, e.g. the function
+    [Prime_array.search (Prime_option.search (Prime_list.search f))]
+    returns the first non-[None] mapping of [f] in an array of optional
+    lists. *)
+
+
+(** {6 Iteration} *)
 
 val fold : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
 (** [fold f [x₁; …; xₙ]] returns the composition [f xₙ ∘ ⋯ ∘ f x₁].  This is
     [fold_left] with parameters reordered to make it more composable. *)
 
-val fold_zip : ?trunc: bool ->
-	       ('a * 'b -> 'c -> 'c) -> 'a list * 'b list -> 'c -> 'c
-(** [fold_zip f] is an optimization of [fold f ∘ zip]. *)
 
-val zip : ?trunc: bool -> 'a list * 'b list -> ('a * 'b) list
-(** [zip ([x₁; …; xₙ], [y₁; …; yₙ])] returns [[(x₁, y₁); …; (xₙ, yₙ)]].
-    If [~trunc:true] is passed to [zip], then either of the list arguments
-    will be truncated to the shorter one, othewise [Invalid_argument] is
-    raised if the list have different length.  This is a tail-recursive
-    variant of [combine]. *)
+(** {6 Iteration on Two Lists} *)
 
-val unzip : ('a * 'b) list -> 'a list * 'b list
-(** [unzip [(x₁, y₁); …; (xₙ, yₙ)]] returns [([x₁; …; xₙ], [y₁; …; yₙ])].
-    This is a tail-recursive variant of [split]. *)
+val iter2t : ('a -> 'b -> unit) -> 'a list -> 'b list -> unit
+(** [iter2t f [x₁; …; xₙ] [y₁; …; yₘ]] calls [f x₁ y₁; …; f xₗ yₗ] in order,
+    where [l = min n m].  This is a truncating variant of [iter2] from the
+    standard library. *)
+
+val map2t : ('a -> 'b -> 'c) -> 'a list -> 'b list -> 'c list
+(** [map2t f [x₁; …; xₙ] [y₁; …; yₘ]] returns [[f x₁ y₁; ⋯; f xₗ yₗ]] where
+    [l = min n m].  The [t] suffix indicates truncation, otherwise this
+    behaves like [map2] from the standard library. *)
+
+val rev_map2t : ('a -> 'b -> 'c) -> 'a list -> 'b list -> 'c list
+(** [rev_map2t f] is an optimisation of [rev ∘ map2t f]. *)
+
+val fold2 : ('a -> 'b -> 'c -> 'c) -> 'a list -> 'b list -> 'c -> 'c
+(** [fold2 f g [x₁; …; xₙ] [y₁; …; yₘ]] returns [f (xₙ, yₙ) ∘ ⋯ ∘ f (x₁, y₁)]
+    and [n = m] and raises [Invalid_argument] if [n ≠ m]. *)
+
+val fold2t : ('a -> 'b -> 'c -> 'c) -> 'a list -> 'b list -> 'c -> 'c
+(** [fold2t f g [x₁; …; xₙ] [y₁; …; yₘ]] returns [f (xₗ, yₗ) ∘ ⋯ ∘ f (x₁, y₁)]
+    where [l = min n m].  The [t] suffix indicates truncation. *)
+
+
+(** {6 Sublists} *)
 
 val drop : int -> 'a list -> 'a list
 (** [drop n xs] returns the suffix of [xs] following the [n] first elements.

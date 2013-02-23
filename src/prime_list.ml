@@ -34,25 +34,29 @@ let rec fold f xs accu =
   | [] -> accu
   | x :: xs' -> fold f xs' (f x accu)
 
-let zip ?(trunc = false) =
-  let rec loop zs = function
-    | (x :: xs, y :: ys) -> loop ((x, y) :: zs) (xs, ys)
-    | ([], []) | _ when trunc -> rev zs
-    | _ -> invalid_arg "Prime_list.zip: Lists have different length." in
-  loop []
+let rec iter2t f xs ys =
+  match xs, ys with
+  | [], _ | _, [] -> ()
+  | x :: xs', y :: ys' -> iter2t f xs' ys'
 
-let unzip zs =
-  let rec loop xs ys = function
-    | (x, y) :: zs -> loop (x :: xs) (y :: ys) zs
-    | [] -> (rev xs, rev ys) in
-  loop [] [] zs
+let rec fold2 f xs ys accu =
+  match xs, ys with
+  | [], [] -> accu
+  | x :: xs', y :: ys' -> fold2 f xs' ys' (f x y accu)
+  | _ -> invalid_arg "Prime_list.fold2"
 
-let fold_zip ?(trunc = false) f =
-  let rec loop = function
-    | (x :: xs, y :: ys) -> fun accu -> loop (xs, ys) (f (x, y) accu)
-    | ([], []) | _ when trunc -> fun accu -> accu
-    | _ -> invalid_arg "Prime_list.fold_zip: Lists have different length." in
-  loop
+let rec fold2t f xs ys accu =
+  match xs, ys with
+  | [], _ | _, [] -> accu
+  | x :: xs', y :: ys' -> fold2t f xs' ys' (f x y accu)
+
+let rev_map2t f xs ys =
+  let rec loop accu = function
+    | [], _ | _, [] -> accu
+    | x :: xs', y :: ys' -> loop (f x y :: accu) (xs', ys') in
+  loop [] (xs, ys)
+
+let map2t f xs ys = rev (rev_map2t f xs ys)
 
 let drop n xs =
   if n < 0 then invalid_arg "Prime_list.drop" else
