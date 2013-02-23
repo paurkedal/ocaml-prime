@@ -16,6 +16,8 @@
 
 type 'a t = 'a option
 
+let get = function None -> invalid_arg "Prime_option.get" | Some a -> a
+let getd d = function None -> d | Some a -> a
 let fold f = function None -> fun x -> x | Some x -> f x
 let iter f = function None -> () | Some x -> f x
 let for_all f = function None -> true | Some x -> f x

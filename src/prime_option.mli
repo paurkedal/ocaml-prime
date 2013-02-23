@@ -18,10 +18,31 @@
 
 type 'a t = 'a option
 
-val fold : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
-val iter : ('a -> unit) -> 'a t -> unit
-val for_all : ('a -> bool) -> 'a t -> bool
-val exists : ('a -> bool) -> 'a t -> bool
-val search : ('a -> 'b option) -> 'a t -> 'b option
-val map : ('a -> 'b) -> 'a t -> 'b t
-val filter : ('a -> bool) -> 'a t -> 'a t
+val get : 'a option -> 'a
+(** [get (Some a)] returns [a], and [get None] raises [Invalid_argument]. *)
+
+val getd : 'a -> 'a option -> 'a
+(** [getd] is a variant of [get] which is provided a default value instead of
+    failing:  [getd d (Some a)] returns [a] and [getd d None] returns [d]. *)
+
+val search : ('a -> 'b option) -> 'a option -> 'b option
+(** [search f None] is [None] and [search f (Some a)] is [f a]. *)
+
+val iter : ('a -> unit) -> 'a option -> unit
+(** [iter f (Some a)] calls [f a], and [iter f None] does nothing. *)
+
+val map : ('a -> 'b) -> 'a option -> 'b option
+(** [map f None] is [None] and [map f (Some a)] is [Some (f a)]. *)
+
+val fold : ('a -> 'b -> 'b) -> 'a option -> 'b -> 'b
+(** [fold f None] is the identity function and [fold f (Some a)] is [f a]. *)
+
+val for_all : ('a -> bool) -> 'a option -> bool
+(** [for_all f None] is true and [for_all f (Some a)] is [f a]. *)
+
+val exists : ('a -> bool) -> 'a option -> bool
+(** [exists f None] is false and [exists f (Some a)] is [f a]. *)
+
+val filter : ('a -> bool) -> 'a option -> 'a option
+(** [filter f (Some a)] returns [Some a] if [f a] is true; in other cases
+    [filter f a] returns [None]. *)
