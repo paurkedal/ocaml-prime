@@ -20,6 +20,7 @@ module type OrderedType = Map.OrderedType
 
 module type S = sig
   include Map.S
+  val pop : key -> 'a t -> 'a * 'a t
   val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
   val left_union : 'a t -> 'a t -> 'a t
   val left_inter : 'a t -> 'a t -> 'a t
@@ -28,6 +29,8 @@ end
 
 module Make (K : OrderedType) = struct
   include Map.Make (K)
+
+  let pop k m = find k m, remove k m
 
   let fold2t f m0 m1 =
     fold (fun k v0 -> try f k v0 (find k m1) with Not_found -> ident) m0

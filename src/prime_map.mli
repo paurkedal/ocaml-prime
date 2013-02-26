@@ -21,6 +21,10 @@ module type OrderedType = Map.OrderedType
 module type S = sig
   include Map.S
 
+  val pop : key -> 'a t -> 'a * 'a t
+  (** [pop k m] returns [(find k m, remove k m)] raising [Not_found] if [k]
+      has no mapping in [m]. *)
+
   val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
   (** [fold2t f m0 m1] returns the composition [f kₙ vₙ wₙ ∘ ⋯ ∘ f k₁ v₁ w₁]
       where [k₁, …, kₙ] are the coinciding indices of [m0] and [m1], and [v₁,
