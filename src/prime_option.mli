@@ -21,12 +21,19 @@ type 'a t = 'a option
 val get : 'a option -> 'a
 (** [get (Some a)] returns [a], and [get None] raises [Invalid_argument]. *)
 
-val getd : 'a -> 'a option -> 'a
-(** [getd] is a variant of [get] which is provided a default value instead of
-    failing:  [getd d (Some a)] returns [a] and [getd d None] returns [d]. *)
+val get_or : 'a -> 'a option -> 'a
+(** [get_or d] is a variant of {!get} which maps [None] to [d] instead of
+    raising an exception. *)
+
+val get_else : (unit -> 'a) -> 'a option -> 'a
+(** [get_else h] is a variant of {!get} which calls [h ()] to handle the
+    [None] case instead of raising an exception. *)
 
 val search : ('a -> 'b option) -> 'a option -> 'b option
 (** [search f None] is [None] and [search f (Some a)] is [f a]. *)
+
+
+(** {6 Iteration} *)
 
 val iter : ('a -> unit) -> 'a option -> unit
 (** [iter f (Some a)] calls [f a], and [iter f None] does nothing. *)
