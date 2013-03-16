@@ -31,14 +31,23 @@ module type S = sig
       …, vₙ] and [w₁, …, wₙ] are the correspoding values from [m0] and [m1],
       respectively. *)
 
+  val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
+  (** [map2t f m0 m1] returns a map which contains a mapping from [k] to [f x0
+      x1] for each [k], [x0], and [x1] such that [m0] maps [k] to [x0] and
+      [m1] maps [k] to [x1]. *)
+
+  val mapi2t : (key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
+  (** [mapi2t f m0 m1] returns a map which contains a mapping from [k] to [f k
+      x0 x1] for each [k], [x0], and [x1] such that [m0] maps [k] to [x0] and
+      [m1] maps [k] to [x1]. *)
+
   val left_union : 'a t -> 'a t -> 'a t
   (** [left_union m0 m1] is the map whose domain is the union of the domains
       of [m0] and [m1] and whose values agree with [m0] where present and [m1]
       elsewhere. *)
 
-  val left_inter : 'a t -> 'a t -> 'a t
-  (** [left_inter m0 m1] is the restriction of [m0] to the indices it has in
-      common with [m1]. *)
+  val left_inter : 'a t -> 'b t -> 'a t
+  (** @deprecated Use [mapi2t fst]. *)
 
   val compl : 'a t -> 'a t -> 'a t
   (** [compl mN mP] is the complement of [mN] relative to [mP]. *)

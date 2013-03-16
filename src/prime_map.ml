@@ -22,8 +22,10 @@ module type S = sig
   include Map.S
   val pop : key -> 'a t -> 'a * 'a t
   val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
+  val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
+  val mapi2t : (key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
   val left_union : 'a t -> 'a t -> 'a t
-  val left_inter : 'a t -> 'a t -> 'a t
+  val left_inter : 'a t -> 'b t -> 'a t
   val compl : 'a t -> 'a t -> 'a t
 end
 
@@ -34,6 +36,18 @@ module Make (K : OrderedType) = struct
 
   let fold2t f m0 m1 =
     fold (fun k v0 -> try f k v0 (find k m1) with Not_found -> ident) m0
+
+  let map2t f =
+    merge (fun _ xopt yopt ->
+	   match xopt, yopt with
+	   | Some x, Some y -> Some (f x y)
+	   | _, _ -> None)
+
+  let mapi2t f =
+    merge (fun k xopt yopt ->
+	   match xopt, yopt with
+	   | Some x, Some y -> Some (f k x y)
+	   | _, _ -> None)
 
   let left_union m0 m1 =
     merge (fun _ v0o v1o -> match v0o with None -> v1o | _ -> v0o) m0 m1
