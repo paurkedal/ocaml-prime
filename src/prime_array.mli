@@ -28,6 +28,14 @@ val foldi : (int -> 'a -> 'b -> 'b) -> 'a array -> 'b -> 'b
 (** [foldi f [|x₁; …; xₙ|]] returns the composition
     [f (n - 1) xₙ₋₁ ∘ ⋯ ∘ f 0 x₀]. *)
 
+val for_all : ('a -> bool) -> 'a array -> bool
+(** [for_all f [|x₁; …; xₙ|]] is true iff [f xᵢ] is true for all [i].  [f] is
+    applied to the elements in order until false is returned. *)
+
+val exists : ('a -> bool) -> 'a array -> bool
+(** [exists f [|x₁; …; xₙ|]] is true iff [f xᵢ] is true for some [i].  [f] is
+    applied to the elements in order until true is returned. *)
+
 val search : ('a -> 'b option) -> 'a array -> 'b option
 (** [search f xa] returns the first element of [map f xa] which is not [None],
     or [None] if there is no such element. *)
