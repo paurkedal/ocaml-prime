@@ -19,6 +19,5 @@ let konst x y = x
 let ( *< ) f g x = f (g x)
 let ( *> ) f g x = g (f x)
 let ( |> ) x f = f x
-let ( <| ) f x = f x
 let curry f x y = f (x, y)
 let uncurry f (x, y) = f x y
