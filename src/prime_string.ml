@@ -113,3 +113,12 @@ let find_slice ?(start = 0) sce s =
     if has_slice i sce s then Some i else
     loop (i + 1) in
   loop start
+
+let chop_infix ifx s =
+  let m = length ifx in
+  let rec loop i j acc =
+    if i < 0 then slice 0 j s :: acc else
+    if has_slice i ifx s then loop (i - m) i (slice (i + m) j s :: acc) else
+    loop (i - 1) j acc in
+  let n = length s in
+  if n = 0 then [] else loop (n - m) n []

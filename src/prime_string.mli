@@ -70,3 +70,10 @@ val find_slice : ?start: int -> string -> string -> int option
 (** [find_slice ss s] locates the first occurrence of [ss] in [s], staring at
     [spos] which defaults to 0.  If found, returns [Some pos] where [pos] is
     the position of the first match character, else returns [None]. *)
+
+val chop_infix : string -> string -> string list
+(** [chop_infix ifx s] returns the substrings before, between, and after
+    matches of [ifx] in [s], except for [chop_infix ifx ""], which always
+    gives [[]].  In other words [chop_infix ifx] provides a primitive way of
+    extracting the operands of an infix operator [ifx].  If [ifx] can overlap,
+    it is unspecified which match is used. *)

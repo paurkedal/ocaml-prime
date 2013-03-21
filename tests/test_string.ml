@@ -51,4 +51,13 @@ let run () =
   assert (String.find_slice "" s = Some 0);
   assert (String.find_slice "bugs" s = Some 13);
   assert (String.find_slice "bugS" s = None);
+
+  assert (String.chop_infix "->" "" = []);
+  assert (String.chop_infix "->" "a" = ["a"]);
+  assert (String.chop_infix "->" "->" = [""; ""]);
+  assert (String.chop_infix "->" "a->" = ["a"; ""]);
+  assert (String.chop_infix "->" "->b" = [""; "b"]);
+  assert (String.chop_infix "->" "a->b" = ["a"; "b"]);
+  assert (String.chop_infix "->" "a-->b-->c+" = ["a-"; "b-"; "c+"]);
+
   ()
