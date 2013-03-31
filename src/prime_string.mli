@@ -18,13 +18,13 @@
     The original [String] structure is not included, include {!Unprime_string}
     for a full replacement. *)
 
-(** {6 Construction and Conversion} *)
+(** {2 Construction and Conversion} *)
 
 val sample : (int -> char) -> int -> string
 val of_list : char list -> string
 val to_list : string -> char list
 
-(** {6 Iteration} *)
+(** {2 Iteration over Elements} *)
 
 val fold : (char -> 'a -> 'a) -> string -> 'a -> 'a
 val for_all : (char -> bool) -> string -> bool
@@ -32,7 +32,7 @@ val exists : (char -> bool) -> string -> bool
 val filter : (char -> bool) -> string -> string
 val search : (char -> 'a option) -> string -> 'a option
 
-(** {6 Search Primitives} *)
+(** {2 Search Primitives} *)
 
 val skip_while : (char -> bool) -> string -> int -> int
 (** [skip_while f s] increments a position until it reaches the end of [s] or
@@ -50,7 +50,7 @@ val rskip_while : (char -> bool) -> string -> int -> int
 val rskip_until : (char -> bool) -> string -> int -> int
 (** [rskip_until f] is an optimization of [rskip_while (not ∘ f)]. *)
 
-(** {6 Slices} *)
+(** {2 Slices} *)
 
 val slice : int -> int -> string -> string
 (** [slice i j s] is the slice of [s] from position [i] up to but not

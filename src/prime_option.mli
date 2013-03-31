@@ -33,7 +33,7 @@ val search : ('a -> 'b option) -> 'a option -> 'b option
 (** [search f None] is [None] and [search f (Some a)] is [f a]. *)
 
 
-(** {6 Iteration} *)
+(** {2 Iteration} *)
 
 val iter : ('a -> unit) -> 'a option -> unit
 (** [iter f (Some a)] calls [f a], and [iter f None] does nothing. *)

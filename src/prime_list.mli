@@ -33,14 +33,14 @@ val search : ('a -> 'b option) -> 'a list -> 'b option
     lists. *)
 
 
-(** {6 Iteration} *)
+(** {2 Iteration} *)
 
 val fold : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
 (** [fold f [x₁; …; xₙ]] returns the composition [f xₙ ∘ ⋯ ∘ f x₁].  This is
     [fold_left] with parameters reordered to make it more composable. *)
 
 
-(** {6 Iteration on Two Lists} *)
+(** {2 Iteration over Two Lists} *)
 
 val iter2t : ('a -> 'b -> unit) -> 'a list -> 'b list -> unit
 (** [iter2t f [x₁; …; xₙ] [y₁; …; yₘ]] calls [f x₁ y₁; …; f xₗ yₗ] in order,
@@ -64,7 +64,7 @@ val fold2t : ('a -> 'b -> 'c -> 'c) -> 'a list -> 'b list -> 'c -> 'c
     where [l = min n m].  The [t] suffix indicates truncation. *)
 
 
-(** {6 Sublists} *)
+(** {2 Sublists} *)
 
 val drop : int -> 'a list -> 'a list
 (** [drop n xs] returns the suffix of [xs] following the [n] first elements.

@@ -24,6 +24,13 @@ Library prime
     Unprime_option,
     Unprime_string
 
+Library primedoc
+  FindlibParent: prime
+  Path: doc
+  Modules: Primedoc_init, Primedoc_html
+  ByteOpt: -I +ocamldoc
+  NativeOpt: -I +ocamldoc
+
 Document prime
   Title: The OCaml Prime Library
   Type: ocamlbuild (0.3)
