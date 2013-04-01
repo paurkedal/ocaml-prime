@@ -15,6 +15,7 @@
  *)
 
 open String
+open Unprime
 
 let sample f n =
   let s = String.create n in
@@ -92,6 +93,30 @@ let has_slice j sce s =
   let rec loop i = i >= n || s.[j + i] = sce.[i] && loop (i + 1) in
   loop 0
 
+let skip_affix afx s i =
+  let m, n = String.length afx, String.length s in
+  let rec loop i l =
+    if l = m then Some (i + m) else
+    if s.[i + l] = afx.[l] then loop i (l + 1) else
+    if i < n - m then loop (i + 1) 0 else
+    None in
+  if i < 0 then invalid_arg "Prime_string.skip_affix: Negative index." else
+  if i <= n - m then loop i 0 else
+  if i > n then invalid_arg "Prime_string.skip_affix: Index past EOS." else
+  None
+
+let rskip_affix afx s j =
+  let m, n = String.length afx, String.length s in
+  let rec loop i l =
+    if l = m then Some i else
+    if s.[i + l] = afx.[l] then loop i (l + 1) else
+    if i > 0 then loop (i - 1) 0 else
+    None in
+  if j < 0 then invalid_arg "Prime_string.rskip_affix: Negative index." else
+  if j >= m then loop (j - m) 0 else
+  if j > n then invalid_arg "Prime_string.rskip_affix: Index past EOS." else
+  None
+
 let has_prefix pfx s =
   let n = length pfx in
   if length s < n then false else
@@ -105,20 +130,21 @@ let has_suffix sfx s =
   let rec loop i = i >= n || s.[j + i] = sfx.[i] && loop (i + 1) in
   loop 0
 
-let find_slice ?(start = 0) sce s =
-  let n = length sce in
-  let m = length s - n in
-  let rec loop i =
-    if i > m then None else
-    if has_slice i sce s then Some i else
-    loop (i + 1) in
-  loop start
+let cut_affix afx s =
+  let m, n = length afx, length s in
+  skip_affix afx s 0 |?>. fun j ->
+  (slice 0 (j - m) s, slice j n s)
 
-let chop_infix ifx s =
-  let m = length ifx in
+let rcut_affix afx s =
+  let m, n = length afx, length s in
+  rskip_affix afx s n |?>. fun i ->
+  (slice 0 i s, slice (i + m) n s)
+
+let chop_affix afx s =
+  let m = length afx in
   let rec loop i j acc =
     if i < 0 then slice 0 j s :: acc else
-    if has_slice i ifx s then loop (i - m) i (slice (i + m) j s :: acc) else
+    if has_slice i afx s then loop (i - m) i (slice (i + m) j s :: acc) else
     loop (i - 1) j acc in
   let n = length s in
   if n = 0 then [] else loop (n - m) n []

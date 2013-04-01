@@ -50,11 +50,17 @@ val rskip_while : (char -> bool) -> string -> int -> int
 val rskip_until : (char -> bool) -> string -> int -> int
 (** [rskip_until f] is an optimization of [rskip_while (not ∘ f)]. *)
 
-(** {2 Slices} *)
+val skip_affix : string -> string -> int -> int option
+(** [skip_affix afx s i] returns the end position of the leftmost occurrence
+    of [afx] in [s] which starts at or after [i].
+    @raise Not_found if [afx] does not occur in [slice i (length s) s]. *)
 
-val slice : int -> int -> string -> string
-(** [slice i j s] is the slice of [s] from position [i] up to but not
-    including [j]. *)
+val rskip_affix : string -> string -> int -> int option
+(** [rskip_affix afx s j] retruns the start position of the rightmost
+    occurrence of [afx] in [s] which ends before or at [j].
+    @raise Not_found if [afx] does not occur in [slice 0 j s]. *)
+
+(** {2 Substring Predicates} *)
 
 val has_prefix : string -> string -> bool
 (** [has_prefix pfx s] is true iff [s] starts with [pfx]. *)
@@ -66,14 +72,25 @@ val has_slice : int -> string -> string -> bool
 (** [has_slice i ss s] is true iff [s] contains the substring [ss] starting at
     position [i]. *)
 
-val find_slice : ?start: int -> string -> string -> int option
-(** [find_slice ss s] locates the first occurrence of [ss] in [s], staring at
-    [spos] which defaults to 0.  If found, returns [Some pos] where [pos] is
-    the position of the first match character, else returns [None]. *)
+(** {2 Slicing} *)
 
-val chop_infix : string -> string -> string list
-(** [chop_infix ifx s] returns the substrings before, between, and after
-    matches of [ifx] in [s], except for [chop_infix ifx ""], which always
-    gives [[]].  In other words [chop_infix ifx] provides a primitive way of
-    extracting the operands of an infix operator [ifx].  If [ifx] can overlap,
+val slice : int -> int -> string -> string
+(** [slice i j s] is the slice of [s] from position [i] up to but not
+    including [j]. *)
+
+val cut_affix : string -> string -> (string * string) option
+(** [cut_affix afx s] returns the substrings before and after the leftmost
+    occurrence of [afx] in [s].
+    @raise Not_found if [afx] does not occur in [s]. *)
+
+val rcut_affix : string -> string -> (string * string) option
+(** [rcut_affix afx s] returns the substrings before and after the rightmost
+    occurrence of [afx] in [s].
+    @raise Not_found if [afx] does not occur in [s]. *)
+
+val chop_affix : string -> string -> string list
+(** [chop_affix afx s] returns the substrings before, between, and after
+    matches of [afx] in [s], except for [chop_affix afx ""], which always
+    gives [[]].  In other words [chop_affix afx] provides a primitive way of
+    extracting the operands of an infix operator [afx].  If [afx] can overlap,
     it is unspecified which match is used. *)

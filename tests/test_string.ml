@@ -17,6 +17,7 @@
 include Unprime_list
 include Unprime_char
 include Unprime_string
+include OUnit
 
 let run () =
   let s = "I won't make bugs.  I won't make bugs.  I won't make bugs." in
@@ -38,6 +39,20 @@ let run () =
   assert (String.skip_while Char.is_ascii s 0 = n);
   assert (String.rskip_while Char.is_ascii s n = 0);
 
+  for i = 0 to n do
+    assert (String.skip_affix "" s i = Some i);
+    assert (String.rskip_affix "" s i = Some i);
+    assert (String.skip_affix "$" s i = None)
+  done;
+  assert (String.skip_affix "->" "->" 0 = Some 2);
+  assert (String.skip_affix "->" "a->b" 0 = Some 3);
+  assert (String.skip_affix "->" "a->b" 1 = Some 3);
+  assert (String.skip_affix "->" "a->b" 2 = None);
+  assert (String.rskip_affix "->" "->" 2 = Some 0);
+  assert (String.rskip_affix "->" "a->b" 4 = Some 1);
+  assert (String.rskip_affix "->" "a->b" 3 = Some 1);
+  assert (String.rskip_affix "->" "a->b" 2 = None);
+
   assert (String.slice 8 8 s = "");
   assert (String.slice 8 12 s = "make");
   assert (String.slice (n - 5) n s = "bugs.");
@@ -48,16 +63,22 @@ let run () =
   assert (String.has_suffix "bugs." s);
   assert (not (String.has_suffix "?" s));
   assert (String.has_slice 8 "make" s);
-  assert (String.find_slice "" s = Some 0);
-  assert (String.find_slice "bugs" s = Some 13);
-  assert (String.find_slice "bugS" s = None);
 
-  assert (String.chop_infix "->" "" = []);
-  assert (String.chop_infix "->" "a" = ["a"]);
-  assert (String.chop_infix "->" "->" = [""; ""]);
-  assert (String.chop_infix "->" "a->" = ["a"; ""]);
-  assert (String.chop_infix "->" "->b" = [""; "b"]);
-  assert (String.chop_infix "->" "a->b" = ["a"; "b"]);
-  assert (String.chop_infix "->" "a-->b-->c+" = ["a-"; "b-"; "c+"]);
+  assert (String.cut_affix "" "a" = Some ("", "a"));
+  assert (String.cut_affix "->" "->" = Some ("", ""));
+  assert (String.cut_affix "->" "a->b->c" = Some ("a", "b->c"));
+  assert (String.cut_affix "--" "a-a" = None);
+  assert (String.rcut_affix "" "a" = Some ("a", ""));
+  assert (String.rcut_affix "->" "->" = Some ("", ""));
+  assert (String.rcut_affix "->" "a->b->c" = Some ("a->b", "c"));
+  assert (String.rcut_affix "--" "a-a" = None);
+
+  assert (String.chop_affix "->" "" = []);
+  assert (String.chop_affix "->" "a" = ["a"]);
+  assert (String.chop_affix "->" "->" = [""; ""]);
+  assert (String.chop_affix "->" "a->" = ["a"; ""]);
+  assert (String.chop_affix "->" "->b" = [""; "b"]);
+  assert (String.chop_affix "->" "a->b" = ["a"; "b"]);
+  assert (String.chop_affix "->" "a-->b-->c+" = ["a-"; "b-"; "c+"]);
 
   ()
