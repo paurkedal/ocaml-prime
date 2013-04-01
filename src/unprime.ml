@@ -14,30 +14,15 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Combinators and other Primitives *)
+open Unprime_list
 
-(** {2 Combinators} *)
+include Prime
 
-val ident : 'a -> 'a
-(** The I combinator: [ident x] is [x]. *)
-
-val konst : 'a -> 'b -> 'a
-(** The K combinator: [konst x y] is [x]. *)
-
-val ( *< ) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
-(** The composition operator: [(f *< g) x] is [f (g x)]. *)
-
-val ( *> ) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
-(** The reversed composition operator: [(f *> g) x] is [g (f x)]. *)
-
-val ( |> ) : 'a -> ('a -> 'b) -> 'b
-(** The reversed application operator:
-    [x |> f₁ |> ⋯ |> fₙ] is [fₙ (fₙ₋₁ ⋯ (f₁ x)⋯)]. *)
-
-(** {2 Currying} *)
-
-val curry : ('a * 'b -> 'c) -> 'a -> 'b -> 'c
-(** [curry f x y] is [f (x, y)]. *)
-
-val uncurry : ('a -> 'b -> 'c) -> 'a * 'b -> 'c
-(** [uncurry f (x, y)] is [f x y]. *)
+let ( |?>. ) xo f = match xo with None -> None | Some x -> Some (f x)
+let ( |?>.. ) xo f acc = match xo with None -> acc | Some x -> f x acc
+let ( |?>! ) xo f = match xo with None -> () | Some x -> f x
+let ( |?>= ) xo f = match xo with None -> None | Some x -> f x
+let ( |@>. ) xs f = List.map f xs
+let ( |@>.. ) xs f = List.fold f xs
+let ( |@>! ) xs f = List.iter f xs
+let ( |@>= ) xs f = List.rev (List.fold (fun x -> List.rev_append (f x)) xs [])
