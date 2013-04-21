@@ -14,6 +14,7 @@ Library prime
     Prime,
     Prime_array,
     Prime_char,
+    Prime_int,
     Prime_list,
     Prime_map,
     Prime_option,
