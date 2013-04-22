@@ -58,6 +58,16 @@ let rev_map2t f xs ys =
 
 let map2t f xs ys = rev (rev_map2t f xs ys)
 
+let rev_map_diff f xs =
+  let rec loop accu xi = function
+    | xj :: xs -> loop (f xi xj :: accu) xj xs
+    | [] -> accu in
+  match xs with
+  | [] -> invalid_arg "Prime_list.map_diff: Empty list."
+  | x :: xs -> loop [] x xs
+
+let map_diff f xs = rev (rev_map_diff f xs)
+
 let drop n xs =
   if n < 0 then invalid_arg "Prime_list.drop" else
   let rec loop n xs =

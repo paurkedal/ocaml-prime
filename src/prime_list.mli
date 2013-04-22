@@ -64,6 +64,16 @@ val fold2t : ('a -> 'b -> 'c -> 'c) -> 'a list -> 'b list -> 'c -> 'c
     where [l = min n m].  The [t] suffix indicates truncation. *)
 
 
+(** {2 Differential Iteration} *)
+
+val map_diff : ('a -> 'a -> 'b) -> 'a list -> 'b list
+(** [map_diff f [x₁; …; xₙ]] returns [f x₁ x₂; f x₂ x₃; …; f xₙ₋₁ xₙ].
+    @raise Invalid_argument on the empty list. *)
+
+val rev_map_diff : ('a -> 'a -> 'b) -> 'a list -> 'b list
+(** [rev_map_diff f] is an optimisation of [rev ∘ map_diff f]. *)
+
+
 (** {2 Sublists} *)
 
 val drop : int -> 'a list -> 'a list
