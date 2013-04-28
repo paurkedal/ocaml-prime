@@ -21,3 +21,7 @@ val bitcount : int -> int
 
 val floor_log2 : int -> int
 (** [floor_log2 n] is [⌊log₂ n⌋]. *)
+
+val fold_to : (int -> 'a -> 'a) -> int -> 'a -> 'a
+(** [fold_to f n] returns [f (n - 1) ∘ ⋯ ∘ f 0].
+    @raise Invalid_argument if [n < 0]. *)

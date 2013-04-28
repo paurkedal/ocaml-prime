@@ -30,3 +30,10 @@ let floor_log2 n =
     loop (j / 2) (n lsr j) (l + j) in
   if n <= 0 then invalid_arg "floor_log2 on non-positive argument." else
   loop 32 n 0 (* supports up to 64 bits *)
+
+let fold_to f n acc =
+  let rec loop i acc =
+    if i = n then acc else
+    loop (i + 1) (f i acc) in
+  if n < 0 then invalid_arg "Prime_int.fold_to: Negative exponent." else
+  loop 0 acc
