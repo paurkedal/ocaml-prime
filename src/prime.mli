@@ -41,3 +41,7 @@ val curry : ('a * 'b -> 'c) -> 'a -> 'b -> 'c
 
 val uncurry : ('a -> 'b -> 'c) -> 'a * 'b -> 'c
 (** [uncurry f (x, y)] is [f x y]. *)
+
+(** {2 Exceptions} *)
+
+val finally : (unit -> unit) -> (unit -> 'a) -> 'a

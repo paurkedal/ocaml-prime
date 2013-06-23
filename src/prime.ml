@@ -21,3 +21,8 @@ let ( *> ) f g x = g (f x)
 let ( |> ) x f = f x
 let curry f x y = f (x, y)
 let uncurry f (x, y) = f x y
+
+let finally cleanup thunk =
+  let r = try thunk ()
+	  with xc -> cleanup (); raise xc in
+  cleanup (); r
