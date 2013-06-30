@@ -87,6 +87,8 @@ let rec rskip_until f s i =
 
 let slice i j s = sub s i (j - i)
 
+let slice_from i s = sub s i (String.length s - i)
+
 let has_slice j sce s =
   let n = length sce in
   if length s - j < n then false else

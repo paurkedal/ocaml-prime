@@ -78,6 +78,9 @@ val slice : int -> int -> string -> string
 (** [slice i j s] is the slice of [s] from position [i] up to but not
     including [j]. *)
 
+val slice_from : int -> string -> string
+(** [slice_from i s] is a shortcut for [slice i (String.length s) s]. *)
+
 val cut_affix : string -> string -> (string * string) option
 (** [cut_affix afx s] returns the substrings before and after the leftmost
     occurrence of [afx] in [s].
