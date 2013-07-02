@@ -14,17 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Integer Functions. *)
+(** 64 bit Integer Functions *)
 
-val bitcount : int -> int
+val bitcount : int64 -> int
 (** [bitcount n] is the number of ones in the binary representation of [n]. *)
-
-val bitcount16 : int -> int
-(** [bitcount16 n] is the number of ones in the lowest 16 bits of [n]. *)
-
-val floor_log2 : int -> int
-(** [floor_log2 n] is [⌊log₂ n⌋]. *)
-
-val fold_to : (int -> 'a -> 'a) -> int -> 'a -> 'a
-(** [fold_to f n] returns [f (n - 1) ∘ ⋯ ∘ f 0].
-    @raise Invalid_argument if [n < 0]. *)
