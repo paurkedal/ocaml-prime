@@ -16,6 +16,12 @@
 
 (** Integer Functions. *)
 
+val fdiv : int -> int -> int
+(** [fdiv x y] is the quotient of the floored division of [x] by [y]. *)
+
+val fmod : int -> int -> int
+(** [fmod x y] is the remainder of the floored division of [x] by [y]. *)
+
 val bitcount : int -> int
 (** [bitcount n] is the number of ones in the binary representation of [n]. *)
 

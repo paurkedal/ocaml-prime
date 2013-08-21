@@ -17,7 +17,10 @@
 open OUnit
 
 let suite = "OCaml Prime Test Suite" >::: [
+  "test_int" >:: Test_int.run;
   "test_string" >:: Test_string.run;
 ]
 
-let _ = run_test_tt_main suite
+let _ =
+  Random.self_init ();
+  run_test_tt_main suite

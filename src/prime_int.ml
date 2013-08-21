@@ -14,6 +14,22 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
+let fdiv x y =
+  if x >= 0 then
+    if y >= 0 then x / y else
+    (y + 1 - x) / (- y)
+  else
+    if y < 0 then x / y else
+    (x - y + 1) / y
+
+let fmod x y =
+  if x >= 0 then
+    if y >= 0 then x mod y else
+    - (min_int - x) mod (- y)
+  else
+    if y < 0 then x mod y else
+    (min_int + x) mod y
+
 let bitcount16 n =
   let n = (n land 0x5555) + (n lsr 1 land 0x5555) in
   let n = (n land 0x3333) + (n lsr 2 land 0x3333) in
