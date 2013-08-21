@@ -25,6 +25,10 @@ module type S = sig
   (** [pop k m] returns [(find k m, remove k m)] raising [Not_found] if [k]
       has no mapping in [m]. *)
 
+  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
+  (** [search f m] returns the first non-[None] result of [f k v] where [k, v]
+      runs over the bindings of [m] if it exists, otherwise [None]. *)
+
   val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
   (** [fold2t f m0 m1] returns the composition [f kₙ vₙ wₙ ∘ ⋯ ∘ f k₁ v₁ w₁]
       where [k₁, …, kₙ] are the coinciding indices of [m0] and [m1], and [v₁,

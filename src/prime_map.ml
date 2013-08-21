@@ -21,6 +21,7 @@ module type OrderedType = Map.OrderedType
 module type S = sig
   include Map.S
   val pop : key -> 'a t -> 'a * 'a t
+  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
   val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
   val mapi2t : (key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
@@ -33,6 +34,15 @@ module Make (K : OrderedType) = struct
   include Map.Make (K)
 
   let pop k m = find k m, remove k m
+
+  let search f m =
+    let res = ref None in
+    let capture k v =
+      match f k v with
+      | None -> false
+      | Some r -> res := Some r; true in
+    ignore (exists capture m);
+    !res
 
   let fold2t f m0 m1 =
     fold (fun k v0 -> try f k v0 (find k m1) with Not_found -> ident) m0
