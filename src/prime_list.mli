@@ -39,6 +39,15 @@ val fold : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
 (** [fold f [x₁; …; xₙ]] returns the composition [f xₙ ∘ ⋯ ∘ f x₁].  This is
     [fold_left] with parameters reordered to make it more composable. *)
 
+val filter_map : ('a -> 'b option) -> 'a list -> 'b list
+(** [filter_map f xs] is the list of all [y] such that [f x = Some y] for some
+    [x] in [xs], and having the same order as the corresponding elemets of
+    [xs].  This provides an optimisation of [map Option.get (filter ((<>)
+    None) (map f xs))]. *)
+
+val flatten_map : ('a -> 'b list) -> 'a list -> 'b list
+(** [flatten_map f xs] is a tail-recursive optimisation of [flatten (map f
+    xs)]. *)
 
 (** {2 Iteration over Two Lists} *)
 

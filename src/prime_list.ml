@@ -34,6 +34,18 @@ let rec fold f xs accu =
   | [] -> accu
   | x :: xs' -> fold f xs' (f x accu)
 
+let filter_map f xs =
+  let rec loop ys = function
+    | [] -> ys
+    | x :: xs -> loop (match f x with None -> ys | Some y -> (y :: ys)) xs in
+  rev (loop [] xs)
+
+let flatten_map f xs =
+  let rec loop ys = function
+    | [] -> ys
+    | x :: xs -> loop (rev_append (f x) ys) xs in
+  rev (loop [] xs)
+
 let rec iter2t f xs ys =
   match xs, ys with
   | [], _ | _, [] -> ()

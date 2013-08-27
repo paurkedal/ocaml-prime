@@ -18,6 +18,7 @@ open OUnit
 
 let suite = "OCaml Prime Test Suite" >::: [
   "test_int" >:: Test_int.run;
+  "test_list" >:: Test_list.run;
   "test_string" >:: Test_string.run;
 ]
 
