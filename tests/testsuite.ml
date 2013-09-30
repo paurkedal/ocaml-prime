@@ -17,6 +17,7 @@
 open OUnit
 
 let suite = "OCaml Prime Test Suite" >::: [
+  "test_enummap" >:: Test_enummap.run;
   "test_enumset" >:: Test_enumset.run;
   "test_int" >:: Test_int.run;
   "test_list" >:: Test_list.run;

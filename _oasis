@@ -32,7 +32,7 @@ Library "prime-testing"
   Path: src
   FindlibParent: prime
   FindlibName: testing
-  Modules: Prime_enumset
+  Modules: Prime_enummap, Prime_enumset
 
 Library primedoc
   FindlibParent: prime
