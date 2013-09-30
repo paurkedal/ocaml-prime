@@ -63,7 +63,7 @@ module Make (E : OrderedType) = struct
   let rec locate' i e = function
     | O -> None
     | Y (n, eC, sL, sR) ->
-      let o = compare e eC in
+      let o = E.compare e eC in
       if o < 0 then locate' i e sL else
       if o > 0 then locate' (i + card sL + 1) e sR else
       Some (i + card sL)
