@@ -16,13 +16,4 @@
 
 open OUnit
 
-let suite = "OCaml Prime Test Suite" >::: [
-  "test_enumset" >:: Test_enumset.run;
-  "test_int" >:: Test_int.run;
-  "test_list" >:: Test_list.run;
-  "test_string" >:: Test_string.run;
-]
-
-let _ =
-  Random.self_init ();
-  run_test_tt_main suite
+let assert_equal_int = assert_equal ~printer:string_of_int

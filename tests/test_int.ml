@@ -14,9 +14,8 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-include OUnit
-
-let assert_equal_int = assert_equal ~printer:string_of_int
+open OUnit
+open Utils
 
 let run () =
   (* Assumed by the implementation of fmod: *)

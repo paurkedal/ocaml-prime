@@ -41,7 +41,7 @@ module type S = sig
   val iter : (elt -> unit) -> t -> unit
 end
 
-let getbit n x = (x lsr n) land 1 = 1
+exception Keep
 
 module Make (E : OrderedType) = struct
   type elt = E.t
@@ -66,15 +66,15 @@ module Make (E : OrderedType) = struct
       let o = compare e eC in
       if o < 0 then locate' i e sL else
       if o > 0 then locate' (i + card sL + 1) e sR else
-      Some i
+      Some (i + card sL)
   let locate = locate' 0
 
   let rec get i = function
-    | O -> invalid_arg "Enumset.get: index out of bounds"
+    | O -> invalid_arg "Prime_enumset.get: Index out of bounds."
     | Y (n, eC, sL, sR) ->
       let nL = card sL in
       if i < nL then get i sL else
-      if i > nL then get (i + nL + 1) sR else
+      if i > nL then get (i - nL - 1) sR else
       eC
 
   let rec min_elt = function
@@ -90,19 +90,20 @@ module Make (E : OrderedType) = struct
   let bal_y n eC sL sR =
     match sL, sR with
     | _, Y (nR, eCR, sLR, sRR) when card sL < 4 * nR ->
-      Y (n, eCR, Y (card sL + card sLR, eC, sL, sLR), sRR)
+      Y (n, eCR, Y (card sL + card sLR + 1, eC, sL, sLR), sRR)
     | Y (nL, eCL, sLL, sRL), _ when card sR < 4 * nL ->
-      Y (n, eCL, sLL, Y (card sRL + card sR, eC, sRL, sR))
+      Y (n, eCL, sLL, Y (card sRL + card sR + 1, eC, sRL, sR))
     | _, _ ->
       Y (n, eC, sL, sR)
 
-  let rec add e = function
+  let rec add' e = function
     | O -> Y (1, e, O, O)
-    | Y (n, eC, sL, sR) as s ->
+    | Y (n, eC, sL, sR) ->
       let o = E.compare e eC in
-      if o < 0 then bal_y (n + 1) eC (add e sL) sR else
-      if o > 0 then bal_y (n + 1) eC sL (add e sR) else
-      s
+      if o < 0 then bal_y (n + 1) eC (add' e sL) sR else
+      if o > 0 then bal_y (n + 1) eC sL (add' e sR) else
+      raise Keep
+  let add e s = try add' e s with Keep -> s
 
   let rec pop_min = function
     | O -> raise Not_found
@@ -117,16 +118,16 @@ module Make (E : OrderedType) = struct
       let e', sR' = pop_max sR in e', bal_y (n - 1) eC sL sR'
 
   let rec remove' e = function
-    | O -> raise Not_found
+    | O -> raise Keep
     | Y (n, eC, sL, sR) ->
-      let c = E.compare e eC in
-      if c < 0 then bal_y (n - 1) eC (remove' e sL) sR else
-      if c > 0 then bal_y (n - 1) eC sL (remove' e sR) else
+      let o = E.compare e eC in
+      if o < 0 then bal_y (n - 1) eC (remove' e sL) sR else
+      if o > 0 then bal_y (n - 1) eC sL (remove' e sR) else
       if n = 1 then O else
       if card sL > card sR
 	then let eC', sL' = pop_max sL in Y (n - 1, eC', sL', sR)
 	else let eC', sR' = pop_min sR in Y (n - 1, eC', sL, sR')
-  let remove e s = try remove' e s with Not_found -> s
+  let remove e s = try remove' e s with Keep -> s
 
   let rec iter f = function
     | O -> ()
