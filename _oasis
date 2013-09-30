@@ -28,6 +28,12 @@ Library prime
     Unprime_option,
     Unprime_string
 
+Library "prime-testing"
+  Path: src
+  FindlibParent: prime
+  FindlibName: testing
+  Modules: Prime_enumset
+
 Library primedoc
   FindlibParent: prime
   Path: doc
