@@ -47,7 +47,7 @@ Document prime
   InstallDir: $htmldir/html
   BuildTools+: ocamldoc
   XOCamlbuildPath: src
-  XOCamlbuildLibraries: prime
+  XOCamlbuildLibraries: prime, prime.testing
   DataFiles: COPYING ($docdir), COPYING.LESSER ($docdir)
 
 Executable testsuite
