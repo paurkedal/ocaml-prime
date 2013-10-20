@@ -33,6 +33,7 @@ Library "prime-testing"
   FindlibParent: prime
   FindlibName: testing
   Modules: Prime_enummap, Prime_enumset
+  BuildDepends: prime
 
 Library primedoc
   FindlibParent: prime
