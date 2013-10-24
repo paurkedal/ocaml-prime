@@ -150,3 +150,22 @@ let chop_affix afx s =
     loop (i - 1) j acc in
   let n = length s in
   if n = 0 then [] else loop (n - m) n []
+
+let cut_consecutive f s =
+  let n = length s in
+  let i = skip_until f s 0 in if i = n then None else
+  let j = skip_while f s i in if i = 0 && j = n then None else
+  Some (slice 0 i s, slice j n s)
+
+let rcut_consecutive f s =
+  let n = length s in
+  let j = rskip_until f s n in if j = 0 then None else
+  let i = rskip_while f s j in if j = n && i = 0 then None else
+  Some (slice 0 i s, slice j n s)
+
+let chop_consecutive f s =
+  let rec loop j acc =
+    if j = 0 then acc else
+    let i = rskip_until f s j in
+    loop (rskip_while f s i) (slice i j s :: acc) in
+  loop (rskip_while f s (length s)) []

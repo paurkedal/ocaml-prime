@@ -97,3 +97,19 @@ val chop_affix : string -> string -> string list
     gives [[]].  In other words [chop_affix afx] provides a primitive way of
     extracting the operands of an infix operator [afx].  If [afx] can overlap,
     it is unspecified which match is used. *)
+
+val cut_consecutive : (char -> bool) -> string -> (string * string) option
+(** [cut_consecutive f s] returns the substrings before and after the leftmost
+    consecutive sequence of bytes satisfying [f], or [None] if not
+    [String.exists f s]. *)
+
+val rcut_consecutive : (char -> bool) -> string -> (string * string) option
+(** [cut_consecutive f s] returns the substrings before and after the
+    rightmost consecutive sequence of bytes satisfying [f], or [None] if not
+    [String.exists f s]. *)
+
+val chop_consecutive : (char -> bool) -> string -> string list
+(** [chop_consecutive f s] returns the non-empty substrings before, between,
+    and after consecutive sequences of bytes [c] for which [f c] is true.  In
+    particular [chop_consecutive Char.is_space] is suitable for splitting
+    words separated by ASCII white-spaces. *)

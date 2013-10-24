@@ -88,4 +88,20 @@ let run () =
   assert_eq_string_list ["a"; "b"] (String.chop_affix "->" "a->b");
   assert_eq_string_list ["a-";"b-";"c+"] (String.chop_affix "->" "a-->b-->c+");
 
+  assert_equal None (String.cut_consecutive Char.is_space "");
+  assert_equal None (String.cut_consecutive Char.is_space "  ");
+  assert_equal (Some ("","< >")) (String.cut_consecutive Char.is_space " < >");
+  assert_equal (Some ("< >","")) (String.rcut_consecutive Char.is_space "< > ");
+  assert_equal (Some ("<>", "< >"))
+	       (String.cut_consecutive Char.is_space "<> < >");
+  assert_equal (Some ("< >", "<>"))
+	       (String.rcut_consecutive Char.is_space "< > <>");
+
+  assert_eq_string_list [] (String.chop_consecutive Char.is_space "");
+  assert_eq_string_list [] (String.chop_consecutive Char.is_space "  ");
+  assert_eq_string_list ["three"; "small"; "words"]
+    (String.chop_consecutive Char.is_space "three small words");
+  assert_eq_string_list ["three"; "small"; "words"]
+    (String.chop_consecutive Char.is_space "  three   small  words  ");
+
   ()
