@@ -32,6 +32,9 @@ val get_else : (unit -> 'a) -> 'a option -> 'a
 val search : ('a -> 'b option) -> 'a option -> 'b option
 (** [search f None] is [None] and [search f (Some a)] is [f a]. *)
 
+val flatten : 'a option option -> 'a option
+(** [flatten] maps [Some (Some x)] to [Some x] and other values to [None]. *)
+
 
 (** {2 Iteration} *)
 
