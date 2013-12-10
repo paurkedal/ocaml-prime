@@ -33,14 +33,21 @@ let foldi f xa accu =
   !accu_r
 
 let for_all f xa =
-  let n = Array.length xa in
+  let n = length xa in
   let rec ok_from i = i >= n || f xa.(i) && ok_from (i + 1) in
   ok_from 0
 
 let exists f xa =
-  let n = Array.length xa in
+  let n = length xa in
   let rec ok_from i = i < n && (f xa.(i) || ok_from (i + 1)) in
   ok_from 0
+
+let count f xa =
+  let n = length xa in
+  let rec loop c i =
+    if i = n then c else
+    loop (if f xa.(i) then c + 1 else c) (i + 1) in
+  loop 0 0
 
 let search f xa =
   let n = length xa in

@@ -25,6 +25,12 @@ let sample f n =
 
 let push x xs = x :: xs
 
+let count f =
+  let rec loop n = function
+    | [] -> n
+    | x :: xs -> loop (if f x then n + 1 else n) xs in
+  loop 0
+
 let rec search f = function
   | [] -> None
   | x :: xs -> match f x with None -> search f xs | y -> y

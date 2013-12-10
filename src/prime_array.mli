@@ -36,6 +36,10 @@ val exists : ('a -> bool) -> 'a array -> bool
 (** [exists f [|x₁; …; xₙ|]] is true iff [f xᵢ] is true for some [i].  [f] is
     applied to the elements in order until true is returned. *)
 
+val count : ('a -> bool) -> 'a array -> int
+(** [count f xa] is the number of elements [x] of [xa] for which [f x]
+    holds. *)
+
 val search : ('a -> 'b option) -> 'a array -> 'b option
 (** [search f xa] returns the first element of [map f xa] which is not [None],
     or [None] if there is no such element. *)

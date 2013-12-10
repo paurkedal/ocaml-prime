@@ -24,6 +24,10 @@ val push : 'a -> 'a list -> 'a list
 (** [push] is a function alias for the [::] operator, convenient for passing
     as a function argument. *)
 
+val count : ('a -> bool) -> 'a list -> int
+(** [count f xs] is the number of elements [x] of [xs] for which [f x]
+    holds. *)
+
 val search : ('a -> 'b option) -> 'a list -> 'b option
 (** [search f xs] returns the first element of [map f xs] which is different
     from [None] or [None] if all elements are [None].  This is an alternative
