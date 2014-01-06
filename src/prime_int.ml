@@ -39,13 +39,19 @@ let bitcount16 n =
 
 let rec bitcount n = if n = 0 then 0 else bitcount16 n + bitcount (n lsr 16)
 
+let rec floor_log2_loop j n l =
+  if j = 0 then (assert (n = 1); l) else
+  if n lsr j = 0 then floor_log2_loop (j / 2) n l else
+  floor_log2_loop (j / 2) (n lsr j) (l + j)
+
 let floor_log2 n =
-  let rec loop j n l =
-    if j = 0 then (assert (n = 1); l) else
-    if n lsr j = 0 then loop (j / 2) n l else
-    loop (j / 2) (n lsr j) (l + j) in
   if n <= 0 then invalid_arg "floor_log2 on non-positive argument." else
-  loop 32 n 0 (* supports up to 64 bits *)
+  floor_log2_loop 32 n 0 (* supports up to 64 bits *)
+
+let ceil_log2 n =
+  if n <= 0 then invalid_arg "ceil_log2 on non-positive argument." else
+  if n = 1 then 0 else
+  floor_log2_loop 32 (n - 1) 0 + 1
 
 let fold_to f n acc =
   let rec loop i acc =

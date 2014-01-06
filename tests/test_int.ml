@@ -42,4 +42,15 @@ let run () =
       assert_equal_int ~msg:"y * q + r = x" x (y * q + r);
       assert_equal ~msg:"r has the same sign as y" (y < 0) (r < 0)
     end
+  done;
+
+  (* floor_log2 and ceil_log2 *)
+  for n = 1 to 10000 do
+    let i, j = Prime_int.floor_log2 n, Prime_int.ceil_log2 n in
+    if i = j then assert_equal_int n (1 lsl i) else
+    begin
+      assert_equal_int 1 (j - i);
+      assert (1 lsl i < n);
+      assert (n < 1 lsl j)
+    end
   done
