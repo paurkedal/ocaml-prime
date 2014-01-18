@@ -1,0 +1,54 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Prime" rel="Chapter" href="Prime.html">
+<link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_int" rel="Chapter" href="Prime_int.html">
+<link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
+<link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
+<link title="Prime_list" rel="Chapter" href="Prime_list.html">
+<link title="Prime_map" rel="Chapter" href="Prime_map.html">
+<link title="Prime_option" rel="Chapter" href="Prime_option.html">
+<link title="Prime_string" rel="Chapter" href="Prime_string.html">
+<link title="Unprime" rel="Chapter" href="Unprime.html">
+<link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
+<link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
+<link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
+<link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
+<link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html"><title>The OCaml Prime Library : Prime_enummap.S</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;key<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;singleton&nbsp;:&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;contains&nbsp;:&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;find&nbsp;:&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;locate&nbsp;:&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_binding&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;*&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;min_binding&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;*&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;max_binding&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;*&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;pop_min&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;*&nbsp;<span class="keywordsign">'</span>a&nbsp;*&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;pop_max&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;*&nbsp;<span class="keywordsign">'</span>a&nbsp;*&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;remove&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;card&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fold&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>b&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>b)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>b&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>b<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;iter&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.key&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Prime_enummap</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+<span class="keyword">end</span></code></body></html>

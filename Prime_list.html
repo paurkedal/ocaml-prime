@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Prime_int64.html">
+<link rel="next" href="Prime_map.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Prime" rel="Chapter" href="Prime.html">
+<link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_int" rel="Chapter" href="Prime_int.html">
+<link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
+<link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
+<link title="Prime_list" rel="Chapter" href="Prime_list.html">
+<link title="Prime_map" rel="Chapter" href="Prime_map.html">
+<link title="Prime_option" rel="Chapter" href="Prime_option.html">
+<link title="Prime_string" rel="Chapter" href="Prime_string.html">
+<link title="Unprime" rel="Chapter" href="Unprime.html">
+<link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
+<link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
+<link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
+<link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
+<link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html"><link title="Iteration" rel="Section" href="#2_Iteration">
+<link title="Iteration over Two Lists" rel="Section" href="#2_IterationoverTwoLists">
+<link title="Differential Iteration" rel="Section" href="#2_DifferentialIteration">
+<link title="Sublists" rel="Section" href="#2_Sublists">
+<title>The OCaml Prime Library : Prime_list</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Prime_int64.html" title="Prime_int64">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Prime_map.html" title="Prime_map">Next</a>
+</div>
+<h1>Module <a href="type_Prime_list.html">Prime_list</a></h1>
+
+<pre><span class="keyword">module</span> Prime_list: <code class="code"><span class="keyword">sig</span></code> <a href="Prime_list.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Amendment to <code class="code"><span class="constructor">List</span></code>.  This structure does not include the original
+    functions.  For a full replacement include <a href="Unprime_list.html"><code class="code"><span class="constructor">Unprime_list</span></code></a>.<br>
+</div>
+<hr width="100%">
+
+<pre><span id="VALsample"><span class="keyword">val</span> sample</span> : <code class="type">(int -> 'a) -> int -> 'a list</code></pre><div class="info ">
+<code class="code">sample f n</code> returns <code class="code">[f 0; …; f (n - 1)]</code>.<br>
+</div>
+
+<pre><span id="VALpush"><span class="keyword">val</span> push</span> : <code class="type">'a -> 'a list -> 'a list</code></pre><div class="info ">
+<code class="code">push</code> is a function alias for the <code class="code">::</code> operator, convenient for passing
+    as a function argument.<br>
+</div>
+
+<pre><span id="VALcount"><span class="keyword">val</span> count</span> : <code class="type">('a -> bool) -> 'a list -> int</code></pre><div class="info ">
+<code class="code">count f xs</code> is the number of elements <code class="code">x</code> of <code class="code">xs</code> for which <code class="code">f x</code>
+    holds.<br>
+</div>
+
+<pre><span id="VALsearch"><span class="keyword">val</span> search</span> : <code class="type">('a -> 'b option) -> 'a list -> 'b option</code></pre><div class="info ">
+<code class="code">search f xs</code> returns the first element of <code class="code">map f xs</code> which is different
+    from <code class="code"><span class="constructor">None</span></code> or <code class="code"><span class="constructor">None</span></code> if all elements are <code class="code"><span class="constructor">None</span></code>.  This is an alternative
+    to <code class="code">find</code> which is easy to nest, e.g. the function
+    <code class="code"><span class="constructor">Prime_array</span>.search (<span class="constructor">Prime_option</span>.search (<span class="constructor">Prime_list</span>.search f))</code>
+    returns the first non-<code class="code"><span class="constructor">None</span></code> mapping of <code class="code">f</code> in an array of optional
+    lists.<br>
+</div>
+<br>
+<h2 id="2_Iteration">Iteration</h2><br>
+
+<pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">('a -> 'b -> 'b) -> 'a list -> 'b -> 'b</code></pre><div class="info ">
+<code class="code">fold f [x₁; …; xₙ]</code> returns the composition <code class="code">f xₙ ∘ ⋯ ∘ f x₁</code>.  This is
+    <code class="code">fold_left</code> with parameters reordered to make it more composable.<br>
+</div>
+
+<pre><span id="VALfilter_map"><span class="keyword">val</span> filter_map</span> : <code class="type">('a -> 'b option) -> 'a list -> 'b list</code></pre><div class="info ">
+<code class="code">filter_map f xs</code> is the list of all <code class="code">y</code> such that <code class="code">f x = <span class="constructor">Some</span> y</code> for some
+    <code class="code">x</code> in <code class="code">xs</code>, and having the same order as the corresponding elemets of
+    <code class="code">xs</code>.  This provides an optimisation of <code class="code">map <span class="constructor">Option</span>.get (filter ((&lt;&gt;)
+    <span class="constructor">None</span>) (map f xs))</code>.<br>
+</div>
+
+<pre><span id="VALflatten_map"><span class="keyword">val</span> flatten_map</span> : <code class="type">('a -> 'b list) -> 'a list -> 'b list</code></pre><div class="info ">
+<code class="code">flatten_map f xs</code> is a tail-recursive optimisation of <code class="code">flatten (map f
+    xs)</code>.<br>
+</div>
+<br>
+<h2 id="2_IterationoverTwoLists">Iteration over Two Lists</h2><br>
+
+<pre><span id="VALiter2t"><span class="keyword">val</span> iter2t</span> : <code class="type">('a -> 'b -> unit) -> 'a list -> 'b list -> unit</code></pre><div class="info ">
+<code class="code">iter2t f [x₁; …; xₙ] [y₁; …; yₘ]</code> calls <code class="code">f x₁ y₁; …; f xₗ yₗ</code> in order,
+    where <code class="code">l = min n m</code>.  This is a truncating variant of <code class="code">iter2</code> from the
+    standard library.<br>
+</div>
+
+<pre><span id="VALmap2t"><span class="keyword">val</span> map2t</span> : <code class="type">('a -> 'b -> 'c) -> 'a list -> 'b list -> 'c list</code></pre><div class="info ">
+<code class="code">map2t f [x₁; …; xₙ] [y₁; …; yₘ]</code> returns <code class="code">[f x₁ y₁; ⋯; f xₗ yₗ]</code> where
+    <code class="code">l = min n m</code>.  The <code class="code">t</code> suffix indicates truncation, otherwise this
+    behaves like <code class="code">map2</code> from the standard library.<br>
+</div>
+
+<pre><span id="VALrev_map2t"><span class="keyword">val</span> rev_map2t</span> : <code class="type">('a -> 'b -> 'c) -> 'a list -> 'b list -> 'c list</code></pre><div class="info ">
+<code class="code">rev_map2t f</code> is an optimisation of <code class="code">rev ∘ map2t f</code>.<br>
+</div>
+
+<pre><span id="VALfold2"><span class="keyword">val</span> fold2</span> : <code class="type">('a -> 'b -> 'c -> 'c) -> 'a list -> 'b list -> 'c -> 'c</code></pre><div class="info ">
+<code class="code">fold2 f g [x₁; …; xₙ] [y₁; …; yₘ]</code> returns <code class="code">f (xₙ, yₙ) ∘ ⋯ ∘ f (x₁, y₁)</code>
+    and <code class="code">n = m</code> and raises <code class="code"><span class="constructor">Invalid_argument</span></code> if <code class="code">n ≠ m</code>.<br>
+</div>
+
+<pre><span id="VALfold2t"><span class="keyword">val</span> fold2t</span> : <code class="type">('a -> 'b -> 'c -> 'c) -> 'a list -> 'b list -> 'c -> 'c</code></pre><div class="info ">
+<code class="code">fold2t f g [x₁; …; xₙ] [y₁; …; yₘ]</code> returns <code class="code">f (xₗ, yₗ) ∘ ⋯ ∘ f (x₁, y₁)</code>
+    where <code class="code">l = min n m</code>.  The <code class="code">t</code> suffix indicates truncation.<br>
+</div>
+<br>
+<h2 id="2_DifferentialIteration">Differential Iteration</h2><br>
+
+<pre><span id="VALmap_diff"><span class="keyword">val</span> map_diff</span> : <code class="type">('a -> 'a -> 'b) -> 'a list -> 'b list</code></pre><div class="info ">
+<code class="code">map_diff f [x₁; …; xₙ]</code> returns <code class="code">f x₁ x₂; f x₂ x₃; …; f xₙ₋₁ xₙ</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> on the empty list.<br>
+</div>
+
+<pre><span id="VALrev_map_diff"><span class="keyword">val</span> rev_map_diff</span> : <code class="type">('a -> 'a -> 'b) -> 'a list -> 'b list</code></pre><div class="info ">
+<code class="code">rev_map_diff f</code> is an optimisation of <code class="code">rev ∘ map_diff f</code>.<br>
+</div>
+<br>
+<h2 id="2_Sublists">Sublists</h2><br>
+
+<pre><span id="VALdrop"><span class="keyword">val</span> drop</span> : <code class="type">int -> 'a list -> 'a list</code></pre><div class="info ">
+<code class="code">drop n xs</code> returns the suffix of <code class="code">xs</code> following the <code class="code">n</code> first elements.
+    Raises <code class="code"><span class="constructor">Failure</span></code> if <code class="code">xs</code> is shorter than <code class="code">n</code> elements and Invalid_argument
+    if <code class="code">n</code> is negative.<br>
+</div>
+
+<pre><span id="VALtake"><span class="keyword">val</span> take</span> : <code class="type">int -> 'a list -> 'a list</code></pre><div class="info ">
+<code class="code">take n xs</code> returns the <code class="code">n</code>-element prefix of <code class="code">xs</code>.  Raises <code class="code"><span class="constructor">Failure</span></code> if
+    <code class="code">xs</code> is shorter than <code class="code">n</code> elements and Invalid_argument if <code class="code">n</code> is
+    negative.<br>
+</div>
+
+<pre><span id="VALdrop_while"><span class="keyword">val</span> drop_while</span> : <code class="type">('a -> bool) -> 'a list -> 'a list</code></pre><div class="info ">
+<code class="code">drop_while f xs</code> returns the longest suffix of <code class="code">xs</code> which does not start
+    with an element on which <code class="code">f</code> is true.<br>
+</div>
+
+<pre><span id="VALtake_while"><span class="keyword">val</span> take_while</span> : <code class="type">('a -> bool) -> 'a list -> 'a list</code></pre><div class="info ">
+<code class="code">take_while f xs</code> returns the longest prefix of <code class="code">xs</code> containing only
+    elements which <code class="code">f</code> maps to true.<br>
+</div>
+</body></html>

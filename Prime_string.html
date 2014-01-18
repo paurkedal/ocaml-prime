@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Prime_option.html">
+<link rel="next" href="Unprime.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Prime" rel="Chapter" href="Prime.html">
+<link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_int" rel="Chapter" href="Prime_int.html">
+<link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
+<link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
+<link title="Prime_list" rel="Chapter" href="Prime_list.html">
+<link title="Prime_map" rel="Chapter" href="Prime_map.html">
+<link title="Prime_option" rel="Chapter" href="Prime_option.html">
+<link title="Prime_string" rel="Chapter" href="Prime_string.html">
+<link title="Unprime" rel="Chapter" href="Unprime.html">
+<link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
+<link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
+<link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
+<link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
+<link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html"><link title="Construction and Conversion" rel="Section" href="#2_ConstructionandConversion">
+<link title="Iteration over Elements" rel="Section" href="#2_IterationoverElements">
+<link title="Search Primitives" rel="Section" href="#2_SearchPrimitives">
+<link title="Substring Predicates" rel="Section" href="#2_SubstringPredicates">
+<link title="Slicing" rel="Section" href="#2_Slicing">
+<title>The OCaml Prime Library : Prime_string</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Prime_option.html" title="Prime_option">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Unprime.html" title="Unprime">Next</a>
+</div>
+<h1>Module <a href="type_Prime_string.html">Prime_string</a></h1>
+
+<pre><span class="keyword">module</span> Prime_string: <code class="code"><span class="keyword">sig</span></code> <a href="Prime_string.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Amendment to <code class="code"><span class="constructor">String</span></code>.
+    The original <code class="code"><span class="constructor">String</span></code> structure is not included, include <a href="Unprime_string.html"><code class="code"><span class="constructor">Unprime_string</span></code></a>
+    for a full replacement.<br>
+</div>
+<hr width="100%">
+<br>
+<h2 id="2_ConstructionandConversion">Construction and Conversion</h2><br>
+
+<pre><span id="VALsample"><span class="keyword">val</span> sample</span> : <code class="type">(int -> char) -> int -> string</code></pre>
+<pre><span id="VALof_list"><span class="keyword">val</span> of_list</span> : <code class="type">char list -> string</code></pre>
+<pre><span id="VALto_list"><span class="keyword">val</span> to_list</span> : <code class="type">string -> char list</code></pre><br>
+<h2 id="2_IterationoverElements">Iteration over Elements</h2><br>
+
+<pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">(char -> 'a -> 'a) -> string -> 'a -> 'a</code></pre>
+<pre><span id="VALfor_all"><span class="keyword">val</span> for_all</span> : <code class="type">(char -> bool) -> string -> bool</code></pre>
+<pre><span id="VALexists"><span class="keyword">val</span> exists</span> : <code class="type">(char -> bool) -> string -> bool</code></pre>
+<pre><span id="VALfilter"><span class="keyword">val</span> filter</span> : <code class="type">(char -> bool) -> string -> string</code></pre>
+<pre><span id="VALsearch"><span class="keyword">val</span> search</span> : <code class="type">(char -> 'a option) -> string -> 'a option</code></pre><br>
+<h2 id="2_SearchPrimitives">Search Primitives</h2><br>
+
+<pre><span id="VALskip_while"><span class="keyword">val</span> skip_while</span> : <code class="type">(char -> bool) -> string -> int -> int</code></pre><div class="info ">
+<code class="code">skip_while f s</code> increments a position until it reaches the end of <code class="code">s</code> or
+    it points to a character in <code class="code">s</code> on which <code class="code">f</code> returns false.  In other
+    words if <code class="code">j = skip_while f s i</code>, then <code class="code">slice i j s</code> is the largest
+    substring starting at <code class="code">i</code> on which <code class="code">f</code> is constant true.<br>
+</div>
+
+<pre><span id="VALskip_until"><span class="keyword">val</span> skip_until</span> : <code class="type">(char -> bool) -> string -> int -> int</code></pre><div class="info ">
+<code class="code">skip_until f</code> is an optimisation of <code class="code">skip_while (not ∘ f)</code>.<br>
+</div>
+
+<pre><span id="VALrskip_while"><span class="keyword">val</span> rskip_while</span> : <code class="type">(char -> bool) -> string -> int -> int</code></pre><div class="info ">
+<code class="code">rskip_while f s</code> decrements a position as long as the result points to a
+    character in <code class="code">s</code> on which <code class="code">f</code> is true.<br>
+</div>
+
+<pre><span id="VALrskip_until"><span class="keyword">val</span> rskip_until</span> : <code class="type">(char -> bool) -> string -> int -> int</code></pre><div class="info ">
+<code class="code">rskip_until f</code> is an optimization of <code class="code">rskip_while (not ∘ f)</code>.<br>
+</div>
+
+<pre><span id="VALskip_affix"><span class="keyword">val</span> skip_affix</span> : <code class="type">string -> string -> int -> int option</code></pre><div class="info ">
+<code class="code">skip_affix afx s i</code> returns the end position of the leftmost occurrence
+    of <code class="code">afx</code> in <code class="code">s</code> which starts at or after <code class="code">i</code>.<br>
+<b>Raises</b> <code>Not_found</code> if <code class="code">afx</code> does not occur in <code class="code">slice i (length s) s</code>.<br>
+</div>
+
+<pre><span id="VALrskip_affix"><span class="keyword">val</span> rskip_affix</span> : <code class="type">string -> string -> int -> int option</code></pre><div class="info ">
+<code class="code">rskip_affix afx s j</code> retruns the start position of the rightmost
+    occurrence of <code class="code">afx</code> in <code class="code">s</code> which ends before or at <code class="code">j</code>.<br>
+<b>Raises</b> <code>Not_found</code> if <code class="code">afx</code> does not occur in <code class="code">slice 0 j s</code>.<br>
+</div>
+<br>
+<h2 id="2_SubstringPredicates">Substring Predicates</h2><br>
+
+<pre><span id="VALhas_prefix"><span class="keyword">val</span> has_prefix</span> : <code class="type">string -> string -> bool</code></pre><div class="info ">
+<code class="code">has_prefix pfx s</code> is true iff <code class="code">s</code> starts with <code class="code">pfx</code>.<br>
+</div>
+
+<pre><span id="VALhas_suffix"><span class="keyword">val</span> has_suffix</span> : <code class="type">string -> string -> bool</code></pre><div class="info ">
+<code class="code">has_suffix sfx s</code> is true iff <code class="code">s</code> ends with <code class="code">sfx</code>.<br>
+</div>
+
+<pre><span id="VALhas_slice"><span class="keyword">val</span> has_slice</span> : <code class="type">int -> string -> string -> bool</code></pre><div class="info ">
+<code class="code">has_slice i ss s</code> is true iff <code class="code">s</code> contains the substring <code class="code">ss</code> starting at
+    position <code class="code">i</code>.<br>
+</div>
+<br>
+<h2 id="2_Slicing">Slicing</h2><br>
+
+<pre><span id="VALslice"><span class="keyword">val</span> slice</span> : <code class="type">int -> int -> string -> string</code></pre><div class="info ">
+<code class="code">slice i j s</code> is the slice of <code class="code">s</code> from position <code class="code">i</code> up to but not
+    including <code class="code">j</code>.<br>
+</div>
+
+<pre><span id="VALslice_from"><span class="keyword">val</span> slice_from</span> : <code class="type">int -> string -> string</code></pre><div class="info ">
+<code class="code">slice_from i s</code> is a shortcut for <code class="code">slice i (<span class="constructor">String</span>.length s) s</code>.<br>
+</div>
+
+<pre><span id="VALcut_affix"><span class="keyword">val</span> cut_affix</span> : <code class="type">string -> string -> (string * string) option</code></pre><div class="info ">
+<code class="code">cut_affix afx s</code> returns the substrings before and after the leftmost
+    occurrence of <code class="code">afx</code> in <code class="code">s</code>.<br>
+<b>Raises</b> <code>Not_found</code> if <code class="code">afx</code> does not occur in <code class="code">s</code>.<br>
+</div>
+
+<pre><span id="VALrcut_affix"><span class="keyword">val</span> rcut_affix</span> : <code class="type">string -> string -> (string * string) option</code></pre><div class="info ">
+<code class="code">rcut_affix afx s</code> returns the substrings before and after the rightmost
+    occurrence of <code class="code">afx</code> in <code class="code">s</code>.<br>
+<b>Raises</b> <code>Not_found</code> if <code class="code">afx</code> does not occur in <code class="code">s</code>.<br>
+</div>
+
+<pre><span id="VALchop_affix"><span class="keyword">val</span> chop_affix</span> : <code class="type">string -> string -> string list</code></pre><div class="info ">
+<code class="code">chop_affix afx s</code> returns the substrings before, between, and after
+    matches of <code class="code">afx</code> in <code class="code">s</code>, except for <code class="code">chop_affix afx <span class="string">""</span></code>, which always
+    gives <code class="code">[]</code>.  In other words <code class="code">chop_affix afx</code> provides a primitive way of
+    extracting the operands of an infix operator <code class="code">afx</code>.  If <code class="code">afx</code> can overlap,
+    it is unspecified which match is used.<br>
+</div>
+
+<pre><span id="VALcut_consecutive"><span class="keyword">val</span> cut_consecutive</span> : <code class="type">(char -> bool) -> string -> (string * string) option</code></pre><div class="info ">
+<code class="code">cut_consecutive f s</code> returns the substrings before and after the leftmost
+    consecutive sequence of bytes satisfying <code class="code">f</code>, or <code class="code"><span class="constructor">None</span></code> if not
+    <code class="code"><span class="constructor">String</span>.exists f s</code>.<br>
+</div>
+
+<pre><span id="VALrcut_consecutive"><span class="keyword">val</span> rcut_consecutive</span> : <code class="type">(char -> bool) -> string -> (string * string) option</code></pre><div class="info ">
+<code class="code">cut_consecutive f s</code> returns the substrings before and after the
+    rightmost consecutive sequence of bytes satisfying <code class="code">f</code>, or <code class="code"><span class="constructor">None</span></code> if not
+    <code class="code"><span class="constructor">String</span>.exists f s</code>.<br>
+</div>
+
+<pre><span id="VALchop_consecutive"><span class="keyword">val</span> chop_consecutive</span> : <code class="type">(char -> bool) -> string -> string list</code></pre><div class="info ">
+<code class="code">chop_consecutive f s</code> returns the non-empty substrings before, between,
+    and after consecutive sequences of bytes <code class="code">c</code> for which <code class="code">f c</code> is true.  In
+    particular <code class="code">chop_consecutive <span class="constructor">Char</span>.is_space</code> is suitable for splitting
+    words separated by ASCII white-spaces.<br>
+</div>
+</body></html>

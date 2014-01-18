@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Prime_map.html">
+<link rel="next" href="Prime_string.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Prime" rel="Chapter" href="Prime.html">
+<link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_int" rel="Chapter" href="Prime_int.html">
+<link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
+<link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
+<link title="Prime_list" rel="Chapter" href="Prime_list.html">
+<link title="Prime_map" rel="Chapter" href="Prime_map.html">
+<link title="Prime_option" rel="Chapter" href="Prime_option.html">
+<link title="Prime_string" rel="Chapter" href="Prime_string.html">
+<link title="Unprime" rel="Chapter" href="Unprime.html">
+<link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
+<link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
+<link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
+<link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
+<link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html"><link title="Iteration" rel="Section" href="#2_Iteration">
+<title>The OCaml Prime Library : Prime_option</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Prime_map.html" title="Prime_map">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Prime_string.html" title="Prime_string">Next</a>
+</div>
+<h1>Module <a href="type_Prime_option.html">Prime_option</a></h1>
+
+<pre><span class="keyword">module</span> Prime_option: <code class="code"><span class="keyword">sig</span></code> <a href="Prime_option.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Functions on <code class="code"><span class="keywordsign">'</span>a option</code>.<br>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type">'a</code> t</span> = <code class="type">'a option</code> </pre>
+
+
+<pre><span id="VALget"><span class="keyword">val</span> get</span> : <code class="type">'a option -> 'a</code></pre><div class="info ">
+<code class="code">get (<span class="constructor">Some</span> a)</code> returns <code class="code">a</code>, and <code class="code">get <span class="constructor">None</span></code> raises <code class="code"><span class="constructor">Invalid_argument</span></code>.<br>
+</div>
+
+<pre><span id="VALget_or"><span class="keyword">val</span> get_or</span> : <code class="type">'a -> 'a option -> 'a</code></pre><div class="info ">
+<code class="code">get_or d</code> is a variant of <a href="Prime_option.html#VALget"><code class="code"><span class="constructor">Prime_option</span>.get</code></a> which maps <code class="code"><span class="constructor">None</span></code> to <code class="code">d</code> instead of
+    raising an exception.<br>
+</div>
+
+<pre><span id="VALget_else"><span class="keyword">val</span> get_else</span> : <code class="type">(unit -> 'a) -> 'a option -> 'a</code></pre><div class="info ">
+<code class="code">get_else h</code> is a variant of <a href="Prime_option.html#VALget"><code class="code"><span class="constructor">Prime_option</span>.get</code></a> which calls <code class="code">h ()</code> to handle the
+    <code class="code"><span class="constructor">None</span></code> case instead of raising an exception.<br>
+</div>
+
+<pre><span id="VALsearch"><span class="keyword">val</span> search</span> : <code class="type">('a -> 'b option) -> 'a option -> 'b option</code></pre><div class="info ">
+<code class="code">search f <span class="constructor">None</span></code> is <code class="code"><span class="constructor">None</span></code> and <code class="code">search f (<span class="constructor">Some</span> a)</code> is <code class="code">f a</code>.<br>
+</div>
+
+<pre><span id="VALflatten"><span class="keyword">val</span> flatten</span> : <code class="type">'a option option -> 'a option</code></pre><div class="info ">
+<code class="code">flatten</code> maps <code class="code"><span class="constructor">Some</span> (<span class="constructor">Some</span> x)</code> to <code class="code"><span class="constructor">Some</span> x</code> and other values to <code class="code"><span class="constructor">None</span></code>.<br>
+</div>
+<br>
+<h2 id="2_Iteration">Iteration</h2><br>
+
+<pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">('a -> unit) -> 'a option -> unit</code></pre><div class="info ">
+<code class="code">iter f (<span class="constructor">Some</span> a)</code> calls <code class="code">f a</code>, and <code class="code">iter f <span class="constructor">None</span></code> does nothing.<br>
+</div>
+
+<pre><span id="VALmap"><span class="keyword">val</span> map</span> : <code class="type">('a -> 'b) -> 'a option -> 'b option</code></pre><div class="info ">
+<code class="code">map f <span class="constructor">None</span></code> is <code class="code"><span class="constructor">None</span></code> and <code class="code">map f (<span class="constructor">Some</span> a)</code> is <code class="code"><span class="constructor">Some</span> (f a)</code>.<br>
+</div>
+
+<pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">('a -> 'b -> 'b) -> 'a option -> 'b -> 'b</code></pre><div class="info ">
+<code class="code">fold f <span class="constructor">None</span></code> is the identity function and <code class="code">fold f (<span class="constructor">Some</span> a)</code> is <code class="code">f a</code>.<br>
+</div>
+
+<pre><span id="VALfor_all"><span class="keyword">val</span> for_all</span> : <code class="type">('a -> bool) -> 'a option -> bool</code></pre><div class="info ">
+<code class="code">for_all f <span class="constructor">None</span></code> is true and <code class="code">for_all f (<span class="constructor">Some</span> a)</code> is <code class="code">f a</code>.<br>
+</div>
+
+<pre><span id="VALexists"><span class="keyword">val</span> exists</span> : <code class="type">('a -> bool) -> 'a option -> bool</code></pre><div class="info ">
+<code class="code">exists f <span class="constructor">None</span></code> is false and <code class="code">exists f (<span class="constructor">Some</span> a)</code> is <code class="code">f a</code>.<br>
+</div>
+
+<pre><span id="VALfilter"><span class="keyword">val</span> filter</span> : <code class="type">('a -> bool) -> 'a option -> 'a option</code></pre><div class="info ">
+<code class="code">filter f (<span class="constructor">Some</span> a)</code> returns <code class="code"><span class="constructor">Some</span> a</code> if <code class="code">f a</code> is true; in other cases
+    <code class="code">filter f a</code> returns <code class="code"><span class="constructor">None</span></code>.<br>
+</div>
+</body></html>

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Prime_enumset.OrderedType.html">
+<link rel="Up" href="Prime_enumset.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Prime" rel="Chapter" href="Prime.html">
+<link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_int" rel="Chapter" href="Prime_int.html">
+<link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
+<link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
+<link title="Prime_list" rel="Chapter" href="Prime_list.html">
+<link title="Prime_map" rel="Chapter" href="Prime_map.html">
+<link title="Prime_option" rel="Chapter" href="Prime_option.html">
+<link title="Prime_string" rel="Chapter" href="Prime_string.html">
+<link title="Unprime" rel="Chapter" href="Unprime.html">
+<link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
+<link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
+<link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
+<link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
+<link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html"><title>The OCaml Prime Library : Prime_enumset.S</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Prime_enumset.OrderedType.html" title="Prime_enumset.OrderedType">Previous</a>
+&nbsp;<a class="up" href="Prime_enumset.html" title="Prime_enumset">Up</a>
+&nbsp;</div>
+<h1>Module type <a href="type_Prime_enumset.S.html">Prime_enumset.S</a></h1>
+
+<pre><span class="keyword">module type</span> S = <code class="code"><span class="keyword">sig</span></code> <a href="Prime_enumset.S.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><hr width="100%">
+
+<pre><span id="TYPEelt"><span class="keyword">type</span> <code class="type"></code>elt</span> </pre>
+<div class="info ">
+The type of the elements of the set.<br>
+</div>
+
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+The type of the set.<br>
+</div>
+
+
+<pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+The empty set.<br>
+</div>
+
+<pre><span id="VALsingleton"><span class="keyword">val</span> singleton</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">singleton e</code> is the set containing only <code class="code">e</code>.<br>
+</div>
+
+<pre><span id="VALcontains"><span class="keyword">val</span> contains</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+<code class="code">contains e s</code> is true iff <code class="code">s</code> contains <code class="code">e</code>.<br>
+</div>
+
+<pre><span id="VALlocate"><span class="keyword">val</span> locate</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> int option</code></pre><div class="info ">
+If <code class="code">s</code> contains <code class="code">e</code>, then <code class="code">locate e s</code> is <code class="code"><span class="constructor">Some</span> i</code> where <code class="code">i</code> is the
+      number of elements in <code class="code">s</code> which are smaller than <code class="code">e</code>, otherwise <code class="code">locate
+      e s</code> is <code class="code"><span class="constructor">None</span></code>.<br>
+</div>
+
+<pre><span id="VALget"><span class="keyword">val</span> get</span> : <code class="type">int -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a></code></pre><div class="info ">
+<code class="code">get i s</code> is the <code class="code">i</code>th element of <code class="code">s</code> according to the element order.<br>
+</div>
+
+<pre><span id="VALmin_elt"><span class="keyword">val</span> min_elt</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a></code></pre><div class="info ">
+<code class="code">min_elt s</code> is the smallest element of <code class="code">s</code>.<br>
+</div>
+
+<pre><span id="VALmax_elt"><span class="keyword">val</span> max_elt</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a></code></pre><div class="info ">
+<code class="code">max_elt s</code> is the largest element of <code class="code">s</code>.<br>
+</div>
+
+<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">add e s</code> is the set containing <code class="code">e</code> along with the elements of <code class="code">s</code>.<br>
+</div>
+
+<pre><span id="VALremove"><span class="keyword">val</span> remove</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">remove e s</code> is the set containing all elements of <code class="code">s</code> except <code class="code">e</code>.<br>
+</div>
+
+<pre><span id="VALpop_min"><span class="keyword">val</span> pop_min</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a> * <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">pop_min s</code> is <code class="code">(e, s')</code> where <code class="code">e</code> is the smallest element of <code class="code">s</code> and
+      <code class="code">s'</code> contains the remaining elements.<br>
+</div>
+
+<pre><span id="VALpop_max"><span class="keyword">val</span> pop_max</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a> * <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">pop_max s</code> is <code class="code">(e, s')</code> where <code class="code">e</code> is the largest element of <code class="code">s</code> and
+      <code class="code">s'</code> contains the remaining elements.<br>
+</div>
+
+<pre><span id="VALcard"><span class="keyword">val</span> card</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+<code class="code">card s</code> is the cardinality of <code class="code">s</code>.<br>
+</div>
+
+<pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">(<a href="Prime_enumset.S.html#TYPEelt">elt</a> -> 'a -> 'a) -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> 'a -> 'a</code></pre><div class="info ">
+<code class="code">fold f s</code> is the composition of <code class="code">f e</code> for each <code class="code">e</code> in <code class="code">s</code> applied in
+      order of increasing <code class="code">e</code>.<br>
+</div>
+
+<pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">(<a href="Prime_enumset.S.html#TYPEelt">elt</a> -> unit) -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<code class="code">iter f s</code> calls <code class="code">f e</code> for each <code class="code">e</code> in <code class="code">s</code> in order of increasing
+      elements.<br>
+</div>
+</body></html>
