@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -14,17 +14,18 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-open OUnit
+type 'a t
 
-let suite = "OCaml Prime Test Suite" >::: [
-  "test_enummap" >:: Test_enummap.run;
-  "test_enumset" >:: Test_enumset.run;
-  "test_int" >:: Test_int.run;
-  "test_list" >:: Test_list.run;
-  "test_string" >:: Test_string.run;
-  "test_wallet" >:: Test_wallet.run;
-]
-
-let _ =
-  Random.self_init ();
-  run_test_tt_main suite
+val empty : 'a t
+val is_empty : 'a t -> bool
+val singleton : 'a -> 'a t
+val sample : (int -> 'a) -> int -> 'a t
+val length : 'a t -> int
+val push : 'a -> 'a t -> 'a t
+val pop : 'a t -> 'a * 'a t
+val get : int -> 'a t -> 'a
+val set : int -> 'a -> 'a t -> 'a t
+val modify : int -> ('a -> 'a) -> 'a t -> 'a t
+val map : ('a -> 'b) -> 'a t -> 'b t
+val iter : ('a -> unit) -> 'a t -> unit
+val fold : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
