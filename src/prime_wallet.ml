@@ -16,6 +16,8 @@
 
 open Unprime
 
+let bad_arg s = invalid_arg ("Prime_wallet." ^ s)
+
 type 'a t =
   | Empty
   | Even of ('a * 'a) t
@@ -47,13 +49,13 @@ let rec copush : type a. a -> a t -> a t = fun x -> function
   | Odd (y, t) -> Even (copush (y, x) t)
 
 let rec pop : type a. a t -> a * a t = function
-  | Empty -> invalid_arg "pop: Empty."
+  | Empty -> bad_arg "pop: Empty."
   | Even t -> let (x, y), t' = pop t in x, Odd (y, t')
   | Odd (z, Empty) -> z, Empty
   | Odd (z, t) -> z, Even t
 
 let rec copop : type a. a t -> a * a t = function
-  | Empty -> invalid_arg "pop: Empty."
+  | Empty -> bad_arg "pop: Empty."
   | Even t -> let (y, x), t' = copop t in x, Odd (y, t')
   | Odd (z, Empty) -> z, Empty
   | Odd (z, t) -> z, Even t
@@ -63,7 +65,7 @@ let sample f n =
   loop (n - 1) empty
 
 let rec get : type a. int -> a t -> a = fun i -> function
-  | Empty -> invalid_arg "get: Index out of bounds."
+  | Empty -> bad_arg "get: Index out of bounds."
   | Even t -> (if i land 1 = 0 then fst else snd) (get (i lsr 1) t)
   | Odd (z, t) ->
     if i = 0 then z else
@@ -71,7 +73,7 @@ let rec get : type a. int -> a t -> a = fun i -> function
     (if j land 1 = 0 then fst else snd) (get (j lsr 1) t)
 
 let rec coget : type a. int -> a t -> a = fun i -> function
-  | Empty -> invalid_arg "get: Index out of bounds."
+  | Empty -> bad_arg "get: Index out of bounds."
   | Even t -> (if i land 1 = 0 then snd else fst) (coget (i lsr 1) t)
   | Odd (z, t) ->
     if i = 0 then z else
@@ -79,7 +81,7 @@ let rec coget : type a. int -> a t -> a = fun i -> function
     (if j land 1 = 0 then snd else fst) (coget (j lsr 1) t)
 
 let rec modify : type a. int -> (a -> a) -> a t -> a t = fun i f -> function
-  | Empty -> invalid_arg "set: Index out of bounds."
+  | Empty -> bad_arg "set: Index out of bounds."
   | Even t ->
     let h (x, y) = if i land 1 = 0 then (f x, y) else (x, f y) in
     Even (modify (i lsr 1) h t)
@@ -90,7 +92,7 @@ let rec modify : type a. int -> (a -> a) -> a t -> a t = fun i f -> function
     Odd (x, modify (j lsr 1) h t)
 
 let rec comodify : type a. int -> (a -> a) -> a t -> a t = fun i f -> function
-  | Empty -> invalid_arg "set: Index out of bounds."
+  | Empty -> bad_arg "set: Index out of bounds."
   | Even t ->
     let h (y, x) = if i land 1 = 0 then (y, f x) else (f y, x) in
     Even (comodify (i lsr 1) h t)
