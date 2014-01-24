@@ -19,9 +19,7 @@ open Prime_wallet
 let f i = 2*i + 1
 let g i = 3 - i
 
-let run () =
-  let n = 10000 in
-
+let test n =
   (* Test empty and singular. *)
   assert (is_empty empty);
   assert (pop (singleton 2) = (2, empty));
@@ -60,4 +58,29 @@ let run () =
   iter (fun j -> assert (j = f !ir); ir := !ir + 1) wf;
   assert (!ir = n);
   let n' = fold (fun j i -> assert (j = f i); (i + 1)) wf 0 in
-  assert (n' = n)
+  assert (n' = n);
+
+  (* Test copush and copop. *)
+  let nC = if n <= 1 then n else 1 lsl Prime_int.floor_log2 (2 * n / 3) in
+  let rec cobuild i cowf =
+    if i = n then cowf else begin
+      let j = i + (n - nC) in
+      let cowf' = copush (f j) cowf in
+      assert (copop cowf' = (f j, cowf));
+      cobuild (i + 1) cowf'
+    end in
+  let cowf = cobuild 0 empty in
+  assert (length cowf = n);
+
+  (* Test split and counterpart consistency. *)
+  let wfR, wfC = split wf in
+  assert (length wfC = nC);
+  assert (length wfR = n - nC);
+  let cowfR, cowfC = cosplit cowf in
+  assert (length cowfC = nC);
+  assert (length cowfR = n - nC);
+  assert (wfC = cowfC)
+
+let run () =
+  for n = 1 to 65 do test n done;
+  List.iter test [128; 175; 921; 5000]

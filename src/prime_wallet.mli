@@ -29,3 +29,13 @@ val modify : int -> ('a -> 'a) -> 'a t -> 'a t
 val map : ('a -> 'b) -> 'a t -> 'b t
 val iter : ('a -> unit) -> 'a t -> unit
 val fold : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
+val split : 'a t -> 'a t * 'a t
+
+val copush : 'a -> 'a t -> 'a t
+val copop : 'a t -> 'a * 'a t
+val coget : int -> 'a t -> 'a
+val coset : int -> 'a -> 'a t -> 'a t
+val comodify : int -> ('a -> 'a) -> 'a t -> 'a t
+val coiter_rev : ('a -> unit) -> 'a t -> unit
+val cofold_rev : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
+val cosplit : 'a t -> 'a t * 'a t
