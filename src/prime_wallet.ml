@@ -105,15 +105,48 @@ let rec comodify : type a. int -> (a -> a) -> a t -> a t = fun i f -> function
 let set i x = modify i (fun _ -> x)
 let coset i x = comodify i (fun _ -> x)
 
+let rec for_all : type a. (a -> bool) -> a t -> bool = fun f -> function
+  | Empty -> true
+  | Even t -> for_all (fun (x, y) -> f x && f y) t
+  | Odd (z, t) -> f z && for_all (fun (x, y) -> f x && f y) t
+
+let rec for_all2 : type a b. (a -> b -> bool) -> a t -> b t -> bool =
+  fun f tA' tB' ->
+  match tA', tB' with
+  | Empty, Empty -> true
+  | Even tA, Even tB ->
+    for_all2 (fun (xA, yA) (xB, yB) -> f xA xB && f yA yB) tA tB
+  | Odd (zA, tA), Odd (zB, tB) ->
+    f zA zB && for_all2 (fun (xA, yA) (xB, yB) -> f xA xB && f yA yB) tA tB
+  | Even _, _ | Odd _, _ | Empty, _ -> bad_arg "for_all2: Different size."
+
 let rec map : type a b. (a -> b) -> a t -> b t = fun f -> function
   | Empty -> Empty
   | Even t -> Even (map (fun (x, y) -> (f x, f y)) t)
   | Odd (z, t) -> Odd (f z, map (fun (x, y) -> (f x, f y)) t)
 
+let rec map2 : type a b c. (a -> b -> c) -> a t -> b t -> c t = fun f tA' tB' ->
+  match tA', tB' with
+  | Empty, Empty -> Empty
+  | Even tA, Even tB ->
+    Even (map2 (fun (xA, yA) (xB, yB) -> (f xA xB, f yA yB)) tA tB)
+  | Odd (zA, tA), Odd (zB, tB) ->
+    Odd (f zA zB, map2 (fun (xA, yA) (xB, yB) -> (f xA xB, f yA yB)) tA tB)
+  | Empty, _ | Even _, _ | Odd _, _ -> bad_arg "map2: Different size."
+
 let rec iter : type a. (a -> unit) -> a t -> unit = fun f -> function
   | Empty -> ()
   | Even t -> iter (fun (x, y) -> f x; f y) t
   | Odd (z, t) -> f z; iter (fun (x, y) -> f x; f y) t
+
+let rec iter2 : type a b. (a -> b -> unit) -> a t -> b t -> unit =
+  fun f tA' tB' ->
+  match tA', tB' with
+  | Empty, Empty -> ()
+  | Even tA, Even tB -> iter2 (fun (xA, yA) (xB, yB) -> f xA xB; f yA yB) tA tB
+  | Odd (zA, tA), Odd (zB, tB) ->
+    f zA zB; iter2 (fun (xA, yA) (xB, yB) -> f xA xB; f yA yB) tA tB
+  | Empty, _ | Even _, _ | Odd _, _ -> bad_arg "iter2: Different size."
 
 let rec coiter_rev : type a. (a -> unit) -> a t -> unit = fun f -> function
   | Empty -> ()
@@ -124,6 +157,16 @@ let rec fold : type a. (a -> 'b -> 'b) -> a t -> 'b -> 'b = fun f -> function
   | Empty -> ident
   | Even t -> fold (fun (x, y) -> f y *< f x) t
   | Odd (z, t) -> fold (fun (x, y) -> f y *< f x) t *< f z
+
+let rec fold2 : type a b. (a -> b -> 'c -> 'c) -> a t -> b t -> 'c -> 'c =
+  fun f tA' tB' ->
+  match tA', tB' with
+  | Empty, Empty -> ident
+  | Even tA, Even tB ->
+    fold2 (fun (xA, yA) (xB, yB) -> f yA yB *< f xA xB) tA tB
+  | Odd (zA, tA), Odd (zB, tB) ->
+    fold2 (fun (xA, yA) (xB, yB) -> f yA yB *< f xA xB) tA tB *< f zA zB
+  | Empty, _ | Even _, _ | Odd _, _ -> bad_arg "fold2: Different size."
 
 let rec cofold_rev : type a. (a -> 'b -> 'b) -> a t -> 'b -> 'b = fun f ->
   function
@@ -137,6 +180,9 @@ let rec split : type a. a t -> a t * a t = function
   | Even (Odd ((x, y), Empty)) -> Odd (x, Empty), Odd (y, Empty)
   | Odd (x, t) -> let tR, tC = split t in Odd (x, tR), Even tC
   | Even t     -> let tR, tC = split t in even tR, Even tC
+
+let split_snd_size n =
+  if n <= 1 then n else 1 lsl Prime_int.floor_log2 (2 * n / 3)
 
 let rec cosplit : type a. a t -> a t * a t = function
   | Empty -> Empty, Empty

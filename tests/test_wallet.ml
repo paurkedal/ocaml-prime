@@ -61,7 +61,7 @@ let test n =
   assert (n' = n);
 
   (* Test copush and copop. *)
-  let nC = if n <= 1 then n else 1 lsl Prime_int.floor_log2 (2 * n / 3) in
+  let nC = split_snd_size n in
   let rec cobuild i cowf =
     if i = n then cowf else begin
       let j = i + (n - nC) in
