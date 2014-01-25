@@ -29,6 +29,7 @@ val modify : int -> ('a -> 'a) -> 'a t -> 'a t
 val for_all : ('a -> bool) -> 'a t -> bool
 val for_all2 : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
 val map : ('a -> 'b) -> 'a t -> 'b t
+val mapj : (int -> 'a -> 'b) -> int -> 'a t -> 'b t
 val map2 : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
 val iter : ('a -> unit) -> 'a t -> unit
 val iter2 : ('a -> 'b -> unit) -> 'a t -> 'b t -> unit
@@ -42,6 +43,7 @@ val copop : 'a t -> 'a * 'a t
 val coget : int -> 'a t -> 'a
 val coset : int -> 'a -> 'a t -> 'a t
 val comodify : int -> ('a -> 'a) -> 'a t -> 'a t
+val comapj_rev : (int -> 'a -> 'b) -> int -> 'a t -> 'b t
 val coiter_rev : ('a -> unit) -> 'a t -> unit
 val cofold_rev : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
 val cosplit : 'a t -> 'a t * 'a t

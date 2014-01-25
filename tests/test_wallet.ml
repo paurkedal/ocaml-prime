@@ -59,6 +59,8 @@ let test n =
   assert (!ir = n);
   let n' = fold (fun j i -> assert (j = f i); (i + 1)) wf 0 in
   assert (n' = n);
+  let wg'' = mapj (fun i j -> assert (j = f i); g i) 0 wf in
+  assert (wg'' = wg);
 
   (* Test copush and copop. *)
   let nC = split_snd_size n in

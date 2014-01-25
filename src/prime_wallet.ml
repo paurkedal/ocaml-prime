@@ -134,6 +134,27 @@ let rec map2 : type a b c. (a -> b -> c) -> a t -> b t -> c t = fun f tA' tB' ->
     Odd (f zA zB, map2 (fun (xA, yA) (xB, yB) -> (f xA xB, f yA yB)) tA tB)
   | Empty, _ | Even _, _ | Odd _, _ -> bad_arg "map2: Different size."
 
+let rec mapj_gen : type a b. (int -> a -> b) -> int -> int -> a t -> b t =
+  fun f m i ->
+  function
+  | Empty -> Empty
+  | Even t ->
+    Even (mapj_gen (fun i (x, y) -> (f i x, f (i + m) y)) (2*m) i t)
+  | Odd (z, t) ->
+    Odd (f i z, mapj_gen (fun i (x, y) -> (f i x, f (i + m) y)) (2*m) (i + m) t)
+let mapj f i w = mapj_gen f 1 i w
+
+let rec comapj_rev_gen : type a b. (int -> a -> b) -> int -> int -> a t -> b t =
+  fun f m i ->
+  function
+  | Empty -> Empty
+  | Even t ->
+    Even (comapj_rev_gen (fun i (y, x) -> (f (i - m) y, f i x)) (2*m) i t)
+  | Odd (z, t) ->
+    Odd (f i z,
+	 comapj_rev_gen (fun i (y, x) -> (f (i - m) y, f i x)) (2*m) (i - m) t)
+let comapj_rev f j w = comapj_rev_gen f 1 (j - 1) w
+
 let rec iter : type a. (a -> unit) -> a t -> unit = fun f -> function
   | Empty -> ()
   | Even t -> iter (fun (x, y) -> f x; f y) t
