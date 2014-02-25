@@ -19,7 +19,11 @@
     This container provides functionality similar to arrays or stacks with
     constructive updates.  Random access, including modifications, have
     logarithmic complexlity and functions are provided to add or remove
-    elements from the front. *)
+    elements from the front.
+
+    A wallet is represented as an optional element and a wallet of pairs,
+    {[type 'a t = Empty | Even of ('a * 'a) t | Odd 'a * ('a * 'a) t]}
+    which amounts to a sequence of complete trees of increasing length. *)
 
 type 'a t
 
@@ -96,7 +100,15 @@ val fold2 : ('a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
     taken from [wA] and [wB] at the same successive positions. *)
 
 val split : 'a t -> 'a t * 'a t
+(** [split w] splits [w] into two wallets of comparable where the second is a
+    complete tree.  In particular the second tree can be passed to algorithms
+    using the opposite functions below, and similarly {!cosplit} returns as
+    its second component a complete tree which can be used by the primary
+    functions. *)
+
 val split_snd_length : int -> int
+(** [split_snd_length n] is the length of [snd (split w)] for any [w] of
+    length [n]. *)
 
 (** {2 Opposite Functions}
 
