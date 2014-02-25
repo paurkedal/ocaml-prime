@@ -202,7 +202,7 @@ let rec split : type a. a t -> a t * a t = function
   | Odd (x, t) -> let tR, tC = split t in Odd (x, tR), Even tC
   | Even t     -> let tR, tC = split t in even tR, Even tC
 
-let split_snd_size n =
+let split_snd_length n =
   if n <= 1 then n else 1 lsl Prime_int.floor_log2 (2 * n / 3)
 
 let rec cosplit : type a. a t -> a t * a t = function

@@ -96,7 +96,7 @@ val fold2 : ('a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
     taken from [wA] and [wB] at the same successive positions. *)
 
 val split : 'a t -> 'a t * 'a t
-val split_snd_size : int -> int
+val split_snd_length : int -> int
 
 (** {2 Opposite Functions}
 

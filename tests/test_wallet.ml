@@ -63,7 +63,7 @@ let test n =
   assert (wg'' = wg);
 
   (* Test copush and copop. *)
-  let nC = split_snd_size n in
+  let nC = split_snd_length n in
   let rec cobuild i cowf =
     if i = n then cowf else begin
       let j = i + (n - nC) in
