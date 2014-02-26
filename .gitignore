@@ -1,7 +1,7 @@
 /Makefile
 /_build
 /configure
-/prime.docdir
+/api.docdir
 /setup.data
 /setup.log
 /setup.ml

@@ -42,7 +42,7 @@ Library primedoc
   ByteOpt: -I +ocamldoc
   NativeOpt: -I +ocamldoc
 
-Document prime
+Document api
   Title: The OCaml Prime Library
   Type: ocamlbuild (0.3)
   InstallDir: $htmldir/html
