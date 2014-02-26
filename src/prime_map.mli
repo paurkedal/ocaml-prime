@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Amendment to [Map]. *)
+(** Amendment to the standard library [Map] structure. *)
 
 module type OrderedType = Map.OrderedType
 

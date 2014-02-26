@@ -14,11 +14,11 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** A Constructive Stack-Like Container
+(** A constructive stack-like container ({e prime.testing}).
 
     This container provides functionality similar to arrays or stacks with
     constructive updates.  Random access, including modifications, have
-    logarithmic complexlity and functions are provided to add or remove
+    logarithmic complexity and functions are provided to add or remove
     elements from the front.
 
     A wallet is represented as an optional element and a wallet of pairs,

@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Shadowing [String]. *)
+(** Shadowed [String]. *)
 
 module String : sig
   include module type of String

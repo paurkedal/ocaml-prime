@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Combinators and other Primitives *)
+(** Combinators and other primitives. *)
 
 (** {2 Combinators} *)
 

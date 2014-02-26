@@ -14,8 +14,10 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Shadowing [List].  Including this structure shadows [List] with a structure
-    containing the original and the {!Prime_list} extensions. *)
+(** Shadowed [List].
+    
+    Including this structure shadows [List] with a structure containing the
+    original and the {!Prime_list} extensions. *)
 
 module List : sig
   include module type of List

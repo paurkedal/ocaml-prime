@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Shadowing [Array]. *)
+(** Shadowed [Array]. *)
 
 module Array : sig
   include module type of Array

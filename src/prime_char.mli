@@ -14,7 +14,8 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Amendment to [Char].
+(** Amendment to the standard library [Char] structure.
+
     This structure adds a few functions to deal with ASCII characters.
     For processing text in natural languages, use a Unicode library.  The
     original [Char] structure is not included here, see {!Unprime_char} for a

@@ -14,8 +14,10 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Shadowing [Char].  Inclusion of this structure shadows [Char] with an
-    extened structure containing the definitions from {!Prime_char}. *)
+(** Shadowed [Char].
+    
+    Inclusion of this structure shadows [Char] with an extened structure
+    containing the definitions from {!Prime_char}. *)
 
 module Char : sig
   include module type of Char

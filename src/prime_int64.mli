@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** 64 bit Integer Functions *)
+(** 64 bit integer functions. *)
 
 val bitcount : int64 -> int
 (** [bitcount n] is the number of ones in the binary representation of [n]. *)

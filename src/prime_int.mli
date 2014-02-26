@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Integer Functions. *)
+(** Integer functions. *)
 
 val fdiv : int -> int -> int
 (** [fdiv x y] is the quotient of the floored division of [x] by [y]. *)

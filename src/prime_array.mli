@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Amendment to [Array]. *)
+(** Amendment to the standard library [Array] structure. *)
 
 val sample : (int -> 'a) -> int -> 'a array
 (** [sample f n] returns [[|f 0; …; f (n - 1)|]].  This calls [init] with

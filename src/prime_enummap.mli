@@ -14,7 +14,10 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Enumerating Map (testing). *)
+(** Enumerated map ({e prime.testing}).
+    
+    This is similar to [Map] from the standard library, but provides a
+    {!locate} method which return the position of a binding within a map. *)
 
 module type OrderedType = sig
   type t

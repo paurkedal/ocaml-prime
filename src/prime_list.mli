@@ -14,8 +14,10 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Amendment to [List].  This structure does not include the original
-    functions.  For a full replacement include {!Unprime_list}. *)
+(** Amendment to the standard library [List] structure.
+    
+    This structure does not include the original functions.  For a full
+    replacement include {!Unprime_list}. *)
 
 val sample : (int -> 'a) -> int -> 'a list
 (** [sample f n] returns [[f 0; …; f (n - 1)]]. *)

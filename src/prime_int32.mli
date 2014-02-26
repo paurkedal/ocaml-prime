@@ -14,5 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
+(** 32 bit integer functions. *)
+
 val bitcount : int32 -> int
 (** [bitcount n] is the number of bits in the binary representation of [n]. *)

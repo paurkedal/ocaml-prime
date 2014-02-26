@@ -14,7 +14,8 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Amendment to [String].
+(** Amendment to the standard library [String] structure.
+
     The original [String] structure is not included, include {!Unprime_string}
     for a full replacement. *)
 
