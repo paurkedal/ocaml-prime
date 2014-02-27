@@ -12,8 +12,8 @@ For details see the [API reference](http://paurkedal.github.io/ocaml-prime/).
 
 The library is available though OPAM:
 
-  opam repo add paurkedal https://github.com/paurkedal/opam-repo-paurkedal.git
-  opam install ocaml-prime
+    opam repo add paurkedal https://github.com/paurkedal/opam-repo-paurkedal.git
+    opam install ocaml-prime
 
 It can also be installed form the GitHub-generated tarballs, provided the
 following dependencies are available:
