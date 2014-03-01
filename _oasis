@@ -17,6 +17,7 @@ Library prime
     Prime_int,
     Prime_int32,
     Prime_int64,
+    Prime_io,
     Prime_list,
     Prime_map,
     Prime_option,
