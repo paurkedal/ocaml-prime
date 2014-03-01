@@ -13,6 +13,7 @@
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
 <link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
+<link title="Prime_io" rel="Chapter" href="Prime_io.html">
 <link title="Prime_list" rel="Chapter" href="Prime_list.html">
 <link title="Prime_map" rel="Chapter" href="Prime_map.html">
 <link title="Prime_option" rel="Chapter" href="Prime_option.html">
@@ -369,6 +370,12 @@ The empty map.
     where <code class="code">l = min n m</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_io.html#VALfold_input">fold_input</a> [<a href="Prime_io.html">Prime_io</a>]</td>
+<td><div class="info">
+<code class="code">fold_input f ic</code> forms the composition of successive calls to <code class="code">f ic</code>
+    until <code class="code"><span class="constructor">End_of_file</span></code> is raised.
+</div>
+</td></tr>
 <tr><td><a href="Prime_int.html#VALfold_to">fold_to</a> [<a href="Prime_int.html">Prime_int</a>]</td>
 <td><div class="info">
 <code class="code">fold_to f n</code> returns <code class="code">f (n - 1) ∘ ⋯ ∘ f 0</code>.
@@ -548,6 +555,11 @@ True on hexadecimal digits, false elsewhere.
 <td><div class="info">
 <code class="code">iter2t f [x₁; …; xₙ] [y₁; …; yₘ]</code> calls <code class="code">f x₁ y₁; …; f xₗ yₗ</code> in order,
     where <code class="code">l = min n m</code>.
+</div>
+</td></tr>
+<tr><td><a href="Prime_io.html#VALiter_input">iter_input</a> [<a href="Prime_io.html">Prime_io</a>]</td>
+<td><div class="info">
+<code class="code">iter_input f ic</code> calls <code class="code">f ic</code> until <code class="code"><span class="constructor">End_of_file</span></code> is raised.
 </div>
 </td></tr>
 <tr><td align="left"><br>K</td></tr>
@@ -891,6 +903,31 @@ Given a <code class="code">w</code> with <code class="code">x</code> at <code cl
 <tr><td><a href="Prime.html#VALuncurry">uncurry</a> [<a href="Prime.html">Prime</a>]</td>
 <td><div class="info">
 <code class="code">uncurry f (x, y)</code> is <code class="code">f x y</code>.
+</div>
+</td></tr>
+<tr><td align="left"><br>W</td></tr>
+<tr><td><a href="Prime_io.html#VALwith1_file_in">with1_file_in</a> [<a href="Prime_io.html">Prime_io</a>]</td>
+<td><div class="info">
+<code class="code">with1_file_in f fp acc</code> is <code class="code">f ic acc</code> where <code class="code">ic</code> is a channel opened for
+    reading from <code class="code">fp</code> during the call.
+</div>
+</td></tr>
+<tr><td><a href="Prime_io.html#VALwith1_file_out">with1_file_out</a> [<a href="Prime_io.html">Prime_io</a>]</td>
+<td><div class="info">
+<code class="code">with1_file_out f fp acc</code> is <code class="code">f oc acc</code> where <code class="code">oc</code> is a channel opened for
+    writing to <code class="code">fp</code> during the call.
+</div>
+</td></tr>
+<tr><td><a href="Prime_io.html#VALwith_file_in">with_file_in</a> [<a href="Prime_io.html">Prime_io</a>]</td>
+<td><div class="info">
+<code class="code">with_file_in f fp</code> is <code class="code">f ic</code> where <code class="code">ic</code> is a channel opened for input
+    from the file at <code class="code">fp</code>.
+</div>
+</td></tr>
+<tr><td><a href="Prime_io.html#VALwith_file_out">with_file_out</a> [<a href="Prime_io.html">Prime_io</a>]</td>
+<td><div class="info">
+<code class="code">with_file_out f fp</code> calls <code class="code">f oc</code> where <code class="code">oc</code> is a channel opened for
+    output to <code class="code">fp</code>.
 </div>
 </td></tr>
 </table>
