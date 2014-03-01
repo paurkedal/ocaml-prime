@@ -25,3 +25,20 @@ val with_file_out : (out_channel -> 'a) -> string -> 'a
 (** [with_file_out f fp] calls [f oc] where [oc] is a channel opened for
     output to [fp].  [oc] is closed when [f] returns or raises an exception.
     In the latter case the file is also removed. *)
+
+val with1_file_in : (in_channel -> 'a -> 'b) -> string -> 'a -> 'b
+(** [with1_file_in f fp acc] is [f ic acc] where [ic] is a channel opened for
+    reading from [fp] during the call.  Due to the effect involved, this is
+    not a special case of {!with_file_in}. *)
+
+val with1_file_out : (out_channel -> 'a -> 'b) -> string -> 'a -> 'b
+(** [with1_file_out f fp acc] is [f oc acc] where [oc] is a channel opened for
+    writing to [fp] during the call.  Due to the effect involved, this is not
+    a special case of {!with_file_out}. *)
+
+val fold_input : (in_channel -> 'a -> 'a) -> in_channel -> 'a -> 'a
+(** [fold_input f ic] forms the composition of successive calls to [f ic]
+    until [End_of_file] is raised. *)
+
+val iter_input : (in_channel -> unit) -> in_channel -> unit
+(** [iter_input f ic] calls [f ic] until [End_of_file] is raised. *)

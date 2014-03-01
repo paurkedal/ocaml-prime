@@ -31,3 +31,21 @@ let with_file_out f fn =
     close_out oc;
     (try Sys.remove fn with _ -> ());
     raise xc
+
+let with1_file_in f fn x =
+  let ic = open_in fn in
+  try let y = f ic x in close_in ic; y
+  with xc -> close_in ic; raise xc
+
+let with1_file_out f fn x =
+  let oc = open_out fn in
+  try let y = f oc x in close_out oc; y
+  with xc -> close_out oc; raise xc
+
+let rec fold_input f ic acc =
+  try fold_input f ic (f ic acc)
+  with End_of_file -> acc
+
+let rec iter_input f ic =
+  try f ic; iter_input f ic
+  with End_of_file -> ()
