@@ -120,6 +120,20 @@ let rec for_all2 : type a b. (a -> b -> bool) -> a t -> b t -> bool =
     f zA zB && for_all2 (fun (xA, yA) (xB, yB) -> f xA xB && f yA yB) tA tB
   | Even _, _ | Odd _, _ | Empty, _ -> bad_arg "for_all2: Different size."
 
+let rec search : type a. (a -> 'b option) -> a t -> 'b option = fun f t' ->
+  let g (x, y) =
+    match f x with
+    | Some _ as r -> r
+    | None -> f y in
+  match t' with
+  | Empty -> None
+  | Even t -> search g t
+  | Odd (z, t) ->
+    begin match f z with
+    | Some _ as r -> r
+    | None -> search g t
+    end
+
 let rec map : type a b. (a -> b) -> a t -> b t = fun f -> function
   | Empty -> Empty
   | Even t -> Even (map (fun (x, y) -> (f x, f y)) t)
