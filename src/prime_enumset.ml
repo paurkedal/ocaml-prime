@@ -37,6 +37,7 @@ module type S = sig
   val pop_min : t -> elt * t
   val pop_max : t -> elt * t
   val card : t -> int
+  val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
 end
@@ -128,6 +129,18 @@ module Make (E : OrderedType) = struct
 	then let eC', sL' = pop_max sL in Y (n - 1, eC', sL', sR)
 	else let eC', sR' = pop_min sR in Y (n - 1, eC', sL, sR')
   let remove e s = try remove' e s with Keep -> s
+
+  let rec search f = function
+    | O -> None
+    | Y (_, eC, sL, sR) ->
+      begin match search f sL with
+      | Some _ as r -> r
+      | None ->
+	begin match f eC with
+	| Some _ as r -> r
+	| None -> search f sR
+	end
+      end
 
   let rec iter f = function
     | O -> ()

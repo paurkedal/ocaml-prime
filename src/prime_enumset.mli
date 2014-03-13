@@ -73,6 +73,10 @@ module type S = sig
   val card : t -> int
   (** [card s] is the cardinality of [s]. *)
 
+  val search : (elt -> 'a option) -> t -> 'a option
+  (** [search f s] is the first [f e] for [e] in [s] which is different from
+      [None], or [None] if there is no such [e]. *)
+
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   (** [fold f s] is the composition of [f e] for each [e] in [s] applied in
       order of increasing [e]. *)
