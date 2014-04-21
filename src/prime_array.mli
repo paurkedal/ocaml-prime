@@ -20,6 +20,14 @@ val sample : (int -> 'a) -> int -> 'a array
 (** [sample f n] returns [[|f 0; …; f (n - 1)|]].  This calls [init] with
     arguments reversed. *)
 
+val filter : ('a -> bool) -> 'a array -> 'a array
+(** [filter f xa] is the array containing the elements of [xa] on which [f] is
+    true with order preserved. *)
+
+val filter_map : ('a -> 'b option) -> 'a array -> 'b array
+(** [filter_map f xa] is the array of the non-[None] elements of [map f xa],
+    preserving order. *)
+
 val fold : ('a -> 'b -> 'b) -> 'a array -> 'b -> 'b
 (** [fold f [|x₁; …; xₙ|]] is the composition [f xₙ ∘ ⋯ ∘ f x₁].  This is
     [fold_left] with arguments reorderd to make it easy to nest and compose. *)

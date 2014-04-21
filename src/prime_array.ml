@@ -18,6 +18,23 @@ open Array
 
 let sample f xa = init xa f
 
+let filter_map f xa =
+  let n = length xa in
+  let rec fill_phase ya i j =
+    if i = n then (if j = Array.length ya then ya else Array.sub ya 0 j) else
+    match f xa.(i) with
+    | None -> fill_phase ya (i + 1) j
+    | Some y -> ya.(j) <- y; fill_phase ya (i + 1) (j + 1) in
+  let rec skip_phase i =
+    if i = n then [||] else
+    match f xa.(i) with
+    | None -> skip_phase (i + 1)
+    | Some y -> fill_phase (Array.make (n - i) y) (i + 1) 1 in
+  skip_phase 0
+
+(* TODO: Optimise. *)
+let filter f = filter_map (fun x -> if f x then Some x else None)
+
 let fold f xa accu =
   let accu_r = ref accu in
   for i = 0 to length xa - 1 do
