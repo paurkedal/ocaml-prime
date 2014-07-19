@@ -42,10 +42,18 @@ let with1_file_out f fn x =
   try let y = f oc x in close_out oc; y
   with xc -> close_out oc; raise xc
 
-let rec fold_input f ic acc =
-  try fold_input f ic (f ic acc)
-  with End_of_file -> acc
+let fold_input ?(close = false) f ic acc =
+  let acc_r = ref acc in
+  try
+    while true do acc_r := f ic !acc_r done;
+    assert false
+  with
+  | End_of_file -> if close then close_in ic; !acc_r
+  | xc           when close ->   close_in ic; raise xc
 
-let rec iter_input f ic =
-  try f ic; iter_input f ic
-  with End_of_file -> ()
+let iter_input ?(close = false) f ic =
+  try
+    while true do f ic done
+  with
+  | End_of_file -> if close then close_in ic
+  | xc           when close ->   close_in ic; raise xc

@@ -36,9 +36,14 @@ val with1_file_out : (out_channel -> 'a -> 'b) -> string -> 'a -> 'b
     writing to [fp] during the call.  Due to the effect involved, this is not
     a special case of {!with_file_out}. *)
 
-val fold_input : (in_channel -> 'a -> 'a) -> in_channel -> 'a -> 'a
+val fold_input : ?close: bool -> (in_channel -> 'a -> 'a) ->
+				 in_channel -> 'a -> 'a
 (** [fold_input f ic] forms the composition of successive calls to [f ic]
-    until [End_of_file] is raised. *)
+    until [End_of_file] is raised.
+    @param close If true, close [ic] before returning, including if an
+	   exception occurs while evaluating [f ic acc] for some [acc]. *)
 
-val iter_input : (in_channel -> unit) -> in_channel -> unit
-(** [iter_input f ic] calls [f ic] until [End_of_file] is raised. *)
+val iter_input : ?close: bool -> (in_channel -> unit) -> in_channel -> unit
+(** [iter_input f ic] calls [f ic] until [End_of_file] is raised.
+    @param close If true, close [ic] before returning, including if an
+	   exception occurs while executing [f ic]. *)
