@@ -29,6 +29,9 @@ val get_else : (unit -> 'a) -> 'a option -> 'a
 (** [get_else h] is a variant of {!get} which calls [h ()] to handle the
     [None] case instead of raising an exception. *)
 
+val found : (unit -> 'a) -> 'a option
+(** [found f] is [try Some (f ()) with Not_found -> None]. *)
+
 val search : ('a -> 'b option) -> 'a option -> 'b option
 (** [search f None] is [None] and [search f (Some a)] is [f a]. *)
 
