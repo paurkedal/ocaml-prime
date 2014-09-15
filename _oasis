@@ -58,6 +58,7 @@ Executable testsuite
   MainIs: testsuite.ml
   BuildDepends: prime, oUnit
   DllPath: _build/src
+  Build$: flag(tests)
 
 Test "testsuite"
   Type: Custom (0.3)
