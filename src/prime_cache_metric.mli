@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -14,19 +14,15 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-open OUnit
+type t
+type u
 
-let suite = "OCaml Prime Test Suite" >::: [
-  "test_array" >:: Test_array.run;
-  "test_cache_metric" >:: Test_cache_metric.run;
-  "test_enummap" >:: Test_enummap.run;
-  "test_enumset" >:: Test_enumset.run;
-  "test_int" >:: Test_int.run;
-  "test_list" >:: Test_list.run;
-  "test_string" >:: Test_string.run;
-  "test_wallet" >:: Test_wallet.run;
-]
+val create : ?period_sample_size: int ->
+	     current_time: (unit -> float) ->
+	     current_memory_pressure: (unit -> float) ->
+	     unit -> t
 
-let _ =
-  Random.self_init ();
-  run_test_tt_main suite
+val access_init : t -> float
+val access_step : t -> int -> float -> float
+val check_prep : t -> u
+val check : u -> int -> float -> float
