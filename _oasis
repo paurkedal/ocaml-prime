@@ -34,6 +34,7 @@ Library "prime-testing"
   FindlibParent: prime
   FindlibName: testing
   Modules:
+    Prime_beacon,
     Prime_cache,
     Prime_cache_metric,
     Prime_enummap,
