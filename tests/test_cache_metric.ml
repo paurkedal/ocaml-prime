@@ -33,12 +33,9 @@ let run () =
   for i = 1 to 32 do
     (* Check *)
     current_time_r := float_of_int i -. 0.5;
-    let cmt = Cm.check_prep cm in
-    if false then
-      printf "%6.3g %6.3g %6.3g\n" !current_time_r !access_start
-				   (Cm.check cmt i !access_start)
-    else
-      assert (Cm.check cmt i !access_start =~ p);
+    let cmt = Cm.check_start cm in
+    assert (Cm.check cmt i !access_start (p +. 1e-6) = true);
+    assert (Cm.check cmt i !access_start (p -. 1e-6) = false);
     (* Step *)
     current_time_r := float_of_int i;
     access_start := Cm.access_step cm i !access_start

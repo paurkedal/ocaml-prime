@@ -15,14 +15,24 @@
  *)
 
 type t
-type u
+
+type check_state = private {
+  cs_cm : t;
+  cs_time : float;
+  cs_memory_pressure : float;
+  mutable cs_live_count : int;
+  mutable cs_dead_count : int;
+}
 
 val create : ?period_sample_size: int ->
 	     current_time: (unit -> float) ->
 	     current_memory_pressure: (unit -> float) ->
+	     ?report: (check_state -> unit) ->
 	     unit -> t
 
 val access_init : t -> float
 val access_step : t -> int -> float -> float
-val check_prep : t -> u
-val check : u -> int -> float -> float
+
+val check_start : t -> check_state
+val check : check_state -> int -> float -> float -> bool
+val check_stop : check_state -> unit
