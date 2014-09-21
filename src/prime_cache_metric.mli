@@ -14,6 +14,8 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
+(** Parameters and measuring functions for memory caches. *)
+
 type t
 
 type check_state = private {
@@ -29,6 +31,17 @@ val create : ?period_sample_size: int ->
 	     current_memory_pressure: (unit -> float) ->
 	     ?report: (check_state -> unit) ->
 	     unit -> t
+(** @param period_sample_size The approximate number of accesses averaged over
+    in the estimate of the expected period before the next access.
+
+    @param current_time The current time according to a clock which is
+    considered relevant for computing the cost of using memory for caching.
+
+    @param current_memory_pressure The current cost of using one unit of
+    memory as cache for one unit of time.
+
+    @param report This function is called after a collection with information
+    about how it went. *)
 
 val access_init : t -> float
 val access_step : t -> int -> float -> float

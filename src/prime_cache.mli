@@ -14,6 +14,8 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
+(** Memory cache based on hash tables. *)
+
 type ('a, 'b) t
 
 val create : cache_metric: Prime_cache_metric.t -> int -> ('a, 'b) t
