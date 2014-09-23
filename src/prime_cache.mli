@@ -19,11 +19,19 @@
 type ('a, 'b) t
 
 val create : cache_metric: Prime_cache_metric.t -> int -> ('a, 'b) t
+(** [create ~cache_metric n] creates a cache initially scaled for about [n]
+    entries. *)
 
 val clear : ('a, 'b) t -> unit
+(** [clear ct] removes all cached entries from [ct]. *)
 
 val find : ('a, 'b) t -> 'a -> 'b
+(** [find ct k] returnes the object associated with [k].
+    @raise Not_found if [k] has no associated object. *)
 
 val replace : ('a, 'b) t -> float -> 'a -> 'b -> unit
+(** [replace ct g k v] replaces the mapping for [k] with [v] and associates it
+    with a grade [g]. *)
 
 val remove : ('a, 'b) t -> 'a -> unit
+(** [remove ct k] removes the entry cached under [k] from [ct]. *)

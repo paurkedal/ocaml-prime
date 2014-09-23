@@ -31,7 +31,11 @@ val create : ?period_sample_size: int ->
 	     current_memory_pressure: (unit -> float) ->
 	     ?report: (check_state -> unit) ->
 	     unit -> t
-(** @param period_sample_size The approximate number of accesses averaged over
+(** Creates specifications for how to measure whether objects are worth
+    caching.  The returned object can be used by {!Prime_cache} and
+    {!Prime_beacon}.
+
+    @param period_sample_size The approximate number of accesses averaged over
     in the estimate of the expected period before the next access.
 
     @param current_time The current time according to a clock which is
@@ -42,6 +46,11 @@ val create : ?period_sample_size: int ->
 
     @param report This function is called after a collection with information
     about how it went. *)
+
+(** {2 Internal Functions}
+
+    The remaining functions of this module are {i subject to change at any
+    time}.  They and are not needed for using the predefined caches. *)
 
 val access_init : t -> float
 val access_step : t -> int -> float -> float
