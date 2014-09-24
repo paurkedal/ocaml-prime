@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Memory cache based on hash tables. *)
+(** Memory cache based on hash tables ({e prime.testing}). *)
 
 type ('a, 'b) t
 

@@ -14,7 +14,8 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Parameters and measuring functions for memory caches. *)
+(** Parameters and measuring functions for memory caches
+    ({e prime.testing}). *)
 
 type t
 
@@ -49,7 +50,7 @@ val create : ?period_sample_size: int ->
 
 (** {2 Internal Functions}
 
-    The remaining functions of this module are {i subject to change at any
+    The remaining functions of this module are {e subject to change at any
     time}.  They and are not needed for using the predefined caches. *)
 
 val access_init : t -> float

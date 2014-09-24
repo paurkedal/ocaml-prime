@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Memory cache management for weak references ({i prime.testing}).
+(** Memory cache management for weak references ({e prime.testing}).
 
     Beacons can be used in conjunction with weak arrays or weak hash tables to
     implement memory caching schemes.  The beacon itself just prevent an
