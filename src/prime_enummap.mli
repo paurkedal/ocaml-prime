@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Enumerated map ({e prime.testing}).
+(** Enumerated map ({e prime.unstable}).
     
     This is similar to [Map] from the standard library, but provides a
     {!locate} method which return the position of a binding within a map. *)

@@ -29,10 +29,10 @@ Library prime
     Unprime_option,
     Unprime_string
 
-Library "prime-testing"
+Library "prime-unstable"
   Path: src
   FindlibParent: prime
-  FindlibName: testing
+  FindlibName: unstable
   Modules:
     Prime_beacon,
     Prime_cache,
@@ -41,6 +41,13 @@ Library "prime-testing"
     Prime_enumset,
     Prime_wallet
   BuildDepends: prime
+
+# Deprecated name for prime.unstable.
+Library "prime-testing"
+  Path: src
+  FindlibParent: prime
+  FindlibName: testing
+  BuildDepends: prime.unstable
 
 Library primedoc
   FindlibParent: prime
@@ -55,7 +62,7 @@ Document api
   InstallDir: $htmldir/html
   BuildTools+: ocamldoc
   XOCamlbuildPath: src
-  XOCamlbuildLibraries: prime, prime.testing
+  XOCamlbuildLibraries: prime, prime.unstable
   DataFiles: COPYING ($docdir), COPYING.LESSER ($docdir)
 
 Executable testsuite

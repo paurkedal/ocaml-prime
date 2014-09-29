@@ -15,7 +15,7 @@
  *)
 
 (** Parameters and measuring functions for memory caches
-    ({e prime.testing}). *)
+    ({e prime.unstable}). *)
 
 type t
 

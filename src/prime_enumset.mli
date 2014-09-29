@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Enumerating set ({e prime.testing}).
+(** Enumerating set ({e prime.unstable}).
     
     This is similar to the [Set] structure from the standard library, but
     provides a {!locate} method to tell the position of an element in the

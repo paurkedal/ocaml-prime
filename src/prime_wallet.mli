@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** A constructive stack-like container ({e prime.testing}).
+(** A constructive stack-like container ({e prime.unstable}).
 
     This container provides functionality similar to arrays or stacks with
     constructive updates.  Random access, including modifications, have
