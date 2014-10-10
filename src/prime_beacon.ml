@@ -56,6 +56,8 @@ module Make (M : CACHE_METRIC) = struct
     b_grade = 0.0;
   }
 
+  let expire_all () = head.b_next <- head
+
   let overhead = Obj.size (Obj.repr head) + 3
 
   let check_beacon cs b =

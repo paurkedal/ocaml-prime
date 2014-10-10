@@ -28,6 +28,8 @@ module type S = sig
   (** The type of a field to embed in records in order to keep track of access
       and prevent actively used data from being garbage collected. *)
 
+  val expire_all : unit -> unit
+
   val dummy : t
   (** A dummy beacon.  This is useful for temporary objects used as lookup keys
       for weak maps. *)
