@@ -22,6 +22,7 @@ end
 
 module type S = sig
   type t
+  val expire_all : unit -> unit
   val dummy : t
   val overhead : int
   val embed : float -> (t -> 'a) -> 'a
