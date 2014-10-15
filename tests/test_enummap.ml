@@ -45,7 +45,6 @@ let run () =
 		 (Int_emap.get_binding (Int_emap.card em - 1) em);
     for i = 0 to Int_emap.card em - 1 do
       let k, _ = Int_emap.get_binding i em in
-      assert_equal_int ~msg:"locate (get i em)" i
-		       (Option.get (Int_emap.locate k em))
+      assert_equal_int ~msg:"locate (get i em)" i (Int_emap.locate_e k em)
     done
   done

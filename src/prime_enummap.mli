@@ -45,10 +45,23 @@ module type S = sig
   (** [find k m] returns the binding for [k] in [m] or raises [Not_found] if
       it is unbound. *)
 
-  val locate : key -> 'a t -> int option
-  (** If [k] is bound in [m], then [locate k m] is [Some i] where [i] is the
-      number of other keys before [k] according to the key order, otherwise it
-      returns [None]. *)
+  val locate_o : key -> 'a t -> int option
+  (** If [k] is bound in [m], then [locate_o k m] is [Some i] where [i] is the
+      number of other keys before [k] according to the key order, otherwise
+      [None]. *)
+
+  val locate_e : key -> 'a t -> int
+  (** If [k] is bound in [m], then [locate_e k m] is then number of
+      of keys preceding [k] according to the key order.
+      @raise Not_found if [k] is not bound in [m]. *)
+
+  val get_o : int -> 'a t -> 'a option
+  (** [get_o i m] is the [i]th value of [m] or [None] if [i] is out of
+      bounds. *)
+
+  val get_e : int -> 'a t -> 'a
+  (** [get_e i m] is the [i]th value of [m].
+      @raise Invalid_argument if the index is out of bounds. *)
 
   val get_binding : int -> 'a t -> key * 'a
   (** [get_binding i m] is the [i]th binding of [m] according to the key

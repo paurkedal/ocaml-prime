@@ -29,7 +29,10 @@ module type S = sig
   val singleton : key -> 'a -> 'a t
   val contains : key -> 'a t -> bool
   val find : key -> 'a t -> 'a
-  val locate : key -> 'a t -> int option
+  val locate_o : key -> 'a t -> int option
+  val locate_e : key -> 'a t -> int
+  val get_o : int -> 'a t -> 'a option
+  val get_e : int -> 'a t -> 'a
   val get_binding : int -> 'a t -> key * 'a
   val min_binding : 'a t -> key * 'a
   val max_binding : 'a t -> key * 'a
@@ -77,7 +80,27 @@ module Make (K : OrderedType) = struct
       if o < 0 then locate' i k mL else
       if o > 0 then locate' (i + card mL + 1) k mR else
       Some (i + card mL)
-  let locate k = locate' 0 k
+  let locate_o k = locate' 0 k
+  let locate_e k m =
+    match locate' 0 k m with
+    | None -> raise Not_found
+    | Some e -> e
+
+  let rec get_o i = function
+    | O -> None
+    | Y (n, kC, eC, mL, mR) ->
+      let nL = card mL in
+      if i < nL then get_o i mL else
+      if i > nL then get_o (i - nL - 1) mR else
+      Some eC
+
+  let rec get_e i = function
+    | O -> invalid_arg "Prime_enummap.get_e: Index out of bounds."
+    | Y (n, kC, eC, mL, mR) ->
+      let nL = card mL in
+      if i < nL then get_e i mL else
+      if i > nL then get_e (i - nL - 1) mR else
+      eC
 
   let rec get_binding i = function
     | O -> invalid_arg "Prime_enummap.get_binding: Index out of bounds."
