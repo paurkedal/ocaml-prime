@@ -39,6 +39,7 @@ Library "prime-unstable"
     Prime_cache_metric,
     Prime_enummap,
     Prime_enumset,
+    Prime_retraction,
     Prime_wallet
   BuildDepends: prime
 
