@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -14,7 +14,19 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Combinators and other primitives. *)
+(** Primitives. *)
+
+(** {2 The Empty Type} *)
+
+type counit
+(** A type which is uninhabited by well-founded code.  This is equivalent to a
+    variant type with no constructors, though syntax forbids naming or
+    defining such types. *)
+
+val absurd : counit -> 'a
+(** Computations in the scope of a variable [x : counit] can be assumed dead,
+    and thus be shortcut as [absurd x].  This is the analogue of
+    pattern-matching a variant with no constructors. *)
 
 (** {2 Combinators} *)
 
