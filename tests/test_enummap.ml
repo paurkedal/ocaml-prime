@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -45,6 +45,8 @@ let run () =
 		 (Int_emap.get_binding (Int_emap.card em - 1) em);
     for i = 0 to Int_emap.card em - 1 do
       let k, _ = Int_emap.get_binding i em in
-      assert_equal_int ~msg:"locate (get i em)" i (Int_emap.locate_e k em)
+      let pres, pos = Int_emap.locate k em in
+      assert pres;
+      assert_equal_int ~msg:"locate (get i em)" i pos
     done
   done

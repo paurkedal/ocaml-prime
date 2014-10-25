@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -46,7 +46,8 @@ let run () =
 		     (Int_eset.get (Int_eset.card es - 1) es);
     for i = 0 to Int_eset.card es - 1 do
       let e = Int_eset.get i es in
-      assert_equal_int ~msg:"locate (get i es)" i
-		       (Option.get (Int_eset.locate e es))
+      let pres, pos = Int_eset.locate e es in
+      assert pres;
+      assert_equal_int ~msg:"locate (get i es)" i pos
     done
   done

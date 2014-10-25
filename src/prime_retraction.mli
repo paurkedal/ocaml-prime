@@ -41,13 +41,9 @@ module type S = sig
 
   val find_o : key -> t -> elt option
 
-  val locate_e : key -> t -> int
+  val locate : key -> t -> bool * int
 
-  val locate_o : key -> t -> int option
-
-  val locate_elt_e : elt -> t -> int
-
-  val locate_elt_o : elt -> t -> int option
+  val locate_elt : elt -> t -> bool * int
 
   val get_e : int -> t -> elt
 

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -45,15 +45,9 @@ module type S = sig
   (** [find k m] returns the binding for [k] in [m] or raises [Not_found] if
       it is unbound. *)
 
-  val locate_o : key -> 'a t -> int option
-  (** If [k] is bound in [m], then [locate_o k m] is [Some i] where [i] is the
-      number of other keys before [k] according to the key order, otherwise
-      [None]. *)
-
-  val locate_e : key -> 'a t -> int
-  (** If [k] is bound in [m], then [locate_e k m] is then number of
-      of keys preceding [k] according to the key order.
-      @raise Not_found if [k] is not bound in [m]. *)
+  val locate : key -> 'a t -> bool * int
+  (** [locate k m] is a pair [(present, pos)] where [present] is true iff [k]
+      is bound in [m] and [pos] is the number of keys of [m] preceding [k]. *)
 
   val get_o : int -> 'a t -> 'a option
   (** [get_o i m] is the [i]th value of [m] or [None] if [i] is out of

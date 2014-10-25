@@ -31,10 +31,8 @@ module type S = sig
   val contains : key -> t -> bool
   val find_e : key -> t -> elt
   val find_o : key -> t -> elt option
-  val locate_e : key -> t -> int
-  val locate_o : key -> t -> int option
-  val locate_elt_e : elt -> t -> int
-  val locate_elt_o : elt -> t -> int option
+  val locate : key -> t -> bool * int
+  val locate_elt : elt -> t -> bool * int
   val get_e : int -> t -> elt
   val get_o : int -> t -> elt option
   val min_e : t -> elt
@@ -86,30 +84,22 @@ module Make (Elt : RETRACTABLE) = struct
       Some eC
 
   let rec locate' i k = function
-    | O -> None
+    | O -> false, i
     | Y (n, eC, cL, cR) ->
       let o = Elt.compare_key k eC in
       if o < 0 then locate' i k cL else
       if o > 0 then locate' (i + cardinal cL + 1) k cR else
-      Some (i + cardinal cL)
-  let locate_o = locate' 0
-  let locate_e k c =
-    match locate' 0 k c with
-    | None -> raise Not_found
-    | Some i -> i
+      true, i + cardinal cL
+  let locate = locate' 0
 
   let rec locate_elt' i e' = function
-    | O -> None
+    | O -> false, i
     | Y (n, eC, cL, cR) ->
       let o = Elt.compare e' eC in
       if o < 0 then locate_elt' i e' cL else
       if o > 0 then locate_elt' (i + cardinal cL + 1) e' cR else
-      Some (i + cardinal cL)
-  let locate_elt_o = locate_elt' 0
-  let locate_elt_e e' c =
-    match locate_elt' 0 e' c with
-    | None -> raise Not_found
-    | Some i -> i
+      true, i + cardinal cL
+  let locate_elt = locate_elt' 0
 
   let rec get_o i = function
     | O -> None

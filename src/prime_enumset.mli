@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -42,10 +42,10 @@ module type S = sig
   val contains : elt -> t -> bool
   (** [contains e s] is true iff [s] contains [e]. *)
 
-  val locate : elt -> t -> int option
-  (** If [s] contains [e], then [locate e s] is [Some i] where [i] is the
-      number of elements in [s] which are smaller than [e], otherwise [locate
-      e s] is [None]. *)
+  val locate : elt -> t -> bool * int
+  (** [locate e s] is a pair [(present, pos)] where [present] is true iff [e]
+      is a member of [s], and [pos] is the number of elements of [s] which
+      precedes [e]. *)
 
   val get : int -> t -> elt
   (** [get i s] is the [i]th element of [s] according to the element order. *)

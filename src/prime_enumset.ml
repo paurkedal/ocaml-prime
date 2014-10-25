@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -28,7 +28,7 @@ module type S = sig
   val empty : t
   val singleton : elt -> t
   val contains : elt -> t -> bool
-  val locate : elt -> t -> int option
+  val locate : elt -> t -> bool * int
   val get : int -> t -> elt
   val min_elt : t -> elt
   val max_elt : t -> elt
@@ -62,12 +62,12 @@ module Make (E : OrderedType) = struct
   let card = function O -> 0 | Y (n, _, _, _) -> n
 
   let rec locate' i e = function
-    | O -> None
+    | O -> false, i
     | Y (n, eC, sL, sR) ->
       let o = E.compare e eC in
       if o < 0 then locate' i e sL else
       if o > 0 then locate' (i + card sL + 1) e sR else
-      Some (i + card sL)
+      true, i + card sL
   let locate = locate' 0
 
   let rec get i = function
