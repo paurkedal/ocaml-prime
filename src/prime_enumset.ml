@@ -32,6 +32,8 @@ module type S = sig
   val get : int -> t -> elt
   val min_elt : t -> elt
   val max_elt : t -> elt
+  val pred_e : t -> elt -> elt
+  val succ_e : t -> elt -> elt
   val add : elt -> t -> t
   val remove : elt -> t -> t
   val pop_min : t -> elt * t
@@ -87,6 +89,22 @@ module Make (E : OrderedType) = struct
     | O -> raise Not_found
     | Y (_, eC, _, O) -> eC
     | Y (_, eC, _, sR) -> max_elt sR
+
+  let rec pred_e = function
+    | O -> fun _ -> raise Not_found
+    | Y (_, eC, sL, sR) -> fun e ->
+      let o = E.compare e eC in
+      if o < 0 then pred_e sL e else
+      if o > 0 then try pred_e sR e with Not_found -> eC else
+      max_elt sL
+
+  let rec succ_e = function
+    | O -> fun _ -> raise Not_found
+    | Y (_, eC, sL, sR) -> fun e ->
+      let o = E.compare e eC in
+      if o < 0 then try succ_e sL e with Not_found -> eC else
+      if o > 0 then succ_e sR e else
+      min_elt sR
 
   let bal_y n eC sL sR =
     match sL, sR with

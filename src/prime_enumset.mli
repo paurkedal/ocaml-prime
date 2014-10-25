@@ -56,6 +56,10 @@ module type S = sig
   val max_elt : t -> elt
   (** [max_elt s] is the largest element of [s]. *)
 
+  val pred_e : t -> elt -> elt
+
+  val succ_e : t -> elt -> elt
+
   val add : elt -> t -> t
   (** [add e s] is the set containing [e] along with the elements of [s]. *)
 

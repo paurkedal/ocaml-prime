@@ -35,6 +35,8 @@ module type S = sig
   val get_binding : int -> 'a t -> key * 'a
   val min_binding : 'a t -> key * 'a
   val max_binding : 'a t -> key * 'a
+  val pred_binding_e : 'a t -> key -> key * 'a
+  val succ_binding_e : 'a t -> key -> key * 'a
   val add : key -> 'a -> 'a t -> 'a t
   val pop_min : 'a t -> key * 'a * 'a t
   val pop_max : 'a t -> key * 'a * 'a t
@@ -114,6 +116,22 @@ module Make (K : OrderedType) = struct
     | O -> raise Not_found
     | Y (_, kC, eC, _, O) -> kC, eC
     | Y (_, _, _, _, mR) -> max_binding mR
+
+  let rec pred_binding_e = function
+    | O -> raise Not_found
+    | Y (_, kC, eC, mL, mR) -> fun k ->
+      let o = K.compare k kC in
+      if o < 0 then pred_binding_e mL k else
+      if o > 0 then try pred_binding_e mR k with Not_found -> (kC, eC) else
+      max_binding mL
+
+  let rec succ_binding_e = function
+    | O -> raise Not_found
+    | Y (_, kC, eC, mL, mR) -> fun k ->
+      let o = K.compare k kC in
+      if o < 0 then try succ_binding_e mL k with Not_found -> (kC, eC) else
+      if o > 0 then succ_binding_e mR k else
+      min_binding mR
 
   let bal_y n kC eC mL mR =
     match mL, mR with

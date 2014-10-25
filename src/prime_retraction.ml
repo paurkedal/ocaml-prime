@@ -37,6 +37,10 @@ module type S = sig
   val get_o : int -> t -> elt option
   val min_e : t -> elt
   val max_e : t -> elt
+  val pred_e : t -> key -> elt
+  val succ_e : t -> key -> elt
+  val elt_pred_e : t -> elt -> elt
+  val elt_succ_e : t -> elt -> elt
   val add : elt -> t -> t
   val pop_min_e : t -> elt * t
   val pop_max_e : t -> elt * t
@@ -126,6 +130,38 @@ module Make (Elt : RETRACTABLE) = struct
     | O -> raise Not_found
     | Y (_, eC, _, O) -> eC
     | Y (_, _, _, cR) -> max_e cR
+
+  let rec pred_e = function
+    | O -> fun _ -> raise Not_found
+    | Y (_, eC, cL, cR) -> fun k ->
+      let o = Elt.compare_key k eC in
+      if o < 0 then pred_e cL k else
+      if o > 0 then try pred_e cR k with Not_found -> eC else
+      max_e cL
+
+  let rec succ_e = function
+    | O -> fun _ -> raise Not_found
+    | Y (_, eC, cL, cR) -> fun k ->
+      let o = Elt.compare_key k eC in
+      if o < 0 then try succ_e cL k with Not_found -> eC else
+      if o > 0 then succ_e cR k else
+      min_e cR
+
+  let rec elt_pred_e = function
+    | O -> fun _ -> raise Not_found
+    | Y (_, eC, cL, cR) -> fun e ->
+      let o = Elt.compare e eC in
+      if o < 0 then elt_pred_e cL e else
+      if o > 0 then try elt_pred_e cR e with Not_found -> eC else
+      max_e cL
+
+  let rec elt_succ_e = function
+    | O -> fun _ -> raise Not_found
+    | Y (_, eC, cL, cR) -> fun e ->
+      let o = Elt.compare e eC in
+      if o < 0 then try elt_succ_e cL e with Not_found -> eC else
+      if o > 0 then elt_succ_e cR e else
+      min_e cR
 
   let bal_y n eC cL cR =
     match cL, cR with

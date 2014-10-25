@@ -53,6 +53,14 @@ module type S = sig
 
   val max_e : t -> elt
 
+  val pred_e : t -> key -> elt
+
+  val succ_e : t -> key -> elt
+
+  val elt_pred_e : t -> elt -> elt
+
+  val elt_succ_e : t -> elt -> elt
+
   val add : elt -> t -> t
 
   val pop_min_e : t -> elt * t
