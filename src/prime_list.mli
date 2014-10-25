@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -25,6 +25,9 @@ val sample : (int -> 'a) -> int -> 'a list
 val push : 'a -> 'a list -> 'a list
 (** [push] is a function alias for the [::] operator, convenient for passing
     as a function argument. *)
+
+val of_option : 'a option -> 'a list
+(** [of_option None] is [[]] and [of_option (Some x)] is [[x]]. *)
 
 val count : ('a -> bool) -> 'a list -> int
 (** [count f xs] is the number of elements [x] of [xs] for which [f x]

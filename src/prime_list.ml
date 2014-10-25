@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -24,6 +24,10 @@ let sample f n =
   loop (n - 1) []
 
 let push x xs = x :: xs
+
+let of_option = function
+  | None -> []
+  | Some x -> [x]
 
 let count f =
   let rec loop n = function
