@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -29,6 +29,12 @@ let fmod x y =
   else
     if y < 0 then x mod y else
     (min_int + x) mod y
+
+let signed_width =
+  let rec loop i =
+    assert (i <= 1024);
+    if (1 lsl i) lsr i = 1 then loop (succ i) else i in
+  loop 14
 
 let bitcount16 n =
   let n = (n land 0x5555) + (n lsr 1 land 0x5555) in
