@@ -37,14 +37,15 @@ let run () =
     let s, es = populate n n Int_set.empty Int_eset.empty in
     assert_equal_int ~msg:"cardinality using fold" (Int_set.cardinal s)
 		     (Int_eset.fold (fun _ -> (+) 1) es 0);
-    assert_equal_int ~msg:"card" (Int_set.cardinal s) (Int_eset.card es);
+    assert_equal_int ~msg:"cardinal"
+		     (Int_set.cardinal s) (Int_eset.cardinal es);
     assert_equal ~msg:"elements" (Int_set.elements s)
 		 (List.rev (Int_eset.fold Prime_list.push es []));
     assert_equal_int ~msg:"min element" (Int_eset.min_elt es)
 		     (Int_eset.get 0 es);
     assert_equal_int ~msg:"max element" (Int_eset.max_elt es)
-		     (Int_eset.get (Int_eset.card es - 1) es);
-    for i = 0 to Int_eset.card es - 1 do
+		     (Int_eset.get (Int_eset.cardinal es - 1) es);
+    for i = 0 to Int_eset.cardinal es - 1 do
       let e = Int_eset.get i es in
       let pres, pos = Int_eset.locate e es in
       assert pres;

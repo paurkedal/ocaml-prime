@@ -74,8 +74,8 @@ module type S = sig
   (** [pop_max s] is [(e, s')] where [e] is the largest element of [s] and
       [s'] contains the remaining elements. *)
 
-  val card : t -> int
-  (** [card s] is the cardinality of [s]. *)
+  val cardinal : t -> int
+  (** [cardinal s] is the cardinality of [s]. *)
 
   val search : (elt -> 'a option) -> t -> 'a option
   (** [search f s] is the first [f e] for [e] in [s] which is different from
@@ -88,6 +88,9 @@ module type S = sig
   val iter : (elt -> unit) -> t -> unit
   (** [iter f s] calls [f e] for each [e] in [s] in order of increasing
       elements. *)
+
+  val card : t -> int
+  (** @deprecated Use {!cardinal}. *)
 end
 
 module Make (Elt : OrderedType) : S with type elt = Elt.t

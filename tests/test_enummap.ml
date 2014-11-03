@@ -38,12 +38,13 @@ let run () =
     let m, em = populate n n Int_map.empty Int_emap.empty in
     assert_equal_int ~msg:"cardinality using fold" (Int_map.cardinal m)
 		     (Int_emap.fold (fun _ _ -> (+) 1) em 0);
-    assert_equal_int ~msg:"card" (Int_map.cardinal m) (Int_emap.card em);
+    assert_equal_int ~msg:"cardinal"
+		     (Int_map.cardinal m) (Int_emap.cardinal em);
     assert_equal ~msg:"min binding" (Int_emap.min_binding em)
 		 (Int_emap.get_binding 0 em);
     assert_equal ~msg:"max binding" (Int_emap.max_binding em)
-		 (Int_emap.get_binding (Int_emap.card em - 1) em);
-    for i = 0 to Int_emap.card em - 1 do
+		 (Int_emap.get_binding (Int_emap.cardinal em - 1) em);
+    for i = 0 to Int_emap.cardinal em - 1 do
       let k, _ = Int_emap.get_binding i em in
       let pres, pos = Int_emap.locate k em in
       assert pres;

@@ -87,8 +87,8 @@ module type S = sig
   (** [remove k m] is the map which agrees with [m] on all keys except that
       [k] is unbound.  If [k] is unbound in [m], then [remove k m] is [m]. *)
 
-  val card : 'a t -> int
-  (** [card m] is the cardinality of [m]. *)
+  val cardinal : 'a t -> int
+  (** [cardinal m] is the cardinality of [m]. *)
 
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   (** [search f m] is the first [f k e] for [k ↦ e] in [m] which is different
@@ -101,6 +101,9 @@ module type S = sig
   val iter : (key -> 'a -> unit) -> 'a t -> unit
   (** [iter f m] calls [f k e] for each [(k, e)] in [m] in order of increasing
       keys. *)
+
+  val card : 'a t -> int
+  (** @deprecated Use {!cardinal}. *)
 end
 
 module Make (Key : OrderedType) : S with type key = Key.t

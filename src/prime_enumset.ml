@@ -38,10 +38,12 @@ module type S = sig
   val remove : elt -> t -> t
   val pop_min : t -> elt * t
   val pop_max : t -> elt * t
-  val card : t -> int
+  val cardinal : t -> int
   val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
+
+  val card : t -> int
 end
 
 exception Keep
@@ -61,21 +63,22 @@ module Make (E : OrderedType) = struct
       if o > 0 then contains e sR else
       true
 
-  let card = function O -> 0 | Y (n, _, _, _) -> n
+  let cardinal = function O -> 0 | Y (n, _, _, _) -> n
+  let card = cardinal
 
   let rec locate' i e = function
     | O -> false, i
     | Y (n, eC, sL, sR) ->
       let o = E.compare e eC in
       if o < 0 then locate' i e sL else
-      if o > 0 then locate' (i + card sL + 1) e sR else
-      true, i + card sL
+      if o > 0 then locate' (i + cardinal sL + 1) e sR else
+      true, i + cardinal sL
   let locate = locate' 0
 
   let rec get i = function
     | O -> invalid_arg "Prime_enumset.get: Index out of bounds."
     | Y (n, eC, sL, sR) ->
-      let nL = card sL in
+      let nL = cardinal sL in
       if i < nL then get i sL else
       if i > nL then get (i - nL - 1) sR else
       eC
@@ -108,10 +111,10 @@ module Make (E : OrderedType) = struct
 
   let bal_y n eC sL sR =
     match sL, sR with
-    | _, Y (nR, eCR, sLR, sRR) when card sL < 4 * nR ->
-      Y (n, eCR, Y (card sL + card sLR + 1, eC, sL, sLR), sRR)
-    | Y (nL, eCL, sLL, sRL), _ when card sR < 4 * nL ->
-      Y (n, eCL, sLL, Y (card sRL + card sR + 1, eC, sRL, sR))
+    | _, Y (nR, eCR, sLR, sRR) when cardinal sL < 4 * nR ->
+      Y (n, eCR, Y (cardinal sL + cardinal sLR + 1, eC, sL, sLR), sRR)
+    | Y (nL, eCL, sLL, sRL), _ when cardinal sR < 4 * nL ->
+      Y (n, eCL, sLL, Y (cardinal sRL + cardinal sR + 1, eC, sRL, sR))
     | _, _ ->
       Y (n, eC, sL, sR)
 
@@ -143,7 +146,7 @@ module Make (E : OrderedType) = struct
       if o < 0 then bal_y (n - 1) eC (remove' e sL) sR else
       if o > 0 then bal_y (n - 1) eC sL (remove' e sR) else
       if n = 1 then O else
-      if card sL > card sR
+      if cardinal sL > cardinal sR
 	then let eC', sL' = pop_max sL in Y (n - 1, eC', sL', sR)
 	else let eC', sR' = pop_min sR in Y (n - 1, eC', sL, sR')
   let remove e s = try remove' e s with Keep -> s
@@ -167,5 +170,4 @@ module Make (E : OrderedType) = struct
   let rec fold f = function
     | O -> ident
     | Y (_, eC, sL, sR) -> fold f sR *< f eC *< fold f sL
-
 end

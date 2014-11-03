@@ -41,10 +41,12 @@ module type S = sig
   val pop_min : 'a t -> key * 'a * 'a t
   val pop_max : 'a t -> key * 'a * 'a t
   val remove : key -> 'a t -> 'a t
-  val card : 'a t -> int
+  val cardinal : 'a t -> int
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
   val iter : (key -> 'a -> unit) -> 'a t -> unit
+
+  val card : 'a t -> int
 end
 
 exception Keep
@@ -72,21 +74,22 @@ module Make (K : OrderedType) = struct
       if o > 0 then find k mR else
       eC
 
-  let card = function O -> 0 | Y (n, _, _, _, _) -> n
+  let cardinal = function O -> 0 | Y (n, _, _, _, _) -> n
+  let card = cardinal
 
   let rec locate' i k = function
     | O -> false, i
     | Y (n, kC, _, mL, mR) ->
       let o = K.compare k kC in
       if o < 0 then locate' i k mL else
-      if o > 0 then locate' (i + card mL + 1) k mR else
-      true, i + card mL
+      if o > 0 then locate' (i + cardinal mL + 1) k mR else
+      true, i + cardinal mL
   let locate k = locate' 0 k
 
   let rec get_o i = function
     | O -> None
     | Y (n, kC, eC, mL, mR) ->
-      let nL = card mL in
+      let nL = cardinal mL in
       if i < nL then get_o i mL else
       if i > nL then get_o (i - nL - 1) mR else
       Some eC
@@ -94,7 +97,7 @@ module Make (K : OrderedType) = struct
   let rec get_e i = function
     | O -> invalid_arg "Prime_enummap.get_e: Index out of bounds."
     | Y (n, kC, eC, mL, mR) ->
-      let nL = card mL in
+      let nL = cardinal mL in
       if i < nL then get_e i mL else
       if i > nL then get_e (i - nL - 1) mR else
       eC
@@ -102,7 +105,7 @@ module Make (K : OrderedType) = struct
   let rec get_binding i = function
     | O -> invalid_arg "Prime_enummap.get_binding: Index out of bounds."
     | Y (n, kC, eC, mL, mR) ->
-      let nL = card mL in
+      let nL = cardinal mL in
       if i < nL then get_binding i mL else
       if i > nL then get_binding (i - nL - 1) mR else
       (kC, eC)
@@ -135,10 +138,10 @@ module Make (K : OrderedType) = struct
 
   let bal_y n kC eC mL mR =
     match mL, mR with
-    | _, Y (nR, kCR, eCR, mLR, mRR) when card mL < 4 * nR ->
-      Y (n, kCR, eCR, Y (card mL + card mLR + 1, kC, eC, mL, mLR), mRR)
-    | Y (nL, kCL, eCL, mLL, mRL), _ when card mR < 4 * nL ->
-      Y (n, kCL, eCL, mLL, Y (card mRL + card mR + 1, kC, eC, mRL, mR))
+    | _, Y (nR, kCR, eCR, mLR, mRR) when cardinal mL < 4 * nR ->
+      Y (n, kCR, eCR, Y (cardinal mL + cardinal mLR + 1, kC, eC, mL, mLR), mRR)
+    | Y (nL, kCL, eCL, mLL, mRL), _ when cardinal mR < 4 * nL ->
+      Y (n, kCL, eCL, mLL, Y (cardinal mRL + cardinal mR + 1, kC, eC, mRL, mR))
     | _, _ ->
       Y (n, kC, eC, mL, mR)
 
@@ -170,7 +173,7 @@ module Make (K : OrderedType) = struct
       if o < 0 then bal_y (n - 1) kC eC (remove' k mL) mR else
       if o > 0 then bal_y (n - 1) kC eC mL (remove' k mR) else
       if n = 1 then O else
-      if card mL > card mR
+      if cardinal mL > cardinal mR
 	then let kC', eC', mL' = pop_max mL in Y (n - 1, kC', eC', mL', mR)
 	else let kC', eC', mR' = pop_min mR in Y (n - 1, kC', eC', mL, mR')
   let remove k m = try remove' k m with Keep -> m
