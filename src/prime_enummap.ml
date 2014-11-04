@@ -146,13 +146,15 @@ module Make (K : OrderedType) = struct
       Y (n, kC, eC, mL, mR)
 
   let rec add' k e = function
-    | O -> Y (1, k, e, O, O)
+    | O -> 1, Y (1, k, e, O, O)
     | Y (n, kC, eC, mL, mR) ->
       let o = K.compare k kC in
-      if o < 0 then bal_y (n + 1) kC eC (add' k e mL) mR else
-      if o > 0 then bal_y (n + 1) kC eC mL (add' k e mR) else
-      raise Keep
-  let add k e m = try add' k e m with Keep -> m
+      if o < 0 then let dn, mL' = add' k e mL in
+		    dn, bal_y (n + dn) kC eC mL' mR else
+      if o > 0 then let dn, mR' = add' k e mR in
+		    dn, bal_y (n + dn) kC eC mL mR' else
+      0, Y (n, k, e, mL, mR)
+  let add k e m = snd (add' k e m)
 
   let rec pop_min = function
     | O -> raise Not_found
