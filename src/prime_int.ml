@@ -31,10 +31,10 @@ let fmod x y =
     (min_int + x) mod y
 
 let signed_width =
-  let rec loop i =
-    assert (i <= 1024);
-    if (1 lsl i) lsr i = 1 then loop (succ i) else i in
-  loop 14
+  let rec loop i x =
+    let x' = x lsl 1 lor 1 in
+    if x' = x then i else loop (succ i) x' in
+  loop 0 0
 
 let bitcount16 n =
   let n = (n land 0x5555) + (n lsr 1 land 0x5555) in
