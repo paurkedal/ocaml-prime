@@ -46,6 +46,25 @@ let test_equal () =
   assert (c20 = - c02);
   assert (c21 = - c12)
 
+let test_cut () =
+  let n = 40 in
+  let es = Prime_array.sample (fun _ -> Random.int n) n in
+  let m = Array.fold (fun e -> Int_emap.add e e) es Int_emap.empty in
+  Array.sort compare es;
+  let i_cut = Random.int (Array.length es) in
+  let e_cut = es.(i_cut) in
+  let mL, mR =
+    Array.fold
+      (fun e (mL, mR) ->
+	if e < e_cut then (Int_emap.add e e mL, mR) else
+	if e > e_cut then (mL, Int_emap.add e e mR) else
+	(mL, mR))
+      es (Int_emap.empty, Int_emap.empty) in
+  let e_opt, mL', mR' = Int_emap.cut es.(i_cut) m in
+  assert (e_opt = Some e_cut);
+  assert (Int_emap.equal (=) mL mL');
+  assert (Int_emap.equal (=) mR mR')
+
 let run () =
   assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);
   assert (Int_emap.compare compare Int_emap.empty Int_emap.empty = 0);
@@ -76,5 +95,6 @@ let run () =
       assert pres;
       assert_equal_int ~msg:"locate (get i em)" i pos
     done;
-    test_equal ()
+    test_equal ();
+    test_cut ()
   done

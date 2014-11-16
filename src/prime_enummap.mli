@@ -87,6 +87,8 @@ module type S = sig
   (** [remove k m] is the map which agrees with [m] on all keys except that
       [k] is unbound.  If [k] is unbound in [m], then [remove k m] is [m]. *)
 
+  val cut : key -> 'a t -> 'a option * 'a t * 'a t
+
   val cardinal : 'a t -> int
   (** [cardinal m] is the cardinality of [m]. *)
 

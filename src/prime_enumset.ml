@@ -36,6 +36,7 @@ module type S = sig
   val succ_e : t -> elt -> elt
   val add : elt -> t -> t
   val remove : elt -> t -> t
+  val cut : elt -> t -> bool * t * t
   val pop_min : t -> elt * t
   val pop_max : t -> elt * t
   val cardinal : t -> int
@@ -127,6 +128,16 @@ module Make (E : OrderedType) = struct
     | _, _ ->
       Y (n, eC, sL, sR)
 
+  (* Pre: e is strictly less than the elements of the set. *)
+  let rec add_min e = function
+    | O -> Y (1, e, O, O)
+    | Y (n, eC, sL, sR) -> bal_y (n + 1) eC (add_min e sL) sR
+
+  (* Pre: e is strictly greater than the elements of the set. *)
+  let rec add_max e = function
+    | O -> Y (1, e, O, O)
+    | Y (n, eC, sL, sR) -> bal_y (n + 1) eC sL (add_max e sR)
+
   let rec add' e = function
     | O -> Y (1, e, O, O)
     | Y (n, eC, sL, sR) ->
@@ -135,6 +146,28 @@ module Make (E : OrderedType) = struct
       if o > 0 then bal_y (n + 1) eC sL (add' e sR) else
       raise Keep
   let add e s = try add' e s with Keep -> s
+
+  (* Pre: e is strictly between elements of sL and sR. *)
+  let rec glue e sL sR =
+    match sL, sR with
+    | O, _ -> add_min e sR
+    | _, O -> add_max e sL
+    | Y (nL, eL, sLL, sRL), Y (nR, eR, sLR, sRR) ->
+      if nL < 4 * nR then bal_y (nL + nR + 1) eR (glue e sL sLR) sRR else
+      if nR < 4 * nL then bal_y (nL + nR + 1) eL sLL (glue e sRL sR) else
+      Y (nL + nR + 1, e, sL, sR)
+
+  let rec cut eC = function
+    | O -> (false, O, O)
+    | Y (n, e, sL, sR) ->
+      let c = E.compare eC e in
+      if c = 0 then (true, sL, sR) else
+      if c < 0 then
+	let pres, sLL, sRL = cut eC sL in
+	(pres, sLL, glue e sRL sR)
+      else
+	let pres, sLR, sRR = cut eC sR in
+	(pres, glue e sL sLR, sRR)
 
   let rec pop_min = function
     | O -> raise Not_found
@@ -191,4 +224,5 @@ module Make (E : OrderedType) = struct
     aux (cons_enum sA End, cons_enum sB End)
 
   let equal sA sB = compare sA sB = 0
+
 end

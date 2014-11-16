@@ -43,6 +43,25 @@ let test_equal () =
   assert (c20 = - c02);
   assert (c21 = - c12)
 
+let test_cut () =
+  let n = 40 in
+  let es = Prime_array.sample (fun _ -> Random.int n) n in
+  let s = Array.fold Int_eset.add es Int_eset.empty in
+  Array.sort compare es;
+  let i_cut = Random.int (Array.length es) in
+  let e_cut = es.(i_cut) in
+  let sL, sR =
+    Array.fold
+      (fun e (sL, sR) ->
+	if e < e_cut then (Int_eset.add e sL, sR) else
+	if e > e_cut then (sL, Int_eset.add e sR) else
+	(sL, sR))
+      es (Int_eset.empty, Int_eset.empty) in
+  let pres, sL', sR' = Int_eset.cut es.(i_cut) s in
+  assert pres;
+  assert (Int_eset.equal sL sL');
+  assert (Int_eset.equal sR sR')
+
 let run () =
   assert (Int_eset.equal Int_eset.empty Int_eset.empty);
   assert (Int_eset.compare Int_eset.empty Int_eset.empty = 0);
@@ -74,5 +93,6 @@ let run () =
       assert pres;
       assert_equal_int ~msg:"locate (get i es)" i pos
     done;
-    test_equal ()
+    test_equal ();
+    test_cut ()
   done

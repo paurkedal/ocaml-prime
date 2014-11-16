@@ -41,6 +41,7 @@ module type S = sig
   val pop_min : 'a t -> key * 'a * 'a t
   val pop_max : 'a t -> key * 'a * 'a t
   val remove : key -> 'a t -> 'a t
+  val cut : key -> 'a t -> 'a option * 'a t * 'a t
   val cardinal : 'a t -> int
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
@@ -156,6 +157,14 @@ module Make (K : OrderedType) = struct
     | _, _ ->
       Y (n, kC, eC, mL, mR)
 
+  let rec add_min k e = function
+    | O -> Y (1, k, e, O, O)
+    | Y (n, kC, eC, mL, mR) -> bal_y (n + 1) kC eC (add_min k e mL) mR
+
+  let rec add_max k e = function
+    | O -> Y (1, k, e, O, O)
+    | Y (n, kC, eC, mL, mR) -> bal_y (n + 1) kC eC mL (add_max k e mR)
+
   let rec add' k e = function
     | O -> 1, Y (1, k, e, O, O)
     | Y (n, kC, eC, mL, mR) ->
@@ -166,6 +175,27 @@ module Make (K : OrderedType) = struct
 		    dn, bal_y (n + dn) kC eC mL mR' else
       0, Y (n, k, e, mL, mR)
   let add k e m = snd (add' k e m)
+
+  let rec glue k e mL mR =
+    match mL, mR with
+    | O, _ -> add_min k e mR
+    | _, O -> add_max k e mL
+    | Y (nL, kL, eL, mLL, mRL), Y (nR, kR, eR, mLR, mRR) ->
+      if nL < 4 * nR then bal_y (nL + nR + 1) kR eR (glue k e mL mLR) mRR else
+      if nR < 4 * nL then bal_y (nL + nR + 1) kL eL mLL (glue k e mRL mR) else
+      Y (nL + nR + 1, k, e, mL, mR)
+
+  let rec cut kC = function
+    | O -> (None, O, O)
+    | Y (n, k, e, mL, mR) ->
+      let c = K.compare kC k in
+      if c = 0 then (Some e, mL, mR) else
+      if c < 0 then
+	let eC, mLL, mRL = cut kC mL in
+	(eC, mLL, glue k e mRL mR)
+      else
+	let eC, mLR, mRR = cut kC mR in
+	(eC, glue k e mL mLR, mRR)
 
   let rec pop_min = function
     | O -> raise Not_found
