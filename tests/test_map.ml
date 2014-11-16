@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -14,20 +14,16 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-open OUnit
+module Int_map = Prime_map.Make (struct type t = int let compare = compare end)
 
-let suite = "OCaml Prime Test Suite" >::: [
-  "test_array" >:: Test_array.run;
-  "test_cache_metric" >:: Test_cache_metric.run;
-  "test_enummap" >:: Test_enummap.run;
-  "test_enumset" >:: Test_enumset.run;
-  "test_int" >:: Test_int.run;
-  "test_list" >:: Test_list.run;
-  "test_map" >:: Test_map.run;
-  "test_string" >:: Test_string.run;
-  "test_wallet" >:: Test_wallet.run;
-]
-
-let _ =
-  Random.self_init ();
-  run_test_tt_main suite
+let run () =
+  let m = Prime_int.fold_to (fun k -> Int_map.add k (-k)) 100 Int_map.empty in
+  let m2 = Int_map.filter (fun k _ -> k mod 2 = 0) m in
+  let m3 = Int_map.filter (fun k _ -> k mod 3 = 0) m in
+  let a, b, ab = Int_map.split_union (fun k i j -> (i, j)) m2 m3 in
+  let a' = Int_map.compl m3 m2 in
+  let b' = Int_map.compl m2 m3 in
+  let ab' = Int_map.map2t (fun i j -> (i, j)) m2 m3 in
+  assert (Int_map.equal (=) a a');
+  assert (Int_map.equal (=) b b');
+  assert (Int_map.equal (=) ab ab')

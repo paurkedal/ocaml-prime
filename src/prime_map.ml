@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -26,6 +26,8 @@ module type S = sig
   val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
   val mapi2t : (key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
   val left_union : 'a t -> 'a t -> 'a t
+  val split_union : (key -> 'a -> 'b -> 'c) ->
+		    'a t -> 'b t -> 'a t * 'b t * 'c t
   val left_inter : 'a t -> 'b t -> 'a t
   val compl : 'a t -> 'a t -> 'a t
 end
@@ -61,6 +63,14 @@ module Make (K : OrderedType) = struct
 
   let left_union m0 m1 =
     merge (fun _ v0o v1o -> match v0o with None -> v1o | _ -> v0o) m0 m1
+
+  let split_union f mA mB =
+    let aux k a (mA, mB, mC) =
+      try let b = find k mB in
+	(mA, remove k mB, add k (f k a b) mC)
+      with Not_found ->
+	(add k a mA, mB, mC) in
+    fold aux mA (empty, mB, empty)
 
   let left_inter m0 m1 = filter (fun k _ -> mem k m1) m0
 
