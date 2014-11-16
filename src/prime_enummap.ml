@@ -45,6 +45,8 @@ module type S = sig
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
   val iter : (key -> 'a -> unit) -> 'a t -> unit
+  val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
+  val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
 
   val card : 'a t -> int
 end
@@ -54,6 +56,13 @@ exception Keep
 module Make (K : OrderedType) = struct
   type key = K.t
   type 'a t = O | Y of int * key * 'a * 'a t * 'a t
+
+  type 'a enumeration = End | More of key * 'a * 'a t * 'a enumeration
+
+  let rec cons_enum m q =
+    match m with
+    | O -> q
+    | Y (n, k, e, mL, mR) -> cons_enum mL (More (k, e, mR, q))
 
   let empty = O
   let singleton k e = Y (1, k, e, O, O)
@@ -199,4 +208,24 @@ module Make (K : OrderedType) = struct
   let rec fold f = function
     | O -> ident
     | Y (_, kC, eC, mL, mR) -> fold f mR *< f kC eC *< fold f mL
+
+  let compare f mA mB =
+    let rec aux = function
+      | End, End -> 0
+      | End, More _ -> -1
+      | More _, End -> 1
+      | More (kA, eA, mA, qA), More (kB, eB, mB, qB) ->
+	let ck = K.compare kA kB in if ck <> 0 then ck else
+	let cv = f eA eB in         if cv <> 0 then cv else
+	aux (cons_enum mA qA, cons_enum mB qB) in
+    aux (cons_enum mA End, cons_enum mB End)
+
+  let equal f mA mB =
+    let rec aux = function
+      | End, End -> true
+      | End, More _ | More _, End -> false
+      | More (kA, eA, mA, qA), More (kB, eB, mB, qB) ->
+	K.compare kA kB = 0 && f eA eB &&
+	aux (cons_enum mA qA, cons_enum mB qB) in
+    aux (cons_enum mA End, cons_enum mB End)
 end

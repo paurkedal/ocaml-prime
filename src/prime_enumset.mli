@@ -89,6 +89,12 @@ module type S = sig
   (** [iter f s] calls [f e] for each [e] in [s] in order of increasing
       elements. *)
 
+  val compare : t -> t -> int
+  (** Total order. *)
+
+  val equal : t -> t -> bool
+  (** [equal s0 s1] is true iff [s0] and [s1] contain the same elements. *)
+
   val card : t -> int
   (** @deprecated Use {!cardinal}. *)
 end

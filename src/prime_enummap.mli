@@ -102,6 +102,13 @@ module type S = sig
   (** [iter f m] calls [f k e] for each [(k, e)] in [m] in order of increasing
       keys. *)
 
+  val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
+  (** [compare f] is a total order over maps using [f] to compare elements. *)
+
+  val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
+  (** [equal f m0 m1] is true iff [m0] and [m1] have the same keys and [f] is
+      true on the respective mappings for each key. *)
+
   val card : 'a t -> int
   (** @deprecated Use {!cardinal}. *)
 end

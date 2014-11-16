@@ -42,6 +42,8 @@ module type S = sig
   val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
+  val compare : t -> t -> int
+  val equal : t -> t -> bool
 
   val card : t -> int
 end
@@ -51,6 +53,13 @@ exception Keep
 module Make (E : OrderedType) = struct
   type elt = E.t
   type t = O | Y of int * elt * t * t
+
+  type enumeration = End | More of elt * t * enumeration
+
+  let rec cons_enum s q =
+    match s with
+    | O -> q
+    | Y (_, e, sL, sR) -> cons_enum sL (More (e, sR, q))
 
   let empty = O
   let singleton e = Y (1, e, O, O)
@@ -170,4 +179,16 @@ module Make (E : OrderedType) = struct
   let rec fold f = function
     | O -> ident
     | Y (_, eC, sL, sR) -> fold f sR *< f eC *< fold f sL
+
+  let compare sA sB =
+    let rec aux = function
+      | End, End -> 0
+      | End, More _ -> -1
+      | More _, End -> 1
+      | More (eA, sA, qA), More (eB, sB, qB) ->
+	let c = E.compare eA eB in if c <> 0 then c else
+	aux (cons_enum sA qA, cons_enum sB qB) in
+    aux (cons_enum sA End, cons_enum sB End)
+
+  let equal sA sB = compare sA sB = 0
 end

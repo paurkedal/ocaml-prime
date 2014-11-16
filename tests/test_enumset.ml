@@ -16,13 +16,36 @@
 
 open OUnit
 open Utils
+open Unprime_array
 open Unprime_option
 
 module Int_order = struct type t = int let compare = compare end
 module Int_set = Set.Make (Int_order)
 module Int_eset = Prime_enumset.Make (Int_order)
 
+let test_equal () =
+  let es0 = Prime_array.sample (fun _ -> Random.int 40) 40 in
+  let es1 = Array.copy es0 in
+  Array.sort compare es1;
+  let s0 = Array.fold Int_eset.add es0 Int_eset.empty in
+  let s1 = Array.fold Int_eset.add es1 Int_eset.empty in
+  assert (Int_eset.equal s0 s1);
+  assert (Int_eset.compare s0 s1 = 0);
+  let s2 = Int_eset.remove es0.(Random.int (Array.length es0)) s0 in
+  assert (not (Int_eset.equal s0 s2));
+  assert (not (Int_eset.equal s1 s2));
+  let c02 = Int_eset.compare s0 s2 in
+  let c12 = Int_eset.compare s1 s2 in
+  let c20 = Int_eset.compare s2 s0 in
+  let c21 = Int_eset.compare s2 s1 in
+  assert (c02 <> 0);
+  assert (c12 <> 0);
+  assert (c20 = - c02);
+  assert (c21 = - c12)
+
 let run () =
+  assert (Int_eset.equal Int_eset.empty Int_eset.empty);
+  assert (Int_eset.compare Int_eset.empty Int_eset.empty = 0);
   for round = 0 to 999 do
     let rec populate imax n s es =
       if n < 0 then (s, es) else
@@ -50,5 +73,6 @@ let run () =
       let pres, pos = Int_eset.locate e es in
       assert pres;
       assert_equal_int ~msg:"locate (get i es)" i pos
-    done
+    done;
+    test_equal ()
   done

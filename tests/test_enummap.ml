@@ -16,13 +16,39 @@
 
 open OUnit
 open Utils
+open Unprime_array
 open Unprime_option
 
 module Int_order = struct type t = int let compare = compare end
 module Int_map = Map.Make (Int_order)
 module Int_emap = Prime_enummap.Make (Int_order)
 
+let test_equal () =
+  let kvs0 = Prime_array.sample (fun _ -> Random.int 40) 40 in
+  let kvs1 = Array.copy kvs0 in
+  Array.sort compare kvs1;
+  let m0 = Array.fold (fun k -> Int_emap.add k k) kvs0 Int_emap.empty in
+  let m1 = Array.fold (fun k -> Int_emap.add k k) kvs1 Int_emap.empty in
+  assert (Int_emap.equal (=) m0 m1);
+  assert (Int_emap.compare compare m0 m1 = 0);
+  let m2 =
+    let i = Random.int (Array.length kvs0) in
+    if Random.bool () then Int_emap.remove kvs0.(i) m0
+		      else Int_emap.add kvs0.(i) (-1) m0 in
+  assert (not (Int_emap.equal (=) m0 m2));
+  assert (not (Int_emap.equal (=) m1 m2));
+  let c02 = Int_emap.compare compare m0 m2 in
+  let c12 = Int_emap.compare compare m1 m2 in
+  let c20 = Int_emap.compare compare m2 m0 in
+  let c21 = Int_emap.compare compare m2 m1 in
+  assert (c02 <> 0);
+  assert (c12 <> 0);
+  assert (c20 = - c02);
+  assert (c21 = - c12)
+
 let run () =
+  assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);
+  assert (Int_emap.compare compare Int_emap.empty Int_emap.empty = 0);
   for round = 0 to 999 do
     let rec populate imax n m em =
       if n < 0 then (m, em) else
@@ -49,5 +75,6 @@ let run () =
       let pres, pos = Int_emap.locate k em in
       assert pres;
       assert_equal_int ~msg:"locate (get i em)" i pos
-    done
+    done;
+    test_equal ()
   done
