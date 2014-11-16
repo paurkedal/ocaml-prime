@@ -109,6 +109,13 @@ module type S = sig
   (** [equal f m0 m1] is true iff [m0] and [m1] have the same keys and [f] is
       true on the respective mappings for each key. *)
 
+  val split_union : (key -> 'a -> 'b -> 'c) ->
+		    'a t -> 'b t -> 'a t * 'b t * 'c t
+  (** [split_union mA mB] is a triple [(mA', mB', mC')] where [mA'] and [mB']
+      are the respective bindings of [mA] and [mB] which have disjoint keys,
+      and [mC'] has a binding [(k, f k a b)] for each pair of bindings [(k,
+      a)] of [mA] and [(k, b)] of [mB] sharing [k]. *)
+
   val card : 'a t -> int
   (** @deprecated Use {!cardinal}. *)
 end

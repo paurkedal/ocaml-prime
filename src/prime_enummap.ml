@@ -47,6 +47,8 @@ module type S = sig
   val iter : (key -> 'a -> unit) -> 'a t -> unit
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
   val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
+  val split_union : (key -> 'a -> 'b -> 'c) ->
+		    'a t -> 'b t -> 'a t * 'b t * 'c t
 
   val card : 'a t -> int
 end
@@ -228,4 +230,12 @@ module Make (K : OrderedType) = struct
 	K.compare kA kB = 0 && f eA eB &&
 	aux (cons_enum mA qA, cons_enum mB qB) in
     aux (cons_enum mA End, cons_enum mB End)
+
+  let split_union f mA mB =
+    let aux k a (mA, mB, mC) =
+      try let b = find k mB in
+	(mA, remove k mB, add k (f k a b) mC)
+      with Not_found ->
+	(add k a mA, mB, mC) in
+    fold aux mA (empty, mB, empty)
 end
