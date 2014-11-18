@@ -104,6 +104,10 @@ module type S = sig
   (** [iter f m] calls [f k e] for each [(k, e)] in [m] in order of increasing
       keys. *)
 
+  val map : ('a -> 'b) -> 'a t -> 'b t
+
+  val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t
+
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
   (** [compare f] is a total order over maps using [f] to compare elements. *)
 

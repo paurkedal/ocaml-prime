@@ -46,6 +46,8 @@ module type S = sig
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
   val iter : (key -> 'a -> unit) -> 'a t -> unit
+  val map : ('a -> 'b) -> 'a t -> 'b t
+  val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
   val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
   val split_union : (key -> 'a -> 'b -> 'c) ->
@@ -240,6 +242,14 @@ module Make (K : OrderedType) = struct
   let rec fold f = function
     | O -> ident
     | Y (_, kC, eC, mL, mR) -> fold f mR *< f kC eC *< fold f mL
+
+  let rec map f = function
+    | O -> O
+    | Y (n, k, e, mL, mR) -> Y (n, k, f e, map f mL, map f mR)
+
+  let rec mapi f = function
+    | O -> O
+    | Y (n, k, e, mL, mR) -> Y (n, k, f k e, mapi f mL, mapi f mR)
 
   let compare f mA mB =
     let rec aux = function
