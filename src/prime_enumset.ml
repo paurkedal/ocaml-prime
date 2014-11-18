@@ -45,6 +45,7 @@ module type S = sig
   val iter : (elt -> unit) -> t -> unit
   val for_all : (elt -> bool) -> t -> bool
   val exists : (elt -> bool) -> t -> bool
+  val filter : (elt -> bool) -> t -> t
   val compare : t -> t -> int
   val equal : t -> t -> bool
   val union : t -> t -> t
@@ -231,6 +232,13 @@ module Make (E : OrderedType) = struct
   let rec exists f = function
     | O -> false
     | Y (_, e, sL, sR) -> f e || exists f sL || exists f sR
+
+  let rec filter f = function
+    | O -> O
+    | Y (_, e, sL, sR) ->
+      let sL' = filter f sL in
+      let sR' = filter f sR in
+      if f e then glue e sL' sR' else cat sL' sR'
 
   let compare sA sB =
     let rec aux = function

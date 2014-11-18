@@ -112,6 +112,8 @@ module type S = sig
 
   val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t
 
+  val filter : (key -> 'a -> bool) -> 'a t -> 'a t
+
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
   (** [compare f] is a total order over maps using [f] to compare elements. *)
 

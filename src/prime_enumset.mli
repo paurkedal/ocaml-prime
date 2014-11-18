@@ -95,6 +95,8 @@ module type S = sig
 
   val exists : (elt -> bool) -> t -> bool
 
+  val filter : (elt -> bool) -> t -> t
+
   val compare : t -> t -> int
   (** Total order. *)
 

@@ -79,7 +79,9 @@ let test_alg () =
     Array.fold
       (fun i -> if Int_eset.contains i sA then Int_eset.add i else ident)
       esB Int_eset.empty in
-  assert (Int_eset.equal sAnB sAnB')
+  assert (Int_eset.equal sAnB sAnB');
+  let sAnB'' = Int_eset.filter (fun e -> Int_eset.contains e sA) sB in
+  assert (Int_eset.equal sAnB sAnB'')
 
 let run () =
   assert (Int_eset.equal Int_eset.empty Int_eset.empty);

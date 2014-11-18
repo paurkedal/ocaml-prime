@@ -50,6 +50,7 @@ module type S = sig
   val exists : (key -> 'a -> bool) -> 'a t -> bool
   val map : ('a -> 'b) -> 'a t -> 'b t
   val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t
+  val filter : (key -> 'a -> bool) -> 'a t -> 'a t
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
   val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
   val split_union : (key -> 'a -> 'b -> 'c) ->
@@ -169,6 +170,18 @@ module Make (K : OrderedType) = struct
     | O -> Y (1, k, e, O, O)
     | Y (n, kC, eC, mL, mR) -> bal_y (n + 1) kC eC mL (add_max k e mR)
 
+  let rec pop_min = function
+    | O -> raise Not_found
+    | Y (n, kC, eC, O, mR) -> kC, eC, mR
+    | Y (n, kC, eC, mL, mR) ->
+      let k', e', mL' = pop_min mL in k', e', bal_y (n - 1) kC eC mL' mR
+
+  let rec pop_max = function
+    | O -> raise Not_found
+    | Y (n, kC, eC, mL, O) -> kC, eC, mL
+    | Y (n, kC, eC, mL, mR) ->
+      let k', e', mR' = pop_max mR in k', e', bal_y (n - 1) kC eC mL mR'
+
   let rec add' k e = function
     | O -> 1, Y (1, k, e, O, O)
     | Y (n, kC, eC, mL, mR) ->
@@ -189,6 +202,11 @@ module Make (K : OrderedType) = struct
       if nR < 4 * nL then bal_y (nL + nR + 1) kL eL mLL (glue k e mRL mR) else
       Y (nL + nR + 1, k, e, mL, mR)
 
+  let cat mL mR =
+    match mL, mR with
+    | O, m | m, O -> m
+    | _, _ -> let k, e, mL' = pop_max mL in glue k e mL' mR
+
   let rec cut kC = function
     | O -> (None, O, O)
     | Y (n, k, e, mL, mR) ->
@@ -200,18 +218,6 @@ module Make (K : OrderedType) = struct
       else
 	let eC, mLR, mRR = cut kC mR in
 	(eC, glue k e mL mLR, mRR)
-
-  let rec pop_min = function
-    | O -> raise Not_found
-    | Y (n, kC, eC, O, mR) -> kC, eC, mR
-    | Y (n, kC, eC, mL, mR) ->
-      let k', e', mL' = pop_min mL in k', e', bal_y (n - 1) kC eC mL' mR
-
-  let rec pop_max = function
-    | O -> raise Not_found
-    | Y (n, kC, eC, mL, O) -> kC, eC, mL
-    | Y (n, kC, eC, mL, mR) ->
-      let k', e', mR' = pop_max mR in k', e', bal_y (n - 1) kC eC mL mR'
 
   let rec remove' k = function
     | O -> raise Keep
@@ -260,6 +266,13 @@ module Make (K : OrderedType) = struct
   let rec mapi f = function
     | O -> O
     | Y (n, k, e, mL, mR) -> Y (n, k, f k e, mapi f mL, mapi f mR)
+
+  let rec filter f = function
+    | O -> O
+    | Y (n, k, e, mL, mR) ->
+      let mL' = filter f mL in
+      let mR' = filter f mR in
+      if f k e then glue k e mL' mR' else cat mL' mR'
 
   let compare f mA mB =
     let rec aux = function
