@@ -174,12 +174,11 @@ module Make (E : OrderedType) = struct
       Y (nL + nR + 1, e, sL, sR)
 
   (* Pre: Elements of sL are strictly less then elements of sR. *)
-  let rec cat sL sR =
+  let cat sL sR =
     match sL, sR with
     | O, s | s, O -> s
     | Y (nL, _, _, _), Y (nR, _, _, _) ->
-      if nL < nR then let e, sL' = pop_max sL in glue e sL' sR
-		 else let e, sR' = pop_min sR in glue e sL sR'
+      let e, sL' = pop_max sL in glue e sL' sR
 
   let rec cut eC = function
     | O -> (false, O, O)
