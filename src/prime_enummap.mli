@@ -104,6 +104,10 @@ module type S = sig
   (** [iter f m] calls [f k e] for each [(k, e)] in [m] in order of increasing
       keys. *)
 
+  val for_all : (key -> 'a -> bool) -> 'a t -> bool
+
+  val exists : (key -> 'a -> bool) -> 'a t -> bool
+
   val map : ('a -> 'b) -> 'a t -> 'b t
 
   val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t

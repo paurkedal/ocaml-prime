@@ -46,6 +46,8 @@ module type S = sig
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
   val iter : (key -> 'a -> unit) -> 'a t -> unit
+  val for_all : (key -> 'a -> bool) -> 'a t -> bool
+  val exists : (key -> 'a -> bool) -> 'a t -> bool
   val map : ('a -> 'b) -> 'a t -> 'b t
   val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
@@ -242,6 +244,14 @@ module Make (K : OrderedType) = struct
   let rec fold f = function
     | O -> ident
     | Y (_, kC, eC, mL, mR) -> fold f mR *< f kC eC *< fold f mL
+
+  let rec for_all f = function
+    | O -> true
+    | Y (_, k, e, mL, mR) -> f k e && for_all f mL && for_all f mR
+
+  let rec exists f = function
+    | O -> false
+    | Y (_, k, e, mL, mR) -> f k e || exists f mL || exists f mR
 
   let rec map f = function
     | O -> O

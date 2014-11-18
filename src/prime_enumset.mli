@@ -91,6 +91,10 @@ module type S = sig
   (** [iter f s] calls [f e] for each [e] in [s] in order of increasing
       elements. *)
 
+  val for_all : (elt -> bool) -> t -> bool
+
+  val exists : (elt -> bool) -> t -> bool
+
   val compare : t -> t -> int
   (** Total order. *)
 

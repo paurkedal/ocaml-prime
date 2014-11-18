@@ -43,6 +43,8 @@ module type S = sig
   val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
+  val for_all : (elt -> bool) -> t -> bool
+  val exists : (elt -> bool) -> t -> bool
   val compare : t -> t -> int
   val equal : t -> t -> bool
   val union : t -> t -> t
@@ -222,6 +224,14 @@ module Make (E : OrderedType) = struct
   let rec fold f = function
     | O -> ident
     | Y (_, eC, sL, sR) -> fold f sR *< f eC *< fold f sL
+
+  let rec for_all f = function
+    | O -> true
+    | Y (_, e, sL, sR) -> f e && for_all f sL && for_all f sR
+
+  let rec exists f = function
+    | O -> false
+    | Y (_, e, sL, sR) -> f e || exists f sL || exists f sR
 
   let compare sA sB =
     let rec aux = function
