@@ -45,6 +45,8 @@ module type S = sig
   val iter : (elt -> unit) -> t -> unit
   val compare : t -> t -> int
   val equal : t -> t -> bool
+  val union : t -> t -> t
+  val isecn : t -> t -> t
 
   val card : t -> int
 end
@@ -138,6 +140,18 @@ module Make (E : OrderedType) = struct
     | O -> Y (1, e, O, O)
     | Y (n, eC, sL, sR) -> bal_y (n + 1) eC sL (add_max e sR)
 
+  let rec pop_min = function
+    | O -> raise Not_found
+    | Y (n, eC, O, sR) -> eC, sR
+    | Y (n, eC, sL, sR) ->
+      let e', sL' = pop_min sL in e', bal_y (n - 1) eC sL' sR
+
+  let rec pop_max = function
+    | O -> raise Not_found
+    | Y (n, eC, sL, O) -> eC, sL
+    | Y (n, eC, sL, sR) ->
+      let e', sR' = pop_max sR in e', bal_y (n - 1) eC sL sR'
+
   let rec add' e = function
     | O -> Y (1, e, O, O)
     | Y (n, eC, sL, sR) ->
@@ -157,6 +171,14 @@ module Make (E : OrderedType) = struct
       if nR < 4 * nL then bal_y (nL + nR + 1) eL sLL (glue e sRL sR) else
       Y (nL + nR + 1, e, sL, sR)
 
+  (* Pre: Elements of sL are strictly less then elements of sR. *)
+  let rec cat sL sR =
+    match sL, sR with
+    | O, s | s, O -> s
+    | Y (nL, _, _, _), Y (nR, _, _, _) ->
+      if nL < nR then let e, sL' = pop_max sL in glue e sL' sR
+		 else let e, sR' = pop_min sR in glue e sL sR'
+
   let rec cut eC = function
     | O -> (false, O, O)
     | Y (n, e, sL, sR) ->
@@ -168,18 +190,6 @@ module Make (E : OrderedType) = struct
       else
 	let pres, sLR, sRR = cut eC sR in
 	(pres, glue e sL sLR, sRR)
-
-  let rec pop_min = function
-    | O -> raise Not_found
-    | Y (n, eC, O, sR) -> eC, sR
-    | Y (n, eC, sL, sR) ->
-      let e', sL' = pop_min sL in e', bal_y (n - 1) eC sL' sR
-
-  let rec pop_max = function
-    | O -> raise Not_found
-    | Y (n, eC, sL, O) -> eC, sL
-    | Y (n, eC, sL, sR) ->
-      let e', sR' = pop_max sR in e', bal_y (n - 1) eC sL sR'
 
   let rec remove' e = function
     | O -> raise Keep
@@ -225,4 +235,25 @@ module Make (E : OrderedType) = struct
 
   let equal sA sB = compare sA sB = 0
 
+  let rec union sA sB =
+    let aux sC e sL sR =
+      let _, sLC, sRC = cut e sC in
+      glue e (union sLC sL) (union sRC sR) in
+    match sA, sB with
+    | O, s | s, O -> s
+    | Y (nA, eA, sLA, sRA), Y (nB, eB, sLB, sRB) ->
+      if nA < nB then aux sA eB sLB sRB
+		 else aux sB eA sLA sRA
+
+  let rec isecn sA sB =
+    let aux sC e sL sR =
+      let pres, sLC, sRC = cut e sC in
+      let sL' = isecn sLC sL in
+      let sR' = isecn sRC sR in
+      if pres then glue e sL' sR' else cat sL' sR' in
+    match sA, sB with
+    | O, _ | _, O -> O
+    | Y (nA, eA, sLA, sRA), Y (nB, eB, sLB, sRB) ->
+      if nA < nB then aux sA eB sLB sRB
+		 else aux sB eA sLA sRA
 end

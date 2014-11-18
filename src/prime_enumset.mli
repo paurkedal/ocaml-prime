@@ -97,6 +97,10 @@ module type S = sig
   val equal : t -> t -> bool
   (** [equal s0 s1] is true iff [s0] and [s1] contain the same elements. *)
 
+  val union : t -> t -> t
+
+  val isecn : t -> t -> t
+
   val card : t -> int
   (** @deprecated Use {!cardinal}. *)
 end

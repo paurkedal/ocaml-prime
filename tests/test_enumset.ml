@@ -16,6 +16,7 @@
 
 open OUnit
 open Utils
+open Unprime
 open Unprime_array
 open Unprime_option
 
@@ -62,6 +63,24 @@ let test_cut () =
   assert (Int_eset.equal sL sL');
   assert (Int_eset.equal sR sR')
 
+let test_alg () =
+  let nA = Random.int 30 in
+  let nB = Random.int 30 in
+  let n = max nA nB in
+  let esA = Prime_array.sample (fun _ -> Random.int n) nA in
+  let esB = Prime_array.sample (fun _ -> Random.int n) nB in
+  let sA = Array.fold Int_eset.add esA Int_eset.empty in
+  let sB = Array.fold Int_eset.add esB Int_eset.empty in
+  let sAuB = Int_eset.union sA sB in
+  let sAuB' = Array.fold Int_eset.add esB sA in
+  assert (Int_eset.equal sAuB sAuB');
+  let sAnB = Int_eset.isecn sA sB in
+  let sAnB' =
+    Array.fold
+      (fun i -> if Int_eset.contains i sA then Int_eset.add i else ident)
+      esB Int_eset.empty in
+  assert (Int_eset.equal sAnB sAnB')
+
 let run () =
   assert (Int_eset.equal Int_eset.empty Int_eset.empty);
   assert (Int_eset.compare Int_eset.empty Int_eset.empty = 0);
@@ -94,5 +113,6 @@ let run () =
       assert_equal_int ~msg:"locate (get i es)" i pos
     done;
     test_equal ();
-    test_cut ()
+    test_cut ();
+    test_alg ()
   done
