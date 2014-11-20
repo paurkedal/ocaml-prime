@@ -44,7 +44,7 @@ let rec fold f xs accu =
   | [] -> accu
   | x :: xs' -> fold f xs' (f x accu)
 
-let filter_map f xs =
+let fmap f xs =
   let rec loop ys = function
     | [] -> ys
     | x :: xs -> loop (match f x with None -> ys | Some y -> (y :: ys)) xs in
@@ -116,3 +116,6 @@ let take_while f xs =
     | [] -> xs
     | y :: ys -> if f y then loop (y :: zs) ys else rev zs in
   loop [] xs
+
+(* Deprecated *)
+let filter_map = fmap

@@ -25,8 +25,8 @@ let run () =
   let c = [|3; 7|] in
   assert (Array.filter is_even a = [|4; 2|]);
   assert (Array.filter is_even b = [|2; 4; 6|]);
-  assert (Array.filter_map half_even a = [|2; 1|]);
-  assert (Array.filter_map half_even b = [|1; 2; 3|]);
+  assert (Array.fmap half_even a = [|2; 1|]);
+  assert (Array.fmap half_even b = [|1; 2; 3|]);
   assert (Array.fold (+) a 10 = 20);
   assert (Array.foldi (fun i x acc -> x lsl i + acc) a 10 = 48);
   assert (Array.for_all ((<) 0) a);

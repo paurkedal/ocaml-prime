@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -18,7 +18,7 @@ open Array
 
 let sample f xa = init xa f
 
-let filter_map f xa =
+let fmap f xa =
   let n = length xa in
   let rec fill_phase ya i j =
     if i = n then (if j = Array.length ya then ya else Array.sub ya 0 j) else
@@ -33,7 +33,7 @@ let filter_map f xa =
   skip_phase 0
 
 (* TODO: Optimise. *)
-let filter f = filter_map (fun x -> if f x then Some x else None)
+let filter f = fmap (fun x -> if f x then Some x else None)
 
 let fold f xa accu =
   let accu_r = ref accu in
@@ -76,3 +76,6 @@ let search f xa =
   search_from 0
 
 let slice i j xa = sub xa i (j - i)
+
+(* Deprecated *)
+let filter_map = fmap

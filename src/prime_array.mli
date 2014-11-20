@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -24,8 +24,8 @@ val filter : ('a -> bool) -> 'a array -> 'a array
 (** [filter f xa] is the array containing the elements of [xa] on which [f] is
     true with order preserved. *)
 
-val filter_map : ('a -> 'b option) -> 'a array -> 'b array
-(** [filter_map f xa] is the array of the non-[None] elements of [map f xa],
+val fmap : ('a -> 'b option) -> 'a array -> 'b array
+(** [fmap f xa] is the array of the non-[None] elements of [map f xa],
     preserving order. *)
 
 val fold : ('a -> 'b -> 'b) -> 'a array -> 'b -> 'b
@@ -55,3 +55,8 @@ val search : ('a -> 'b option) -> 'a array -> 'b option
 val slice : int -> int -> 'a array -> 'a array
 (** [slice i j xa] returns the subarray from index [i] inclusive to index [j]
     exclusive. *)
+
+(**/**)
+
+val filter_map : ('a -> 'b option) -> 'a array -> 'b array
+(** @deprecated Renamed to fmap. *)
