@@ -53,6 +53,8 @@ module type S = sig
   val filter : (key -> 'a -> bool) -> 'a t -> 'a t
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
   val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
+  val merge : (key -> 'a option -> 'b option -> 'c option) ->
+	      'a t -> 'b t -> 'c t
   val split_union : (key -> 'a -> 'b -> 'c) ->
 		    'a t -> 'b t -> 'a t * 'b t * 'c t
 
@@ -207,6 +209,9 @@ module Make (K : OrderedType) = struct
     | O, m | m, O -> m
     | _, _ -> let k, e, mL' = pop_max mL in glue k e mL' mR
 
+  let glue_opt k e_opt mL mR =
+    match e_opt with None -> cat mL mR | Some e -> glue k e mL mR
+
   let rec cut kC = function
     | O -> (None, O, O)
     | Y (n, k, e, mL, mR) ->
@@ -293,6 +298,17 @@ module Make (K : OrderedType) = struct
 	K.compare kA kB = 0 && f eA eB &&
 	aux (cons_enum mA qA, cons_enum mB qB) in
     aux (cons_enum mA End, cons_enum mB End)
+
+  let rec merge f mA mB =
+    match mA, mB with
+    | O, O -> O
+    | Y (nA, kA, eA, mLA, mRA), _ when nA > cardinal mB ->
+      let eB_opt, mLB, mRB = cut kA mB in
+      glue_opt kA (f kA (Some eA) eB_opt) (merge f mLA mLB) (merge f mRA mRB)
+    | _, Y (nB, kB, eB, mLB, mRB) ->
+      let eA_opt, mLA, mRA = cut kB mA in
+      glue_opt kB (f kB eA_opt (Some eB)) (merge f mLA mLB) (merge f mRA mRB)
+    | _ -> assert false
 
   let split_union f mA mB =
     let aux k a (mA, mB, mC) =

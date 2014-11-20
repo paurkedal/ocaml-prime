@@ -121,6 +121,9 @@ module type S = sig
   (** [equal f m0 m1] is true iff [m0] and [m1] have the same keys and [f] is
       true on the respective mappings for each key. *)
 
+  val merge : (key -> 'a option -> 'b option -> 'c option) ->
+	      'a t -> 'b t -> 'c t
+
   val split_union : (key -> 'a -> 'b -> 'c) ->
 		    'a t -> 'b t -> 'a t * 'b t * 'c t
   (** [split_union mA mB] is a triple [(mA', mB', mC')] where [mA'] and [mB']
