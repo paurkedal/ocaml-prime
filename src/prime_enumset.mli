@@ -105,7 +105,7 @@ module type S = sig
 
   val union : t -> t -> t
 
-  val isecn : t -> t -> t
+  val inter : t -> t -> t
 
   val card : t -> int
   (** @deprecated Use {!cardinal}. *)

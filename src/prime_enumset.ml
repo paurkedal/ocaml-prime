@@ -49,7 +49,7 @@ module type S = sig
   val compare : t -> t -> int
   val equal : t -> t -> bool
   val union : t -> t -> t
-  val isecn : t -> t -> t
+  val inter : t -> t -> t
 
   val card : t -> int
 end
@@ -262,11 +262,11 @@ module Make (E : OrderedType) = struct
       if nA < nB then aux sA eB sLB sRB
 		 else aux sB eA sLA sRA
 
-  let rec isecn sA sB =
+  let rec inter sA sB =
     let aux sC e sL sR =
       let pres, sLC, sRC = cut e sC in
-      let sL' = isecn sLC sL in
-      let sR' = isecn sRC sR in
+      let sL' = inter sLC sL in
+      let sR' = inter sRC sR in
       if pres then glue e sL' sR' else cat sL' sR' in
     match sA, sB with
     | O, _ | _, O -> O

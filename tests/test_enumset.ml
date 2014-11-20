@@ -74,7 +74,7 @@ let test_alg () =
   let sAuB = Int_eset.union sA sB in
   let sAuB' = Array.fold Int_eset.add esB sA in
   assert (Int_eset.equal sAuB sAuB');
-  let sAnB = Int_eset.isecn sA sB in
+  let sAnB = Int_eset.inter sA sB in
   let sAnB' =
     Array.fold
       (fun i -> if Int_eset.contains i sA then Int_eset.add i else ident)
