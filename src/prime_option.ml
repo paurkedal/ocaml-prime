@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -27,4 +27,37 @@ let for_all f = function None -> true | Some x -> f x
 let exists f = function None -> false | Some x -> f x
 let search f = function None -> None | Some x -> f x
 let map f = function None -> None | Some x -> Some (f x)
+let fmap f = function None -> None | Some x -> f x
 let filter f = function Some x when f x -> Some x | _ -> None
+
+let isecn f xo yo =
+  match xo, yo with
+  | None, _ | _, None -> None
+  | Some x, Some y -> Some (f x y)
+
+let union f xo yo =
+  match xo, yo with
+  | None, zo | zo, None -> zo
+  | Some x, Some y -> Some (f x y)
+
+let compl f xo yo =
+  match xo, yo with
+  | None, _ -> yo
+  | _, None -> None
+  | Some x, Some y -> Some (f x y)
+
+let fisecn f xo yo =
+  match xo, yo with
+  | None, _ | _, None -> None
+  | Some x, Some y -> f x y
+
+let funion f xo yo =
+  match xo, yo with
+  | None, zo | zo, None -> zo
+  | Some x, Some y -> f x y
+
+let fcompl f xo yo =
+  match xo, yo with
+  | None, _ -> yo
+  | _, None -> None
+  | Some x, Some y -> f x y

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -47,6 +47,10 @@ val iter : ('a -> unit) -> 'a option -> unit
 val map : ('a -> 'b) -> 'a option -> 'b option
 (** [map f None] is [None] and [map f (Some a)] is [Some (f a)]. *)
 
+val fmap : ('a -> 'b option) -> 'a option -> 'b option
+(** [fmap f None] is [None] and [fmap f (Some a)] is [f a].  Functions as
+    [filter ∘ map] and as monadic bind. *)
+
 val fold : ('a -> 'b -> 'b) -> 'a option -> 'b -> 'b
 (** [fold f None] is the identity function and [fold f (Some a)] is [f a]. *)
 
@@ -59,3 +63,18 @@ val exists : ('a -> bool) -> 'a option -> bool
 val filter : ('a -> bool) -> 'a option -> 'a option
 (** [filter f (Some a)] returns [Some a] if [f a] is true; in other cases
     [filter f a] returns [None]. *)
+
+
+(** {2 Binary Operators} *)
+
+val isecn : ('a -> 'b -> 'c) -> 'a option -> 'b option -> 'c option
+
+val union : ('a -> 'a -> 'a) -> 'a option -> 'a option -> 'a option
+
+val compl : ('a -> 'b -> 'b) -> 'a option -> 'b option -> 'b option
+
+val fisecn : ('a -> 'b -> 'c option) -> 'a option -> 'b option -> 'c option
+
+val funion : ('a -> 'a -> 'a option) -> 'a option -> 'a option -> 'a option
+
+val fcompl : ('a -> 'b -> 'b option) -> 'a option -> 'b option -> 'b option
