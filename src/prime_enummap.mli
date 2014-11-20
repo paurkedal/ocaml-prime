@@ -128,6 +128,8 @@ module type S = sig
 
   val funion : (key -> 'a -> 'a -> 'a option) -> 'a t -> 'a t -> 'a t
 
+  val fcompl : (key -> 'a -> 'b -> 'b option) -> 'a t -> 'b t -> 'b t
+
   val split_union : (key -> 'a -> 'b -> 'c) ->
 		    'a t -> 'b t -> 'a t * 'b t * 'c t
   (** [split_union mA mB] is a triple [(mA', mB', mC')] where [mA'] and [mB']

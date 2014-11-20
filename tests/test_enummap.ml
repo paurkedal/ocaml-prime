@@ -80,7 +80,10 @@ let test_alg () =
   assert (Int_emap.equal (=) mAnB mAnB');
   let mAuB = Int_emap.funion (fun _ x y -> Some (max x y)) mA mB in
   let mAuB' = Int_emap.merge (fun _ -> Option.union max) mA mB in
-  assert (Int_emap.equal (=) mAuB mAuB')
+  assert (Int_emap.equal (=) mAuB mAuB');
+  let mAcB = Int_emap.fcompl (fun _ x y -> Some (max x y)) mA mB in
+  let mAcB' = Int_emap.merge (fun _ -> Option.compl max) mA mB in
+  assert (Int_emap.equal (=) mAcB mAcB')
 
 let run () =
   assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);

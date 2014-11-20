@@ -57,6 +57,7 @@ module type S = sig
 	      'a t -> 'b t -> 'c t
   val finter : (key -> 'a -> 'b -> 'c option) -> 'a t -> 'b t -> 'c t
   val funion : (key -> 'a -> 'a -> 'a option) -> 'a t -> 'a t -> 'a t
+  val fcompl : (key -> 'a -> 'b -> 'b option) -> 'a t -> 'b t -> 'b t
   val split_union : (key -> 'a -> 'b -> 'c) ->
 		    'a t -> 'b t -> 'a t * 'b t * 'c t
 
@@ -333,6 +334,18 @@ module Make (K : OrderedType) = struct
       match eB_opt with
       | None -> glue kA eA mL mR
       | Some eB -> glue_opt kA (f kA eA eB) mL mR
+
+  let rec fcompl f mA mB =
+    match mA, mB with
+    | O, _ -> mB
+    | _, O -> O
+    | _, Y (nB, kB, eB, mLB, mRB) ->
+      let eA_opt, mLA, mRA = cut kB mA in
+      let mL = fcompl f mLA mLB in
+      let mR = fcompl f mRA mRB in
+      match eA_opt with
+      | None -> glue kB eB mL mR
+      | Some eA -> glue_opt kB (f kB eA eB) mL mR
 
   let split_union f mA mB =
     let aux k a (mA, mB, mC) =
