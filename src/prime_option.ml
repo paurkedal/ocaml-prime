@@ -30,7 +30,7 @@ let map f = function None -> None | Some x -> Some (f x)
 let fmap f = function None -> None | Some x -> f x
 let filter f = function Some x when f x -> Some x | _ -> None
 
-let isecn f xo yo =
+let inter f xo yo =
   match xo, yo with
   | None, _ | _, None -> None
   | Some x, Some y -> Some (f x y)
@@ -46,7 +46,7 @@ let compl f xo yo =
   | _, None -> None
   | Some x, Some y -> Some (f x y)
 
-let fisecn f xo yo =
+let finter f xo yo =
   match xo, yo with
   | None, _ | _, None -> None
   | Some x, Some y -> f x y

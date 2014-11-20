@@ -67,13 +67,13 @@ val filter : ('a -> bool) -> 'a option -> 'a option
 
 (** {2 Binary Operators} *)
 
-val isecn : ('a -> 'b -> 'c) -> 'a option -> 'b option -> 'c option
+val inter : ('a -> 'b -> 'c) -> 'a option -> 'b option -> 'c option
 
 val union : ('a -> 'a -> 'a) -> 'a option -> 'a option -> 'a option
 
 val compl : ('a -> 'b -> 'b) -> 'a option -> 'b option -> 'b option
 
-val fisecn : ('a -> 'b -> 'c option) -> 'a option -> 'b option -> 'c option
+val finter : ('a -> 'b -> 'c option) -> 'a option -> 'b option -> 'c option
 
 val funion : ('a -> 'a -> 'a option) -> 'a option -> 'a option -> 'a option
 
