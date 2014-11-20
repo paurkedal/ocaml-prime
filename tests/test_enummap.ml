@@ -16,12 +16,18 @@
 
 open OUnit
 open Utils
+open Unprime
 open Unprime_array
 open Unprime_option
 
 module Int_order = struct type t = int let compare = compare end
 module Int_map = Map.Make (Int_order)
 module Int_emap = Prime_enummap.Make (Int_order)
+
+let random_emap n_max =
+  let n = Random.int n_max in
+  Prime_int.fold_to (fun v -> Int_emap.add (Random.int n_max) v) n
+		    Int_emap.empty
 
 let test_equal () =
   let kvs0 = Prime_array.sample (fun _ -> Random.int 40) 40 in
@@ -65,6 +71,17 @@ let test_cut () =
   assert (Int_emap.equal (=) mL mL');
   assert (Int_emap.equal (=) mR mR')
 
+let test_alg () =
+  let n_max = 1 lsl Random.int 8 in
+  let mA = random_emap n_max in
+  let mB = random_emap n_max in
+  let mAnB = Int_emap.finter (fun _ x y -> Some (max x y)) mA mB in
+  let mAnB' = Int_emap.merge (fun _ -> Option.inter max) mA mB in
+  assert (Int_emap.equal (=) mAnB mAnB');
+  let mAuB = Int_emap.funion (fun _ x y -> Some (max x y)) mA mB in
+  let mAuB' = Int_emap.merge (fun _ -> Option.union max) mA mB in
+  assert (Int_emap.equal (=) mAuB mAuB')
+
 let run () =
   assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);
   assert (Int_emap.compare compare Int_emap.empty Int_emap.empty = 0);
@@ -96,5 +113,6 @@ let run () =
       assert_equal_int ~msg:"locate (get i em)" i pos
     done;
     test_equal ();
-    test_cut ()
+    test_cut ();
+    test_alg ()
   done

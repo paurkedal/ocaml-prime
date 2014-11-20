@@ -55,6 +55,8 @@ module type S = sig
   val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
   val merge : (key -> 'a option -> 'b option -> 'c option) ->
 	      'a t -> 'b t -> 'c t
+  val finter : (key -> 'a -> 'b -> 'c option) -> 'a t -> 'b t -> 'c t
+  val funion : (key -> 'a -> 'a -> 'a option) -> 'a t -> 'a t -> 'a t
   val split_union : (key -> 'a -> 'b -> 'c) ->
 		    'a t -> 'b t -> 'a t * 'b t * 'c t
 
@@ -309,6 +311,28 @@ module Make (K : OrderedType) = struct
       let eA_opt, mLA, mRA = cut kB mA in
       glue_opt kB (f kB eA_opt (Some eB)) (merge f mLA mLB) (merge f mRA mRB)
     | _ -> assert false
+
+  let rec finter f mA mB =
+    match mA, mB with
+    | O, _ | _, O -> O
+    | Y (nA, kA, eA, mLA, mRA), _ ->
+      let eB_opt, mLB, mRB = cut kA mB in
+      let mL = finter f mLA mLB in
+      let mR = finter f mRA mRB in
+      match eB_opt with
+      | None -> cat mL mR
+      | Some eB -> glue_opt kA (f kA eA eB) mL mR
+
+  let rec funion f mA mB =
+    match mA, mB with
+    | O, m | m, O -> m
+    | Y (nA, kA, eA, mLA, mRA), _ ->
+      let eB_opt, mLB, mRB = cut kA mB in
+      let mL = funion f mLA mLB in
+      let mR = funion f mRA mRB in
+      match eB_opt with
+      | None -> glue kA eA mL mR
+      | Some eB -> glue_opt kA (f kA eA eB) mL mR
 
   let split_union f mA mB =
     let aux k a (mA, mB, mC) =
