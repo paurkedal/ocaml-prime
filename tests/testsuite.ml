@@ -24,6 +24,7 @@ let suite = "OCaml Prime Test Suite" >::: [
   "test_int" >:: Test_int.run;
   "test_list" >:: Test_list.run;
   "test_map" >:: Test_map.run;
+  "test_retraction" >:: Test_retraction.run;
   "test_string" >:: Test_string.run;
   "test_wallet" >:: Test_wallet.run;
 ]
