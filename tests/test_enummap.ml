@@ -77,13 +77,28 @@ let test_alg () =
   let mB = random_emap n_max in
   let mAnB = Int_emap.finter (fun _ x y -> Some (max x y)) mA mB in
   let mAnB' = Int_emap.merge (fun _ -> Option.inter max) mA mB in
+  let mAnB'' = Int_emap.filter (fun k _ -> Int_emap.contains k mB) mA in
   assert (Int_emap.equal (=) mAnB mAnB');
+  assert (Int_emap.equal (>=) mAnB mAnB'');
   let mAuB = Int_emap.funion (fun _ x y -> Some (max x y)) mA mB in
   let mAuB' = Int_emap.merge (fun _ -> Option.union max) mA mB in
+  let mAuB'' = Int_emap.fold Int_emap.add mA mB in
   assert (Int_emap.equal (=) mAuB mAuB');
-  let mAcB = Int_emap.fcompl (fun _ x y -> Some (max x y)) mA mB in
-  let mAcB' = Int_emap.merge (fun _ -> Option.compl max) mA mB in
-  assert (Int_emap.equal (=) mAcB mAcB')
+  assert (Int_emap.equal (>=) mAuB mAuB'');
+  let mAcB = Int_emap.fcompl (fun _ _ _ -> None) mA mB in
+  let mAcB' = Int_emap.merge (fun _ -> Option.fcompl (fun _ _ -> None)) mA mB in
+  let mAcB'' = Int_emap.fold (fun k _ -> Int_emap.remove k) mA mB in
+  assert (Int_emap.equal (=) mAcB mAcB');
+  assert (Int_emap.equal (=) mAcB mAcB'');
+  let mAdB = Int_emap.fcompl (fun _ x y -> Some (max x y)) mA mB in
+  let mAdB' = Int_emap.merge (fun _ -> Option.compl max) mA mB in
+  assert (Int_emap.equal (=) mAdB mAdB');
+  assert (Int_emap.equal (>=) mAdB mB);
+  let mAsB = Int_emap.funion (fun _ _ _ -> None) mA mB in
+  assert (Int_emap.cardinal mAuB =
+	  Int_emap.cardinal mAsB + Int_emap.cardinal mAnB);
+  assert (Int_emap.cardinal mAcB =
+	  Int_emap.cardinal mB - Int_emap.cardinal mAnB)
 
 let run () =
   assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);
