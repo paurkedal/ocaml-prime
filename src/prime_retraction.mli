@@ -75,6 +75,10 @@ module type S = sig
 
   val iter : (elt -> unit) -> t -> unit
 
+  val for_all : (elt -> bool) -> t -> bool
+
+  val exists : (elt -> bool) -> t -> bool
+
 end
 
 module Make (Elt : RETRACTABLE) : S with type elt = Elt.t and type key = Elt.key

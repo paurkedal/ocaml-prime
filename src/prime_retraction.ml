@@ -48,6 +48,8 @@ module type S = sig
   val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
+  val for_all : (elt -> bool) -> t -> bool
+  val exists : (elt -> bool) -> t -> bool
 end
 
 exception Keep
@@ -223,5 +225,13 @@ module Make (Elt : RETRACTABLE) = struct
   let rec iter f = function
     | O -> ()
     | Y (_, eC, cL, cR) -> iter f cL; f eC; iter f cR
+
+  let rec for_all f = function
+    | O -> true
+    | Y (_, eC, cL, cR) -> f eC && for_all f cL && for_all f cR
+
+  let rec exists f = function
+    | O -> false
+    | Y (_, eC, cL, cR) -> f eC || exists f cL || exists f cR
 
 end
