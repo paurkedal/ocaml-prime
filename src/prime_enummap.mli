@@ -105,14 +105,23 @@ module type S = sig
       keys. *)
 
   val for_all : (key -> 'a -> bool) -> 'a t -> bool
+  (** [for_all f m] is true iff [f k e] is true for all bindings [(k, e)] of
+      [m]. *)
 
   val exists : (key -> 'a -> bool) -> 'a t -> bool
+  (** [exists f m] is true iff [f k e] for some binding [(k, e)] of [m]. *)
 
   val map : ('a -> 'b) -> 'a t -> 'b t
+  (** [map f m] is the minimal map which for each [(k, e)] of [m] contains
+      [(k, f e)]. *)
 
   val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t
+  (** [mapi f m] is the minimal map which for each [(k, e)] of [m] contains
+      [(k, f k e)]. *)
 
   val filter : (key -> 'a -> bool) -> 'a t -> 'a t
+  (** [filter f m] is the maximal submap of [m] such that [f k e] holds for
+      each binding [(k, e)]. *)
 
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
   (** [compare f] is a total order over maps using [f] to compare elements. *)
@@ -125,10 +134,17 @@ module type S = sig
 	      'a t -> 'b t -> 'c t
 
   val finter : (key -> 'a -> 'b -> 'c option) -> 'a t -> 'b t -> 'c t
+  (** [finter f m1 m2] is the minimal map which for each shared key [k] of
+      [m1] and [m2] contains [(k, e)] if [f k m1 m2 = Some e] for some [e]. *)
 
   val funion : (key -> 'a -> 'a -> 'a option) -> 'a t -> 'a t -> 'a t
+  (** [funion f m1 m2] is the minimal map which contains all bindings of
+      [finter f m1 m2] and all bindings of [m1] and [m2] whose key does not
+      occur in the other map. *)
 
   val fcompl : (key -> 'a -> 'b -> 'b option) -> 'a t -> 'b t -> 'b t
+  (** [fcompl f m1 m2] is the minimal map which contains the bindings of
+      [finter f m1 m2] and the bindings of [m2] with the key not in [m1]. *)
 
   val split_union : (key -> 'a -> 'b -> 'c) ->
 		    'a t -> 'b t -> 'a t * 'b t * 'c t

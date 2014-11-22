@@ -92,10 +92,14 @@ module type S = sig
       elements. *)
 
   val for_all : (elt -> bool) -> t -> bool
+  (** [for_all f s] holds if [f e] holds for all [e] in [s]. *)
 
   val exists : (elt -> bool) -> t -> bool
+  (** [exists f s] holds if [f e] holds for some [e] in [s]. *)
 
   val filter : (elt -> bool) -> t -> t
+  (** [filter f s] is the maximal subset of [s] such that [f e] holds all its
+      elements. *)
 
   val compare : t -> t -> int
   (** Total order. *)
@@ -104,10 +108,13 @@ module type S = sig
   (** [equal s0 s1] is true iff [s0] and [s1] contain the same elements. *)
 
   val union : t -> t -> t
+  (** [union s1 s2] is the union of [s1] and [s2]. *)
 
   val inter : t -> t -> t
+  (** [inter s1 s2] is the intersection of [s1] and [s2]. *)
 
   val compl : t -> t -> t
+  (** [compl s1 s2] is the complement of [s1] relative to [s2]. *)
 
   val card : t -> int
   (** @deprecated Use {!cardinal}. *)
