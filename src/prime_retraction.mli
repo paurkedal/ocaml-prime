@@ -69,6 +69,8 @@ module type S = sig
 
   val remove : key -> t -> t
 
+  val cut : key -> t -> elt option * t * t
+
   val search : (elt -> 'a option) -> t -> 'a option
 
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a

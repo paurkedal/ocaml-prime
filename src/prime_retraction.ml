@@ -45,6 +45,7 @@ module type S = sig
   val pop_min_e : t -> elt * t
   val pop_max_e : t -> elt * t
   val remove : key -> t -> t
+  val cut : key -> t -> elt option * t * t
   val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
@@ -174,6 +175,14 @@ module Make (Elt : RETRACTABLE) = struct
     | _, _ ->
       Y (n, eC, cL, cR)
 
+  let rec add_min e = function
+    | O -> Y (1, e, O, O)
+    | Y (n, eC, cL, cR) -> bal_y (n + 1) eC (add_min e cL) cR
+
+  let rec add_max e = function
+    | O -> Y (1, e, O, O)
+    | Y (n, eC, cL, cR) -> bal_y (n + 1) eC cL (add_max e cR)
+
   let rec add' e = function
     | O -> Y (1, e, O, O)
     | Y (n, eC, cL, cR) ->
@@ -194,6 +203,23 @@ module Make (Elt : RETRACTABLE) = struct
     | Y (n, eC, cL, O) -> eC, cL
     | Y (n, eC, cL, cR) ->
       let e', cR' = pop_max_e cR in e', bal_y (n - 1) eC cL cR'
+
+  let rec glue e cL cR =
+    match cL, cR with
+    | O, _ -> add_min e cR
+    | _, O -> add_max e cL
+    | Y (nL, eL, cLL, cRL), Y (nR, eR, cLR, cRR) ->
+      if nL < 4 * nR then bal_y (nL + nR + 1) eR (glue e cL cLR) cRR else
+      if nR < 4 * nL then bal_y (nL + nR + 1) eL cLL (glue e cRL cR) else
+      Y (nL + nR + 1, e, cL, cR)
+
+  let rec cut k = function
+    | O -> None, O, O
+    | Y (n, e, cL, cR) ->
+      let o = Elt.compare_key k e in
+      if o < 0 then let eo, cLL, cRL = cut k cL in eo, cLL, glue e cRL cR else
+      if o > 0 then let eo, cLR, cRR = cut k cR in eo, glue e cL cLR, cRR else
+      Some e, cL, cR
 
   let rec remove' k = function
     | O -> raise Keep
