@@ -83,6 +83,10 @@ module type S = sig
 
   val filter : (elt -> bool) -> t -> t
 
+  val compare : t -> t -> int
+
+  val equal : t -> t -> bool
+
   val finter : (elt -> elt -> elt option) -> t -> t -> t
 
   val funion : (elt -> elt -> elt option) -> t -> t -> t

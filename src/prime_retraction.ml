@@ -52,6 +52,8 @@ module type S = sig
   val for_all : (elt -> bool) -> t -> bool
   val exists : (elt -> bool) -> t -> bool
   val filter : (elt -> bool) -> t -> t
+  val compare : t -> t -> int
+  val equal : t -> t -> bool
   val finter : (elt -> elt -> elt option) -> t -> t -> t
   val funion : (elt -> elt -> elt option) -> t -> t -> t
   val fcompl : (elt -> elt -> elt option) -> t -> t -> t
@@ -64,6 +66,13 @@ module Make (Elt : RETRACTABLE) = struct
   type key = Elt.key
   type elt = Elt.t
   type t = O | Y of int * elt * t * t
+
+  type enumeration = End | More of elt * t * enumeration
+
+  let rec cons_enum c q =
+    match c with
+    | O -> q
+    | Y (_, e, cL, cR) -> cons_enum cL (More (e, cR, q))
 
   let empty = O
   let singleton e = Y (1, e, O, O)
@@ -287,6 +296,18 @@ module Make (Elt : RETRACTABLE) = struct
       let cL' = filter f cL in
       let cR' = filter f cR in
       if f eC then glue eC cL' cR' else cat cL' cR'
+
+  let rec compare cA cB =
+    let rec aux = function
+      | End, End -> 0
+      | End, More _ -> -1
+      | More _, End -> 1
+      | More (eA, cA, qA), More (eB, cB, qB) ->
+	let c = Elt.compare eA eB in if c <> 0 then c else
+	aux (cons_enum cA qA, cons_enum cB qB) in
+    aux (cons_enum cA End, cons_enum cB End)
+
+  let equal cA cB = compare cA cB = 0
 
   let rec finter f cA cB =
     match cA, cB with
