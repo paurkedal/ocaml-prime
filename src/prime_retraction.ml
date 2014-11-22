@@ -52,6 +52,9 @@ module type S = sig
   val for_all : (elt -> bool) -> t -> bool
   val exists : (elt -> bool) -> t -> bool
   val filter : (elt -> bool) -> t -> t
+  val finter : (elt -> elt -> elt option) -> t -> t -> t
+  val funion : (elt -> elt -> elt option) -> t -> t -> t
+  val fcompl : (elt -> elt -> elt option) -> t -> t -> t
 end
 
 exception Keep
@@ -219,12 +222,24 @@ module Make (Elt : RETRACTABLE) = struct
     | O, s | s, O -> s
     | _ -> let e, cL' = pop_max_e cL in glue e cL' cR
 
+  let glue_opt = function None -> cat | Some e -> glue e
+
   let rec cut k = function
     | O -> None, O, O
     | Y (n, e, cL, cR) ->
       let o = Elt.compare_key k e in
       if o < 0 then let eo, cLL, cRL = cut k cL in eo, cLL, glue e cRL cR else
       if o > 0 then let eo, cLR, cRR = cut k cR in eo, glue e cL cLR, cRR else
+      Some e, cL, cR
+
+  let rec cut_elt ek = function
+    | O -> None, O, O
+    | Y (n, e, cL, cR) ->
+      let o = Elt.compare ek e in
+      if o < 0 then let e_opt, cLL, cRL = cut_elt ek cL in
+		    e_opt, cLL, glue e cRL cR else
+      if o > 0 then let e_opt, cLR, cRR = cut_elt ek cR in
+		    e_opt, glue e cL cLR, cRR else
       Some e, cL, cR
 
   let rec remove' k = function
@@ -273,4 +288,61 @@ module Make (Elt : RETRACTABLE) = struct
       let cR' = filter f cR in
       if f eC then glue eC cL' cR' else cat cL' cR'
 
+  let rec finter f cA cB =
+    match cA, cB with
+    | O, c | c, O -> c
+    | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
+      if nA < nB then
+	let eA_opt, cLA, cRA = cut_elt eB cA in
+	let cL = finter f cLA cLB in
+	let cR = finter f cRA cRB in
+	match eA_opt with
+	| None -> cat cL cR
+	| Some eA -> glue_opt (f eA eB) cL cR
+      else
+	let eB_opt, cLB, cRB = cut_elt eA cB in
+	let cL = finter f cLA cLB in
+	let cR = finter f cRA cRB in
+	match eB_opt with
+	| None -> cat cL cR
+	| Some eB -> glue_opt (f eA eB) cL cR
+
+  let rec funion f cA cB =
+    match cA, cB with
+    | O, c | c, O -> c
+    | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
+      if nA < nB then
+	let eA_opt, cLA, cRA = cut_elt eB cA in
+	let cL = funion f cLA cLB in
+	let cR = funion f cRA cRB in
+	match eA_opt with
+	| None -> glue eB cL cR
+	| Some eA -> glue_opt (f eA eB) cL cR
+      else
+	let eB_opt, cLB, cRB = cut_elt eA cB in
+	let cL = funion f cLA cLB in
+	let cR = funion f cRA cRB in
+	match eB_opt with
+	| None -> glue eA cL cR
+	| Some eB -> glue_opt (f eA eB) cL cR
+
+  let rec fcompl f cA cB =
+    match cA, cB with
+    | O, _ -> cB
+    | _, O -> O
+    | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
+      if nA < nB then
+	let eA_opt, cLA, cRA = cut_elt eB cA in
+	let cL = fcompl f cLA cLB in
+	let cR = fcompl f cRA cRB in
+	match eA_opt with
+	| None -> glue eB cL cR
+	| Some eA -> glue_opt (f eA eB) cL cR
+      else
+	let eB_opt, cLB, cRB = cut_elt eA cB in
+	let cL = fcompl f cLA cLB in
+	let cR = fcompl f cRA cRB in
+	match eB_opt with
+	| None -> cat cL cR
+	| Some eB -> glue_opt (f eA eB) cL cR
 end

@@ -83,6 +83,11 @@ module type S = sig
 
   val filter : (elt -> bool) -> t -> t
 
+  val finter : (elt -> elt -> elt option) -> t -> t -> t
+
+  val funion : (elt -> elt -> elt option) -> t -> t -> t
+
+  val fcompl : (elt -> elt -> elt option) -> t -> t -> t
 end
 
 module Make (Elt : RETRACTABLE) : S with type elt = Elt.t and type key = Elt.key
