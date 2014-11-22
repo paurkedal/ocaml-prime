@@ -39,6 +39,12 @@ module type S = sig
   val singleton : elt -> t
   (** [singleton e] is the set containing only [e]. *)
 
+  val is_empty : t -> bool
+  (** Holds for the empty set only. *)
+
+  val cardinal : t -> int
+  (** [cardinal s] is the cardinality of [s]. *)
+
   val contains : elt -> t -> bool
   (** [contains e s] is true iff [s] contains [e]. *)
 
@@ -75,9 +81,6 @@ module type S = sig
   val pop_max : t -> elt * t
   (** [pop_max s] is [(e, s')] where [e] is the largest element of [s] and
       [s'] contains the remaining elements. *)
-
-  val cardinal : t -> int
-  (** [cardinal s] is the cardinality of [s]. *)
 
   val search : (elt -> 'a option) -> t -> 'a option
   (** [search f s] is the first [f e] for [e] in [s] which is different from

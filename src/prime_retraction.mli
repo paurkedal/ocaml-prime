@@ -33,6 +33,8 @@ module type S = sig
 
   val singleton : elt -> t
 
+  val is_empty : t -> bool
+
   val cardinal : t -> int
 
   val contains : key -> t -> bool

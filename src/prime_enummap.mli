@@ -38,6 +38,12 @@ module type S = sig
   val singleton : key -> 'a -> 'a t
   (** [singleton k e] is the one-element map binding [k] to [e]. *)
 
+  val is_empty : 'e t -> bool
+  (** Holds for the empty map only. *)
+
+  val cardinal : 'a t -> int
+  (** [cardinal m] is the cardinality of [m]. *)
+
   val contains : key -> 'a t -> bool
   (** [contains k m] is true iff [m] has a binding for [k]. *)
 
@@ -88,9 +94,6 @@ module type S = sig
       [k] is unbound.  If [k] is unbound in [m], then [remove k m] is [m]. *)
 
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
-
-  val cardinal : 'a t -> int
-  (** [cardinal m] is the cardinality of [m]. *)
 
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   (** [search f m] is the first [f k e] for [k ↦ e] in [m] which is different

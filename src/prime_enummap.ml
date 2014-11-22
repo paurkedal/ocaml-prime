@@ -27,6 +27,8 @@ module type S = sig
 
   val empty : 'a t
   val singleton : key -> 'a -> 'a t
+  val is_empty : 'a t -> bool
+  val cardinal : 'a t -> int
   val contains : key -> 'a t -> bool
   val find : key -> 'a t -> 'a
   val locate : key -> 'a t -> bool * int
@@ -42,7 +44,6 @@ module type S = sig
   val pop_max : 'a t -> key * 'a * 'a t
   val remove : key -> 'a t -> 'a t
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
-  val cardinal : 'a t -> int
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
   val iter : (key -> 'a -> unit) -> 'a t -> unit
@@ -79,6 +80,8 @@ module Make (K : OrderedType) = struct
 
   let empty = O
   let singleton k e = Y (1, k, e, O, O)
+
+  let is_empty = function O -> true | _ -> false
 
   let rec contains k = function
     | O -> false

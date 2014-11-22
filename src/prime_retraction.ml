@@ -27,6 +27,7 @@ module type S = sig
   type t
   val empty : t
   val singleton : elt -> t
+  val is_empty : t -> bool
   val cardinal : t -> int
   val contains : key -> t -> bool
   val find_e : key -> t -> elt
@@ -76,6 +77,8 @@ module Make (Elt : RETRACTABLE) = struct
 
   let empty = O
   let singleton e = Y (1, e, O, O)
+
+  let is_empty = function O -> true | _ -> false
 
   let cardinal = function O -> 0 | Y (n, _, _, _) -> n
 

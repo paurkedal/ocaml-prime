@@ -27,6 +27,8 @@ module type S = sig
 
   val empty : t
   val singleton : elt -> t
+  val is_empty : t -> bool
+  val cardinal : t -> int
   val contains : elt -> t -> bool
   val locate : elt -> t -> bool * int
   val get : int -> t -> elt
@@ -39,7 +41,6 @@ module type S = sig
   val cut : elt -> t -> bool * t * t
   val pop_min : t -> elt * t
   val pop_max : t -> elt * t
-  val cardinal : t -> int
   val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
@@ -70,6 +71,8 @@ module Make (E : OrderedType) = struct
 
   let empty = O
   let singleton e = Y (1, e, O, O)
+
+  let is_empty = function O -> true | _ -> false
 
   let rec contains e = function
     | O -> false
