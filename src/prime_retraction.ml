@@ -312,7 +312,13 @@ module Make (Elt : RETRACTABLE) = struct
 
   let equal cA cB = compare cA cB = 0
 
+  let check_glue_opt ~msg f eA eB cL cR =
+    match f eA eB with
+    | None -> cat cL cR
+    | Some e -> if Elt.compare e eB <> 0 then invalid_arg msg else glue e cL cR
+
   let rec finter f cA cB =
+    let msg = "finter: Inconsistent merge function." in
     match cA, cB with
     | O, c | c, O -> O
     | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
@@ -322,16 +328,17 @@ module Make (Elt : RETRACTABLE) = struct
 	let cR = finter f cRA cRB in
 	match eA_opt with
 	| None -> cat cL cR
-	| Some eA -> glue_opt (f eA eB) cL cR
+	| Some eA -> check_glue_opt ~msg f eA eB cL cR
       else
 	let eB_opt, cLB, cRB = cut_elt eA cB in
 	let cL = finter f cLA cLB in
 	let cR = finter f cRA cRB in
 	match eB_opt with
 	| None -> cat cL cR
-	| Some eB -> glue_opt (f eA eB) cL cR
+	| Some eB -> check_glue_opt ~msg f eA eB cL cR
 
   let rec funion f cA cB =
+    let msg = "funion: Inconsistent merge function." in
     match cA, cB with
     | O, c | c, O -> c
     | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
@@ -341,16 +348,17 @@ module Make (Elt : RETRACTABLE) = struct
 	let cR = funion f cRA cRB in
 	match eA_opt with
 	| None -> glue eB cL cR
-	| Some eA -> glue_opt (f eA eB) cL cR
+	| Some eA -> check_glue_opt ~msg f eA eB cL cR
       else
 	let eB_opt, cLB, cRB = cut_elt eA cB in
 	let cL = funion f cLA cLB in
 	let cR = funion f cRA cRB in
 	match eB_opt with
 	| None -> glue eA cL cR
-	| Some eB -> glue_opt (f eA eB) cL cR
+	| Some eB -> check_glue_opt ~msg f eA eB cL cR
 
   let rec fcompl f cA cB =
+    let msg = "fcompl: Inconsistent merge function." in
     match cA, cB with
     | O, _ -> cB
     | _, O -> O
@@ -361,12 +369,12 @@ module Make (Elt : RETRACTABLE) = struct
 	let cR = fcompl f cRA cRB in
 	match eA_opt with
 	| None -> glue eB cL cR
-	| Some eA -> glue_opt (f eA eB) cL cR
+	| Some eA -> check_glue_opt ~msg f eA eB cL cR
       else
 	let eB_opt, cLB, cRB = cut_elt eA cB in
 	let cL = fcompl f cLA cLB in
 	let cR = fcompl f cRA cRB in
 	match eB_opt with
 	| None -> cat cL cR
-	| Some eB -> glue_opt (f eA eB) cL cR
+	| Some eB -> check_glue_opt ~msg f eA eB cL cR
 end
