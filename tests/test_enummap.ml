@@ -98,7 +98,18 @@ let test_alg () =
   assert (Int_emap.cardinal mAuB =
 	  Int_emap.cardinal mAsB + Int_emap.cardinal mAnB);
   assert (Int_emap.cardinal mAcB =
-	  Int_emap.cardinal mB - Int_emap.cardinal mAnB)
+	  Int_emap.cardinal mB - Int_emap.cardinal mAnB);
+  let pB = Int_emap.merge
+	    (fun k eA_opt eB_opt ->
+	      match eA_opt, eB_opt with
+	      | None, None -> assert false
+	      | None, Some eB -> Some (Some eB)
+	      | Some eA, None -> Some None
+	      | Some eA, Some eB when eA = eB -> None
+	      | Some eA, Some eB -> Some (Some eB))
+	    mA mB in
+  let mB' = Int_emap.fpatch (fun _ e_opt _ -> e_opt) pB mA in
+  assert (Int_emap.equal (=) mB mB')
 
 let run () =
   assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);

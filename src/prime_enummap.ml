@@ -51,6 +51,7 @@ module type S = sig
   val exists : (key -> 'a -> bool) -> 'a t -> bool
   val map : ('a -> 'b) -> 'a t -> 'b t
   val mapi : (key -> 'a -> 'b) -> 'a t -> 'b t
+  val fmapi : (key -> 'a -> 'b option) -> 'a t -> 'b t
   val filter : (key -> 'a -> bool) -> 'a t -> 'a t
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
   val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
@@ -59,6 +60,7 @@ module type S = sig
   val finter : (key -> 'a -> 'b -> 'c option) -> 'a t -> 'b t -> 'c t
   val funion : (key -> 'a -> 'a -> 'a option) -> 'a t -> 'a t -> 'a t
   val fcompl : (key -> 'a -> 'b -> 'b option) -> 'a t -> 'b t -> 'b t
+  val fpatch : (key -> 'a -> 'b option -> 'b option) -> 'a t -> 'b t -> 'b t
   val split_union : (key -> 'a -> 'b -> 'c) ->
 		    'a t -> 'b t -> 'a t * 'b t * 'c t
 
@@ -278,6 +280,14 @@ module Make (K : OrderedType) = struct
     | O -> O
     | Y (n, k, e, mL, mR) -> Y (n, k, f k e, mapi f mL, mapi f mR)
 
+  let rec fmapi f = function
+    | O -> O
+    | Y (n, k, e, mL, mR) ->
+      let mL' = fmapi f mL and mR' = fmapi f mR in
+      match f k e with
+      | None -> cat mL' mR'
+      | Some e' -> glue k e' mL' mR'
+
   let rec filter f = function
     | O -> O
     | Y (n, k, e, mL, mR) ->
@@ -349,6 +359,18 @@ module Make (K : OrderedType) = struct
       match eA_opt with
       | None -> glue kB eB mL mR
       | Some eA -> glue_opt kB (f kB eA eB) mL mR
+
+  let rec fpatch f mA mB =
+    match mA, mB with
+    | O, _ -> mB
+    | _, O -> fmapi (fun k eA -> f k eA None) mA
+    | _, Y (nB, k, eB, mLB, mRB) ->
+      let eA_opt, mLA, mRA = cut k mA in
+      let mL = fpatch f mLA mLB in
+      let mR = fpatch f mRA mRB in
+      match eA_opt with
+      | None -> glue k eB mL mR
+      | Some eA -> glue_opt k (f k eA (Some eB)) mL mR
 
   let split_union f mA mB =
     let aux k a (mA, mB, mC) =

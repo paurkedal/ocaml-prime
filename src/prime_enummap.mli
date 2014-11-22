@@ -122,6 +122,10 @@ module type S = sig
   (** [mapi f m] is the minimal map which for each [(k, e)] of [m] contains
       [(k, f k e)]. *)
 
+  val fmapi : (key -> 'a -> 'b option) -> 'a t -> 'b t
+  (** [fmapi f m] is the minimal map which contains [(k, e)] iff [f k e' =
+      Some e] for some [(k, e')] in [m]. *)
+
   val filter : (key -> 'a -> bool) -> 'a t -> 'a t
   (** [filter f m] is the maximal submap of [m] such that [f k e] holds for
       each binding [(k, e)]. *)
@@ -148,6 +152,11 @@ module type S = sig
   val fcompl : (key -> 'a -> 'b -> 'b option) -> 'a t -> 'b t -> 'b t
   (** [fcompl f m1 m2] is the minimal map which contains the bindings of
       [finter f m1 m2] and the bindings of [m2] with the key not in [m1]. *)
+
+  val fpatch : (key -> 'a -> 'b option -> 'b option) -> 'a t -> 'b t -> 'b t
+  (** [fpatch f m1 m2] is the minimal map which contains the bindings of [m2]
+      having keys disjoint from [m1], and which contains [(k, e)] iff [(k,
+      e')] is in [m1] and [f k e' (find_o k m1) = Some e]. *)
 
   val split_union : (key -> 'a -> 'b -> 'c) ->
 		    'a t -> 'b t -> 'a t * 'b t * 'c t
