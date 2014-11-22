@@ -50,6 +50,7 @@ module type S = sig
   val equal : t -> t -> bool
   val union : t -> t -> t
   val inter : t -> t -> t
+  val compl : t -> t -> t
 
   val card : t -> int
 end
@@ -273,4 +274,14 @@ module Make (E : OrderedType) = struct
     | Y (nA, eA, sLA, sRA), Y (nB, eB, sLB, sRB) ->
       if nA < nB then aux sA eB sLB sRB
 		 else aux sB eA sLA sRA
+
+  let rec compl sA sB =
+    match sA, sB with
+    | O, _ -> sB
+    | _, O -> O
+    | _, Y (nB, eB, sLB, sRB) ->
+      let presA, sLA, sRA = cut eB sA in
+      if presA then cat     (compl sLA sLB) (compl sRA sRB)
+	       else glue eB (compl sLA sLB) (compl sRA sRB)
+
 end

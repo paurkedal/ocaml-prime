@@ -81,7 +81,10 @@ let test_alg () =
       esB Int_eset.empty in
   assert (Int_eset.equal sAnB sAnB');
   let sAnB'' = Int_eset.filter (fun e -> Int_eset.contains e sA) sB in
-  assert (Int_eset.equal sAnB sAnB'')
+  assert (Int_eset.equal sAnB sAnB'');
+  let sAcB = Int_eset.compl sA sB in
+  let sAcB' = Int_eset.filter (fun e -> not (Int_eset.contains e sA)) sB in
+  assert (Int_eset.equal sAcB sAcB')
 
 let run () =
   assert (Int_eset.equal Int_eset.empty Int_eset.empty);

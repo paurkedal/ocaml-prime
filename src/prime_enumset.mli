@@ -107,6 +107,8 @@ module type S = sig
 
   val inter : t -> t -> t
 
+  val compl : t -> t -> t
+
   val card : t -> int
   (** @deprecated Use {!cardinal}. *)
 end
