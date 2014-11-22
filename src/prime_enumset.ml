@@ -179,8 +179,7 @@ module Make (E : OrderedType) = struct
   let cat sL sR =
     match sL, sR with
     | O, s | s, O -> s
-    | Y (nL, _, _, _), Y (nR, _, _, _) ->
-      let e, sL' = pop_max sL in glue e sL' sR
+    | _, _ -> let e, sL' = pop_max sL in glue e sL' sR
 
   let rec cut eC = function
     | O -> (false, O, O)
