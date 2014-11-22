@@ -81,6 +81,8 @@ module type S = sig
 
   val exists : (elt -> bool) -> t -> bool
 
+  val filter : (elt -> bool) -> t -> t
+
 end
 
 module Make (Elt : RETRACTABLE) : S with type elt = Elt.t and type key = Elt.key

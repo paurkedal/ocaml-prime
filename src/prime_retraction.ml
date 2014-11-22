@@ -51,6 +51,7 @@ module type S = sig
   val iter : (elt -> unit) -> t -> unit
   val for_all : (elt -> bool) -> t -> bool
   val exists : (elt -> bool) -> t -> bool
+  val filter : (elt -> bool) -> t -> t
 end
 
 exception Keep
@@ -213,6 +214,11 @@ module Make (Elt : RETRACTABLE) = struct
       if nR < 4 * nL then bal_y (nL + nR + 1) eL cLL (glue e cRL cR) else
       Y (nL + nR + 1, e, cL, cR)
 
+  let cat cL cR =
+    match cL, cR with
+    | O, s | s, O -> s
+    | _ -> let e, cL' = pop_max_e cL in glue e cL' cR
+
   let rec cut k = function
     | O -> None, O, O
     | Y (n, e, cL, cR) ->
@@ -259,5 +265,12 @@ module Make (Elt : RETRACTABLE) = struct
   let rec exists f = function
     | O -> false
     | Y (_, eC, cL, cR) -> f eC || exists f cL || exists f cR
+
+  let rec filter f = function
+    | O -> O
+    | Y (_, eC, cL, cR) ->
+      let cL' = filter f cL in
+      let cR' = filter f cR in
+      if f eC then glue eC cL' cR' else cat cL' cR'
 
 end
