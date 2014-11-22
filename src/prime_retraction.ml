@@ -311,7 +311,7 @@ module Make (Elt : RETRACTABLE) = struct
 
   let rec finter f cA cB =
     match cA, cB with
-    | O, c | c, O -> c
+    | O, c | c, O -> O
     | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
       if nA < nB then
 	let eA_opt, cLA, cRA = cut_elt eB cA in
