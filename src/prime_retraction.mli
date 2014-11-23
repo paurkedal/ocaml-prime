@@ -39,6 +39,8 @@ module type S = sig
 
   val contains : key -> t -> bool
 
+  val contains_elt : elt -> t -> bool
+
   val find_e : key -> t -> elt
 
   val find_o : key -> t -> elt option

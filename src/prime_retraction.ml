@@ -30,6 +30,7 @@ module type S = sig
   val is_empty : t -> bool
   val cardinal : t -> int
   val contains : key -> t -> bool
+  val contains_elt : elt -> t -> bool
   val find_e : key -> t -> elt
   val find_o : key -> t -> elt option
   val locate : key -> t -> bool * int
@@ -88,6 +89,14 @@ module Make (Elt : RETRACTABLE) = struct
       let o = Elt.compare_key k eC in
       if o < 0 then contains k cL else
       if o > 0 then contains k cR else
+      true
+
+  let rec contains_elt e = function
+    | O -> false
+    | Y (_, eC, cL, cR) ->
+      let o = Elt.compare e eC in
+      if o < 0 then contains_elt e cL else
+      if o > 0 then contains_elt e cR else
       true
 
   let rec find_e k = function
