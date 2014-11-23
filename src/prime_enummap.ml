@@ -46,6 +46,7 @@ module type S = sig
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
+  val fold_rev : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
   val iter : (key -> 'a -> unit) -> 'a t -> unit
   val for_all : (key -> 'a -> bool) -> 'a t -> bool
   val exists : (key -> 'a -> bool) -> 'a t -> bool
@@ -263,6 +264,10 @@ module Make (K : OrderedType) = struct
   let rec fold f = function
     | O -> ident
     | Y (_, kC, eC, mL, mR) -> fold f mR *< f kC eC *< fold f mL
+
+  let rec fold_rev f = function
+    | O -> ident
+    | Y (_, kC, eC, mL, mR) -> fold_rev f mL *< f kC eC *< fold_rev f mR
 
   let rec for_all f = function
     | O -> true

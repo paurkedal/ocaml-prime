@@ -50,6 +50,7 @@ module type S = sig
   val cut : key -> t -> elt option * t * t
   val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
+  val fold_rev : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
   val for_all : (elt -> bool) -> t -> bool
   val exists : (elt -> bool) -> t -> bool
@@ -289,6 +290,10 @@ module Make (Elt : RETRACTABLE) = struct
   let rec fold f = function
     | O -> fun acc -> acc
     | Y (_, eC, cL, cR) -> fun acc -> fold f cR (f eC (fold f cL acc))
+
+  let rec fold_rev f = function
+    | O -> fun acc -> acc
+    | Y (_, eC, cL, cR) -> fun acc -> fold_rev f cL (f eC (fold_rev f cR acc))
 
   let rec iter f = function
     | O -> ()

@@ -90,6 +90,10 @@ module type S = sig
   (** [fold f s] is the composition of [f e] for each [e] in [s] applied in
       order of increasing [e]. *)
 
+  val fold_rev : (elt -> 'a -> 'a) -> t -> 'a -> 'a
+  (** [fold_rev f s] is the composition of [f e] for [e] in [s] applied in
+      order of decreasing [e]. *)
+
   val iter : (elt -> unit) -> t -> unit
   (** [iter f s] calls [f e] for each [e] in [s] in order of increasing
       elements. *)

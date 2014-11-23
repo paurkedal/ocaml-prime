@@ -79,6 +79,8 @@ module type S = sig
 
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
 
+  val fold_rev : (elt -> 'a -> 'a) -> t -> 'a -> 'a
+
   val iter : (elt -> unit) -> t -> unit
 
   val for_all : (elt -> bool) -> t -> bool

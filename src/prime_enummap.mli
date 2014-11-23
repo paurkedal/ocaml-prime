@@ -103,6 +103,10 @@ module type S = sig
   (** [fold f m] is the composition of [f k e] for each [(k, e)] in [m],
       applied in order of increasing keys. *)
 
+  val fold_rev : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
+  (** [fold_rev f m] is the composition of [f k e] for each [(k, e)] in [m]
+      applied in order of decreasing keys. *)
+
   val iter : (key -> 'a -> unit) -> 'a t -> unit
   (** [iter f m] calls [f k e] for each [(k, e)] in [m] in order of increasing
       keys. *)
