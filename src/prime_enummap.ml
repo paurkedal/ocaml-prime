@@ -262,12 +262,13 @@ module Make (K : OrderedType) = struct
     | Y (_, kC, eC, mL, mR) -> iter f mL; f kC eC; iter f mR
 
   let rec fold f = function
-    | O -> ident
-    | Y (_, kC, eC, mL, mR) -> fold f mR *< f kC eC *< fold f mL
+    | O -> fun acc -> acc
+    | Y (_, kC, eC, mL, mR) -> fun acc -> fold f mR (f kC eC (fold f mL acc))
 
   let rec fold_rev f = function
-    | O -> ident
-    | Y (_, kC, eC, mL, mR) -> fold_rev f mL *< f kC eC *< fold_rev f mR
+    | O -> fun acc -> acc
+    | Y (_, kC, eC, mL, mR) ->
+      fun acc -> fold_rev f mL (f kC eC (fold_rev f mR acc))
 
   let rec for_all f = function
     | O -> true
