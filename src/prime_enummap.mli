@@ -77,6 +77,10 @@ module type S = sig
 
   val succ_binding_e : 'a t -> key -> key * 'a
 
+  val pred_binding_o : 'a t -> key -> (key * 'a) option
+
+  val succ_binding_o : 'a t -> key -> (key * 'a) option
+
   val add : key -> 'a -> 'a t -> 'a t
   (** [add k e m] is the map which agrees with [m] on all keys except that [k]
       is mapped to [e]. *)
