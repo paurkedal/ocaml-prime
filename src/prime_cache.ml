@@ -67,6 +67,8 @@ let charge c e =
 
 let find c k = let e = Hashtbl.find c.c_tbl k in charge c e; e.e_value
 
+let find_o c k = try Some (find c k) with Not_found -> None
+
 let replace c g k v =
   let e = {
     e_value = v;
