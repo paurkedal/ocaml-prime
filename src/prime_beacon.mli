@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ module type S = sig
       typically called each time an object is acquired from a weak data
       structure. *)
 
+  val cache_metric : Prime_cache_metric.t
 end
 
 module type CACHE_METRIC = sig val cache_metric : Prime_cache_metric.t end

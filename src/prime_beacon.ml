@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ module type S = sig
   val grade : t -> float
   val set_grade : float -> t -> unit
   val charge : t -> unit
+  val cache_metric : Prime_cache_metric.t
 end
 
 module Make (M : CACHE_METRIC) = struct
@@ -116,4 +117,5 @@ module Make (M : CACHE_METRIC) = struct
     head.b_next <- b;
     obj
 
+  let cache_metric = M.cache_metric
 end
