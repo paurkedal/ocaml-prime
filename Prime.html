@@ -27,9 +27,14 @@
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
 <link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
+<link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
+<link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
-<link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><link title="Combinators" rel="Section" href="#2_Combinators">
+<link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
+<link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><link title="The Empty Type" rel="Section" href="#2_TheEmptyType">
+<link title="Combinators" rel="Section" href="#2_Combinators">
 <link title="Currying" rel="Section" href="#2_Currying">
 <link title="Exceptions" rel="Section" href="#2_Exceptions">
 <title>The OCaml Prime Library : Prime</title>
@@ -41,9 +46,25 @@
 <h1>Module <a href="type_Prime.html">Prime</a></h1>
 
 <pre><span class="keyword">module</span> Prime: <code class="code"><span class="keyword">sig</span></code> <a href="Prime.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
-Combinators and other primitives.<br>
+Primitives.<br>
 </div>
 <hr width="100%">
+<br>
+<h2 id="2_TheEmptyType">The Empty Type</h2><br>
+
+<pre><span id="TYPEcounit"><span class="keyword">type</span> <code class="type"></code>counit</span> </pre>
+<div class="info ">
+A type which is uninhabited by well-founded code.  This is equivalent to a
+    variant type with no constructors, though syntax forbids naming or
+    defining such types.<br>
+</div>
+
+
+<pre><span id="VALabsurd"><span class="keyword">val</span> absurd</span> : <code class="type"><a href="Prime.html#TYPEcounit">counit</a> -> 'a</code></pre><div class="info ">
+Computations in the scope of a variable <code class="code">x : counit</code> can be assumed dead,
+    and thus be shortcut as <code class="code">absurd x</code>.  This is the analogue of
+    pattern-matching a variant with no constructors.<br>
+</div>
 <br>
 <h2 id="2_Combinators">Combinators</h2><br>
 

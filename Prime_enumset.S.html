@@ -27,8 +27,12 @@
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
 <link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
+<link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
+<link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><title>The OCaml Prime Library : Prime_enumset.S</title>
 </head>
 <body>
@@ -59,14 +63,22 @@ The empty set.<br>
 <code class="code">singleton e</code> is the set containing only <code class="code">e</code>.<br>
 </div>
 
+<pre><span id="VALis_empty"><span class="keyword">val</span> is_empty</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+Holds for the empty set only.<br>
+</div>
+
+<pre><span id="VALcardinal"><span class="keyword">val</span> cardinal</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+<code class="code">cardinal s</code> is the cardinality of <code class="code">s</code>.<br>
+</div>
+
 <pre><span id="VALcontains"><span class="keyword">val</span> contains</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
 <code class="code">contains e s</code> is true iff <code class="code">s</code> contains <code class="code">e</code>.<br>
 </div>
 
-<pre><span id="VALlocate"><span class="keyword">val</span> locate</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> int option</code></pre><div class="info ">
-If <code class="code">s</code> contains <code class="code">e</code>, then <code class="code">locate e s</code> is <code class="code"><span class="constructor">Some</span> i</code> where <code class="code">i</code> is the
-      number of elements in <code class="code">s</code> which are smaller than <code class="code">e</code>, otherwise <code class="code">locate
-      e s</code> is <code class="code"><span class="constructor">None</span></code>.<br>
+<pre><span id="VALlocate"><span class="keyword">val</span> locate</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> bool * int</code></pre><div class="info ">
+<code class="code">locate e s</code> is a pair <code class="code">(present, pos)</code> where <code class="code">present</code> is true iff <code class="code">e</code>
+      is a member of <code class="code">s</code>, and <code class="code">pos</code> is the number of elements of <code class="code">s</code> which
+      precedes <code class="code">e</code>.<br>
 </div>
 
 <pre><span id="VALget"><span class="keyword">val</span> get</span> : <code class="type">int -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a></code></pre><div class="info ">
@@ -81,12 +93,19 @@ If <code class="code">s</code> contains <code class="code">e</code>, then <code 
 <code class="code">max_elt s</code> is the largest element of <code class="code">s</code>.<br>
 </div>
 
+<pre><span id="VALpred_e"><span class="keyword">val</span> pred_e</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a></code></pre>
+<pre><span id="VALsucc_e"><span class="keyword">val</span> succ_e</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a></code></pre>
 <pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
 <code class="code">add e s</code> is the set containing <code class="code">e</code> along with the elements of <code class="code">s</code>.<br>
 </div>
 
 <pre><span id="VALremove"><span class="keyword">val</span> remove</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
 <code class="code">remove e s</code> is the set containing all elements of <code class="code">s</code> except <code class="code">e</code>.<br>
+</div>
+
+<pre><span id="VALcut"><span class="keyword">val</span> cut</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> -><br>       <a href="Prime_enumset.S.html#TYPEt">t</a> -> bool * <a href="Prime_enumset.S.html#TYPEt">t</a> * <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">cut k s</code> is <code class="code">(contains k s, sL, sR)</code> where <code class="code">sL</code> and <code class="code">sR</code> are the
+      subsets of <code class="code">s</code> with keys smaller and larger than <code class="code">k</code>, respectively.<br>
 </div>
 
 <pre><span id="VALpop_min"><span class="keyword">val</span> pop_min</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a> * <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
@@ -99,8 +118,19 @@ If <code class="code">s</code> contains <code class="code">e</code>, then <code 
       <code class="code">s'</code> contains the remaining elements.<br>
 </div>
 
-<pre><span id="VALcard"><span class="keyword">val</span> card</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> int</code></pre><div class="info ">
-<code class="code">card s</code> is the cardinality of <code class="code">s</code>.<br>
+<pre><span id="VALelements"><span class="keyword">val</span> elements</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEelt">elt</a> list</code></pre><div class="info ">
+<code class="code">elements s</code> is the list of elements of <code class="code">s</code> in order.<br>
+</div>
+
+<pre><span id="VALof_ordered_elements"><span class="keyword">val</span> of_ordered_elements</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEelt">elt</a> list -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">of_ordered_elements es</code> is the set containing precisely the elements
+      <code class="code">es</code>, which must be listed in order.<br>
+<b>Raises</b> <code>Invalid_argument</code> if <code class="code">es</code> is not sorted.<br>
+</div>
+
+<pre><span id="VALsearch"><span class="keyword">val</span> search</span> : <code class="type">(<a href="Prime_enumset.S.html#TYPEelt">elt</a> -> 'a option) -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> 'a option</code></pre><div class="info ">
+<code class="code">search f s</code> is the first <code class="code">f e</code> for <code class="code">e</code> in <code class="code">s</code> which is different from
+      <code class="code"><span class="constructor">None</span></code>, or <code class="code"><span class="constructor">None</span></code> if there is no such <code class="code">e</code>.<br>
 </div>
 
 <pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">(<a href="Prime_enumset.S.html#TYPEelt">elt</a> -> 'a -> 'a) -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> 'a -> 'a</code></pre><div class="info ">
@@ -108,8 +138,50 @@ If <code class="code">s</code> contains <code class="code">e</code>, then <code 
       order of increasing <code class="code">e</code>.<br>
 </div>
 
+<pre><span id="VALfold_rev"><span class="keyword">val</span> fold_rev</span> : <code class="type">(<a href="Prime_enumset.S.html#TYPEelt">elt</a> -> 'a -> 'a) -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> 'a -> 'a</code></pre><div class="info ">
+<code class="code">fold_rev f s</code> is the composition of <code class="code">f e</code> for <code class="code">e</code> in <code class="code">s</code> applied in
+      order of decreasing <code class="code">e</code>.<br>
+</div>
+
 <pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">(<a href="Prime_enumset.S.html#TYPEelt">elt</a> -> unit) -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
 <code class="code">iter f s</code> calls <code class="code">f e</code> for each <code class="code">e</code> in <code class="code">s</code> in order of increasing
       elements.<br>
+</div>
+
+<pre><span id="VALfor_all"><span class="keyword">val</span> for_all</span> : <code class="type">(<a href="Prime_enumset.S.html#TYPEelt">elt</a> -> bool) -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+<code class="code">for_all f s</code> holds if <code class="code">f e</code> holds for all <code class="code">e</code> in <code class="code">s</code>.<br>
+</div>
+
+<pre><span id="VALexists"><span class="keyword">val</span> exists</span> : <code class="type">(<a href="Prime_enumset.S.html#TYPEelt">elt</a> -> bool) -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+<code class="code">exists f s</code> holds if <code class="code">f e</code> holds for some <code class="code">e</code> in <code class="code">s</code>.<br>
+</div>
+
+<pre><span id="VALfilter"><span class="keyword">val</span> filter</span> : <code class="type">(<a href="Prime_enumset.S.html#TYPEelt">elt</a> -> bool) -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">filter f s</code> is the maximal subset of <code class="code">s</code> such that <code class="code">f e</code> holds all its
+      elements.<br>
+</div>
+
+<pre><span id="VALcompare"><span class="keyword">val</span> compare</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+Total order.<br>
+</div>
+
+<pre><span id="VALequal"><span class="keyword">val</span> equal</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+<code class="code">equal s0 s1</code> is true iff <code class="code">s0</code> and <code class="code">s1</code> contain the same elements.<br>
+</div>
+
+<pre><span id="VALunion"><span class="keyword">val</span> union</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">union s1 s2</code> is the union of <code class="code">s1</code> and <code class="code">s2</code>.<br>
+</div>
+
+<pre><span id="VALinter"><span class="keyword">val</span> inter</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">inter s1 s2</code> is the intersection of <code class="code">s1</code> and <code class="code">s2</code>.<br>
+</div>
+
+<pre><span id="VALcompl"><span class="keyword">val</span> compl</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a> -> <a href="Prime_enumset.S.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">compl s1 s2</code> is the complement of <code class="code">s1</code> relative to <code class="code">s2</code>.<br>
+</div>
+
+<pre><span id="VALcard"><span class="keyword">val</span> card</span> : <code class="type"><a href="Prime_enumset.S.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+<span class="warning">Deprecated.</span>Use <a href="Prime_enumset.S.html#VALcardinal"><code class="code"><span class="constructor">Prime_enumset</span>.<span class="constructor">S</span>.cardinal</code></a>.<br>
 </div>
 </body></html>

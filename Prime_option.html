@@ -28,9 +28,14 @@
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
 <link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
+<link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
+<link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><link title="Iteration" rel="Section" href="#2_Iteration">
+<link title="Binary Operators" rel="Section" href="#2_BinaryOperators">
 <title>The OCaml Prime Library : Prime_option</title>
 </head>
 <body>
@@ -62,6 +67,10 @@ Functions on the <code class="code"><span class="keywordsign">'</span>a option</
     <code class="code"><span class="constructor">None</span></code> case instead of raising an exception.<br>
 </div>
 
+<pre><span id="VALfound"><span class="keyword">val</span> found</span> : <code class="type">(unit -> 'a) -> 'a option</code></pre><div class="info ">
+<code class="code">found f</code> is <code class="code"><span class="keyword">try</span> <span class="constructor">Some</span> (f ()) <span class="keyword">with</span> <span class="constructor">Not_found</span> <span class="keywordsign">-&gt;</span> <span class="constructor">None</span></code>.<br>
+</div>
+
 <pre><span id="VALsearch"><span class="keyword">val</span> search</span> : <code class="type">('a -> 'b option) -> 'a option -> 'b option</code></pre><div class="info ">
 <code class="code">search f <span class="constructor">None</span></code> is <code class="code"><span class="constructor">None</span></code> and <code class="code">search f (<span class="constructor">Some</span> a)</code> is <code class="code">f a</code>.<br>
 </div>
@@ -80,6 +89,11 @@ Functions on the <code class="code"><span class="keywordsign">'</span>a option</
 <code class="code">map f <span class="constructor">None</span></code> is <code class="code"><span class="constructor">None</span></code> and <code class="code">map f (<span class="constructor">Some</span> a)</code> is <code class="code"><span class="constructor">Some</span> (f a)</code>.<br>
 </div>
 
+<pre><span id="VALfmap"><span class="keyword">val</span> fmap</span> : <code class="type">('a -> 'b option) -> 'a option -> 'b option</code></pre><div class="info ">
+<code class="code">fmap f <span class="constructor">None</span></code> is <code class="code"><span class="constructor">None</span></code> and <code class="code">fmap f (<span class="constructor">Some</span> a)</code> is <code class="code">f a</code>.  Functions as
+    <code class="code">filter ∘ map</code> and as monadic bind.<br>
+</div>
+
 <pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">('a -> 'b -> 'b) -> 'a option -> 'b -> 'b</code></pre><div class="info ">
 <code class="code">fold f <span class="constructor">None</span></code> is the identity function and <code class="code">fold f (<span class="constructor">Some</span> a)</code> is <code class="code">f a</code>.<br>
 </div>
@@ -96,4 +110,12 @@ Functions on the <code class="code"><span class="keywordsign">'</span>a option</
 <code class="code">filter f (<span class="constructor">Some</span> a)</code> returns <code class="code"><span class="constructor">Some</span> a</code> if <code class="code">f a</code> is true; in other cases
     <code class="code">filter f a</code> returns <code class="code"><span class="constructor">None</span></code>.<br>
 </div>
-</body></html>
+<br>
+<h2 id="2_BinaryOperators">Binary Operators</h2><br>
+
+<pre><span id="VALinter"><span class="keyword">val</span> inter</span> : <code class="type">('a -> 'b -> 'c) -> 'a option -> 'b option -> 'c option</code></pre>
+<pre><span id="VALunion"><span class="keyword">val</span> union</span> : <code class="type">('a -> 'a -> 'a) -> 'a option -> 'a option -> 'a option</code></pre>
+<pre><span id="VALcompl"><span class="keyword">val</span> compl</span> : <code class="type">('a -> 'b -> 'b) -> 'a option -> 'b option -> 'b option</code></pre>
+<pre><span id="VALfinter"><span class="keyword">val</span> finter</span> : <code class="type">('a -> 'b -> 'c option) -> 'a option -> 'b option -> 'c option</code></pre>
+<pre><span id="VALfunion"><span class="keyword">val</span> funion</span> : <code class="type">('a -> 'a -> 'a option) -> 'a option -> 'a option -> 'a option</code></pre>
+<pre><span id="VALfcompl"><span class="keyword">val</span> fcompl</span> : <code class="type">('a -> 'b -> 'b option) -> 'a option -> 'b option -> 'b option</code></pre></body></html>

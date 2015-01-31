@@ -28,8 +28,12 @@
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
 <link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
+<link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
+<link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><title>The OCaml Prime Library : Prime_array</title>
 </head>
 <body>
@@ -47,6 +51,16 @@ Amendment to the standard library <code class="code"><span class="constructor">A
 <pre><span id="VALsample"><span class="keyword">val</span> sample</span> : <code class="type">(int -> 'a) -> int -> 'a array</code></pre><div class="info ">
 <code class="code">sample f n</code> returns <code class="code">[|f 0; …; f (n - 1)|]</code>.  This calls <code class="code">init</code> with
     arguments reversed.<br>
+</div>
+
+<pre><span id="VALfilter"><span class="keyword">val</span> filter</span> : <code class="type">('a -> bool) -> 'a array -> 'a array</code></pre><div class="info ">
+<code class="code">filter f xa</code> is the array containing the elements of <code class="code">xa</code> on which <code class="code">f</code> is
+    true with order preserved.<br>
+</div>
+
+<pre><span id="VALfmap"><span class="keyword">val</span> fmap</span> : <code class="type">('a -> 'b option) -> 'a array -> 'b array</code></pre><div class="info ">
+<code class="code">fmap f xa</code> is the array of the non-<code class="code"><span class="constructor">None</span></code> elements of <code class="code">map f xa</code>,
+    preserving order.<br>
 </div>
 
 <pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">('a -> 'b -> 'b) -> 'a array -> 'b -> 'b</code></pre><div class="info ">

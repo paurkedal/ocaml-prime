@@ -39,25 +39,34 @@ hr {
 
 body > br { display: none; }
 
-body > div.info {
-	margin: 0 0 1ex 1.3em;
-	padding: 0 0 0 2mm;
+body > div.info, body > div.param_info, body > div.info.module + table {
+	margin-left: 1.3em;
+	padding-left: 2mm;
 	border-left: solid 1mm #ccc;
 }
-
+body > div.param_info:before {
+	content: "arg ";
+	font-weight: bold;
+	font-family: monospace;
+}
+body > div.param_info { padding-top: 1ex; }
 div.info > br { margin-bottom: 1ex; padding-bottom: 1ex; }
-
 body > div.info p { margin-top: 1ex; }
+body > div.info.module + table { padding-top: 1ex; padding-bottom: 0; }
+body > div.info.module + table td { padding: 0; }
 
 pre { margin: 1ex 0; font-family: monospace; }
+body > pre { margin-top: 2ex; }
 
 /* Layout of Code Reference Tables */
 
 .typetable, .paramstable { border-style: hidden; }
 
 td.typefieldcomment { font-size: smaller; }
-div.sig_block { margin: 1ex 0 1ex 5mm; }
+div.sig_block { margin: 1ex 0 1ex 1.3em; }
 
+/* This is meant for the indices but there is insufficient attributes to
+ * select on without disturbing other tables.
 table td:first-child {
 	white-space: pre;
 	padding-right: 2mm;
@@ -70,6 +79,7 @@ table td[align="left"] {
 	font-size: large;
 	padding-bottom: 0.5ex;
 }
+*/
 
 ul.indexlist { margin-left: 0; padding-left: 0; }
 ul.indexlist li { list-style-type: none; margin-left: 0; padding-left: 0; }

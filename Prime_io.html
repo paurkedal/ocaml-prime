@@ -28,8 +28,12 @@
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
 <link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
+<link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
+<link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><title>The OCaml Prime Library : Prime_io</title>
 </head>
 <body>
@@ -68,12 +72,16 @@ Helpers for standard library channels.<br>
     a special case of <a href="Prime_io.html#VALwith_file_out"><code class="code"><span class="constructor">Prime_io</span>.with_file_out</code></a>.<br>
 </div>
 
-<pre><span id="VALfold_input"><span class="keyword">val</span> fold_input</span> : <code class="type">(Pervasives.in_channel -> 'a -> 'a) -> Pervasives.in_channel -> 'a -> 'a</code></pre><div class="info ">
+<pre><span id="VALfold_input"><span class="keyword">val</span> fold_input</span> : <code class="type">?close:bool -><br>       (Pervasives.in_channel -> 'a -> 'a) -> Pervasives.in_channel -> 'a -> 'a</code></pre><div class="info ">
 <code class="code">fold_input f ic</code> forms the composition of successive calls to <code class="code">f ic</code>
     until <code class="code"><span class="constructor">End_of_file</span></code> is raised.<br>
 </div>
+<div class="param_info"><code class="code">close</code> : If true, close <code class="code">ic</code> before returning, including if an
+	   exception occurs while evaluating <code class="code">f ic acc</code> for some <code class="code">acc</code>.</div>
 
-<pre><span id="VALiter_input"><span class="keyword">val</span> iter_input</span> : <code class="type">(Pervasives.in_channel -> unit) -> Pervasives.in_channel -> unit</code></pre><div class="info ">
+<pre><span id="VALiter_input"><span class="keyword">val</span> iter_input</span> : <code class="type">?close:bool -><br>       (Pervasives.in_channel -> unit) -> Pervasives.in_channel -> unit</code></pre><div class="info ">
 <code class="code">iter_input f ic</code> calls <code class="code">f ic</code> until <code class="code"><span class="constructor">End_of_file</span></code> is raised.<br>
 </div>
+<div class="param_info"><code class="code">close</code> : If true, close <code class="code">ic</code> before returning, including if an
+	   exception occurs while executing <code class="code">f ic</code>.</div>
 </body></html>

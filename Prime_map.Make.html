@@ -26,8 +26,12 @@
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
 <link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
+<link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
+<link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><title>The OCaml Prime Library : Prime_map.Make</title>
 </head>
 <body>
@@ -86,6 +90,13 @@
 <code class="code">left_union m0 m1</code> is the map whose domain is the union of the domains
       of <code class="code">m0</code> and <code class="code">m1</code> and whose values agree with <code class="code">m0</code> where present and <code class="code">m1</code>
       elsewhere.<br>
+</div>
+
+<pre><span id="VALsplit_union"><span class="keyword">val</span> split_union</span> : <code class="type">(key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'a t * 'b t * 'c t</code></pre><div class="info ">
+<code class="code">split_union mA mB</code> is a triple <code class="code">(mA', mB', mC')</code> where <code class="code">mA'</code> and <code class="code">mB'</code>
+      are the respective bindings of <code class="code">mA</code> and <code class="code">mB</code> which have disjoint keys,
+      and <code class="code">mC'</code> has a binding <code class="code">(k, f k a b)</code> for each pair of bindings <code class="code">(k,
+      a)</code> of <code class="code">mA</code> and <code class="code">(k, b)</code> of <code class="code">mB</code> sharing <code class="code">k</code>.<br>
 </div>
 
 <pre><span id="VALleft_inter"><span class="keyword">val</span> left_inter</span> : <code class="type">'a t -> 'b t -> 'a t</code></pre><div class="info ">
