@@ -98,6 +98,9 @@ module type S = sig
       [k] is unbound.  If [k] is unbound in [m], then [remove k m] is [m]. *)
 
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
+  (** [cut k m] is [(e_opt, sL, sR)] where [e_opt] is the element bound to
+      [k], if any, and [sL] and [sR] are the submaps of [m] with keys smaller
+      or langer than [k], respectively. *)
 
   val bindings : 'a t -> (key * 'a) list
   (** A [(key, element)] pair for each binding of the map in key order. *)
@@ -157,6 +160,9 @@ module type S = sig
 
   val merge : (key -> 'a option -> 'b option -> 'c option) ->
 	      'a t -> 'b t -> 'c t
+  (** [merge f m1 m2] is the map containing a binding [(k, e)] for each [k]
+      bound in at least one of the maps, such that [f (find_o k m1) (find_o k
+      m2) = Some e]. *)
 
   val finter : (key -> 'a -> 'b -> 'c option) -> 'a t -> 'b t -> 'c t
   (** [finter f m1 m2] is the minimal map which for each shared key [k] of
@@ -174,7 +180,7 @@ module type S = sig
   val fpatch : (key -> 'a -> 'b option -> 'b option) -> 'a t -> 'b t -> 'b t
   (** [fpatch f m1 m2] is the minimal map which contains the bindings of [m2]
       having keys disjoint from [m1], and which contains [(k, e)] iff [(k,
-      e')] is in [m1] and [f k e' (find_o k m1) = Some e]. *)
+      e')] is in [m1] and [f k e' (find_o k m2) = Some e]. *)
 
   val split_union : (key -> 'a -> 'b -> 'c) ->
 		    'a t -> 'b t -> 'a t * 'b t * 'c t

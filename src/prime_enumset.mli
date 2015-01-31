@@ -73,6 +73,8 @@ module type S = sig
   (** [remove e s] is the set containing all elements of [s] except [e]. *)
 
   val cut : elt -> t -> bool * t * t
+  (** [cut k s] is [(contains k s, sL, sR)] where [sL] and [sR] are the
+      subsets of [s] with keys smaller and larger than [k], respectively. *)
 
   val pop_min : t -> elt * t
   (** [pop_min s] is [(e, s')] where [e] is the smallest element of [s] and
