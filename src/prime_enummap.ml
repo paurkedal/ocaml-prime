@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -46,6 +46,8 @@ module type S = sig
   val pop_max : 'a t -> key * 'a * 'a t
   val remove : key -> 'a t -> 'a t
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
+  val bindings : 'a t -> (key * 'a) list
+  val of_ordered_bindings : (key * 'a) list -> 'a t
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
   val fold_rev : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
@@ -249,6 +251,30 @@ module Make (K : OrderedType) = struct
 	then let kC', eC', mL' = pop_max mL in Y (n - 1, kC', eC', mL', mR)
 	else let kC', eC', mR' = pop_min mR in Y (n - 1, kC', eC', mL, mR')
   let remove k m = try remove' k m with Keep -> m
+
+  let bindings m =
+    let rec loop acc = function
+      | O -> acc
+      | Y (_, kC, eC, mL, mR) -> loop ((kC, eC) :: loop acc mR) mL in
+    loop [] m
+
+  let of_ordered_bindings kes =
+    let rec count_and_check n k' = function
+      | [] -> n
+      | (k, _) :: kes ->
+	if K.compare k' k >= 0 then
+	  invalid_arg "Prime_enummap.of_ordererd_bindings";
+	count_and_check (succ n) k kes in
+    let rec build n kes =
+      if n = 0 then O, kes else
+      if n = 1 then let k, e = List.hd kes in Y(1, k, e, O, O), List.tl kes else
+      let mL, kes = build (n / 2) kes in
+      let k, e = List.hd kes in
+      let mR, kes = build ((n - 1) / 2) (List.tl kes) in
+      Y (n, k, e, mL, mR), kes in
+    match kes with
+    | [] -> O
+    | (k0, _) :: kes' -> fst (build (count_and_check 1 k0 kes') kes)
 
   let rec search f = function
     | O -> None

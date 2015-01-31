@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@ open OUnit
 open Utils
 open Unprime
 open Unprime_array
+open Unprime_list
 open Unprime_option
 
 module Int_order = struct type t = int let compare = compare end
@@ -111,6 +112,15 @@ let test_alg () =
   let mB' = Int_emap.fpatch (fun _ e_opt _ -> e_opt) pB mA in
   assert (Int_emap.equal (=) mB mB')
 
+let test_bindings () =
+  let n_max = 1 lsl Random.int 8 in
+  let m = random_emap n_max in
+  let kvs = Int_emap.bindings m in
+  let m' = List.fold (uncurry Int_emap.add) kvs Int_emap.empty in
+  assert (Int_emap.equal (=) m m');
+  let m'' = Int_emap.of_ordered_bindings kvs in
+  assert (Int_emap.equal (=) m m'')
+
 let run () =
   assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);
   assert (Int_emap.compare compare Int_emap.empty Int_emap.empty = 0);
@@ -143,5 +153,6 @@ let run () =
     done;
     test_equal ();
     test_cut ();
-    test_alg ()
+    test_alg ();
+    test_bindings ()
   done

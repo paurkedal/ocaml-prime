@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -41,6 +41,8 @@ module type S = sig
   val cut : elt -> t -> bool * t * t
   val pop_min : t -> elt * t
   val pop_max : t -> elt * t
+  val elements : t -> elt list
+  val of_ordered_elements : elt list -> t
   val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val fold_rev : (elt -> 'a -> 'a) -> t -> 'a -> 'a
@@ -208,6 +210,30 @@ module Make (E : OrderedType) = struct
 	then let eC', sL' = pop_max sL in Y (n - 1, eC', sL', sR)
 	else let eC', sR' = pop_min sR in Y (n - 1, eC', sL, sR')
   let remove e s = try remove' e s with Keep -> s
+
+  let elements s =
+    let rec loop acc = function
+      | O -> acc
+      | Y (_, eC, sL, sR) -> loop (eC :: loop acc sR) sL in
+    loop [] s
+
+  let of_ordered_elements es =
+    let rec count_and_check n e' = function
+      | [] -> n
+      | e :: es ->
+	if E.compare e' e >= 0 then
+	  invalid_arg "Prime_enumset.of_ordererd_elements";
+	count_and_check (succ n) e es in
+    let rec build n es =
+      if n = 0 then O, es else
+      if n = 1 then Y (1, List.hd es, O, O), List.tl es else
+      let sL, es = build (n / 2) es in
+      let e = List.hd es in
+      let sR, es = build ((n - 1) / 2) (List.tl es) in
+      Y (n, e, sL, sR), es in
+    match es with
+    | [] -> O
+    | e :: es' -> fst (build (count_and_check 1 e es') es)
 
   let rec search f = function
     | O -> None

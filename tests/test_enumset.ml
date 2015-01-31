@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@ open OUnit
 open Utils
 open Unprime
 open Unprime_array
+open Unprime_list
 open Unprime_option
 
 module Int_order = struct type t = int let compare = compare end
@@ -63,6 +64,11 @@ let test_cut () =
   assert (Int_eset.equal sL sL');
   assert (Int_eset.equal sR sR')
 
+let rec uniq = function
+  | x0 :: x1 :: xs when x0 = x1 -> uniq (x1 :: xs)
+  | x0 :: xs -> x0 :: uniq xs
+  | [] -> []
+
 let test_alg () =
   let nA = Random.int 30 in
   let nB = Random.int 30 in
@@ -85,6 +91,15 @@ let test_alg () =
   let sAcB = Int_eset.compl sA sB in
   let sAcB' = Int_eset.filter (fun e -> not (Int_eset.contains e sA)) sB in
   assert (Int_eset.equal sAcB sAcB')
+
+let test_elements () =
+  let n = 1 lsl Random.int 8 in
+  let es_init = Prime_list.sample (fun _ -> Random.int n) n in
+  let s = List.fold Int_eset.add es_init Int_eset.empty in
+  let es = Int_eset.elements s in
+  assert (uniq (List.sort compare es_init) = es);
+  let s' = Int_eset.of_ordered_elements es in
+  assert (Int_eset.equal s s')
 
 let run () =
   assert (Int_eset.equal Int_eset.empty Int_eset.empty);
@@ -119,5 +134,6 @@ let run () =
     done;
     test_equal ();
     test_cut ();
-    test_alg ()
+    test_alg ();
+    test_elements ()
   done

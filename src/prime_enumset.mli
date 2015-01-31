@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -81,6 +81,14 @@ module type S = sig
   val pop_max : t -> elt * t
   (** [pop_max s] is [(e, s')] where [e] is the largest element of [s] and
       [s'] contains the remaining elements. *)
+
+  val elements : t -> elt list
+  (** [elements s] is the list of elements of [s] in order. *)
+
+  val of_ordered_elements : elt list -> t
+  (** [of_ordered_elements es] is the set containing precisely the elements
+      [es], which must be listed in order.
+      @raise Invalid_argument if [es] is not sorted. *)
 
   val search : (elt -> 'a option) -> t -> 'a option
   (** [search f s] is the first [f e] for [e] in [s] which is different from

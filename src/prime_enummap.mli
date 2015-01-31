@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -98,6 +98,16 @@ module type S = sig
       [k] is unbound.  If [k] is unbound in [m], then [remove k m] is [m]. *)
 
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
+
+  val bindings : 'a t -> (key * 'a) list
+  (** A [(key, element)] pair for each binding of the map in key order. *)
+
+  val of_ordered_bindings : (key * 'a) list -> 'a t
+  (** Assuming [bindings] is a key-ordered list of bindings, as returned from
+      {!bindings}, [of_ordered_bindings bindings] is a map containing
+      precisely those bindings, computed in linear time.  This is an
+      optimisation of [List.fold (uncurry add) bindings empty].
+      @raise Invalid_argument of [bindings] is not sorted. *)
 
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   (** [search f m] is the first [f k e] for [k ↦ e] in [m] which is different
