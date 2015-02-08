@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Pure random access list.
+(** Pure random access list ({i prime.unstable}).
     A balanced binary tree with a list-like interface, yielding logarithmic
     amortized complexity for arbitrary element access, insert, and removal. *)
 

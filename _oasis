@@ -41,7 +41,8 @@ Library "prime-unstable"
     Prime_enummap,
     Prime_enumset,
     Prime_retraction,
-    Prime_wallet
+    Prime_wallet,
+    Unprime_enumlist
   BuildDepends: prime
 
 # Deprecated name for prime.unstable.
