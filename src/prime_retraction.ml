@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2015  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -194,9 +194,9 @@ module Make (Elt : RETRACTABLE) = struct
 
   let bal_y n eC cL cR =
     match cL, cR with
-    | _, Y (nR, eCR, cLR, cRR) when cardinal cL < 4 * nR ->
+    | _, Y (nR, eCR, cLR, cRR) when 4 * cardinal cL < nR ->
       Y (n, eCR, Y (cardinal cL + cardinal cLR + 1, eC, cL, cLR), cRR)
-    | Y (nL, eCL, cLL, cRL), _ when cardinal cR < 4 * nL ->
+    | Y (nL, eCL, cLL, cRL), _ when 4 * cardinal cR < nL ->
       Y (n, eCL, cLL, Y (cardinal cRL + cardinal cR + 1, eC, cRL, cR))
     | _, _ ->
       Y (n, eC, cL, cR)

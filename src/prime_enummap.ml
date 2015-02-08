@@ -173,9 +173,9 @@ module Make (K : OrderedType) = struct
 
   let bal_y n kC eC mL mR =
     match mL, mR with
-    | _, Y (nR, kCR, eCR, mLR, mRR) when cardinal mL < 4 * nR ->
+    | _, Y (nR, kCR, eCR, mLR, mRR) when 4 * cardinal mL < nR ->
       Y (n, kCR, eCR, Y (cardinal mL + cardinal mLR + 1, kC, eC, mL, mLR), mRR)
-    | Y (nL, kCL, eCL, mLL, mRL), _ when cardinal mR < 4 * nL ->
+    | Y (nL, kCL, eCL, mLL, mRL), _ when 4 * cardinal mR < nL ->
       Y (n, kCL, eCL, mLL, Y (cardinal mRL + cardinal mR + 1, kC, eC, mRL, mR))
     | _, _ ->
       Y (n, kC, eC, mL, mR)
