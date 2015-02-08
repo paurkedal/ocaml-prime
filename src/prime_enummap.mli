@@ -97,10 +97,10 @@ module type S = sig
   (** [remove k m] is the map which agrees with [m] on all keys except that
       [k] is unbound.  If [k] is unbound in [m], then [remove k m] is [m]. *)
 
-  val cut : key -> 'a t -> 'a option * 'a t * 'a t
-  (** [cut k m] is [(e_opt, sL, sR)] where [e_opt] is the element bound to
-      [k], if any, and [sL] and [sR] are the submaps of [m] with keys smaller
-      or langer than [k], respectively. *)
+  val cut_binding : key -> 'a t -> 'a option * 'a t * 'a t
+  (** [cut_binding k m] is [(e_opt, sL, sR)] where [e_opt] is the element
+      bound to [k], if any, and [sL] and [sR] are the submaps of [m] with keys
+      smaller or langer than [k], respectively. *)
 
   val bindings : 'a t -> (key * 'a) list
   (** A [(key, element)] pair for each binding of the map in key order. *)
@@ -190,7 +190,9 @@ module type S = sig
       a)] of [mA] and [(k, b)] of [mB] sharing [k]. *)
 
   val card : 'a t -> int
-  (** @deprecated Use {!cardinal}. *)
+  (** @deprecated Renamed to {!cardinal}. *)
+  val cut : key -> 'a t -> 'a option * 'a t * 'a t
+  (** @deprecated Renamed to {!cut_binding} *)
 end
 
 module Make (Key : OrderedType) : S with type key = Key.t

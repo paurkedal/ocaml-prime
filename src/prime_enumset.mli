@@ -72,9 +72,10 @@ module type S = sig
   val remove : elt -> t -> t
   (** [remove e s] is the set containing all elements of [s] except [e]. *)
 
-  val cut : elt -> t -> bool * t * t
-  (** [cut k s] is [(contains k s, sL, sR)] where [sL] and [sR] are the
-      subsets of [s] with keys smaller and larger than [k], respectively. *)
+  val cut_element : elt -> t -> bool * t * t
+  (** [cut_element k s] is [(contains k s, sL, sR)] where [sL] and [sR] are
+      the subsets of [s] with keys smaller and larger than [k],
+      respectively. *)
 
   val pop_min : t -> elt * t
   (** [pop_min s] is [(e, s')] where [e] is the smallest element of [s] and
@@ -134,7 +135,9 @@ module type S = sig
   (** [compl s1 s2] is the complement of [s1] relative to [s2]. *)
 
   val card : t -> int
-  (** @deprecated Use {!cardinal}. *)
+  (** @deprecated Renamed to {!cardinal}. *)
+  val cut : elt -> t -> bool * t * t
+  (** @deprecated Renamed to {!cut_element}. *)
 end
 
 module Make (Elt : OrderedType) : S with type elt = Elt.t

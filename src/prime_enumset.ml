@@ -38,7 +38,7 @@ module type S = sig
   val succ_e : t -> elt -> elt
   val add : elt -> t -> t
   val remove : elt -> t -> t
-  val cut : elt -> t -> bool * t * t
+  val cut_element : elt -> t -> bool * t * t
   val pop_min : t -> elt * t
   val pop_max : t -> elt * t
   val elements : t -> elt list
@@ -57,6 +57,7 @@ module type S = sig
   val compl : t -> t -> t
 
   val card : t -> int
+  val cut : elt -> t -> bool * t * t
 end
 
 exception Keep
@@ -86,7 +87,6 @@ module Make (E : OrderedType) = struct
       true
 
   let cardinal = function O -> 0 | Y (n, _, _, _) -> n
-  let card = cardinal
 
   let rec locate' i e = function
     | O -> false, i
@@ -187,16 +187,16 @@ module Make (E : OrderedType) = struct
     | O, s | s, O -> s
     | _, _ -> let e, sL' = pop_max sL in glue e sL' sR
 
-  let rec cut eC = function
+  let rec cut_element eC = function
     | O -> (false, O, O)
     | Y (n, e, sL, sR) ->
       let c = E.compare eC e in
       if c = 0 then (true, sL, sR) else
       if c < 0 then
-	let pres, sLL, sRL = cut eC sL in
+	let pres, sLL, sRL = cut_element eC sL in
 	(pres, sLL, glue e sRL sR)
       else
-	let pres, sLR, sRR = cut eC sR in
+	let pres, sLR, sRR = cut_element eC sR in
 	(pres, glue e sL sLR, sRR)
 
   let rec remove' e = function
@@ -288,7 +288,7 @@ module Make (E : OrderedType) = struct
 
   let rec union sA sB =
     let aux sC e sL sR =
-      let _, sLC, sRC = cut e sC in
+      let _, sLC, sRC = cut_element e sC in
       glue e (union sLC sL) (union sRC sR) in
     match sA, sB with
     | O, s | s, O -> s
@@ -298,7 +298,7 @@ module Make (E : OrderedType) = struct
 
   let rec inter sA sB =
     let aux sC e sL sR =
-      let pres, sLC, sRC = cut e sC in
+      let pres, sLC, sRC = cut_element e sC in
       let sL' = inter sLC sL in
       let sR' = inter sRC sR in
       if pres then glue e sL' sR' else cat sL' sR' in
@@ -313,8 +313,11 @@ module Make (E : OrderedType) = struct
     | O, _ -> sB
     | _, O -> O
     | _, Y (nB, eB, sLB, sRB) ->
-      let presA, sLA, sRA = cut eB sA in
+      let presA, sLA, sRA = cut_element eB sA in
       if presA then cat     (compl sLA sLB) (compl sRA sRB)
 	       else glue eB (compl sLA sLB) (compl sRA sRB)
 
+  (* Deprecated *)
+  let card = cardinal
+  let cut = cut_element
 end

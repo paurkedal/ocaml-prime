@@ -45,7 +45,7 @@ module type S = sig
   val pop_min : 'a t -> key * 'a * 'a t
   val pop_max : 'a t -> key * 'a * 'a t
   val remove : key -> 'a t -> 'a t
-  val cut : key -> 'a t -> 'a option * 'a t * 'a t
+  val cut_binding : key -> 'a t -> 'a option * 'a t * 'a t
   val bindings : 'a t -> (key * 'a) list
   val of_ordered_bindings : (key * 'a) list -> 'a t
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
@@ -70,6 +70,7 @@ module type S = sig
 		    'a t -> 'b t -> 'a t * 'b t * 'c t
 
   val card : 'a t -> int
+  val cut : key -> 'a t -> 'a option * 'a t * 'a t
 end
 
 exception Keep
@@ -228,16 +229,16 @@ module Make (K : OrderedType) = struct
   let glue_opt k e_opt mL mR =
     match e_opt with None -> cat mL mR | Some e -> glue k e mL mR
 
-  let rec cut kC = function
+  let rec cut_binding kC = function
     | O -> (None, O, O)
     | Y (n, k, e, mL, mR) ->
       let c = K.compare kC k in
       if c = 0 then (Some e, mL, mR) else
       if c < 0 then
-	let eC, mLL, mRL = cut kC mL in
+	let eC, mLL, mRL = cut_binding kC mL in
 	(eC, mLL, glue k e mRL mR)
       else
-	let eC, mLR, mRR = cut kC mR in
+	let eC, mLR, mRR = cut_binding kC mR in
 	(eC, glue k e mL mLR, mRR)
 
   let rec remove' k = function
@@ -356,10 +357,10 @@ module Make (K : OrderedType) = struct
     match mA, mB with
     | O, O -> O
     | Y (nA, kA, eA, mLA, mRA), _ when nA > cardinal mB ->
-      let eB_opt, mLB, mRB = cut kA mB in
+      let eB_opt, mLB, mRB = cut_binding kA mB in
       glue_opt kA (f kA (Some eA) eB_opt) (merge f mLA mLB) (merge f mRA mRB)
     | _, Y (nB, kB, eB, mLB, mRB) ->
-      let eA_opt, mLA, mRA = cut kB mA in
+      let eA_opt, mLA, mRA = cut_binding kB mA in
       glue_opt kB (f kB eA_opt (Some eB)) (merge f mLA mLB) (merge f mRA mRB)
     | _ -> assert false
 
@@ -367,7 +368,7 @@ module Make (K : OrderedType) = struct
     match mA, mB with
     | O, _ | _, O -> O
     | Y (nA, kA, eA, mLA, mRA), _ ->
-      let eB_opt, mLB, mRB = cut kA mB in
+      let eB_opt, mLB, mRB = cut_binding kA mB in
       let mL = finter f mLA mLB in
       let mR = finter f mRA mRB in
       match eB_opt with
@@ -378,7 +379,7 @@ module Make (K : OrderedType) = struct
     match mA, mB with
     | O, m | m, O -> m
     | Y (nA, kA, eA, mLA, mRA), _ ->
-      let eB_opt, mLB, mRB = cut kA mB in
+      let eB_opt, mLB, mRB = cut_binding kA mB in
       let mL = funion f mLA mLB in
       let mR = funion f mRA mRB in
       match eB_opt with
@@ -390,7 +391,7 @@ module Make (K : OrderedType) = struct
     | O, _ -> mB
     | _, O -> O
     | _, Y (nB, kB, eB, mLB, mRB) ->
-      let eA_opt, mLA, mRA = cut kB mA in
+      let eA_opt, mLA, mRA = cut_binding kB mA in
       let mL = fcompl f mLA mLB in
       let mR = fcompl f mRA mRB in
       match eA_opt with
@@ -402,7 +403,7 @@ module Make (K : OrderedType) = struct
     | O, _ -> mB
     | _, O -> fmapi (fun k eA -> f k eA None) mA
     | _, Y (nB, k, eB, mLB, mRB) ->
-      let eA_opt, mLA, mRA = cut k mA in
+      let eA_opt, mLA, mRA = cut_binding k mA in
       let mL = fpatch f mLA mLB in
       let mR = fpatch f mRA mRB in
       match eA_opt with
@@ -416,4 +417,6 @@ module Make (K : OrderedType) = struct
       with Not_found ->
 	(add k a mA, mB, mC) in
     fold aux mA (empty, mB, empty)
+
+  let cut = cut_binding
 end

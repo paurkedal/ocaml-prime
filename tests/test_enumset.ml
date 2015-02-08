@@ -59,7 +59,7 @@ let test_cut () =
 	if e > e_cut then (sL, Int_eset.add e sR) else
 	(sL, sR))
       es (Int_eset.empty, Int_eset.empty) in
-  let pres, sL', sR' = Int_eset.cut es.(i_cut) s in
+  let pres, sL', sR' = Int_eset.cut_element es.(i_cut) s in
   assert pres;
   assert (Int_eset.equal sL sL');
   assert (Int_eset.equal sR sR')

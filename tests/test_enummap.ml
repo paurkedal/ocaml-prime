@@ -67,7 +67,7 @@ let test_cut () =
 	if e > e_cut then (mL, Int_emap.add e e mR) else
 	(mL, mR))
       es (Int_emap.empty, Int_emap.empty) in
-  let e_opt, mL', mR' = Int_emap.cut es.(i_cut) m in
+  let e_opt, mL', mR' = Int_emap.cut_binding es.(i_cut) m in
   assert (e_opt = Some e_cut);
   assert (Int_emap.equal (=) mL mL');
   assert (Int_emap.equal (=) mR mR')
