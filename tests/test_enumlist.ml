@@ -34,9 +34,25 @@ let test_push () =
   let xs = List.sample (fun _ -> Random.int n) n in
   let l0 = List.fold L.push_last xs L.empty in
   let l1 = List.fold_right L.push_first xs L.empty in
+  let l2 = L.of_list xs in
   assert (L.equal (=) l0 l1);
-  let xs0 = L.elements l0 in
-  assert (xs0 = xs)
+  assert (L.equal (=) l0 l2);
+  let xs0 = L.to_list l0 in
+  assert (xs0 = xs);
+  let l3 = L.push_last 0 l2 in
+  assert (L.compare compare l2 l3 = -1);
+  assert (L.compare compare l3 l2 = 1);
+  assert (L.equal (=) l3 l2 = false);
+  if n > 0 then begin
+    let l4 = L.push_first (n + 1) (snd (L.pop_first_e l2)) in
+    assert (L.compare compare l2 l4 = -1);
+    assert (L.compare compare l4 l2 = 1);
+    assert (L.equal (=) l2 l4 = false);
+    let l5 = L.push_first (-1) (snd (L.pop_first_e l2)) in
+    assert (L.compare compare l2 l5 = 1);
+    assert (L.compare compare l5 l2 = -1);
+    assert (L.equal (=) l2 l5 = false)
+  end
 
 let test_insert_delete () =
   let n0 = Random.int (1 lsl Random.int 10) in
@@ -61,17 +77,17 @@ let test_insert_delete () =
   permute_array a0;
   let s0, l0 = Prime_array.fold ins a0 (Int_set.empty, L.empty) in
   assert (Int_set.cardinal s0 = L.length l0);
-  assert (Int_set.elements s0 = L.elements l0);
+  assert (Int_set.elements s0 = L.to_list l0);
 
   permute_array a1;
   let s01, l01 = Prime_array.fold ins a1 (s0, l0) in
   assert (Int_set.cardinal s01 = L.length l01);
-  assert (Int_set.elements s01 = L.elements l01);
+  assert (Int_set.elements s01 = L.to_list l01);
 
   permute_array a0;
   let s1, l1 = Prime_array.fold del a0 (s01, l01) in
   assert (Int_set.cardinal s1 = L.length l1);
-  assert (Int_set.elements s1 = L.elements l1)
+  assert (Int_set.elements s1 = L.to_list l1)
 
 let run () =
   assert (L.is_empty L.empty);

@@ -52,7 +52,9 @@ val cat : 'a t -> 'a t -> 'a t
 
 val cut : int -> 'a t -> 'a t * 'a t
 
-val elements : 'a t -> 'a list
+val of_list : 'a list -> 'a t
+
+val to_list : 'a t -> 'a list
 
 val search : ('a -> 'b option) -> 'a t -> 'b option
 

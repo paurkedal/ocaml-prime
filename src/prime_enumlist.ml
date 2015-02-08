@@ -119,12 +119,21 @@ let rec insert i e = function
     if length sL > length sR then Y (n + 1, e, sL, push_first eC sR)
 			     else Y (n + 1, eC, push_last e sL, sR)
 
+let of_list xs =
+  let rec aux n xs =
+    if n = 0 then (O, xs) else
+    let sL, xs = aux (n / 2) xs in
+    let e,  xs = List.hd xs, List.tl xs in
+    let sR, xs = aux ((n - 1) / 2) xs in
+    (Y (n, e, sL, sR), xs) in
+  fst (aux (List.length xs) xs)
+
 let rec push_elements = function
   | O -> fun acc -> acc
   | Y (_, e, sL, sR) -> fun acc ->
     push_elements sL (e :: push_elements sR acc)
 
-let elements s = push_elements s []
+let to_list s = push_elements s []
 
 let rec search f = function
   | O -> None
