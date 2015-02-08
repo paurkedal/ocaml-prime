@@ -41,8 +41,10 @@ let test_push () =
 let test_insert_delete () =
   let n0 = Random.int (1 lsl Random.int 10) in
   let n1 = Random.int (1 lsl Random.int 10) in
-  let a0 = Prime_array.sample ident n0 in
-  let a1 = Prime_array.sample (fun i -> n0 + i) n1 in
+  let a01 = Prime_array.sample ident (n0 + n1) in
+  permute_array a01;
+  let a0 = Prime_array.slice 0 n0 a01 in
+  let a1 = Prime_array.slice n0 (n0 + n1) a01 in
 
   let ins x (s, l) =
     let _, pos = Int_set.locate x s in
