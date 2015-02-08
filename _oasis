@@ -37,6 +37,7 @@ Library "prime-unstable"
     Prime_beacon,
     Prime_cache,
     Prime_cache_metric,
+    Prime_enumlist,
     Prime_enummap,
     Prime_enumset,
     Prime_retraction,

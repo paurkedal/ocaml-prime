@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -16,9 +16,10 @@
 
 open OUnit
 
-let suite = "OCaml Prime Test Suite" >::: [
+let suite = "prime" >::: [
   "test_array" >:: Test_array.run;
   "test_cache_metric" >:: Test_cache_metric.run;
+  "test_enumlist" >:: Test_enumlist.run;
   "test_enummap" >:: Test_enummap.run;
   "test_enumset" >:: Test_enumset.run;
   "test_int" >:: Test_int.run;
