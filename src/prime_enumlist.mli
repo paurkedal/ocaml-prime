@@ -50,6 +50,8 @@ val glue : 'a -> 'a t -> 'a t -> 'a t
 
 val cat : 'a t -> 'a t -> 'a t
 
+val cut : int -> 'a t -> 'a t * 'a t
+
 val elements : 'a t -> 'a list
 
 val search : ('a -> 'b option) -> 'a t -> 'b option

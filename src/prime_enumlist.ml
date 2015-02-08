@@ -91,6 +91,14 @@ let cat sL sR =
   | O, s | s, O -> s
   | _, _ -> let e, sL' = pop_last_e sL in glue e sL' sR
 
+let rec cut i = function
+  | O -> if i = 0 then (O, O) else invalid_arg "Prime_enumlist.cut_at"
+  | Y (n, e, sL, sR) ->
+    let nL = length sL in
+    if i < nL then let sX, sL' = cut i sL in (sX, cat sL' sR) else
+    if i > nL then let sR', sX = cut (i - nL - 1) sR in (cat sL sR', sX) else
+    (sL, push_first e sR)
+
 let rec delete i = function
   | O -> invalid_arg "Prime_enumlist.delete"
   | Y (n, eC, sL, sR) ->
