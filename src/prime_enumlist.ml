@@ -187,6 +187,26 @@ let rec filter f = function
     let sL', sR' = filter f sL, filter f sR in
     if f e then glue e sL' sR' else cat sL' sR'
 
+let rec map f = function
+  | O -> O
+  | Y (n, e, sL, sR) -> Y (n, f e, map f sL, map f sR)
+
+let mapi f =
+  let rec aux i = function
+    | O -> O
+    | Y (n, e, sL, sR) ->
+      let nL = length sL in
+      Y (n, f nL e, aux 0 sL, aux (nL + 1) sR) in
+  aux 0
+
+let rec fmap f = function
+  | O -> O
+  | Y (n, e, sL, sR) ->
+    let sL', sR' = fmap f sL, fmap f sR in
+    match f e with
+    | Some e' -> glue e' sL' sR'
+    | None -> cat sL' sR'
+
 let compare f sA sB =
   let rec aux = function
     | End, End -> 0

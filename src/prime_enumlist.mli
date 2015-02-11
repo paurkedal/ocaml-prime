@@ -72,6 +72,12 @@ val exists : ('a -> bool) -> 'a t -> bool
 
 val filter : ('a -> bool) -> 'a t -> 'a t
 
+val map : ('a -> 'b) -> 'a t -> 'b t
+
+val mapi : (int -> 'a -> 'b) -> 'a t -> 'b t
+
+val fmap : ('a -> 'b option) -> 'a t -> 'b t
+
 val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
 
 val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
