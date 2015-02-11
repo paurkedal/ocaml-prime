@@ -30,6 +30,10 @@ val singleton : 'a -> 'a t
 
 val get : int -> 'a t -> 'a
 
+val set : int -> 'a -> 'a t -> 'a t
+
+val update : int -> ('a -> 'a) -> 'a t -> 'a t
+
 val first_e : 'a t -> 'a
 
 val last_e : 'a t -> 'a

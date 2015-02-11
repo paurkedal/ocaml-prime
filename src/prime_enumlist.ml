@@ -40,6 +40,24 @@ let rec get i s =
     if i > nL then get (i - nL - 1) sR else
     eC
 
+let rec set i e s =
+  match s with
+  | O -> invalid_arg "Prime_enumlist.set"
+  | Y (n, eC, sL, sR) ->
+    let nL = length sL in
+    if i < nL then Y (n, eC, set i e sL, sR) else
+    if i > nL then Y (n, eC, sL, set (i - nL - 1) e sR) else
+    Y (n, e, sL, sR)
+
+let rec update i f s =
+  match s with
+  | O -> invalid_arg "Prime_enumlist.update"
+  | Y (n, eC, sL, sR) ->
+    let nL = length sL in
+    if i < nL then Y (n, eC, update i f sL, sR) else
+    if i > nL then Y (n, eC, sL, update (i - nL - 1) f sR) else
+    Y (n, f eC, sL, sR)
+
 let rec first_e = function
   | O -> invalid_arg "Prime_enumlist.first_e"
   | Y (_, eC, O, _) -> eC
