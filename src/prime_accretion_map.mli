@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015  Petter Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -14,23 +14,12 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-open OUnit
+(** Accumulation of a monoid over a map {i prime.unstable}. *)
 
-let suite = "prime" >::: [
-  "test_array" >:: Test_array.run;
-  "test_cache_metric" >:: Test_cache_metric.run;
-  "test_accretion_map" >:: Test_accretion_map.run;
-  "test_enumlist" >:: Test_enumlist.run;
-  "test_enummap" >:: Test_enummap.run;
-  "test_enumset" >:: Test_enumset.run;
-  "test_int" >:: Test_int.run;
-  "test_list" >:: Test_list.run;
-  "test_map" >:: Test_map.run;
-  "test_retraction" >:: Test_retraction.run;
-  "test_string" >:: Test_string.run;
-  "test_wallet" >:: Test_wallet.run;
-]
+include module type of Prime_accretion_map_intf
 
-let _ =
-  Random.self_init ();
-  run_test_tt_main suite
+module Make1 (Key : Map.OrderedType) (Elt : Monoid1) :
+  S1 with type key = Key.t and type 'a elt = 'a Elt.t
+
+module Make (Key : Map.OrderedType) (Elt : Monoid) :
+  S with type key = Key.t and type elt = Elt.t
