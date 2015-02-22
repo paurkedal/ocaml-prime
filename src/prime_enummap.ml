@@ -15,6 +15,7 @@
  *)
 
 open Prime
+open Prime_sigs
 
 module type OrderedType = sig
   type t
@@ -419,4 +420,64 @@ module Make (K : OrderedType) = struct
     fold aux mA (empty, mB, empty)
 
   let cut = cut_binding
+
+  module With_monad (M : Monad) = struct
+
+    let rec fold_s f = function
+      | O -> M.return
+      | Y (_, k, e, mL, mR) ->
+	fun acc -> M.bind (fold_s f mL acc) @@
+	  fun acc -> M.bind (f k e acc) (fold_s f mR)
+
+    let rec iter_s f = function
+      | O -> M.return ()
+      | Y (_, k, e, mL, mR) ->
+	M.bind (iter_s f mL) @@ fun () ->
+	M.bind (f k e) @@ fun () ->
+	iter_s f mR
+
+    let rec search_s f = function
+      | O -> M.return None
+      | Y (_, k, e, mL, mR) ->
+	M.bind (search_s f mL) begin function
+	| Some _ as r -> M.return r
+	| None ->
+	  M.bind (f k e) begin function
+	  | Some _ as r -> M.return r
+	  | None -> search_s f mR
+	  end
+	end
+
+    let rec for_all_s f = function
+      | O -> M.return true
+      | Y (_, k, e, mL, mR) ->
+	M.bind (for_all_s f mL) begin function
+	| false -> M.return false
+	| true ->
+	  M.bind (f k e) begin function
+	  | false -> M.return false
+	  | true -> for_all_s f mR
+	  end
+	end
+
+    let rec exists_s f = function
+      | O -> M.return false
+      | Y (_, k, e, mL, mR) ->
+	M.bind (exists_s f mL) begin function
+	| true -> M.return true
+	| false ->
+	  M.bind (f k e) begin function
+	  | true -> M.return true
+	  | false -> exists_s f mR
+	  end
+	end
+
+    let rec filter_s f = function
+      | O -> M.return O
+      | Y (_, k, e, sL, sR) ->
+	M.bind (filter_s f sL) @@ fun sL' ->
+	M.bind (filter_s f sR) @@ fun sR' ->
+	M.bind (f k e) @@ fun c ->
+	M.return (if c then glue k e sL' sR' else cat sL' sR')
+  end
 end

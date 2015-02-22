@@ -19,6 +19,8 @@
     This is similar to [Map] from the standard library, but provides a
     {!locate} method which return the position of a binding within a map. *)
 
+open Prime_sigs
+
 module type OrderedType = sig
   type t
   val compare : t -> t -> int
@@ -195,4 +197,15 @@ module type S = sig
   (** @deprecated Renamed to {!cut_binding} *)
 end
 
-module Make (Key : OrderedType) : S with type key = Key.t
+module Make (Key : OrderedType) : sig
+  include S with type key = Key.t
+
+  module With_monad (M : Monad) : sig
+    val fold_s : (key -> 'a -> 'b -> 'b M.t) -> 'a t -> 'b -> 'b M.t
+    val iter_s : (key -> 'a -> unit M.t) -> 'a t -> unit M.t
+    val search_s : (key -> 'a -> 'b option M.t) -> 'a t -> 'b option M.t
+    val for_all_s : (key -> 'a -> bool M.t) -> 'a t -> bool M.t
+    val exists_s : (key -> 'a -> bool M.t) -> 'a t -> bool M.t
+    val filter_s : (key -> 'a -> bool M.t) -> 'a t -> 'a t M.t
+  end
+end
