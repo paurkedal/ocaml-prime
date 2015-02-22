@@ -212,6 +212,11 @@ module type S_monadic = sig
   val fmapi_s : (key -> 'a -> 'b option monad) -> 'a t -> 'b t monad
 end
 
+module type S_with_monadic = sig
+  include S
+  include S_monadic with type key := key and type 'a t := 'a t
+end
+
 module Make (Key : OrderedType) : sig
   include S with type key = Key.t
 
@@ -221,9 +226,5 @@ module Make (Key : OrderedType) : sig
 	       and type 'a monad = 'a Monad.t
 end
 
-module Make_monadic (Key : OrderedType) (Monad : Monad) : sig
-  include S with type key = Key.t
-  include S_monadic with type key := Key.t
-		     and type 'a t := 'a t
-		     and type 'a monad = 'a Monad.t
-end
+module Make_monadic (Key : OrderedType) (Monad : Monad) :
+  S_with_monadic with type key = Key.t and type 'a monad = 'a Monad.t

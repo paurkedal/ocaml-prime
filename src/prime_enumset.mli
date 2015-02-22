@@ -154,6 +154,11 @@ module type S_monadic = sig
   val filter_s : (elt -> bool monad) -> t -> t monad
 end
 
+module type S_with_monadic = sig
+  include S
+  include S_monadic with type elt := elt and type t := t
+end
+
 module Make (Elt : OrderedType) : sig
   include S with type elt = Elt.t
 
@@ -162,9 +167,5 @@ module Make (Elt : OrderedType) : sig
 	       and type 'a monad = 'a Monad.t
 end
 
-module Make_monadic (Elt : OrderedType) (Monad : Monad) : sig
-  include S with type elt = Elt.t
-  include S_monadic with type elt := Elt.t
-			  and type t := t
-			  and type 'a monad = 'a Monad.t
-end
+module Make_monadic (Elt : OrderedType) (Monad : Monad) :
+  S_with_monadic with type elt = Elt.t and type 'a monad = 'a Monad.t

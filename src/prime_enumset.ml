@@ -73,6 +73,11 @@ module type S_monadic = sig
   val filter_s : (elt -> bool monad) -> t -> t monad
 end
 
+module type S_with_monadic = sig
+  include S
+  include S_monadic with type elt := elt and type t := t
+end
+
 exception Keep
 
 module Make (E : OrderedType) = struct

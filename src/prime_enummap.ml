@@ -89,6 +89,11 @@ module type S_monadic = sig
   val fmapi_s : (key -> 'a -> 'b option monad) -> 'a t -> 'b t monad
 end
 
+module type S_with_monadic = sig
+  include S
+  include S_monadic with type key := key and type 'a t := 'a t
+end
+
 exception Keep
 
 module Make (K : OrderedType) = struct
