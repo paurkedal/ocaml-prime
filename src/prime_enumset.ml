@@ -61,6 +61,18 @@ module type S = sig
   val cut : elt -> t -> bool * t * t
 end
 
+module type S_monadic = sig
+  type elt
+  type t
+  type 'a monad
+  val fold_s : (elt -> 'a -> 'a monad) -> t -> 'a -> 'a monad
+  val iter_s : (elt -> unit monad) -> t -> unit monad
+  val search_s : (elt -> 'a option monad) -> t -> 'a option monad
+  val for_all_s : (elt -> bool monad) -> t -> bool monad
+  val exists_s : (elt -> bool monad) -> t -> bool monad
+  val filter_s : (elt -> bool monad) -> t -> t monad
+end
+
 exception Keep
 
 module Make (E : OrderedType) = struct
@@ -322,7 +334,9 @@ module Make (E : OrderedType) = struct
   let card = cardinal
   let cut = cut_element
 
-  module With_monad (M : Monad) = struct
+  module Make_monadic (M : Monad) = struct
+
+    type 'a monad = 'a M.t
 
     let rec fold_s f = function
       | O -> M.return
@@ -382,4 +396,9 @@ module Make (E : OrderedType) = struct
 	M.return (if c then glue e sL' sR' else cat sL' sR')
 
   end
+end
+
+module Make_monadic (Elt : OrderedType) (Monad : Monad) = struct
+  include Make (Elt)
+  include Make_monadic (Monad)
 end

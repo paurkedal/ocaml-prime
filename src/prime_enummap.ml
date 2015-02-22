@@ -74,6 +74,21 @@ module type S = sig
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
 end
 
+module type S_monadic = sig
+  type key
+  type 'a t
+  type 'a monad
+  val fold_s : (key -> 'a -> 'b -> 'b monad) -> 'a t -> 'b -> 'b monad
+  val iter_s : (key -> 'a -> unit monad) -> 'a t -> unit monad
+  val search_s : (key -> 'a -> 'b option monad) -> 'a t -> 'b option monad
+  val for_all_s : (key -> 'a -> bool monad) -> 'a t -> bool monad
+  val exists_s : (key -> 'a -> bool monad) -> 'a t -> bool monad
+  val filter_s : (key -> 'a -> bool monad) -> 'a t -> 'a t monad
+  val map_s : ('a -> 'b monad) -> 'a t -> 'b t monad
+  val mapi_s : (key -> 'a -> 'b monad) -> 'a t -> 'b t monad
+  val fmapi_s : (key -> 'a -> 'b option monad) -> 'a t -> 'b t monad
+end
+
 exception Keep
 
 module Make (K : OrderedType) = struct
@@ -421,7 +436,9 @@ module Make (K : OrderedType) = struct
 
   let cut = cut_binding
 
-  module With_monad (M : Monad) = struct
+  module Make_monadic (M : Monad) = struct
+
+    type 'a monad = 'a M.t
 
     let rec fold_s f = function
       | O -> M.return
@@ -505,4 +522,9 @@ module Make (K : OrderedType) = struct
 	| None -> M.return (cat mL' mR')
 	| Some e' -> M.return (glue k e' mL' mR')
   end
+end
+
+module Make_monadic (Key : OrderedType) (Monad : Monad) = struct
+  include Make (Key)
+  include Make_monadic (Monad)
 end

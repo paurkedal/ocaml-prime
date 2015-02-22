@@ -197,18 +197,33 @@ module type S = sig
   (** @deprecated Renamed to {!cut_binding} *)
 end
 
+module type S_monadic = sig
+  type key
+  type 'a t
+  type 'a monad
+  val fold_s : (key -> 'a -> 'b -> 'b monad) -> 'a t -> 'b -> 'b monad
+  val iter_s : (key -> 'a -> unit monad) -> 'a t -> unit monad
+  val search_s : (key -> 'a -> 'b option monad) -> 'a t -> 'b option monad
+  val for_all_s : (key -> 'a -> bool monad) -> 'a t -> bool monad
+  val exists_s : (key -> 'a -> bool monad) -> 'a t -> bool monad
+  val filter_s : (key -> 'a -> bool monad) -> 'a t -> 'a t monad
+  val map_s : ('a -> 'b monad) -> 'a t -> 'b t monad
+  val mapi_s : (key -> 'a -> 'b monad) -> 'a t -> 'b t monad
+  val fmapi_s : (key -> 'a -> 'b option monad) -> 'a t -> 'b t monad
+end
+
 module Make (Key : OrderedType) : sig
   include S with type key = Key.t
 
-  module With_monad (M : Monad) : sig
-    val fold_s : (key -> 'a -> 'b -> 'b M.t) -> 'a t -> 'b -> 'b M.t
-    val iter_s : (key -> 'a -> unit M.t) -> 'a t -> unit M.t
-    val search_s : (key -> 'a -> 'b option M.t) -> 'a t -> 'b option M.t
-    val for_all_s : (key -> 'a -> bool M.t) -> 'a t -> bool M.t
-    val exists_s : (key -> 'a -> bool M.t) -> 'a t -> bool M.t
-    val filter_s : (key -> 'a -> bool M.t) -> 'a t -> 'a t M.t
-    val map_s : ('a -> 'b M.t) -> 'a t -> 'b t M.t
-    val mapi_s : (key -> 'a -> 'b M.t) -> 'a t -> 'b t M.t
-    val fmapi_s : (key -> 'a -> 'b option M.t) -> 'a t -> 'b t M.t
-  end
+  module Make_monadic (Monad : Monad) :
+    S_monadic with type key := Key.t
+	       and type 'a t := 'a t
+	       and type 'a monad = 'a Monad.t
+end
+
+module Make_monadic (Key : OrderedType) (Monad : Monad) : sig
+  include S with type key = Key.t
+  include S_monadic with type key := Key.t
+		     and type 'a t := 'a t
+		     and type 'a monad = 'a Monad.t
 end

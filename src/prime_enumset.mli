@@ -142,15 +142,29 @@ module type S = sig
   (** @deprecated Renamed to {!cut_element}. *)
 end
 
+module type S_monadic = sig
+  type elt
+  type t
+  type 'a monad
+  val fold_s : (elt -> 'a -> 'a monad) -> t -> 'a -> 'a monad
+  val iter_s : (elt -> unit monad) -> t -> unit monad
+  val search_s : (elt -> 'a option monad) -> t -> 'a option monad
+  val for_all_s : (elt -> bool monad) -> t -> bool monad
+  val exists_s : (elt -> bool monad) -> t -> bool monad
+  val filter_s : (elt -> bool monad) -> t -> t monad
+end
+
 module Make (Elt : OrderedType) : sig
   include S with type elt = Elt.t
 
-  module With_monad (M : Monad) : sig
-    val fold_s : (elt -> 'a -> 'a M.t) -> t -> 'a -> 'a M.t
-    val iter_s : (elt -> unit M.t) -> t -> unit M.t
-    val search_s : (elt -> 'a option M.t) -> t -> 'a option M.t
-    val for_all_s : (elt -> bool M.t) -> t -> bool M.t
-    val exists_s : (elt -> bool M.t) -> t -> bool M.t
-    val filter_s : (elt -> bool M.t) -> t -> t M.t
-  end
+  module Make_monadic (Monad : Monad) :
+    S_monadic with type elt := elt and type t := t
+	       and type 'a monad = 'a Monad.t
+end
+
+module Make_monadic (Elt : OrderedType) (Monad : Monad) : sig
+  include S with type elt = Elt.t
+  include S_monadic with type elt := Elt.t
+			  and type t := t
+			  and type 'a monad = 'a Monad.t
 end
