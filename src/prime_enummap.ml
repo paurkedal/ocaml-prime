@@ -479,5 +479,30 @@ module Make (K : OrderedType) = struct
 	M.bind (filter_s f sR) @@ fun sR' ->
 	M.bind (f k e) @@ fun c ->
 	M.return (if c then glue k e sL' sR' else cat sL' sR')
+
+    let rec map_s f = function
+      | O -> M.return O
+      | Y (_, k, e, mL, mR) ->
+	M.bind (map_s f mL) @@ fun mL' ->
+	M.bind (map_s f mR) @@ fun mR' ->
+	M.bind (f e) @@ fun e' ->
+	M.return (glue k e' mL' mR')
+
+    let rec mapi_s f = function
+      | O -> M.return O
+      | Y (_, k, e, mL, mR) ->
+	M.bind (mapi_s f mL) @@ fun mL' ->
+	M.bind (mapi_s f mR) @@ fun mR' ->
+	M.bind (f k e) @@ fun e' ->
+	M.return (glue k e' mL' mR')
+
+    let rec fmapi_s f = function
+      | O -> M.return O
+      | Y (_, k, e, mL, mR) ->
+	M.bind (fmapi_s f mL) @@ fun mL' ->
+	M.bind (fmapi_s f mR) @@ fun mR' ->
+	M.bind (f k e) @@ function
+	| None -> M.return (cat mL' mR')
+	| Some e' -> M.return (glue k e' mL' mR')
   end
 end

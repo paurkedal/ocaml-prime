@@ -207,5 +207,8 @@ module Make (Key : OrderedType) : sig
     val for_all_s : (key -> 'a -> bool M.t) -> 'a t -> bool M.t
     val exists_s : (key -> 'a -> bool M.t) -> 'a t -> bool M.t
     val filter_s : (key -> 'a -> bool M.t) -> 'a t -> 'a t M.t
+    val map_s : ('a -> 'b M.t) -> 'a t -> 'b t M.t
+    val mapi_s : (key -> 'a -> 'b M.t) -> 'a t -> 'b t M.t
+    val fmapi_s : (key -> 'a -> 'b option M.t) -> 'a t -> 'b t M.t
   end
 end
