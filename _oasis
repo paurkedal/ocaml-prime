@@ -43,6 +43,7 @@ Library "prime-unstable"
     Prime_enummap,
     Prime_enumset,
     Prime_retraction,
+    Prime_sigs,
     Prime_wallet,
     Unprime_enumlist
   BuildDepends: prime

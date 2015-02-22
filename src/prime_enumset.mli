@@ -20,6 +20,8 @@
     provides a {!locate} method to tell the position of an element in the
     map. *)
 
+open Prime_sigs
+
 module type OrderedType = sig
   type t
   val compare : t -> t -> int
@@ -140,4 +142,15 @@ module type S = sig
   (** @deprecated Renamed to {!cut_element}. *)
 end
 
-module Make (Elt : OrderedType) : S with type elt = Elt.t
+module Make (Elt : OrderedType) : sig
+  include S with type elt = Elt.t
+
+  module With_monad (M : Monad) : sig
+    val fold_s : (elt -> 'a -> 'a M.t) -> t -> 'a -> 'a M.t
+    val iter_s : (elt -> unit M.t) -> t -> unit M.t
+    val search_s : (elt -> 'a option M.t) -> t -> 'a option M.t
+    val for_all_s : (elt -> bool M.t) -> t -> bool M.t
+    val exists_s : (elt -> bool M.t) -> t -> bool M.t
+    val filter_s : (elt -> bool M.t) -> t -> t M.t
+  end
+end

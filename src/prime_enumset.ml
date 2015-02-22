@@ -14,6 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
+open Prime_sigs
 open Unprime
 
 module type OrderedType = sig
@@ -320,4 +321,65 @@ module Make (E : OrderedType) = struct
   (* Deprecated *)
   let card = cardinal
   let cut = cut_element
+
+  module With_monad (M : Monad) = struct
+
+    let rec fold_s f = function
+      | O -> M.return
+      | Y (_, eC, sL, sR) ->
+	fun acc -> M.bind (fold_s f sL acc) @@
+	  fun acc -> M.bind (f eC acc) (fold_s f sR)
+
+    let rec iter_s f = function
+      | O -> M.return ()
+      | Y (_, eC, sL, sR) ->
+	M.bind (iter_s f sL) @@ fun () ->
+	M.bind (f eC) @@ fun () ->
+	iter_s f sR
+
+    let rec search_s f = function
+      | O -> M.return None
+      | Y (_, eC, sL, sR) ->
+	M.bind (search_s f sL) begin function
+	| Some _ as r -> M.return r
+	| None ->
+	  M.bind (f eC) begin function
+	  | Some _ as r -> M.return r
+	  | None -> search_s f sR
+	  end
+	end
+
+    let rec for_all_s f = function
+      | O -> M.return true
+      | Y (_, eC, sL, sR) ->
+	M.bind (for_all_s f sL) begin function
+	| false -> M.return false
+	| true ->
+	  M.bind (f eC) begin function
+	  | false -> M.return false
+	  | true -> for_all_s f sR
+	  end
+	end
+
+    let rec exists_s f = function
+      | O -> M.return false
+      | Y (_, eC, sL, sR) ->
+	M.bind (exists_s f sL) begin function
+	| true -> M.return true
+	| false ->
+	  M.bind (f eC) begin function
+	  | true -> M.return true
+	  | false -> exists_s f sR
+	  end
+	end
+
+    let rec filter_s f = function
+      | O -> M.return O
+      | Y (_, e, sL, sR) ->
+	M.bind (filter_s f sL) @@ fun sL' ->
+	M.bind (filter_s f sR) @@ fun sR' ->
+	M.bind (f e) @@ fun c ->
+	M.return (if c then glue e sL' sR' else cat sL' sR')
+
+  end
 end
