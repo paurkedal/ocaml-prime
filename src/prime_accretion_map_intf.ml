@@ -47,11 +47,23 @@ module type S1 = sig
 
   val result : 'a t -> 'a elt
 
+  val find : key -> 'a t -> 'a elt
+
   val add : key -> 'a elt -> 'a t -> 'a t
 
   val remove : key -> 'a t -> 'a t
 
   val bindings : 'a t -> (key * 'a elt) list
+
+  val fold : (key -> 'a elt -> 'b -> 'b) -> 'a t -> 'b -> 'b
+
+  val iter : (key -> 'a elt -> unit) -> 'a t -> unit
+
+  val search : (key -> 'a elt -> 'b option) -> 'a t -> 'b option
+
+  val for_all : (key -> 'a elt -> bool) -> 'a t -> bool
+
+  val exists : (key -> 'a elt -> bool) -> 'a t -> bool
 end
 
 module type S = sig
@@ -69,9 +81,21 @@ module type S = sig
 
   val result : t -> elt
 
+  val find : key -> t -> elt
+
   val add : key -> elt -> t -> t
 
   val remove : key -> t -> t
 
   val bindings : t -> (key * elt) list
+
+  val fold : (key -> elt -> 'a -> 'a) -> t -> 'a -> 'a
+
+  val iter : (key -> elt -> unit) -> t -> unit
+
+  val search : (key -> elt -> 'a option) -> t -> 'a option
+
+  val for_all : (key -> elt -> bool) -> t -> bool
+
+  val exists : (key -> elt -> bool) -> t -> bool
 end

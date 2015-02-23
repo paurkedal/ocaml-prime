@@ -46,6 +46,14 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
     | _, _ ->
       aY kC eC mL mR
 
+  let rec find k = function
+    | O -> raise Not_found
+    | Y (_, _, kC, eC, mL, mR) ->
+      let o = Key.compare k kC in
+      if o < 0 then find k mL else
+      if o > 0 then find k mR else
+      eC
+
   let rec add k e = function
     | O -> Y (1, e, k, e, O, O)
     | Y (_, _, kC, eC, mL, mR) ->
@@ -83,6 +91,30 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
       | O -> acc
       | Y (_, _, k, e, mL, mR) -> push ((k, e) :: push acc mR) mL in
     push [] m
+
+  let rec fold f = function
+    | O -> fun acc -> acc
+    | Y (_, _, k, e, mL, mR) -> fun acc ->
+      acc |> fold f mL |> f k e |> fold f mR
+
+  let rec iter f = function
+    | O -> ()
+    | Y (_, _, k, e, mL, mR) -> iter f mL; f k e; iter f mR
+
+  let rec search f = function
+    | O -> None
+    | Y (_, _, k, e, mL, mR) ->
+      match search f mL with
+      | Some _ as r -> r
+      | None -> (match f k e with Some _ as r -> r | None -> search f mR)
+
+  let rec for_all f = function
+    | O -> true
+    | Y (_, _, k, e, mL, mR) -> for_all f mL && f k e && for_all f mR
+
+  let rec exists f = function
+    | O -> false
+    | Y (_, _, k, e, mL, mR) -> exists f mL || f k e || exists f mR
 end
 
 module Make1 (Key : Map.OrderedType) (Elt : Monoid1) = struct
