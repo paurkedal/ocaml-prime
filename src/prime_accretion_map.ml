@@ -16,17 +16,22 @@
 
 include Prime_accretion_map_intf
 
-module type Monoid_ = sig type 'a t_ include Monoid1 with type 'a t := 'a t_ end
+module type Monoid_ = sig
+  type 'a t_
+  type 'a generator_
+  include MonoidG1
+     with type 'a t := 'a t_
+      and type 'a generator := 'a generator_
+end
 
 module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
   type key = Key.t
-  type 'a elt_ = 'a Elt.t_
-  type 'a t_ = O | Y of int * 'a elt_ * key * 'a elt_ * 'a t_ * 'a t_
-
-  let (%) = Elt.cat
+  type 'a elt_ = 'a Elt.generator_
+  type 'a result_ = 'a Elt.t_
+  type 'a t_ = O | Y of int * 'a result_ * key * 'a elt_ * 'a t_ * 'a t_
 
   let empty = O
-  let singleton k e = Y (1, e, k, e, O, O)
+  let singleton k e = Y (1, Elt.of_generator e, k, e, O, O)
   let is_empty = function O -> true | Y _ -> false
   let cardinal = function O -> 0 | Y (n, _, _, _, _, _) -> n
   let result = function O -> Elt.empty | Y (_, z, _, _, _, _) -> z
@@ -35,7 +40,8 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
   let aY kC eC mL mR =
     let nL, zL = head mL in
     let nR, zR = head mR in
-    Y (nL + 1 + nR, zL % eC % zR, kC, eC, mL, mR)
+    let zC = Elt.cat zL (Elt.cat (Elt.of_generator eC) zR) in
+    Y (nL + 1 + nR, zC, kC, eC, mL, mR)
 
   let bY kC eC mL mR =
     match mL, mR with
@@ -55,7 +61,7 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
       eC
 
   let rec add k e = function
-    | O -> Y (1, e, k, e, O, O)
+    | O -> Y (1, Elt.of_generator e, k, e, O, O)
     | Y (_, _, kC, eC, mL, mR) ->
       let o = Key.compare k kC in
       if o < 0 then bY kC eC (add k e mL) mR else
@@ -118,13 +124,51 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
 end
 
 module Make1 (Key : Map.OrderedType) (Elt : Monoid1) = struct
-  include Make_ (Key) (struct include Elt type 'a t_ = 'a Elt.t end)
+  include Make_ (Key)
+    (struct
+      include Elt
+      type 'a t_ = 'a t
+      type 'a generator_ = 'a t
+      let of_generator x = x
+    end)
   type 'a elt = 'a elt_
+  type 'a result = 'a result_
   type 'a t = 'a t_
 end
 
 module Make (Key : Map.OrderedType) (Elt : Monoid) = struct
-  include Make_ (Key) (struct include Elt type 'a t_ = Elt.t end)
+  include Make_ (Key)
+    (struct
+      include Elt
+      type 'a t_ = t
+      type 'a generator_ = t
+      let of_generator x = x
+    end)
   type elt = unit elt_
+  type result = unit result_
+  type t = unit t_
+end
+
+module MakeG1 (Key : Map.OrderedType) (Elt : MonoidG1) = struct
+  include Make_ (Key)
+    (struct
+      include Elt
+      type 'a t_ = 'a t
+      type 'a generator_ = 'a generator
+    end)
+  type 'a elt = 'a elt_
+  type 'a result = 'a result_
+  type 'a t = 'a t_
+end
+
+module MakeG (Key : Map.OrderedType) (Elt : MonoidG) = struct
+  include Make_ (Key)
+    (struct
+      include Elt
+      type 'a t_ = t
+      type 'a generator_ = generator
+    end)
+  type elt = unit elt_
+  type result = unit result_
   type t = unit t_
 end

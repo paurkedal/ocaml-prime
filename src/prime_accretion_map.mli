@@ -19,7 +19,21 @@
 include module type of Prime_accretion_map_intf
 
 module Make1 (Key : Map.OrderedType) (Elt : Monoid1) :
-  S1 with type key = Key.t and type 'a elt = 'a Elt.t
+  S1 with type key = Key.t
+      and type 'a elt = 'a Elt.t
+      and type 'a result = 'a Elt.t
 
 module Make (Key : Map.OrderedType) (Elt : Monoid) :
-  S with type key = Key.t and type elt = Elt.t
+  S with type key = Key.t
+     and type elt = Elt.t
+     and type result = Elt.t
+
+module MakeG1 (Key : Map.OrderedType) (Elt : MonoidG1) :
+  S1 with type key = Key.t
+      and type 'a elt = 'a Elt.generator
+      and type 'a result = 'a Elt.t
+
+module MakeG (Key : Map.OrderedType) (Elt : MonoidG) :
+  S with type key = Key.t
+     and type elt = Elt.generator
+     and type result = Elt.t

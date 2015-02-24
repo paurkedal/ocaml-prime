@@ -32,9 +32,26 @@ module type Monoid = sig
   val cat : t -> t -> t
 end
 
+module type MonoidG1 = sig
+  include Monoid1
+
+  type 'a generator
+
+  val of_generator : 'a generator -> 'a t
+end
+
+module type MonoidG = sig
+  include Monoid
+
+  type generator
+
+  val of_generator : generator -> t
+end
+
 module type S1 = sig
   type key
   type 'a elt
+  type 'a result
   type 'a t
 
   val empty : 'a t
@@ -45,7 +62,7 @@ module type S1 = sig
 
   val cardinal : 'a t -> int
 
-  val result : 'a t -> 'a elt
+  val result : 'a t -> 'a result
 
   val find : key -> 'a t -> 'a elt
 
@@ -69,6 +86,7 @@ end
 module type S = sig
   type key
   type elt
+  type result
   type t
 
   val empty : t
@@ -79,7 +97,7 @@ module type S = sig
 
   val cardinal : t -> int
 
-  val result : t -> elt
+  val result : t -> result
 
   val find : key -> t -> elt
 
