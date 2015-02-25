@@ -27,10 +27,15 @@
 <link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
 <link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
 <link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
+<link title="Prime_accretion_map" rel="Chapter" href="Prime_accretion_map.html">
+<link title="Prime_accretion_map_intf" rel="Chapter" href="Prime_accretion_map_intf.html">
+<link title="Prime_enumlist" rel="Chapter" href="Prime_enumlist.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
-<link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><title>The OCaml Prime Library : Index of values</title>
+<link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
+<link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Index of values</title>
 </head>
 <body>
 <div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
@@ -118,12 +123,22 @@ Computations in the scope of a variable <code class="code">x : counit</code> can
       is mapped to <code class="code">e</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALadd">add</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALadd">add</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td align="left"><br>B</td></tr>
+<tr><td><a href="Prime_sigs.Monad.html#VALbind">bind</a> [<a href="Prime_sigs.Monad.html">Prime_sigs.Monad</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_enummap.S.html#VALbindings">bindings</a> [<a href="Prime_enummap.S.html">Prime_enummap.S</a>]</td>
 <td><div class="info">
 A <code class="code">(key, element)</code> pair for each binding of the map in key order.
 </div>
 </td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALbindings">bindings</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALbindings">bindings</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_int64.html#VALbitcount">bitcount</a> [<a href="Prime_int64.html">Prime_int64</a>]</td>
 <td><div class="info">
 <code class="code">bitcount n</code> is the number of ones in the binary representation of <code class="code">n</code>.
@@ -169,6 +184,16 @@ A <code class="code">(key, element)</code> pair for each binding of the map in k
 <code class="code">cardinal m</code> is the cardinality of <code class="code">m</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALcardinal">cardinal</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALcardinal">cardinal</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enumlist.html#VALcat">cat</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.Monoid.html#VALcat">cat</a> [<a href="Prime_accretion_map_intf.Monoid.html">Prime_accretion_map_intf.Monoid</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.Monoid1.html#VALcat">cat</a> [<a href="Prime_accretion_map_intf.Monoid1.html">Prime_accretion_map_intf.Monoid1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_int.html#VALceil_log2">ceil_log2</a> [<a href="Prime_int.html">Prime_int</a>]</td>
 <td><div class="info">
 <code class="code">ceil_log2 n</code> is <code class="code">⌈log₂ n⌉</code>.
@@ -217,20 +242,22 @@ A <code class="code">(key, element)</code> pair for each binding of the map in k
 <td></td></tr>
 <tr><td><a href="Prime_retraction.S.html#VALcompare">compare</a> [<a href="Prime_retraction.S.html">Prime_retraction.S</a>]</td>
 <td></td></tr>
-<tr><td><a href="Prime_enumset.OrderedType.html#VALcompare">compare</a> [<a href="Prime_enumset.OrderedType.html">Prime_enumset.OrderedType</a>]</td>
-<td></td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALcompare">compare</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
 <td><div class="info">
 Total order.
 </div>
 </td></tr>
-<tr><td><a href="Prime_enummap.OrderedType.html#VALcompare">compare</a> [<a href="Prime_enummap.OrderedType.html">Prime_enummap.OrderedType</a>]</td>
+<tr><td><a href="Prime_enumset.OrderedType.html#VALcompare">compare</a> [<a href="Prime_enumset.OrderedType.html">Prime_enumset.OrderedType</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_enummap.S.html#VALcompare">compare</a> [<a href="Prime_enummap.S.html">Prime_enummap.S</a>]</td>
 <td><div class="info">
 <code class="code">compare f</code> is a total order over maps using <code class="code">f</code> to compare elements.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enummap.OrderedType.html#VALcompare">compare</a> [<a href="Prime_enummap.OrderedType.html">Prime_enummap.OrderedType</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enumlist.html#VALcompare">compare</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_retraction.RETRACTABLE.html#VALcompare_key">compare_key</a> [<a href="Prime_retraction.RETRACTABLE.html">Prime_retraction.RETRACTABLE</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALcompl">compl</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
@@ -300,21 +327,25 @@ Creates specifications for how to measure whether objects are worth
 <td></td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALcut">cut</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
 <td><div class="info">
-<code class="code">cut k s</code> is <code class="code">(contains k s, sL, sR)</code> where <code class="code">sL</code> and <code class="code">sR</code> are the
-      subsets of <code class="code">s</code> with keys smaller and larger than <code class="code">k</code>, respectively.
-</div>
+<span class="deprecated"></span></div>
 </td></tr>
 <tr><td><a href="Prime_enummap.S.html#VALcut">cut</a> [<a href="Prime_enummap.S.html">Prime_enummap.S</a>]</td>
 <td><div class="info">
-<code class="code">cut k m</code> is <code class="code">(e_opt, sL, sR)</code> where <code class="code">e_opt</code> is the element bound to
-      <code class="code">k</code>, if any, and <code class="code">sL</code> and <code class="code">sR</code> are the submaps of <code class="code">m</code> with keys smaller
-      or langer than <code class="code">k</code>, respectively.
-</div>
+<span class="deprecated"></span></div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALcut">cut</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_string.html#VALcut_affix">cut_affix</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td><div class="info">
 <code class="code">cut_affix afx s</code> returns the substrings before and after the leftmost
     occurrence of <code class="code">afx</code> in <code class="code">s</code>.
+</div>
+</td></tr>
+<tr><td><a href="Prime_enummap.S.html#VALcut_binding">cut_binding</a> [<a href="Prime_enummap.S.html">Prime_enummap.S</a>]</td>
+<td><div class="info">
+<code class="code">cut_binding k m</code> is <code class="code">(e_opt, sL, sR)</code> where <code class="code">e_opt</code> is the element
+      bound to <code class="code">k</code>, if any, and <code class="code">sL</code> and <code class="code">sR</code> are the submaps of <code class="code">m</code> with keys
+      smaller or langer than <code class="code">k</code>, respectively.
 </div>
 </td></tr>
 <tr><td><a href="Prime_string.html#VALcut_consecutive">cut_consecutive</a> [<a href="Prime_string.html">Prime_string</a>]</td>
@@ -324,7 +355,16 @@ Creates specifications for how to measure whether objects are worth
     <code class="code"><span class="constructor">String</span>.exists f s</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumset.S.html#VALcut_element">cut_element</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
+<td><div class="info">
+<code class="code">cut_element k s</code> is <code class="code">(contains k s, sL, sR)</code> where <code class="code">sL</code> and <code class="code">sR</code> are
+      the subsets of <code class="code">s</code> with keys smaller and larger than <code class="code">k</code>,
+      respectively.
+</div>
+</td></tr>
 <tr><td align="left"><br>D</td></tr>
+<tr><td><a href="Prime_enumlist.html#VALdelete">delete</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_list.html#VALdrop">drop</a> [<a href="Prime_list.html">Prime_list</a>]</td>
 <td><div class="info">
 <code class="code">drop n xs</code> returns the suffix of <code class="code">xs</code> following the <code class="code">n</code> first elements.
@@ -374,6 +414,16 @@ The empty set.
 The empty map.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALempty">empty</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALempty">empty</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALempty">empty</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.Monoid.html#VALempty">empty</a> [<a href="Prime_accretion_map_intf.Monoid.html">Prime_accretion_map_intf.Monoid</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.Monoid1.html#VALempty">empty</a> [<a href="Prime_accretion_map_intf.Monoid1.html">Prime_accretion_map_intf.Monoid1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_retraction.S.html#VALequal">equal</a> [<a href="Prime_retraction.S.html">Prime_retraction.S</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALequal">equal</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
@@ -387,6 +437,8 @@ The empty map.
       true on the respective mappings for each key.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALequal">equal</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_retraction.S.html#VALexists">exists</a> [<a href="Prime_retraction.S.html">Prime_retraction.S</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALexists">exists</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
@@ -399,6 +451,12 @@ The empty map.
 <code class="code">exists f m</code> is true iff <code class="code">f k e</code> for some binding <code class="code">(k, e)</code> of <code class="code">m</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALexists">exists</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALexists">exists</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALexists">exists</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_string.html#VALexists">exists</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_option.html#VALexists">exists</a> [<a href="Prime_option.html">Prime_option</a>]</td>
@@ -411,9 +469,15 @@ The empty map.
 <code class="code">exists f [|x₁; …; xₙ|]</code> is true iff <code class="code">f xᵢ</code> is true for some <code class="code">i</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumset.S_monadic.html#VALexists_s">exists_s</a> [<a href="Prime_enumset.S_monadic.html">Prime_enumset.S_monadic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enummap.S_monadic.html#VALexists_s">exists_s</a> [<a href="Prime_enummap.S_monadic.html">Prime_enummap.S_monadic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_beacon.S.html#VALexpire_all">expire_all</a> [<a href="Prime_beacon.S.html">Prime_beacon.S</a>]</td>
 <td></td></tr>
 <tr><td align="left"><br>F</td></tr>
+<tr><td><a href="Prime_sigs.Monad.html#VALfail">fail</a> [<a href="Prime_sigs.Monad.html">Prime_sigs.Monad</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_retraction.S.html#VALfcompl">fcompl</a> [<a href="Prime_retraction.S.html">Prime_retraction.S</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_enummap.S.html#VALfcompl">fcompl</a> [<a href="Prime_enummap.S.html">Prime_enummap.S</a>]</td>
@@ -443,6 +507,8 @@ The empty map.
       each binding <code class="code">(k, e)</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALfilter">filter</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_string.html#VALfilter">filter</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_option.html#VALfilter">filter</a> [<a href="Prime_option.html">Prime_option</a>]</td>
@@ -457,6 +523,10 @@ The empty map.
     true with order preserved.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumset.S_monadic.html#VALfilter_s">filter_s</a> [<a href="Prime_enumset.S_monadic.html">Prime_enumset.S_monadic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enummap.S_monadic.html#VALfilter_s">filter_s</a> [<a href="Prime_enummap.S_monadic.html">Prime_enummap.S_monadic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime.html#VALfinally">finally</a> [<a href="Prime.html">Prime</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_enummap.S.html#VALfind">find</a> [<a href="Prime_enummap.S.html">Prime_enummap.S</a>]</td>
@@ -465,6 +535,10 @@ The empty map.
       it is unbound.
 </div>
 </td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALfind">find</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALfind">find</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_cache.html#VALfind">find</a> [<a href="Prime_cache.html">Prime_cache</a>]</td>
 <td><div class="info">
 <code class="code">find ct k</code> returnes the object associated with <code class="code">k</code>.
@@ -489,6 +563,8 @@ The empty map.
 </td></tr>
 <tr><td><a href="Prime_option.html#VALfinter">finter</a> [<a href="Prime_option.html">Prime_option</a>]</td>
 <td></td></tr>
+<tr><td><a href="Prime_enumlist.html#VALfirst_e">first_e</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_option.html#VALflatten">flatten</a> [<a href="Prime_option.html">Prime_option</a>]</td>
 <td><div class="info">
 <code class="code">flatten</code> maps <code class="code"><span class="constructor">Some</span> (<span class="constructor">Some</span> x)</code> to <code class="code"><span class="constructor">Some</span> x</code> and other values to <code class="code"><span class="constructor">None</span></code>.
@@ -505,6 +581,8 @@ The empty map.
 <code class="code">floor_log2 n</code> is <code class="code">⌊log₂ n⌋</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALfmap">fmap</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_option.html#VALfmap">fmap</a> [<a href="Prime_option.html">Prime_option</a>]</td>
 <td><div class="info">
 <code class="code">fmap f <span class="constructor">None</span></code> is <code class="code"><span class="constructor">None</span></code> and <code class="code">fmap f (<span class="constructor">Some</span> a)</code> is <code class="code">f a</code>.
@@ -528,6 +606,8 @@ The empty map.
       <span class="constructor">Some</span> e</code> for some <code class="code">(k, e')</code> in <code class="code">m</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enummap.S_monadic.html#VALfmapi_s">fmapi_s</a> [<a href="Prime_enummap.S_monadic.html">Prime_enummap.S_monadic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_int.html#VALfmod">fmod</a> [<a href="Prime_int.html">Prime_int</a>]</td>
 <td><div class="info">
 <code class="code">fmod x y</code> is the remainder of the floored division of <code class="code">x</code> by <code class="code">y</code>.
@@ -553,6 +633,12 @@ The empty map.
       applied in order of increasing keys.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALfold">fold</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALfold">fold</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALfold">fold</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_string.html#VALfold">fold</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_option.html#VALfold">fold</a> [<a href="Prime_option.html">Prime_option</a>]</td>
@@ -616,6 +702,10 @@ The empty map.
       applied in order of decreasing keys.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumset.S_monadic.html#VALfold_s">fold_s</a> [<a href="Prime_enumset.S_monadic.html">Prime_enumset.S_monadic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enummap.S_monadic.html#VALfold_s">fold_s</a> [<a href="Prime_enummap.S_monadic.html">Prime_enummap.S_monadic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_int.html#VALfold_to">fold_to</a> [<a href="Prime_int.html">Prime_int</a>]</td>
 <td><div class="info">
 <code class="code">fold_to f n</code> returns <code class="code">f (n - 1) ∘ ⋯ ∘ f 0</code>.
@@ -645,6 +735,12 @@ The empty map.
       <code class="code">m</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALfor_all">for_all</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALfor_all">for_all</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALfor_all">for_all</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_string.html#VALfor_all">for_all</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_option.html#VALfor_all">for_all</a> [<a href="Prime_option.html">Prime_option</a>]</td>
@@ -663,6 +759,10 @@ The empty map.
     <code class="code">xB</code> taken from the same position of <code class="code">wA</code> and <code class="code">wB</code>, respectively.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumset.S_monadic.html#VALfor_all_s">for_all_s</a> [<a href="Prime_enumset.S_monadic.html">Prime_enumset.S_monadic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enummap.S_monadic.html#VALfor_all_s">for_all_s</a> [<a href="Prime_enummap.S_monadic.html">Prime_enummap.S_monadic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_option.html#VALfound">found</a> [<a href="Prime_option.html">Prime_option</a>]</td>
 <td><div class="info">
 <code class="code">found f</code> is <code class="code"><span class="keyword">try</span> <span class="constructor">Some</span> (f ()) <span class="keyword">with</span> <span class="constructor">Not_found</span> <span class="keywordsign">-&gt;</span> <span class="constructor">None</span></code>.
@@ -697,6 +797,8 @@ The empty map.
 <code class="code">get i s</code> is the <code class="code">i</code>th element of <code class="code">s</code> according to the element order.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALget">get</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_option.html#VALget">get</a> [<a href="Prime_option.html">Prime_option</a>]</td>
 <td><div class="info">
 <code class="code">get (<span class="constructor">Some</span> a)</code> returns <code class="code">a</code>, and <code class="code">get <span class="constructor">None</span></code> raises <code class="code"><span class="constructor">Invalid_argument</span></code>.
@@ -735,6 +837,8 @@ The empty map.
     raising an exception.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALglue">glue</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_beacon.S.html#VALgrade">grade</a> [<a href="Prime_beacon.S.html">Prime_beacon.S</a>]</td>
 <td><div class="info">
 <code class="code">grade x</code> is the current grade of <code class="code">x</code>.
@@ -763,6 +867,8 @@ The empty map.
 The I combinator: <code class="code">ident x</code> is <code class="code">x</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALinsert">insert</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALinter">inter</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
 <td><div class="info">
 <code class="code">inter s1 s2</code> is the intersection of <code class="code">s1</code> and <code class="code">s2</code>.
@@ -807,6 +913,12 @@ Holds for the empty set only.
 Holds for the empty map only.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALis_empty">is_empty</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALis_empty">is_empty</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALis_empty">is_empty</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_char.html#VALis_graph">is_graph</a> [<a href="Prime_char.html">Prime_char</a>]</td>
 <td><div class="info">
 True on characters normally rendered as non-blank glyphs; that is all
@@ -857,6 +969,12 @@ True on hexadecimal digits, false elsewhere.
       keys.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALiter">iter</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALiter">iter</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALiter">iter</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_option.html#VALiter">iter</a> [<a href="Prime_option.html">Prime_option</a>]</td>
 <td><div class="info">
 <code class="code">iter f (<span class="constructor">Some</span> a)</code> calls <code class="code">f a</code>, and <code class="code">iter f <span class="constructor">None</span></code> does nothing.
@@ -879,6 +997,10 @@ True on hexadecimal digits, false elsewhere.
 <code class="code">iter_input f ic</code> calls <code class="code">f ic</code> until <code class="code"><span class="constructor">End_of_file</span></code> is raised.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumset.S_monadic.html#VALiter_s">iter_s</a> [<a href="Prime_enumset.S_monadic.html">Prime_enumset.S_monadic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enummap.S_monadic.html#VALiter_s">iter_s</a> [<a href="Prime_enummap.S_monadic.html">Prime_enummap.S_monadic</a>]</td>
+<td></td></tr>
 <tr><td align="left"><br>K</td></tr>
 <tr><td><a href="Prime.html#VALkonst">konst</a> [<a href="Prime.html">Prime</a>]</td>
 <td><div class="info">
@@ -886,6 +1008,8 @@ The K combinator: <code class="code">konst x y</code> is <code class="code">x</c
 </div>
 </td></tr>
 <tr><td align="left"><br>L</td></tr>
+<tr><td><a href="Prime_enumlist.html#VALlast_e">last_e</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_map.S.html#VALleft_inter">left_inter</a> [<a href="Prime_map.S.html">Prime_map.S</a>]</td>
 <td><div class="info">
 <span class="deprecated"></span></div>
@@ -902,6 +1026,8 @@ The K combinator: <code class="code">konst x y</code> is <code class="code">x</c
 <code class="code">length w</code> is the number of elements of <code class="code">w</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALlength">length</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_retraction.S.html#VALlocate">locate</a> [<a href="Prime_retraction.S.html">Prime_retraction.S</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALlocate">locate</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
@@ -931,6 +1057,8 @@ The K combinator: <code class="code">konst x y</code> is <code class="code">x</c
       <code class="code">(k, f e)</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALmap">map</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_option.html#VALmap">map</a> [<a href="Prime_option.html">Prime_option</a>]</td>
 <td><div class="info">
 <code class="code">map f <span class="constructor">None</span></code> is <code class="code"><span class="constructor">None</span></code> and <code class="code">map f (<span class="constructor">Some</span> a)</code> is <code class="code"><span class="constructor">Some</span> (f a)</code>.
@@ -960,12 +1088,16 @@ The K combinator: <code class="code">konst x y</code> is <code class="code">x</c
 <code class="code">map_diff f [x₁; …; xₙ]</code> returns <code class="code">f x₁ x₂; f x₂ x₃; …; f xₙ₋₁ xₙ</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enummap.S_monadic.html#VALmap_s">map_s</a> [<a href="Prime_enummap.S_monadic.html">Prime_enummap.S_monadic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_enummap.S.html#VALmapi">mapi</a> [<a href="Prime_enummap.S.html">Prime_enummap.S</a>]</td>
 <td><div class="info">
 <code class="code">mapi f m</code> is the minimal map which for each <code class="code">(k, e)</code> of <code class="code">m</code> contains
       <code class="code">(k, f k e)</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALmapi">mapi</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_map.S.html#VALmapi2t">mapi2t</a> [<a href="Prime_map.S.html">Prime_map.S</a>]</td>
 <td><div class="info">
 <code class="code">mapi2t f m0 m1</code> returns a map which contains a mapping from <code class="code">k</code> to <code class="code">f k
@@ -973,6 +1105,8 @@ The K combinator: <code class="code">konst x y</code> is <code class="code">x</c
       <code class="code">m1</code> maps <code class="code">k</code> to <code class="code">x1</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enummap.S_monadic.html#VALmapi_s">mapi_s</a> [<a href="Prime_enummap.S_monadic.html">Prime_enummap.S_monadic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_wallet.html#VALmapj">mapj</a> [<a href="Prime_wallet.html">Prime_wallet</a>]</td>
 <td><div class="info">
 <code class="code">mapj f w</code> is the wallet with <code class="code">f i x</code> at <code class="code">i</code> where <code class="code">x</code> is element <code class="code">i</code> of
@@ -1017,6 +1151,12 @@ Given a <code class="code">w</code> with <code class="code">x</code> at <code cl
 </div>
 </td></tr>
 <tr><td align="left"><br>O</td></tr>
+<tr><td><a href="Prime_accretion_map_intf.MonoidG.html#VALof_generator">of_generator</a> [<a href="Prime_accretion_map_intf.MonoidG.html">Prime_accretion_map_intf.MonoidG</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.MonoidG1.html#VALof_generator">of_generator</a> [<a href="Prime_accretion_map_intf.MonoidG1.html">Prime_accretion_map_intf.MonoidG1</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enumlist.html#VALof_list">of_list</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_string.html#VALof_list">of_list</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_list.html#VALof_option">of_option</a> [<a href="Prime_list.html">Prime_list</a>]</td>
@@ -1055,6 +1195,10 @@ The memory overhead of the beacon in machine words.
       has no mapping in <code class="code">m</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALpop_first_e">pop_first_e</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enumlist.html#VALpop_last_e">pop_last_e</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALpop_max">pop_max</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
 <td><div class="info">
 <code class="code">pop_max s</code> is <code class="code">(e, s')</code> where <code class="code">e</code> is the largest element of <code class="code">s</code> and
@@ -1102,6 +1246,10 @@ The memory overhead of the beacon in machine words.
     as a function argument.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALpush_first">push_first</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enumlist.html#VALpush_last">push_last</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td align="left"><br>R</td></tr>
 <tr><td><a href="Prime_string.html#VALrcut_affix">rcut_affix</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td><div class="info">
@@ -1129,6 +1277,10 @@ The memory overhead of the beacon in machine words.
       <code class="code">k</code> is unbound.
 </div>
 </td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALremove">remove</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALremove">remove</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_cache.html#VALremove">remove</a> [<a href="Prime_cache.html">Prime_cache</a>]</td>
 <td><div class="info">
 <code class="code">remove ct k</code> removes any entry cached under <code class="code">k</code> from <code class="code">ct</code>.
@@ -1140,6 +1292,12 @@ The memory overhead of the beacon in machine words.
     with a grade <code class="code">g</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALresult">result</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALresult">result</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_sigs.Monad.html#VALreturn">return</a> [<a href="Prime_sigs.Monad.html">Prime_sigs.Monad</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_list.html#VALrev_map2t">rev_map2t</a> [<a href="Prime_list.html">Prime_list</a>]</td>
 <td><div class="info">
 <code class="code">rev_map2t f</code> is an optimisation of <code class="code">rev ∘ map2t f</code>.
@@ -1205,6 +1363,12 @@ The memory overhead of the beacon in machine words.
       from <code class="code"><span class="constructor">None</span></code>, or <code class="code"><span class="constructor">None</span></code> if no such mapping exists in <code class="code">m</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALsearch">search</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALsearch">search</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALsearch">search</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_string.html#VALsearch">search</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td></td></tr>
 <tr><td><a href="Prime_option.html#VALsearch">search</a> [<a href="Prime_option.html">Prime_option</a>]</td>
@@ -1230,11 +1394,17 @@ The memory overhead of the beacon in machine words.
     or <code class="code"><span class="constructor">None</span></code> if there is no such element.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumset.S_monadic.html#VALsearch_s">search_s</a> [<a href="Prime_enumset.S_monadic.html">Prime_enumset.S_monadic</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enummap.S_monadic.html#VALsearch_s">search_s</a> [<a href="Prime_enummap.S_monadic.html">Prime_enummap.S_monadic</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_wallet.html#VALset">set</a> [<a href="Prime_wallet.html">Prime_wallet</a>]</td>
 <td><div class="info">
 <code class="code">set i x w</code> is <code class="code">w</code> with element <code class="code">i</code> replaced by <code class="code">x</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALset">set</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_beacon.S.html#VALset_grade">set_grade</a> [<a href="Prime_beacon.S.html">Prime_beacon.S</a>]</td>
 <td><div class="info">
 <code class="code">set_grade g x</code> sets the grade of <code class="code">x</code> to <code class="code">g</code>.
@@ -1262,6 +1432,12 @@ The number of bits which can be stored in a signed integer.
 <code class="code">singleton k e</code> is the one-element map binding <code class="code">k</code> to <code class="code">e</code>.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALsingleton">singleton</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S.html#VALsingleton">singleton</a> [<a href="Prime_accretion_map_intf.S.html">Prime_accretion_map_intf.S</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map_intf.S1.html#VALsingleton">singleton</a> [<a href="Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_string.html#VALskip_affix">skip_affix</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td><div class="info">
 <code class="code">skip_affix afx s i</code> returns the end position of the leftmost occurrence
@@ -1344,6 +1520,8 @@ The number of bits which can be stored in a signed integer.
     elements which <code class="code">f</code> maps to true.
 </div>
 </td></tr>
+<tr><td><a href="Prime_enumlist.html#VALto_list">to_list</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_string.html#VALto_list">to_list</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td></td></tr>
 <tr><td align="left"><br>U</td></tr>
@@ -1358,6 +1536,8 @@ The number of bits which can be stored in a signed integer.
 </div>
 </td></tr>
 <tr><td><a href="Prime_option.html#VALunion">union</a> [<a href="Prime_option.html">Prime_option</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enumlist.html#VALupdate">update</a> [<a href="Prime_enumlist.html">Prime_enumlist</a>]</td>
 <td></td></tr>
 <tr><td align="left"><br>W</td></tr>
 <tr><td><a href="Prime_io.html#VALwith1_file_in">with1_file_in</a> [<a href="Prime_io.html">Prime_io</a>]</td>

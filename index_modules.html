@@ -27,10 +27,15 @@
 <link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
 <link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
 <link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
+<link title="Prime_accretion_map" rel="Chapter" href="Prime_accretion_map.html">
+<link title="Prime_accretion_map_intf" rel="Chapter" href="Prime_accretion_map_intf.html">
+<link title="Prime_enumlist" rel="Chapter" href="Prime_enumlist.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
-<link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><title>The OCaml Prime Library : Index of modules</title>
+<link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
+<link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Index of modules</title>
 </head>
 <body>
 <div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
@@ -43,6 +48,9 @@
 <tr><td align="left"><br>C</td></tr>
 <tr><td><a href="Unprime_char.Char.html">Char</a> [<a href="Unprime_char.html">Unprime_char</a>]</td>
 <td></td></tr>
+<tr><td align="left"><br>E</td></tr>
+<tr><td><a href="Unprime_enumlist.Enumlist.html">Enumlist</a> [<a href="Unprime_enumlist.html">Unprime_enumlist</a>]</td>
+<td></td></tr>
 <tr><td align="left"><br>L</td></tr>
 <tr><td><a href="Unprime_list.List.html">List</a> [<a href="Unprime_list.html">Unprime_list</a>]</td>
 <td></td></tr>
@@ -53,12 +61,28 @@
 <td></td></tr>
 <tr><td><a href="Prime_enummap.Make.html">Make</a> [<a href="Prime_enummap.html">Prime_enummap</a>]</td>
 <td></td></tr>
+<tr><td><a href="Prime_accretion_map.Make.html">Make</a> [<a href="Prime_accretion_map.html">Prime_accretion_map</a>]</td>
+<td></td></tr>
 <tr><td><a href="Prime_beacon.Make.html">Make</a> [<a href="Prime_beacon.html">Prime_beacon</a>]</td>
 <td><div class="info">
 Create a beacon API for based on the given metrics.
 </div>
 </td></tr>
 <tr><td><a href="Prime_map.Make.html">Make</a> [<a href="Prime_map.html">Prime_map</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map.Make1.html">Make1</a> [<a href="Prime_accretion_map.html">Prime_accretion_map</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map.MakeG.html">MakeG</a> [<a href="Prime_accretion_map.html">Prime_accretion_map</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_accretion_map.MakeG1.html">MakeG1</a> [<a href="Prime_accretion_map.html">Prime_accretion_map</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enumset.Make_monadic.html">Make_monadic</a> [<a href="Prime_enumset.html">Prime_enumset</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enumset.Make.Make_monadic.html">Make_monadic</a> [<a href="Prime_enumset.Make.html">Prime_enumset.Make</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enummap.Make_monadic.html">Make_monadic</a> [<a href="Prime_enummap.html">Prime_enummap</a>]</td>
+<td></td></tr>
+<tr><td><a href="Prime_enummap.Make.Make_monadic.html">Make_monadic</a> [<a href="Prime_enummap.Make.html">Prime_enummap.Make</a>]</td>
 <td></td></tr>
 <tr><td align="left"><br>O</td></tr>
 <tr><td><a href="Unprime_option.Option.html">Option</a> [<a href="Unprime_option.html">Unprime_option</a>]</td>
@@ -67,6 +91,16 @@ Create a beacon API for based on the given metrics.
 <tr><td><a href="Prime.html">Prime</a> </td>
 <td><div class="info">
 Primitives.
+</div>
+</td></tr>
+<tr><td><a href="Prime_accretion_map.html">Prime_accretion_map</a> </td>
+<td><div class="info">
+Accumulation of a monoid over a map <i>prime.unstable</i>.
+</div>
+</td></tr>
+<tr><td><a href="Prime_accretion_map_intf.html">Prime_accretion_map_intf</a> </td>
+<td><div class="info">
+Accumulation of a monoid over a map <i>prime.unstable</i>.
 </div>
 </td></tr>
 <tr><td><a href="Prime_array.html">Prime_array</a> </td>
@@ -93,6 +127,11 @@ Parameters and measuring functions for memory caches
 <tr><td><a href="Prime_char.html">Prime_char</a> </td>
 <td><div class="info">
 Amendment to the standard library <code class="code"><span class="constructor">Char</span></code> structure.
+</div>
+</td></tr>
+<tr><td><a href="Prime_enumlist.html">Prime_enumlist</a> </td>
+<td><div class="info">
+Pure random access list (<i>prime.unstable</i>).
 </div>
 </td></tr>
 <tr><td><a href="Prime_enummap.html">Prime_enummap</a> </td>
@@ -142,7 +181,13 @@ Functions on the <code class="code"><span class="keywordsign">'</span>a option</
 </td></tr>
 <tr><td><a href="Prime_retraction.html">Prime_retraction</a> </td>
 <td><div class="info">
-An ordered set of elements addressable by a property.
+An ordered set of elements addressable by a property
+    (<i>prime.unstable</i>).
+</div>
+</td></tr>
+<tr><td><a href="Prime_sigs.html">Prime_sigs</a> </td>
+<td><div class="info">
+Commonly used signatures.
 </div>
 </td></tr>
 <tr><td><a href="Prime_string.html">Prime_string</a> </td>
@@ -172,6 +217,11 @@ Shadowed <code class="code"><span class="constructor">Array</span></code>.
 <tr><td><a href="Unprime_char.html">Unprime_char</a> </td>
 <td><div class="info">
 Shadowed <code class="code"><span class="constructor">Char</span></code>.
+</div>
+</td></tr>
+<tr><td><a href="Unprime_enumlist.html">Unprime_enumlist</a> </td>
+<td><div class="info">
+Pervasive <code class="code"><span class="constructor">Enumlist</span></code> (<i>prime.unstable</i>).
 </div>
 </td></tr>
 <tr><td><a href="Unprime_list.html">Unprime_list</a> </td>

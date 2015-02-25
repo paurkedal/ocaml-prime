@@ -31,10 +31,15 @@
 <link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
 <link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
 <link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
+<link title="Prime_accretion_map" rel="Chapter" href="Prime_accretion_map.html">
+<link title="Prime_accretion_map_intf" rel="Chapter" href="Prime_accretion_map_intf.html">
+<link title="Prime_enumlist" rel="Chapter" href="Prime_enumlist.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
-<link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html"><title>The OCaml Prime Library : Prime_enumset</title>
+<link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
+<link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Prime_enumset</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Prime_enummap.html" title="Prime_enummap">Previous</a>
@@ -55,4 +60,7 @@ Enumerating set (<em>prime.unstable</em>).
 
 <pre><span class="keyword">module type</span> <a href="Prime_enumset.OrderedType.html">OrderedType</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Prime_enumset.OrderedType.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
 <pre><span class="keyword">module type</span> <a href="Prime_enumset.S.html">S</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Prime_enumset.S.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
-<pre><span class="keyword">module</span> <a href="Prime_enumset.Make.html">Make</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Elt</span></code><code class="code"> : </code><code class="type"><a href="Prime_enumset.OrderedType.html">OrderedType</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type"><a href="Prime_enumset.S.html">S</a></code><code class="type">  with type elt = Elt.t</code></div></pre></body></html>
+<pre><span class="keyword">module type</span> <a href="Prime_enumset.S_monadic.html">S_monadic</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Prime_enumset.S_monadic.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
+<pre><span class="keyword">module type</span> <a href="Prime_enumset.S_with_monadic.html">S_with_monadic</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Prime_enumset.S_with_monadic.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
+<pre><span class="keyword">module</span> <a href="Prime_enumset.Make.html">Make</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Elt</span></code><code class="code"> : </code><code class="type"><a href="Prime_enumset.OrderedType.html">OrderedType</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="code"><span class="keyword">sig</span></code> <a href="Prime_enumset.Make.html">..</a> <code class="code"><span class="keyword">end</span></code></div></pre>
+<pre><span class="keyword">module</span> <a href="Prime_enumset.Make_monadic.html">Make_monadic</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Elt</span></code><code class="code"> : </code><code class="type"><a href="Prime_enumset.OrderedType.html">OrderedType</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Monad</span></code><code class="code"> : </code><code class="type"><a href="Prime_sigs.Monad.html">Prime_sigs.Monad</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type"><a href="Prime_enumset.S_with_monadic.html">S_with_monadic</a></code><code class="type">  with type elt = Elt.t and type 'a monad = 'a Monad.t</code></div></div></pre></body></html>

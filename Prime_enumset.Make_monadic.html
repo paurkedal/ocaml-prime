@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Prime_enumset.Make.html">
+<link rel="Up" href="Prime_enumset.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Prime" rel="Chapter" href="Prime.html">
+<link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_int" rel="Chapter" href="Prime_int.html">
+<link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
+<link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
+<link title="Prime_io" rel="Chapter" href="Prime_io.html">
+<link title="Prime_list" rel="Chapter" href="Prime_list.html">
+<link title="Prime_map" rel="Chapter" href="Prime_map.html">
+<link title="Prime_option" rel="Chapter" href="Prime_option.html">
+<link title="Prime_string" rel="Chapter" href="Prime_string.html">
+<link title="Unprime" rel="Chapter" href="Unprime.html">
+<link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
+<link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
+<link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
+<link title="Unprime_string" rel="Chapter" href="Unprime_string.html">
+<link title="Prime_beacon" rel="Chapter" href="Prime_beacon.html">
+<link title="Prime_cache" rel="Chapter" href="Prime_cache.html">
+<link title="Prime_cache_metric" rel="Chapter" href="Prime_cache_metric.html">
+<link title="Prime_accretion_map" rel="Chapter" href="Prime_accretion_map.html">
+<link title="Prime_accretion_map_intf" rel="Chapter" href="Prime_accretion_map_intf.html">
+<link title="Prime_enumlist" rel="Chapter" href="Prime_enumlist.html">
+<link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
+<link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
+<link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
+<link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Prime_enumset.Make_monadic</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Prime_enumset.Make.html" title="Prime_enumset.Make">Previous</a>
+&nbsp;<a class="up" href="Prime_enumset.html" title="Prime_enumset">Up</a>
+&nbsp;</div>
+<h1>Functor <a href="type_Prime_enumset.Make_monadic.html">Prime_enumset.Make_monadic</a></h1>
+
+<pre><span class="keyword">module</span> Make_monadic: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Elt</span></code><code class="code"> : </code><code class="type"><a href="Prime_enumset.OrderedType.html">OrderedType</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Monad</span></code><code class="code"> : </code><code class="type"><a href="Prime_sigs.Monad.html">Prime_sigs.Monad</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type"><a href="Prime_enumset.S_with_monadic.html">S_with_monadic</a></code><code class="type">  with type elt = Elt.t and type 'a monad = 'a Monad.t</code></div></div></pre><table border="0" cellpadding="3" width="100%">
+<tr>
+<td align="left" valign="top" width="1%%"><b>Parameters: </b></td>
+<td>
+<table class="paramstable">
+<tr>
+<td align="center" valign="top" width="15%">
+<code>Elt</code></td>
+<td align="center" valign="top">:</td>
+<td><code class="type"><a href="Prime_enumset.OrderedType.html">OrderedType</a></code>
+<tr>
+<td align="center" valign="top" width="15%">
+<code>Monad</code></td>
+<td align="center" valign="top">:</td>
+<td><code class="type"><a href="Prime_sigs.Monad.html">Prime_sigs.Monad</a></code>
+</table>
+</td>
+</tr>
+</table>
+<hr width="100%">
+
+<pre><span class="keyword">include</span> <a href="Prime_enumset.S.html">Prime_enumset.S</a></pre>
+
+<pre><span class="keyword">include</span> <a href="Prime_enumset.S_monadic.html">Prime_enumset.S_monadic</a></pre>
+</body></html>
