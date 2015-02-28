@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Accumulation of a monoid over a map {i prime.unstable}. *)
+(** Accumulation of a monoid over a map ({i prime.unstable}). *)
 
 module type Monoid1 = sig
   type 'a t

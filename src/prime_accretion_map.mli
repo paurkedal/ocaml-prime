@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Accumulation of a monoid over a map {i prime.unstable}. *)
+(** Accumulation of a monoid over a map ({i prime.unstable}). *)
 
 include module type of Prime_accretion_map_intf
 
