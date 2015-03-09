@@ -14,25 +14,41 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Accumulation of a monoid over a map ({i prime.unstable}). *)
+(** Accumulation of a monoid over a map ({i prime.unstable}).
+
+    Given a monoid operation, say ∗, these map-like structures maintains the
+    of nested application of the operator over the elements of the map in
+    key-order.  E.g. given 5 elements inserted with keys such that the order
+    is {i a}, ..., {i e}, then the accumulated result may be computed as ({i
+    a} ∗ {i b}) ∗ ({i c} ∗ ({i d} ∗ {i e})) or any other associative
+    combination, yielding the same result.  The map is represented as a
+    balanced tree, storing intermediate results, so adding or removing
+    elements is amortized {i O}(log {i n}).
+
+    There are four functors depending on parametricity of the element type and
+    whether or not the generator type is explicit. *)
 
 include module type of Prime_accretion_map_intf
 
+(** Accretion map of a polymorphic monoid type. *)
 module Make1 (Key : Map.OrderedType) (Elt : Monoid1) :
   S1 with type key = Key.t
       and type 'a elt = 'a Elt.t
       and type 'a result = 'a Elt.t
 
+(** Accretion map of a monomorphic monoid type. *)
 module Make (Key : Map.OrderedType) (Elt : Monoid) :
   S with type key = Key.t
      and type elt = Elt.t
      and type result = Elt.t
 
+(** Accretion map of a polymorphic monoid type with an explicit generator. *)
 module MakeG1 (Key : Map.OrderedType) (Elt : MonoidG1) :
   S1 with type key = Key.t
       and type 'a elt = 'a Elt.generator
       and type 'a result = 'a Elt.t
 
+(** Accretion map of a monomorphic monoid type with an explicit generator. *)
 module MakeG (Key : Map.OrderedType) (Elt : MonoidG) :
   S with type key = Key.t
      and type elt = Elt.generator
