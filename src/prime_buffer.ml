@@ -14,7 +14,11 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-let with_buffer ?(n = 64) f =
-  let buf = Buffer.create n in
-  f buf;
-  Buffer.contents buf
+let with0 ?(n = 64) f =
+  let buf = Buffer.create n in f buf; Buffer.contents buf
+let with1 ?(n = 64) f x0 =
+  let buf = Buffer.create n in f buf x0; Buffer.contents buf
+let with2 ?(n = 64) f x0 x1 =
+  let buf = Buffer.create n in f buf x0 x1; Buffer.contents buf
+
+let with_buffer = with0

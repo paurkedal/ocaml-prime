@@ -16,5 +16,17 @@
 
 (** Amendment to the standard library [Buffer] structure. *)
 
+val with0 : ?n: int -> (Buffer.t -> unit) -> string
+(** [with0 f] executes [f buf] on a fresh buffer [buf] and returns its
+    content. *)
+
+val with1 : ?n: int -> (Buffer.t -> 'a -> unit) -> 'a -> string
+(** [with1 f x0] executes [f buf x0] on a fresh buffer [buf] and returns its
+    content. *)
+
+val with2 : ?n: int -> (Buffer.t -> 'a -> 'b -> unit) -> 'a -> 'b -> string
+(** [with2 f x0] executes [f buf x0 x1] on a fresh buffer [buf] and returns
+    its content. *)
+
 val with_buffer : ?n: int -> (Buffer.t -> unit) -> string
-(** [with_buffer f] executes [f] on a fresh buffer and returns its content. *)
+(** @deprecated Use {!with0}. *)
