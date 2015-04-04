@@ -17,6 +17,6 @@
 (** Shadowing [Buffer]. *)
 
 module Buffer : sig
-  include module type of Buffer
+  include module type of Buffer with type t = Buffer.t
   include module type of Prime_buffer
 end
