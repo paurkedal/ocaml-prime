@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -17,20 +17,15 @@
 open String
 open Unprime
 
-let sample f n =
-  let s = String.create n in
-  for i = 0 to n - 1 do s.[i] <- f i done;
-  s
+let sample f n = String.init n f
 
 let of_list xs =
   let n = List.length xs in
-  let s = String.create n in
   let xs_r = ref xs in
-  for i = 0 to n - 1 do
-    s.[i] <- List.hd !xs_r;
-    xs_r := List.tl !xs_r
-  done;
-  s
+  String.init n @@ fun i ->
+    match !xs_r with
+    | [] -> assert false
+    | x :: xs -> xs_r := xs; x
 
 let to_list s =
   let zs_r = ref [] in
