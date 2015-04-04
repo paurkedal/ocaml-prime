@@ -13,6 +13,7 @@ Library prime
   Modules:
     Prime,
     Prime_array,
+    Prime_buffer,
     Prime_char,
     Prime_int,
     Prime_int32,
@@ -24,6 +25,7 @@ Library prime
     Prime_string,
     Unprime,
     Unprime_array,
+    Unprime_buffer,
     Unprime_char,
     Unprime_list,
     Unprime_option,
