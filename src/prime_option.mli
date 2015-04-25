@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -17,6 +17,9 @@
 (** Functions on the ['a option] type. *)
 
 type 'a t = 'a option
+
+val some : 'a -> 'a option
+(** [some x] is [Some x]. *)
 
 val get : 'a option -> 'a
 (** [get (Some a)] returns [a], and [get None] raises [Invalid_argument]. *)
