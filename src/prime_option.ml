@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,7 @@
 
 type 'a t = 'a option
 
+let some x = Some x
 let get = function None -> invalid_arg "Prime_option.get" | Some a -> a
 let get_or d = function None -> d | Some a -> a
 let get_else h = function None -> h () | Some a -> a
