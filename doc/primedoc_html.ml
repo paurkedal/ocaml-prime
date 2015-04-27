@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -24,7 +24,7 @@ let copy_file src dst =
       let och = open_out dst in
       ( try
 	  let buflen = 4096 in
-	  let buf = String.create buflen in
+	  let buf = Bytes.create buflen in
 	  let rec loop () =
 	    let n = input ich buf 0 buflen in
 	    if n > 0 then (output och buf 0 n; loop ()) in
