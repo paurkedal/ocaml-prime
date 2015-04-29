@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -41,10 +41,6 @@ val ( *< ) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
 
 val ( *> ) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
 (** The reversed composition operator: [(f *> g) x] is [g (f x)]. *)
-
-val ( |> ) : 'a -> ('a -> 'b) -> 'b
-(** The reversed application operator:
-    [x |> f₁ |> ⋯ |> fₙ] is [fₙ (fₙ₋₁ ⋯ (f₁ x)⋯)]. *)
 
 (** {2 Currying} *)
 
