@@ -12,6 +12,7 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Prime" rel="Chapter" href="Prime.html">
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
@@ -23,6 +24,7 @@
 <link title="Prime_string" rel="Chapter" href="Prime_string.html">
 <link title="Unprime" rel="Chapter" href="Unprime.html">
 <link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_buffer" rel="Chapter" href="Unprime_buffer.html">
 <link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
@@ -48,7 +50,10 @@
 
 <pre><span class="keyword">module</span> MakeG: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Key</span></code><code class="code"> : </code><code class="type">Map.OrderedType</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Elt</span></code><code class="code"> : </code><code class="type">MonoidG</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type">S</code><code class="type">  with type key = Key.t
      and type elt = Elt.generator
-     and type result = Elt.t</code></div></div></pre><table border="0" cellpadding="3" width="100%">
+     and type result = Elt.t</code></div></div></pre><div class="info module top">
+Accretion map of a monomorphic monoid type with an explicit generator.<br>
+</div>
+<table border="0" cellpadding="3" width="100%">
 <tr>
 <td align="left" valign="top" width="1%%"><b>Parameters: </b></td>
 <td>

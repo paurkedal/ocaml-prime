@@ -13,6 +13,7 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Prime" rel="Chapter" href="Prime.html">
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
@@ -24,6 +25,7 @@
 <link title="Prime_string" rel="Chapter" href="Prime_string.html">
 <link title="Unprime" rel="Chapter" href="Unprime.html">
 <link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_buffer" rel="Chapter" href="Unprime_buffer.html">
 <link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
@@ -49,7 +51,20 @@
 <h1>Module <a href="type_Prime_accretion_map.html">Prime_accretion_map</a></h1>
 
 <pre><span class="keyword">module</span> Prime_accretion_map: <code class="code"><span class="keyword">sig</span></code> <a href="Prime_accretion_map.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
-Accumulation of a monoid over a map <i>prime.unstable</i>.<br>
+Accumulation of a monoid over a map (<em>prime.unstable</em>).
+<p>
+
+    Given a monoid operation, say ∗, these map-like structures maintains the
+    of nested application of the operator over the elements of the map in
+    key-order.  E.g. given 5 elements inserted with keys such that the order
+    is <i>a</i>, ..., <i>e</i>, then the accumulated result may be computed as (<i>    a</i> ∗ <i>b</i>) ∗ (<i>c</i> ∗ (<i>d</i> ∗ <i>e</i>)) or any other associative
+    combination, yielding the same result.  The map is represented as a
+    balanced tree, storing intermediate results, so adding or removing
+    elements is amortized <i>O</i>(log <i>n</i>).
+<p>
+
+    There are four functors depending on parametricity of the element type and
+    whether or not the generator type is explicit.<br>
 </div>
 <hr width="100%">
 
@@ -57,13 +72,25 @@ Accumulation of a monoid over a map <i>prime.unstable</i>.<br>
 
 <pre><span class="keyword">module</span> <a href="Prime_accretion_map.Make1.html">Make1</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Key</span></code><code class="code"> : </code><code class="type">Map.OrderedType</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Elt</span></code><code class="code"> : </code><code class="type">Monoid1</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type">S1</code><code class="type">  with type key = Key.t
       and type 'a elt = 'a Elt.t
-      and type 'a result = 'a Elt.t</code></div></div></pre>
+      and type 'a result = 'a Elt.t</code></div></div></pre><div class="info">
+Accretion map of a polymorphic monoid type.
+</div>
+
 <pre><span class="keyword">module</span> <a href="Prime_accretion_map.Make.html">Make</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Key</span></code><code class="code"> : </code><code class="type">Map.OrderedType</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Elt</span></code><code class="code"> : </code><code class="type">Monoid</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type">S</code><code class="type">  with type key = Key.t
      and type elt = Elt.t
-     and type result = Elt.t</code></div></div></pre>
+     and type result = Elt.t</code></div></div></pre><div class="info">
+Accretion map of a monomorphic monoid type.
+</div>
+
 <pre><span class="keyword">module</span> <a href="Prime_accretion_map.MakeG1.html">MakeG1</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Key</span></code><code class="code"> : </code><code class="type">Map.OrderedType</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Elt</span></code><code class="code"> : </code><code class="type">MonoidG1</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type">S1</code><code class="type">  with type key = Key.t
       and type 'a elt = 'a Elt.generator
-      and type 'a result = 'a Elt.t</code></div></div></pre>
+      and type 'a result = 'a Elt.t</code></div></div></pre><div class="info">
+Accretion map of a polymorphic monoid type with an explicit generator.
+</div>
+
 <pre><span class="keyword">module</span> <a href="Prime_accretion_map.MakeG.html">MakeG</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Key</span></code><code class="code"> : </code><code class="type">Map.OrderedType</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Elt</span></code><code class="code"> : </code><code class="type">MonoidG</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type">S</code><code class="type">  with type key = Key.t
      and type elt = Elt.generator
-     and type result = Elt.t</code></div></div></pre></body></html>
+     and type result = Elt.t</code></div></div></pre><div class="info">
+Accretion map of a monomorphic monoid type with an explicit generator.
+</div>
+</body></html>

@@ -13,6 +13,7 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Prime" rel="Chapter" href="Prime.html">
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
@@ -24,6 +25,7 @@
 <link title="Prime_string" rel="Chapter" href="Prime_string.html">
 <link title="Unprime" rel="Chapter" href="Unprime.html">
 <link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_buffer" rel="Chapter" href="Unprime_buffer.html">
 <link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
@@ -48,7 +50,10 @@
 </div>
 <h1>Module type <a href="type_Prime_accretion_map_intf.S1.html">Prime_accretion_map_intf.S1</a></h1>
 
-<pre><span class="keyword">module type</span> S1 = <code class="code"><span class="keyword">sig</span></code> <a href="Prime_accretion_map_intf.S1.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><hr width="100%">
+<pre><span class="keyword">module type</span> S1 = <code class="code"><span class="keyword">sig</span></code> <a href="Prime_accretion_map_intf.S1.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info modtype top">
+Signature for an accretion map with polymorphic elements.<br>
+</div>
+<hr width="100%">
 
 <pre><span id="TYPEkey"><span class="keyword">type</span> <code class="type"></code>key</span> </pre>
 
@@ -62,17 +67,67 @@
 <pre><span id="TYPEt"><span class="keyword">type</span> <code class="type">'a</code> t</span> </pre>
 
 
-<pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a></code></pre>
-<pre><span id="VALsingleton"><span class="keyword">val</span> singleton</span> : <code class="type"><a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a></code></pre>
-<pre><span id="VALis_empty"><span class="keyword">val</span> is_empty</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> bool</code></pre>
-<pre><span id="VALcardinal"><span class="keyword">val</span> cardinal</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> int</code></pre>
-<pre><span id="VALresult"><span class="keyword">val</span> result</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEresult">result</a></code></pre>
-<pre><span id="VALfind"><span class="keyword">val</span> find</span> : <code class="type"><a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a></code></pre>
-<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type"><a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a></code></pre>
-<pre><span id="VALremove"><span class="keyword">val</span> remove</span> : <code class="type"><a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a></code></pre>
-<pre><span id="VALbindings"><span class="keyword">val</span> bindings</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -><br>       (<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> * 'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a>) list</code></pre>
-<pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> 'b -> 'b) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'b -> 'b</code></pre>
-<pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> unit) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> unit</code></pre>
-<pre><span id="VALsearch"><span class="keyword">val</span> search</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> 'b option) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'b option</code></pre>
-<pre><span id="VALfor_all"><span class="keyword">val</span> for_all</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> bool) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> bool</code></pre>
-<pre><span id="VALexists"><span class="keyword">val</span> exists</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> bool) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> bool</code></pre></body></html>
+<pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a></code></pre><div class="info ">
+The empty map.<br>
+</div>
+
+<pre><span id="VALsingleton"><span class="keyword">val</span> singleton</span> : <code class="type"><a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">singleton k e</code> is the map containing just <code class="code">e</code> bound to <code class="code">k</code>.<br>
+</div>
+
+<pre><span id="VALis_empty"><span class="keyword">val</span> is_empty</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+<code class="code">is_empty m</code> is true iff <code class="code">m</code> is the empty map.<br>
+</div>
+
+<pre><span id="VALcardinal"><span class="keyword">val</span> cardinal</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+<code class="code">cardinal m</code> is the number of bindings in <code class="code">m</code>.<br>
+</div>
+
+<pre><span id="VALresult"><span class="keyword">val</span> result</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEresult">result</a></code></pre><div class="info ">
+<code class="code">result m</code> is the nested application of the monoid operator over
+      elements of the map in key-order but arbitrary associative combination.<br>
+</div>
+
+<pre><span id="VALfind"><span class="keyword">val</span> find</span> : <code class="type"><a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a></code></pre><div class="info ">
+<code class="code">find k m</code> is the element mapped to <code class="code">k</code>.<br>
+<b>Raises</b> <code>Not_found</code> if <code class="code">k</code> has no binding in <code class="code">m</code><br>
+</div>
+
+<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type"><a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">add k e m</code> is the least map binding <code class="code">k</code> to <code class="code">e</code> and any <code class="code">k' ≠ k</code> to
+      <code class="code">find k' m</code>.<br>
+</div>
+
+<pre><span id="VALremove"><span class="keyword">val</span> remove</span> : <code class="type"><a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">remove k m</code> is the minimal map binding <code class="code">k' ≠ k</code> to <code class="code">find k' m</code>.<br>
+</div>
+
+<pre><span id="VALbindings"><span class="keyword">val</span> bindings</span> : <code class="type">'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -><br>       (<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> * 'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a>) list</code></pre><div class="info ">
+<code class="code">bindings m</code> is the list containing <code class="code">(k, e)</code> iff <code class="code">k</code> is bound to <code class="code">e</code> in
+      <code class="code">m</code>.<br>
+</div>
+
+<pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> 'b -> 'b) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'b -> 'b</code></pre><div class="info ">
+<code class="code">fold f m</code> is <code class="code">f kₙ eₙ ∘ ... ∘ f k₁ e₁</code> where <code class="code">(kᵢ, eᵢ)</code> are the
+      bindings of <code class="code">m</code> in key order.<br>
+</div>
+
+<pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> unit) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<code class="code">iter f m</code> calls <code class="code">f k e</code> for each binding <code class="code">(k, e)</code> of <code class="code">m</code> in key order.<br>
+</div>
+
+<pre><span id="VALsearch"><span class="keyword">val</span> search</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> 'b option) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> 'b option</code></pre><div class="info ">
+<code class="code">search f m</code> is <code class="code">f k e</code> where <code class="code">(k, e)</code> is the binding with smallest <code class="code">k</code>
+      for which <code class="code">f k e ≠ None</code>, or <code class="code"><span class="constructor">None</span></code> if <code class="code">m</code> has no such binding.<br>
+</div>
+
+<pre><span id="VALfor_all"><span class="keyword">val</span> for_all</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> bool) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+<code class="code">for_all f m</code> is true iff <code class="code">f k e</code> is true for all bindings <code class="code">(k, e)</code> of
+      <code class="code">m</code>.<br>
+</div>
+
+<pre><span id="VALexists"><span class="keyword">val</span> exists</span> : <code class="type">(<a href="Prime_accretion_map_intf.S1.html#TYPEkey">key</a> -><br>        'a <a href="Prime_accretion_map_intf.S1.html#TYPEelt">elt</a> -> bool) -><br>       'a <a href="Prime_accretion_map_intf.S1.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+<code class="code">exists f m</code> is true iff there is a bindng <code class="code">(k, e)</code> of <code class="code">m</code> such that <code class="code">f
+      k e</code>.<br>
+</div>
+</body></html>

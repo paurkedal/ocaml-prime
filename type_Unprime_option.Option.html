@@ -8,6 +8,7 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Prime" rel="Chapter" href="Prime.html">
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
@@ -19,6 +20,7 @@
 <link title="Prime_string" rel="Chapter" href="Prime_string.html">
 <link title="Unprime" rel="Chapter" href="Unprime.html">
 <link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_buffer" rel="Chapter" href="Unprime_buffer.html">
 <link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
@@ -39,6 +41,7 @@
 <body>
 <code class="code"><span class="keyword">sig</span><br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;t&nbsp;=&nbsp;<span class="keywordsign">'</span>a&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;some&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;option<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_or&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_else&nbsp;:&nbsp;(unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>

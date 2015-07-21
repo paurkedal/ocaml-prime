@@ -13,6 +13,7 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Prime" rel="Chapter" href="Prime.html">
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
@@ -24,6 +25,7 @@
 <link title="Prime_string" rel="Chapter" href="Prime_string.html">
 <link title="Unprime" rel="Chapter" href="Unprime.html">
 <link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_buffer" rel="Chapter" href="Unprime_buffer.html">
 <link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
@@ -39,9 +41,7 @@
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
-<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><link title="Option Operators" rel="Section" href="#2_OptionOperators">
-<link title="List Operators" rel="Section" href="#2_ListOperators">
-<title>The OCaml Prime Library : Unprime</title>
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Unprime</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Prime_string.html" title="Prime_string">Previous</a>
@@ -56,8 +56,6 @@ Pervasives.<br>
 <hr width="100%">
 
 <pre><span class="keyword">include</span> <a href="Prime.html">Prime</a></pre>
-<br>
-<h2 id="2_OptionOperators">Option Operators</h2><br>
 
 <pre><span id="VAL(|?>.)"><span class="keyword">val</span> (|?&gt;.)</span> : <code class="type">'a option -> ('a -> 'b) -> 'b option</code></pre><div class="info ">
 An operator variant of <code class="code"><span class="constructor">Option</span>.map</code>.<br>
@@ -75,8 +73,6 @@ An operator variant of <code class="code"><span class="constructor">Option</span
 <code class="code"><span class="constructor">None</span> |?&gt;= f</code> is <code class="code"><span class="constructor">None</span></code> and <code class="code"><span class="constructor">Some</span> x |?&gt;= f</code> is <code class="code">f x</code>.  This is the bind
     operator of the maybe monad.<br>
 </div>
-<br>
-<h2 id="2_ListOperators">List Operators</h2><br>
 
 <pre><span id="VAL(|@>.)"><span class="keyword">val</span> (|@&gt;.)</span> : <code class="type">'a list -> ('a -> 'b) -> 'b list</code></pre><div class="info ">
 An operator variant of <code class="code"><span class="constructor">List</span>.map</code>.<br>

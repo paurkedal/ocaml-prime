@@ -13,6 +13,7 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Prime" rel="Chapter" href="Prime.html">
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
@@ -24,6 +25,7 @@
 <link title="Prime_string" rel="Chapter" href="Prime_string.html">
 <link title="Unprime" rel="Chapter" href="Unprime.html">
 <link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_buffer" rel="Chapter" href="Unprime_buffer.html">
 <link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
@@ -39,9 +41,7 @@
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
-<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><link title="Iteration" rel="Section" href="#2_Iteration">
-<link title="Binary Operators" rel="Section" href="#2_BinaryOperators">
-<title>The OCaml Prime Library : Prime_option</title>
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Prime_option</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Prime_map.html" title="Prime_map">Previous</a>
@@ -57,6 +57,10 @@ Functions on the <code class="code"><span class="keywordsign">'</span>a option</
 
 <pre><span id="TYPEt"><span class="keyword">type</span> <code class="type">'a</code> t</span> = <code class="type">'a option</code> </pre>
 
+
+<pre><span id="VALsome"><span class="keyword">val</span> some</span> : <code class="type">'a -> 'a option</code></pre><div class="info ">
+<code class="code">some x</code> is <code class="code"><span class="constructor">Some</span> x</code>.<br>
+</div>
 
 <pre><span id="VALget"><span class="keyword">val</span> get</span> : <code class="type">'a option -> 'a</code></pre><div class="info ">
 <code class="code">get (<span class="constructor">Some</span> a)</code> returns <code class="code">a</code>, and <code class="code">get <span class="constructor">None</span></code> raises <code class="code"><span class="constructor">Invalid_argument</span></code>.<br>
@@ -83,8 +87,6 @@ Functions on the <code class="code"><span class="keywordsign">'</span>a option</
 <pre><span id="VALflatten"><span class="keyword">val</span> flatten</span> : <code class="type">'a option option -> 'a option</code></pre><div class="info ">
 <code class="code">flatten</code> maps <code class="code"><span class="constructor">Some</span> (<span class="constructor">Some</span> x)</code> to <code class="code"><span class="constructor">Some</span> x</code> and other values to <code class="code"><span class="constructor">None</span></code>.<br>
 </div>
-<br>
-<h2 id="2_Iteration">Iteration</h2><br>
 
 <pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">('a -> unit) -> 'a option -> unit</code></pre><div class="info ">
 <code class="code">iter f (<span class="constructor">Some</span> a)</code> calls <code class="code">f a</code>, and <code class="code">iter f <span class="constructor">None</span></code> does nothing.<br>
@@ -115,8 +117,6 @@ Functions on the <code class="code"><span class="keywordsign">'</span>a option</
 <code class="code">filter f (<span class="constructor">Some</span> a)</code> returns <code class="code"><span class="constructor">Some</span> a</code> if <code class="code">f a</code> is true; in other cases
     <code class="code">filter f a</code> returns <code class="code"><span class="constructor">None</span></code>.<br>
 </div>
-<br>
-<h2 id="2_BinaryOperators">Binary Operators</h2><br>
 
 <pre><span id="VALinter"><span class="keyword">val</span> inter</span> : <code class="type">('a -> 'b -> 'c) -> 'a option -> 'b option -> 'c option</code></pre>
 <pre><span id="VALunion"><span class="keyword">val</span> union</span> : <code class="type">('a -> 'a -> 'a) -> 'a option -> 'a option -> 'a option</code></pre>

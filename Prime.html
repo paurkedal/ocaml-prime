@@ -12,6 +12,7 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Prime" rel="Chapter" href="Prime.html">
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
@@ -23,6 +24,7 @@
 <link title="Prime_string" rel="Chapter" href="Prime_string.html">
 <link title="Unprime" rel="Chapter" href="Unprime.html">
 <link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_buffer" rel="Chapter" href="Unprime_buffer.html">
 <link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
@@ -38,11 +40,7 @@
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
-<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><link title="The Empty Type" rel="Section" href="#2_TheEmptyType">
-<link title="Combinators" rel="Section" href="#2_Combinators">
-<link title="Currying" rel="Section" href="#2_Currying">
-<link title="Exceptions" rel="Section" href="#2_Exceptions">
-<title>The OCaml Prime Library : Prime</title>
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Prime</title>
 </head>
 <body>
 <div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
@@ -54,8 +52,6 @@
 Primitives.<br>
 </div>
 <hr width="100%">
-<br>
-<h2 id="2_TheEmptyType">The Empty Type</h2><br>
 
 <pre><span id="TYPEcounit"><span class="keyword">type</span> <code class="type"></code>counit</span> </pre>
 <div class="info ">
@@ -70,8 +66,6 @@ Computations in the scope of a variable <code class="code">x : counit</code> can
     and thus be shortcut as <code class="code">absurd x</code>.  This is the analogue of
     pattern-matching a variant with no constructors.<br>
 </div>
-<br>
-<h2 id="2_Combinators">Combinators</h2><br>
 
 <pre><span id="VALident"><span class="keyword">val</span> ident</span> : <code class="type">'a -> 'a</code></pre><div class="info ">
 The I combinator: <code class="code">ident x</code> is <code class="code">x</code>.<br>
@@ -89,13 +83,6 @@ The composition operator: <code class="code">(f *&lt; g) x</code> is <code class
 The reversed composition operator: <code class="code">(f *&gt; g) x</code> is <code class="code">g (f x)</code>.<br>
 </div>
 
-<pre><span id="VAL(|>)"><span class="keyword">val</span> (|&gt;)</span> : <code class="type">'a -> ('a -> 'b) -> 'b</code></pre><div class="info ">
-The reversed application operator:
-    <code class="code">x |> f₁ |> ⋯ |> fₙ</code> is <code class="code">fₙ (fₙ₋₁ ⋯ (f₁ x)⋯)</code>.<br>
-</div>
-<br>
-<h2 id="2_Currying">Currying</h2><br>
-
 <pre><span id="VALcurry"><span class="keyword">val</span> curry</span> : <code class="type">('a * 'b -> 'c) -> 'a -> 'b -> 'c</code></pre><div class="info ">
 <code class="code">curry f x y</code> is <code class="code">f (x, y)</code>.<br>
 </div>
@@ -103,7 +90,5 @@ The reversed application operator:
 <pre><span id="VALuncurry"><span class="keyword">val</span> uncurry</span> : <code class="type">('a -> 'b -> 'c) -> 'a * 'b -> 'c</code></pre><div class="info ">
 <code class="code">uncurry f (x, y)</code> is <code class="code">f x y</code>.<br>
 </div>
-<br>
-<h2 id="2_Exceptions">Exceptions</h2><br>
 
 <pre><span id="VALfinally"><span class="keyword">val</span> finally</span> : <code class="type">(unit -> unit) -> (unit -> 'a) -> 'a</code></pre></body></html>

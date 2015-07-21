@@ -5,7 +5,7 @@
 <meta content="text/html; charset=utf8" http-equiv="Content-Type">
 <link rel="Start" href="index.html">
 <link rel="previous" href="Prime.html">
-<link rel="next" href="Prime_char.html">
+<link rel="next" href="Prime_buffer.html">
 <link rel="Up" href="index.html">
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
@@ -13,6 +13,7 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Prime" rel="Chapter" href="Prime.html">
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
+<link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
@@ -24,6 +25,7 @@
 <link title="Prime_string" rel="Chapter" href="Prime_string.html">
 <link title="Unprime" rel="Chapter" href="Unprime.html">
 <link title="Unprime_array" rel="Chapter" href="Unprime_array.html">
+<link title="Unprime_buffer" rel="Chapter" href="Unprime_buffer.html">
 <link title="Unprime_char" rel="Chapter" href="Unprime_char.html">
 <link title="Unprime_list" rel="Chapter" href="Unprime_list.html">
 <link title="Unprime_option" rel="Chapter" href="Unprime_option.html">
@@ -44,7 +46,7 @@
 <body>
 <div class="navbar"><a class="pre" href="Prime.html" title="Prime">Previous</a>
 &nbsp;<a class="up" href="index.html" title="Index">Up</a>
-&nbsp;<a class="post" href="Prime_char.html" title="Prime_char">Next</a>
+&nbsp;<a class="post" href="Prime_buffer.html" title="Prime_buffer">Next</a>
 </div>
 <h1>Module <a href="type_Prime_array.html">Prime_array</a></h1>
 
@@ -101,5 +103,9 @@ Amendment to the standard library <code class="code"><span class="constructor">A
 <pre><span id="VALslice"><span class="keyword">val</span> slice</span> : <code class="type">int -> int -> 'a array -> 'a array</code></pre><div class="info ">
 <code class="code">slice i j xa</code> returns the subarray from index <code class="code">i</code> inclusive to index <code class="code">j</code>
     exclusive.<br>
+</div>
+
+<pre><span id="VALfilter_map"><span class="keyword">val</span> filter_map</span> : <code class="type">('a -> 'b option) -> 'a array -> 'b array</code></pre><div class="info ">
+<span class="warning">Deprecated.</span>Renamed to fmap.<br>
 </div>
 </body></html>
