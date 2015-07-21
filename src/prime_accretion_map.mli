@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -14,7 +14,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-(** Accumulation of a monoid over a map ({i prime.unstable}).
+(** Accumulation of a monoid over a map ({e prime.unstable}).
 
     Given a monoid operation, say ∗, these map-like structures maintains the
     of nested application of the operator over the elements of the map in
