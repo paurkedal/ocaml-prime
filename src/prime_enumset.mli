@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -126,6 +126,9 @@ module type S = sig
 
   val equal : t -> t -> bool
   (** [equal s0 s1] is true iff [s0] and [s1] contain the same elements. *)
+
+  val subset : t -> t -> bool
+  (** [subset s0 s1] is true iff [s0] is a subset or equal to [s1]. *)
 
   val union : t -> t -> t
   (** [union s1 s2] is the union of [s1] and [s2]. *)

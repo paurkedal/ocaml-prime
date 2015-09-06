@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -53,6 +53,7 @@ module type S = sig
   val filter : (elt -> bool) -> t -> t
   val compare : t -> t -> int
   val equal : t -> t -> bool
+  val subset : t -> t -> bool
   val union : t -> t -> t
   val inter : t -> t -> t
   val compl : t -> t -> t
@@ -303,6 +304,16 @@ module Make (E : OrderedType) = struct
     aux (cons_enum sA End, cons_enum sB End)
 
   let equal sA sB = compare sA sB = 0
+
+  let rec subset sA sB =
+    match sA, sB with
+    | O, _ -> true
+    | _, O -> false
+    | Y (_, eA, sLA, sRA), (Y (_, eB, sLB, sRB) as sB) ->
+      let c = E.compare eA eB in
+      if c < 0 then subset (Y (0, eA, sLA, O)) sLB && subset sRA sB else
+      if c > 0 then subset (Y (0, eA, O, sRA)) sRB && subset sLA sB else
+      subset sLA sLB && subset sRA sRB
 
   let rec union sA sB =
     let aux sC e sL sR =

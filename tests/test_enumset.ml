@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -78,9 +78,17 @@ let test_alg () =
   let sA = Array.fold Int_eset.add esA Int_eset.empty in
   let sB = Array.fold Int_eset.add esB Int_eset.empty in
   let sAuB = Int_eset.union sA sB in
+  assert (Int_eset.subset sA sAuB);
+  assert (Int_eset.subset sB sAuB);
+  assert (not (Int_eset.subset sAuB sA) || Int_eset.equal sA sAuB);
+  assert (not (Int_eset.subset sAuB sB) || Int_eset.equal sB sAuB);
   let sAuB' = Array.fold Int_eset.add esB sA in
   assert (Int_eset.equal sAuB sAuB');
   let sAnB = Int_eset.inter sA sB in
+  assert (Int_eset.subset sAnB sA);
+  assert (Int_eset.subset sAnB sB);
+  assert (not (Int_eset.subset sA sAnB) || Int_eset.equal sA sAnB);
+  assert (not (Int_eset.subset sB sAnB) || Int_eset.equal sB sAnB);
   let sAnB' =
     Array.fold
       (fun i -> if Int_eset.contains i sA then Int_eset.add i else ident)
@@ -89,6 +97,7 @@ let test_alg () =
   let sAnB'' = Int_eset.filter (fun e -> Int_eset.contains e sA) sB in
   assert (Int_eset.equal sAnB sAnB'');
   let sAcB = Int_eset.compl sA sB in
+  assert (Int_eset.subset sAcB sB);
   let sAcB' = Int_eset.filter (fun e -> not (Int_eset.contains e sA)) sB in
   assert (Int_eset.equal sAcB sAcB')
 
