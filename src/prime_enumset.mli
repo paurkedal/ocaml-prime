@@ -58,6 +58,10 @@ module type S = sig
   val get : int -> t -> elt
   (** [get i s] is the [i]th element of [s] according to the element order. *)
 
+  val choose : t -> elt
+  (** [choose s] is an unspecified element of [s].
+      @raise Not_found if [s] is empty. *)
+
   val min_elt : t -> elt
   (** [min_elt s] is the smallest element of [s]. *)
 

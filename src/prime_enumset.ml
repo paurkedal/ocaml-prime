@@ -33,6 +33,7 @@ module type S = sig
   val contains : elt -> t -> bool
   val locate : elt -> t -> bool * int
   val get : int -> t -> elt
+  val choose : t -> elt
   val min_elt : t -> elt
   val max_elt : t -> elt
   val pred_e : t -> elt -> elt
@@ -123,6 +124,10 @@ module Make (E : OrderedType) = struct
       if i < nL then get i sL else
       if i > nL then get (i - nL - 1) sR else
       eC
+
+  let choose = function
+    | O -> raise Not_found
+    | Y (_, eC, _, _) -> eC
 
   let rec min_elt = function
     | O -> raise Not_found
