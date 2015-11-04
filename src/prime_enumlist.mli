@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -27,6 +27,8 @@ val length : 'a t -> int
 val empty : 'a t
 
 val singleton : 'a -> 'a t
+
+val sample : (int -> 'a) -> int -> 'a t
 
 val get : int -> 'a t -> 'a
 
@@ -64,6 +66,8 @@ val search : ('a -> 'b option) -> 'a t -> 'b option
 
 val iter : ('a -> unit) -> 'a t -> unit
 
+val iteri : (int -> 'a -> unit) -> 'a t -> unit
+
 val fold : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
 
 val for_all : ('a -> bool) -> 'a t -> bool
@@ -77,6 +81,8 @@ val map : ('a -> 'b) -> 'a t -> 'b t
 val mapi : (int -> 'a -> 'b) -> 'a t -> 'b t
 
 val fmap : ('a -> 'b option) -> 'a t -> 'b t
+
+val fmapi : (int -> 'a -> 'b option) -> 'a t -> 'b t
 
 val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
 

@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -89,6 +89,21 @@ let test_insert_delete () =
   assert (Int_set.cardinal s1 = L.length l1);
   assert (Int_set.elements s1 = L.to_list l1)
 
+let test_iteration () =
+  let n = Random.int 100 in
+  let l = L.sample (fun i -> 2*i + 1) n in
+  assert (L.length l = n);
+  for i = 0 to n - 1 do
+    assert (L.get i l = 2*i + 1)
+  done;
+  L.iteri (fun i x -> assert (x = 2*i + 1)) l;
+  let m = Random.int (2*n + 2) in
+  let l1 = L.fmapi (fun i x -> assert (x = 2*i + 1);
+			       if x <= m then Some (i + x) else None) l in
+  let l2 = l |> L.filter (fun x -> x <= m)
+	     |> L.mapi (fun i x -> assert (x = 2*i + 1); i + x) in
+  assert (L.equal (=) l1 l2)
+
 let run () =
   assert (L.is_empty L.empty);
   assert (L.length L.empty = 0);
@@ -97,5 +112,6 @@ let run () =
   assert (L.get 0 (L.singleton 3) = 3);
   for round = 0 to 999 do
     test_push ();
-    test_insert_delete ()
+    test_insert_delete ();
+    test_iteration ()
   done

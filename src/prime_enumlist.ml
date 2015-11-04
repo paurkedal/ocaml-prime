@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -30,6 +30,14 @@ let length = function O -> 0 | Y (n, _, _, _) -> n
 let empty = O
 
 let singleton x = Y (1, x, O, O)
+
+let sample f =
+  let rec aux i n =
+    if n = 0 then O else
+    let nL = n / 2 in
+    let nR = n - nL - 1 in
+    Y (n, f (i + nL), aux i nL, aux (i + nL + 1) nR) in
+  aux 0
 
 let rec get i s =
   match s with
@@ -169,6 +177,14 @@ let rec iter f = function
   | O -> ()
   | Y (_, e, sL, sR) -> iter f sL; f e; iter f sR
 
+let iteri f =
+  let rec aux i = function
+    | O -> ()
+    | Y (n, e, sL, sR) ->
+      let nL = length sL in
+      aux i sL; f (i + nL) e; aux (i + nL + 1) sR in
+  aux 0
+
 let rec fold f = function
   | O -> fun acc -> acc
   | Y (_, e, sL, sR) -> fun acc -> acc |> fold f sL |> f e |> fold f sR
@@ -196,7 +212,7 @@ let mapi f =
     | O -> O
     | Y (n, e, sL, sR) ->
       let nL = length sL in
-      Y (n, f nL e, aux 0 sL, aux (nL + 1) sR) in
+      Y (n, f (i + nL) e, aux i sL, aux (i + nL + 1) sR) in
   aux 0
 
 let rec fmap f = function
@@ -206,6 +222,18 @@ let rec fmap f = function
     match f e with
     | Some e' -> glue e' sL' sR'
     | None -> cat sL' sR'
+
+let fmapi f =
+  let rec aux i = function
+    | O -> O
+    | Y (n, e, sL, sR) ->
+      let nL = length sL in
+      let sL' = aux i sL in
+      let sR' = aux (i + nL + 1) sR in
+      match f (i + nL) e with
+      | Some e' -> glue e' sL' sR'
+      | None -> cat sL' sR' in
+  aux 0
 
 let compare f sA sB =
   let rec aux = function
