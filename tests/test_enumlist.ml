@@ -89,6 +89,15 @@ let test_insert_delete () =
   assert (Int_set.cardinal s1 = L.length l1);
   assert (Int_set.elements s1 = L.to_list l1)
 
+let test_cutting () =
+  let n = Random.int 100 in
+  let m = Random.int (n + 1) in
+  let l = L.sample (fun i -> 2*i + 1) n in
+  let l1, l2 = L.cut m l in
+  assert (L.length l1 = m);
+  assert (L.length l2 = n - m);
+  assert (L.equal (=) l (L.cat l1 l2))
+
 let test_iteration () =
   let n = Random.int 100 in
   let l = L.sample (fun i -> 2*i + 1) n in
@@ -116,5 +125,6 @@ let run () =
   for round = 0 to 999 do
     test_push ();
     test_insert_delete ();
+    test_cutting ();
     test_iteration ()
   done
