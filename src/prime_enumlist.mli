@@ -70,6 +70,8 @@ val iteri : (int -> 'a -> unit) -> 'a t -> unit
 
 val fold : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
 
+val foldi : (int -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
+
 val for_all : ('a -> bool) -> 'a t -> bool
 
 val exists : ('a -> bool) -> 'a t -> bool

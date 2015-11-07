@@ -189,6 +189,14 @@ let rec fold f = function
   | O -> fun acc -> acc
   | Y (_, e, sL, sR) -> fun acc -> acc |> fold f sL |> f e |> fold f sR
 
+let foldi f =
+  let rec aux i = function
+    | O -> fun acc -> acc
+    | Y (n, e, sL, sR) ->
+      let nL = length sL in
+      fun acc -> acc |> aux i sL |> f (i + nL) e |> aux (i + nL + 1) sR in
+  aux 0
+
 let rec for_all f = function
   | O -> true
   | Y (_, e, sL, sR) -> f e && for_all f sL && for_all f sR

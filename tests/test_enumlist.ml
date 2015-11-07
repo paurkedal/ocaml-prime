@@ -102,7 +102,10 @@ let test_iteration () =
 			       if x <= m then Some (i + x) else None) l in
   let l2 = l |> L.filter (fun x -> x <= m)
 	     |> L.mapi (fun i x -> assert (x = 2*i + 1); i + x) in
-  assert (L.equal (=) l1 l2)
+  assert (L.equal (=) l1 l2);
+  let y = L.foldi (fun i x acc -> assert (x = 2*i + 1);
+				  assert (acc = 2*i - 1); acc + 2) l (-1) in
+  assert (y = 2*n - 1)
 
 let run () =
   assert (L.is_empty L.empty);
