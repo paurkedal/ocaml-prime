@@ -137,7 +137,7 @@ let rec delete i = function
     else let eC', sR' = pop_first_e sR in Y (n - 1, eC', sL, sR')
 
 let rec insert i e = function
-  | O -> if i = 0 then Y (1, e, O, O) else invalid_arg "Prime_enumlist.add"
+  | O -> if i = 0 then Y (1, e, O, O) else invalid_arg "Prime_enumlist.insert"
   | Y (n, eC, sL, sR) ->
     let nL = length sL in
     if i < nL then bal (n + 1) eC (insert i e sL) sR else
