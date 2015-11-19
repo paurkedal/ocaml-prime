@@ -50,13 +50,6 @@ Library "prime-unstable"
     Unprime_enumlist
   BuildDepends: prime
 
-# Deprecated name for prime.unstable.
-Library "prime-testing"
-  Path: src
-  FindlibParent: prime
-  FindlibName: testing
-  BuildDepends: prime.unstable
-
 Library primedoc
   FindlibParent: prime
   Path: doc
