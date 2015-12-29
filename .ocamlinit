@@ -1,0 +1,12 @@
+#directory "_build/src"
+#load "prime.cma"
+#load "prime-unstable.cma"
+
+open Unprime
+open Unprime_array
+open Unprime_buffer
+open Unprime_char
+open Unprime_enumlist
+open Unprime_list
+open Unprime_option
+open Unprime_string
