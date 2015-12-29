@@ -22,21 +22,22 @@ let run () =
   assert_equal_int ((min_int-1) lxor min_int) (-1);
 
   (* fdiv *)
-  assert_equal_int ~msg:"5 / 2"   2 (Prime_int.fdiv 5 2);
-  assert_equal_int ~msg:"-5 / -2" 2 (Prime_int.fdiv (-5) (-2));
-  assert_equal_int ~msg:"-5 / 2" (-3) (Prime_int.fdiv (-5) 2);
-  assert_equal_int ~msg:"5 / -2" (-3) (Prime_int.fdiv 5 (-2));
+  assert_equal_int ~msg:"7 / 3"   2 (Prime_int.fdiv 7 3);
+  assert_equal_int ~msg:"-7 / -3" 2 (Prime_int.fdiv (-7) (-3));
+  assert_equal_int ~msg:"-7 / 3" (-3) (Prime_int.fdiv (-7) 3);
+  assert_equal_int ~msg:"7 / -3" (-3) (Prime_int.fdiv 7 (-3));
 
   (* fmod *)
-  assert_equal_int ~msg:"5 mod 2"   1 (Prime_int.fmod 5 2);
-  assert_equal_int ~msg:"-5 mod -2" (-1) (Prime_int.fmod (-5) (-2));
-  assert_equal_int ~msg:"-5 mod 2"  1 (Prime_int.fmod (-5) 2);
-  assert_equal_int ~msg:"5 mod -2"  (-1) (Prime_int.fmod 5 (-2));
+  assert_equal_int ~msg:"7 mod 3"   1 (Prime_int.fmod 7 3);
+  assert_equal_int ~msg:"-7 mod -3" (-1) (Prime_int.fmod (-7) (-3));
+  assert_equal_int ~msg:"-7 mod 3"  2 (Prime_int.fmod (-7) 3);
+  assert_equal_int ~msg:"7 mod -3"  (-2) (Prime_int.fmod 7 (-3));
 
   (* fdiv and fmod randomised *)
   for round = 0 to 9999 do
-    let x = Random.bits () in
-    let y = Random.bits () in
+    let ex, ey = Random.int 29, Random.int 29 in
+    let x = Random.int (1 lsl ex) - (1 lsl (ex - 1)) in
+    let y = Random.int (1 lsl ey) - (1 lsl (ey - 1)) in
     if y > 0 then begin
       let q, r = Prime_int.fdiv x y, Prime_int.fmod x y in
       assert_equal_int ~msg:"y * q + r = x" x (y * q + r);

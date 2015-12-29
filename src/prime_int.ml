@@ -15,20 +15,12 @@
  *)
 
 let fdiv x y =
-  if x >= 0 then
-    if y >= 0 then x / y else
-    (y + 1 - x) / (- y)
-  else
-    if y < 0 then x / y else
-    (x - y + 1) / y
+  if (x >= 0) = (y >= 0) then x / y
+			 else (x - y + 1) / y
 
 let fmod x y =
-  if x >= 0 then
-    if y >= 0 then x mod y else
-    - (min_int - x) mod (- y)
-  else
-    if y < 0 then x mod y else
-    (min_int + x) mod y
+  if (x >= 0) = (y >= 0) then x mod y
+			 else (x - y + 1) mod y + y - 1
 
 let signed_width =
   let rec loop i x =
