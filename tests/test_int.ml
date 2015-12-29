@@ -52,6 +52,15 @@ let test_signed_width () =
   assert (Prime_int.bitcount x = Prime_int.signed_width);
   assert (x lsl 1 <= x)
 
+let test_bitcount () =
+  let rec count_bits x acc =
+    if x = 0 then acc else
+    count_bits (x lsr 1) (acc + x land 1) in
+  for round = 0 to 9999 do
+    let x = Random.bits () in
+    assert (Prime_int.bitcount x = count_bits x 0)
+  done
+
 let test_floor_ceil_log2 () =
 
   (* floor_log2 and ceil_log2 *)
@@ -68,4 +77,5 @@ let test_floor_ceil_log2 () =
 let run () =
   test_fdiv_fmod ();
   test_signed_width ();
+  test_bitcount ();
   test_floor_ceil_log2 ()
