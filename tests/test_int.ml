@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -17,7 +17,7 @@
 open OUnit
 open Utils
 
-let run () =
+let test_fdiv_fmod () =
   (* Assumed by the implementation of fmod: *)
   assert_equal_int ((min_int-1) lxor min_int) (-1);
 
@@ -43,7 +43,16 @@ let run () =
       assert_equal_int ~msg:"y * q + r = x" x (y * q + r);
       assert_equal ~msg:"r has the same sign as y" (y < 0) (r < 0)
     end
-  done;
+  done
+
+let test_signed_width () =
+  let x = (1 lsl (Prime_int.signed_width - 1) - 1) lsl 1 + 1 in
+  assert (x > 0);
+  assert (-x < 0);
+  assert (Prime_int.bitcount x = Prime_int.signed_width);
+  assert (x lsl 1 <= x)
+
+let test_floor_ceil_log2 () =
 
   (* floor_log2 and ceil_log2 *)
   for n = 1 to 10000 do
@@ -55,3 +64,8 @@ let run () =
       assert (n < 1 lsl j)
     end
   done
+
+let run () =
+  test_fdiv_fmod ();
+  test_signed_width ();
+  test_floor_ceil_log2 ()

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -25,7 +25,7 @@ let fmod x y =
 let signed_width =
   let rec loop i x =
     let x' = x lsl 1 lor 1 in
-    if x' = x then i else loop (succ i) x' in
+    if x' <= x then i else loop (succ i) x' in
   loop 0 0
 
 let bitcount16 n =
