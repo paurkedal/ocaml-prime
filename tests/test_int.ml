@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -45,6 +45,23 @@ let test_fdiv_fmod () =
     end
   done
 
+let test_gcd () =
+  assert (Prime_int.gcd 0 0 = 0);
+  for j = 1 to 500 do
+    for i = 0 to j do
+      let k = Prime_int.gcd i j in
+      assert (k = Prime_int.gcd j i);
+      assert (i mod k = 0);
+      assert (j mod k = 0);
+      let i', j' = i / k, j / k in
+      assert (Prime_int.gcd i' j' = 1);
+      assert (i' mod 2 > 0 || j' mod 2 > 0);
+      assert (i' mod 3 > 0 || j' mod 3 > 0);
+      assert (i' mod 5 > 0 || j' mod 5 > 0);
+      assert (i' mod 7 > 0 || j' mod 7 > 0)
+    done
+  done
+
 let test_signed_width () =
   let x = (1 lsl (Prime_int.signed_width - 1) - 1) lsl 1 + 1 in
   assert (x > 0);
@@ -76,6 +93,7 @@ let test_floor_ceil_log2 () =
 
 let run () =
   test_fdiv_fmod ();
+  test_gcd ();
   test_signed_width ();
   test_bitcount ();
   test_floor_ceil_log2 ()

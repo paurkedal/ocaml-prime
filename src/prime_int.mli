@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -21,6 +21,9 @@ val fdiv : int -> int -> int
 
 val fmod : int -> int -> int
 (** [fmod x y] is the remainder of the floored division of [x] by [y]. *)
+
+val gcd : int -> int -> int
+(** [gcd x y] is the greatest common divisor of [x] and [y]. *)
 
 val signed_width : int
 (** The number of bits which can be stored in a signed integer. *)

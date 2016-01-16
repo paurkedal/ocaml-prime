@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -21,6 +21,28 @@ let fdiv x y =
 let fmod x y =
   if (x >= 0) = (y >= 0) then x mod y
 			 else (x - y + 1) mod y + y - 1
+
+(* Based on "Binary GCD algoritm" from Wikipedia. *)
+let gcd u v =
+  if u = 0 then v else
+  if v = 0 then u else
+
+  let rec common_shift u v sh =
+    if (u lor v) land 1 <> 0 then (u, v, sh) else
+    common_shift (u lsr 1) (v lsr 1) (succ sh) in
+
+  let rec skip_shift u =
+    if u land 1 <> 0 then u else
+    skip_shift (u lsr 1) in
+
+  let rec common_divisor u v =
+    if v = 0 then u else
+    let v = skip_shift v in
+    if u <= v then common_divisor u (v - u)
+	      else common_divisor v (u - v) in
+
+  let u, v, p = common_shift (abs u) (abs v) 0 in
+  common_divisor (skip_shift u) v lsl p
 
 let signed_width =
   let rec loop i x =
