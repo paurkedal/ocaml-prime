@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -26,6 +26,7 @@ let suite = "prime" >::: [
   "test_int" >:: Test_int.run;
   "test_list" >:: Test_list.run;
   "test_map" >:: Test_map.run;
+  "test_priqueue" >:: Test_priqueue.run;
   "test_retraction" >:: Test_retraction.run;
   "test_string" >:: Test_string.run;
   "test_wallet" >:: Test_wallet.run;

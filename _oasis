@@ -44,6 +44,7 @@ Library "prime-unstable"
     Prime_enumlist,
     Prime_enummap,
     Prime_enumset,
+    Prime_priqueue,
     Prime_retraction,
     Prime_sigs,
     Prime_wallet,
