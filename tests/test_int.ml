@@ -22,16 +22,28 @@ let test_fdiv_fmod () =
   assert_equal_int ((min_int-1) lxor min_int) (-1);
 
   (* fdiv *)
-  assert_equal_int ~msg:"7 / 3"   2 (Prime_int.fdiv 7 3);
-  assert_equal_int ~msg:"-7 / -3" 2 (Prime_int.fdiv (-7) (-3));
-  assert_equal_int ~msg:"-7 / 3" (-3) (Prime_int.fdiv (-7) 3);
-  assert_equal_int ~msg:"7 / -3" (-3) (Prime_int.fdiv 7 (-3));
+  assert_equal_int ~msg:"⌊7 / 3⌋"   2 (Prime_int.fdiv 7 3);
+  assert_equal_int ~msg:"⌊-7 / -3⌋" 2 (Prime_int.fdiv (-7) (-3));
+  assert_equal_int ~msg:"⌊-7 / 3⌋" (-3) (Prime_int.fdiv (-7) 3);
+  assert_equal_int ~msg:"⌊7 / -3⌋" (-3) (Prime_int.fdiv 7 (-3));
 
   (* fmod *)
-  assert_equal_int ~msg:"7 mod 3"   1 (Prime_int.fmod 7 3);
-  assert_equal_int ~msg:"-7 mod -3" (-1) (Prime_int.fmod (-7) (-3));
-  assert_equal_int ~msg:"-7 mod 3"  2 (Prime_int.fmod (-7) 3);
-  assert_equal_int ~msg:"7 mod -3"  (-2) (Prime_int.fmod 7 (-3));
+  assert_equal_int ~msg:"7 fmod 3"   1 (Prime_int.fmod 7 3);
+  assert_equal_int ~msg:"-7 fmod -3" (-1) (Prime_int.fmod (-7) (-3));
+  assert_equal_int ~msg:"-7 fmod 3"  2 (Prime_int.fmod (-7) 3);
+  assert_equal_int ~msg:"7 fmod -3"  (-2) (Prime_int.fmod 7 (-3));
+
+  (* cdiv *)
+  assert_equal_int ~msg:"⌈7 / 3⌉"   3 (Prime_int.cdiv 7 3);
+  assert_equal_int ~msg:"⌈-7 / -3⌉" 3 (Prime_int.cdiv (-7) (-3));
+  assert_equal_int ~msg:"⌈-7 / 3⌉" (-2) (Prime_int.cdiv (-7) 3);
+  assert_equal_int ~msg:"⌈7 / -3⌉" (-2) (Prime_int.cdiv 7 (-3));
+
+  (* cmod *)
+  assert_equal_int ~msg:"7 cmod 3"  (-2) (Prime_int.cmod 7 3);
+  assert_equal_int ~msg:"-7 cmod -3"  2 (Prime_int.cmod (-7) (-3));
+  assert_equal_int ~msg:"-7 cmod 3" (-1) (Prime_int.cmod (-7) 3);
+  assert_equal_int ~msg:"7 cmod -3"   1 (Prime_int.cmod 7 (-3));
 
   (* fdiv and fmod randomised *)
   for round = 0 to 9999 do
@@ -40,8 +52,11 @@ let test_fdiv_fmod () =
     let y = Random.int (1 lsl ey) - (1 lsl (ey - 1)) in
     if y > 0 then begin
       let q, r = Prime_int.fdiv x y, Prime_int.fmod x y in
-      assert_equal_int ~msg:"y * q + r = x" x (y * q + r);
-      assert_equal ~msg:"r has the same sign as y" (y < 0) (r < 0)
+      assert_equal_int ~msg:"y * ⌊x / y⌋ + x fmod y = x" x (y * q + r);
+      assert_equal ~msg:"(x fmod y) has the same sign as y" (y < 0) (r < 0);
+      let q, r = Prime_int.cdiv x y, Prime_int.cmod x y in
+      assert_equal_int ~msg:"y * ⌈x / y⌉ + x cmod y = x" x (y * q + r);
+      assert_equal ~msg:"(x cmod y) has the opposite sign of y" (y < 0) (r > 0)
     end
   done
 

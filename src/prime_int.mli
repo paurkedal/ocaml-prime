@@ -22,6 +22,12 @@ val fdiv : int -> int -> int
 val fmod : int -> int -> int
 (** [fmod x y] is the remainder of the floored division of [x] by [y]. *)
 
+val cdiv : int -> int -> int
+(** [cdiv n m] is [⌈n / m⌉]. *)
+
+val cmod : int -> int -> int
+(** [cmod n m] is [n / m - ⌈n / m⌉]. *)
+
 val gcd : int -> int -> int
 (** [gcd x y] is the greatest common divisor of [x] and [y]. *)
 

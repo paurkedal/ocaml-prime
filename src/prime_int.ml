@@ -22,6 +22,14 @@ let fmod x y =
   if (x >= 0) = (y >= 0) then x mod y
 			 else (x - y + 1) mod y + y - 1
 
+let cdiv x y =
+  if (x >= 0) = (y >= 0) then (x + y - 1) / y
+			 else x / y
+
+let cmod x y =
+  if (x >= 0) = (y >= 0) then (x + y - 1) mod y - y + 1
+			 else x mod y
+
 (* Based on "Binary GCD algoritm" from Wikipedia. *)
 let gcd u v =
   if u = 0 then v else
