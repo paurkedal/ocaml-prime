@@ -28,6 +28,12 @@ val cdiv : int -> int -> int
 val cmod : int -> int -> int
 (** [cmod n m] is [n / m - ⌈n / m⌉]. *)
 
+val sign : int -> int
+(** [sign n] is [compare n 0]. *)
+
+val delta : int -> int -> int
+(** [delta n m] is [1] if [n = m], [0] otherwise. *)
+
 val gcd : int -> int -> int
 (** [gcd x y] is the greatest common divisor of [x] and [y]. *)
 
