@@ -66,3 +66,4 @@ val fold_to : (int -> 'a -> 'a) -> int -> 'a -> 'a
 
 (**/**)
 val bitcount16 : int -> int
+val bitcount31 : int -> int

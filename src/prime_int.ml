@@ -69,7 +69,15 @@ let bitcount16 n =
   let n = (n land 0x00ff) + (n lsr 8 land 0x00ff) in
   n
 
-let rec bitcount n = if n = 0 then 0 else bitcount16 n + bitcount (n lsr 16)
+let bitcount31 n =
+  let n = (n land 0x55555555) + (n lsr  1 land 0x15555555(*sic*)) in
+  let n = (n land 0x33333333) + (n lsr  2 land 0x33333333) in
+  let n = (n land 0x0f0f0f0f) + (n lsr  4 land 0x0f0f0f0f) in
+  let n = (n land 0x00ff00ff) + (n lsr  8 land 0x00ff00ff) in
+  let n = (n land 0x0000ffff) + (n lsr 16 land 0x0000ffff) in
+  n
+
+let rec bitcount n = if n = 0 then 0 else bitcount31 n + bitcount (n lsr 31)
 
 let rec floor_log2_loop j n l =
   if j = 0 then (assert (n = 1); l) else

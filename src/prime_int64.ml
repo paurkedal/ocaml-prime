@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,5 @@
 
 let bitcount n =
     Prime_int.bitcount16 (Int64.to_int n)
-  + Prime_int.bitcount16 (Int64.to_int (Int64.shift_right_logical n 16))
-  + Prime_int.bitcount16 (Int64.to_int (Int64.shift_right_logical n 32))
-  + Prime_int.bitcount16 (Int64.to_int (Int64.shift_right_logical n 48))
+  + Prime_int.bitcount31 (Int64.to_int (Int64.shift_right_logical n 16))
+  + Prime_int.bitcount31 (Int64.to_int (Int64.shift_right_logical n 47))
