@@ -16,17 +16,6 @@
 
 (** Integer functions. *)
 
-val fdiv : int -> int -> int
-(** [fdiv x y] is the quotient of the floored division of [x] by [y]. *)
-
-val fmod : int -> int -> int
-(** [fmod x y] is the remainder of the floored division of [x] by [y]. *)
-
-val cdiv : int -> int -> int
-(** [cdiv n m] is [⌈n / m⌉]. *)
-
-val cmod : int -> int -> int
-(** [cmod n m] is [n / m - ⌈n / m⌉]. *)
 
 val sign : int -> int
 (** [sign n] is [compare n 0]. *)
@@ -34,8 +23,26 @@ val sign : int -> int
 val delta : int -> int -> int
 (** [delta n m] is [1] if [n = m], [0] otherwise. *)
 
+
+(** {2 Division} *)
+
+val fdiv : int -> int -> int
+(** [fdiv n m] is [⌊n / m⌋], the quotient of floored division. *)
+
+val fmod : int -> int -> int
+(** [fmod n m] is [n / m - ⌊n / m⌋], the remainder of floored division. *)
+
+val cdiv : int -> int -> int
+(** [cdiv n m] is [⌈n / m⌉], the quotient of ceiled division. *)
+
+val cmod : int -> int -> int
+(** [cmod n m] is [n / m - ⌈n / m⌉], the remainder of ceiled division. *)
+
 val gcd : int -> int -> int
-(** [gcd x y] is the greatest common divisor of [x] and [y]. *)
+(** [gcd n m] is the greatest common divisor of [n] and [m]. *)
+
+
+(** {2 Bitwise Operations} *)
 
 val signed_width : int
 (** The number of bits which can be stored in a signed integer. *)
@@ -51,6 +58,9 @@ val floor_log2 : int -> int
 
 val ceil_log2 : int -> int
 (** [ceil_log2 n] is [⌈log₂ n⌉]. *)
+
+
+(** {2 Iteration} *)
 
 val fold_to : (int -> 'a -> 'a) -> int -> 'a -> 'a
 (** [fold_to f n] returns [f (n - 1) ∘ ⋯ ∘ f 0].
