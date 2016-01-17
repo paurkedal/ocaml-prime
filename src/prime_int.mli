@@ -27,16 +27,16 @@ val delta : int -> int -> int
 (** {2 Division} *)
 
 val fdiv : int -> int -> int
-(** [fdiv n m] is [⌊n / m⌋], the quotient of floored division. *)
+(** [fdiv n m] is the quotient of floored division, [⌊n / m⌋]. *)
 
 val fmod : int -> int -> int
-(** [fmod n m] is [n / m - ⌊n / m⌋], the remainder of floored division. *)
+(** [fmod n m] is the remainder of floored division, [n / m - ⌊n / m⌋]. *)
 
 val cdiv : int -> int -> int
-(** [cdiv n m] is [⌈n / m⌉], the quotient of ceiled division. *)
+(** [cdiv n m] is the quotient of ceiled division, [⌈n / m⌉]. *)
 
 val cmod : int -> int -> int
-(** [cmod n m] is [n / m - ⌈n / m⌉], the remainder of ceiled division. *)
+(** [cmod n m] is the remainder of ceiled division, [n / m - ⌈n / m⌉]. *)
 
 val gcd : int -> int -> int
 (** [gcd n m] is the greatest common divisor of [n] and [m]. *)
@@ -50,9 +50,6 @@ val signed_width : int
 val bitcount : int -> int
 (** [bitcount n] is the number of ones in the binary representation of [n]. *)
 
-val bitcount16 : int -> int
-(** [bitcount16 n] is the number of ones in the lowest 16 bits of [n]. *)
-
 val floor_log2 : int -> int
 (** [floor_log2 n] is [⌊log₂ n⌋]. *)
 
@@ -65,3 +62,7 @@ val ceil_log2 : int -> int
 val fold_to : (int -> 'a -> 'a) -> int -> 'a -> 'a
 (** [fold_to f n] returns [f (n - 1) ∘ ⋯ ∘ f 0].
     @raise Invalid_argument if [n < 0]. *)
+
+
+(**/**)
+val bitcount16 : int -> int
