@@ -63,9 +63,16 @@ let test_fdiv_fmod () =
 let test_gcd () =
   assert (Prime_int.gcd 0 0 = 0);
   for j = 1 to 500 do
+    assert (Prime_int.gcd 0 j = j);
+    assert (Prime_int.gcd j 0 = j);
+    assert (Prime_int.gcd 0 (- j) = j);
+    assert (Prime_int.gcd (- j) 0 = j);
     for i = 0 to j do
       let k = Prime_int.gcd i j in
       assert (k = Prime_int.gcd j i);
+      assert (k = Prime_int.gcd i (- j));
+      assert (k = Prime_int.gcd (- i) j);
+      assert (k = Prime_int.gcd (- i) (- j));
       assert (i mod k = 0);
       assert (j mod k = 0);
       let i', j' = i / k, j / k in
@@ -73,7 +80,9 @@ let test_gcd () =
       assert (i' mod 2 > 0 || j' mod 2 > 0);
       assert (i' mod 3 > 0 || j' mod 3 > 0);
       assert (i' mod 5 > 0 || j' mod 5 > 0);
-      assert (i' mod 7 > 0 || j' mod 7 > 0)
+      assert (i' mod 7 > 0 || j' mod 7 > 0);
+      assert (i' mod 11 > 0 || j' mod 11 > 0);
+      assert (i' mod 13 > 0 || j' mod 13 > 0)
     done
   done
 

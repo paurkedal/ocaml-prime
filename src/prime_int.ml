@@ -32,8 +32,8 @@ let cmod x y =
 
 (* Based on "Binary GCD algoritm" from Wikipedia. *)
 let gcd u v =
-  if u = 0 then v else
-  if v = 0 then u else
+  if u = 0 then abs v else
+  if v = 0 then abs u else
 
   let rec common_shift u v sh =
     if (u lor v) land 1 <> 0 then (u, v, sh) else
