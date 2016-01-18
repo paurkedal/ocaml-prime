@@ -15,6 +15,7 @@
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
 <link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_float" rel="Chapter" href="Prime_float.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
 <link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
@@ -38,6 +39,7 @@
 <link title="Prime_enumlist" rel="Chapter" href="Prime_enumlist.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_priqueue" rel="Chapter" href="Prime_priqueue.html">
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
@@ -64,6 +66,7 @@ Pure random access list (<i>prime.unstable</i>).
 <pre><span id="VALlength"><span class="keyword">val</span> length</span> : <code class="type">'a <a href="Prime_enumlist.html#TYPEt">t</a> -> int</code></pre>
 <pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type">'a <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
 <pre><span id="VALsingleton"><span class="keyword">val</span> singleton</span> : <code class="type">'a -> 'a <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
+<pre><span id="VALsample"><span class="keyword">val</span> sample</span> : <code class="type">(int -> 'a) -> int -> 'a <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
 <pre><span id="VALget"><span class="keyword">val</span> get</span> : <code class="type">int -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'a</code></pre>
 <pre><span id="VALset"><span class="keyword">val</span> set</span> : <code class="type">int -> 'a -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'a <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
 <pre><span id="VALupdate"><span class="keyword">val</span> update</span> : <code class="type">int -> ('a -> 'a) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'a <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
@@ -82,12 +85,15 @@ Pure random access list (<i>prime.unstable</i>).
 <pre><span id="VALto_list"><span class="keyword">val</span> to_list</span> : <code class="type">'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'a list</code></pre>
 <pre><span id="VALsearch"><span class="keyword">val</span> search</span> : <code class="type">('a -> 'b option) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'b option</code></pre>
 <pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">('a -> unit) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALiteri"><span class="keyword">val</span> iteri</span> : <code class="type">(int -> 'a -> unit) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> unit</code></pre>
 <pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">('a -> 'b -> 'b) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'b -> 'b</code></pre>
+<pre><span id="VALfoldi"><span class="keyword">val</span> foldi</span> : <code class="type">(int -> 'a -> 'b -> 'b) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'b -> 'b</code></pre>
 <pre><span id="VALfor_all"><span class="keyword">val</span> for_all</span> : <code class="type">('a -> bool) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> bool</code></pre>
 <pre><span id="VALexists"><span class="keyword">val</span> exists</span> : <code class="type">('a -> bool) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> bool</code></pre>
 <pre><span id="VALfilter"><span class="keyword">val</span> filter</span> : <code class="type">('a -> bool) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'a <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
 <pre><span id="VALmap"><span class="keyword">val</span> map</span> : <code class="type">('a -> 'b) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'b <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
 <pre><span id="VALmapi"><span class="keyword">val</span> mapi</span> : <code class="type">(int -> 'a -> 'b) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'b <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
 <pre><span id="VALfmap"><span class="keyword">val</span> fmap</span> : <code class="type">('a -> 'b option) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'b <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
+<pre><span id="VALfmapi"><span class="keyword">val</span> fmapi</span> : <code class="type">(int -> 'a -> 'b option) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'b <a href="Prime_enumlist.html#TYPEt">t</a></code></pre>
 <pre><span id="VALcompare"><span class="keyword">val</span> compare</span> : <code class="type">('a -> 'b -> int) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'b <a href="Prime_enumlist.html#TYPEt">t</a> -> int</code></pre>
 <pre><span id="VALequal"><span class="keyword">val</span> equal</span> : <code class="type">('a -> 'b -> bool) -> 'a <a href="Prime_enumlist.html#TYPEt">t</a> -> 'b <a href="Prime_enumlist.html#TYPEt">t</a> -> bool</code></pre></body></html>

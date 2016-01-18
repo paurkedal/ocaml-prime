@@ -15,6 +15,7 @@
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
 <link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_float" rel="Chapter" href="Prime_float.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
 <link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
@@ -38,10 +39,12 @@
 <link title="Prime_enumlist" rel="Chapter" href="Prime_enumlist.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_priqueue" rel="Chapter" href="Prime_priqueue.html">
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
-<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Prime_wallet</title>
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><link title="Opposite Functions" rel="Section" href="#2_OppositeFunctions">
+<title>The OCaml Prime Library : Prime_wallet</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Prime_sigs.html" title="Prime_sigs">Previous</a>
@@ -177,6 +180,14 @@ Given a <code class="code">w</code> with <code class="code">x</code> at <code cl
 <code class="code">split_snd_length n</code> is the length of <code class="code">snd (split w)</code> for any <code class="code">w</code> of
     length <code class="code">n</code>.<br>
 </div>
+<br>
+<h2 id="2_OppositeFunctions">Opposite Functions</h2>
+<p>
+
+    These functions are not needed for normal usage.  They are variants of the
+    main functions with internal trees reversed, and can be used to share
+    <code class="code">split</code> elements when two wallets are combined into a symmetric
+    datastructure.<br>
 
 <pre><span id="VALcopush"><span class="keyword">val</span> copush</span> : <code class="type">'a -> 'a <a href="Prime_wallet.html#TYPEt">t</a> -> 'a <a href="Prime_wallet.html#TYPEt">t</a></code></pre>
 <pre><span id="VALcopop"><span class="keyword">val</span> copop</span> : <code class="type">'a <a href="Prime_wallet.html#TYPEt">t</a> -> 'a * 'a <a href="Prime_wallet.html#TYPEt">t</a></code></pre>

@@ -15,6 +15,7 @@
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
 <link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_float" rel="Chapter" href="Prime_float.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
 <link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
@@ -38,10 +39,15 @@
 <link title="Prime_enumlist" rel="Chapter" href="Prime_enumlist.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_priqueue" rel="Chapter" href="Prime_priqueue.html">
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
-<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Prime_list</title>
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><link title="Iteration" rel="Section" href="#2_Iteration">
+<link title="Iteration over Two Lists" rel="Section" href="#2_IterationoverTwoLists">
+<link title="Differential Iteration" rel="Section" href="#2_DifferentialIteration">
+<link title="Sublists" rel="Section" href="#2_Sublists">
+<title>The OCaml Prime Library : Prime_list</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Prime_io.html" title="Prime_io">Previous</a>
@@ -85,6 +91,8 @@ Amendment to the standard library <code class="code"><span class="constructor">L
     returns the first non-<code class="code"><span class="constructor">None</span></code> mapping of <code class="code">f</code> in an array of optional
     lists.<br>
 </div>
+<br>
+<h2 id="2_Iteration">Iteration</h2><br>
 
 <pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">('a -> 'b -> 'b) -> 'a list -> 'b -> 'b</code></pre><div class="info ">
 <code class="code">fold f [x₁; …; xₙ]</code> returns the composition <code class="code">f xₙ ∘ ⋯ ∘ f x₁</code>.  This is
@@ -102,6 +110,8 @@ Amendment to the standard library <code class="code"><span class="constructor">L
 <code class="code">flatten_map f xs</code> is a tail-recursive optimisation of <code class="code">flatten (map f
     xs)</code>.<br>
 </div>
+<br>
+<h2 id="2_IterationoverTwoLists">Iteration over Two Lists</h2><br>
 
 <pre><span id="VALiter2t"><span class="keyword">val</span> iter2t</span> : <code class="type">('a -> 'b -> unit) -> 'a list -> 'b list -> unit</code></pre><div class="info ">
 <code class="code">iter2t f [x₁; …; xₙ] [y₁; …; yₘ]</code> calls <code class="code">f x₁ y₁; …; f xₗ yₗ</code> in order,
@@ -128,6 +138,8 @@ Amendment to the standard library <code class="code"><span class="constructor">L
 <code class="code">fold2t f g [x₁; …; xₙ] [y₁; …; yₘ]</code> returns <code class="code">f (xₗ, yₗ) ∘ ⋯ ∘ f (x₁, y₁)</code>
     where <code class="code">l = min n m</code>.  The <code class="code">t</code> suffix indicates truncation.<br>
 </div>
+<br>
+<h2 id="2_DifferentialIteration">Differential Iteration</h2><br>
 
 <pre><span id="VALmap_diff"><span class="keyword">val</span> map_diff</span> : <code class="type">('a -> 'a -> 'b) -> 'a list -> 'b list</code></pre><div class="info ">
 <code class="code">map_diff f [x₁; …; xₙ]</code> returns <code class="code">f x₁ x₂; f x₂ x₃; …; f xₙ₋₁ xₙ</code>.<br>
@@ -137,6 +149,8 @@ Amendment to the standard library <code class="code"><span class="constructor">L
 <pre><span id="VALrev_map_diff"><span class="keyword">val</span> rev_map_diff</span> : <code class="type">('a -> 'a -> 'b) -> 'a list -> 'b list</code></pre><div class="info ">
 <code class="code">rev_map_diff f</code> is an optimisation of <code class="code">rev ∘ map_diff f</code>.<br>
 </div>
+<br>
+<h2 id="2_Sublists">Sublists</h2><br>
 
 <pre><span id="VALdrop"><span class="keyword">val</span> drop</span> : <code class="type">int -> 'a list -> 'a list</code></pre><div class="info ">
 <code class="code">drop n xs</code> returns the suffix of <code class="code">xs</code> following the <code class="code">n</code> first elements.
@@ -158,9 +172,5 @@ Amendment to the standard library <code class="code"><span class="constructor">L
 <pre><span id="VALtake_while"><span class="keyword">val</span> take_while</span> : <code class="type">('a -> bool) -> 'a list -> 'a list</code></pre><div class="info ">
 <code class="code">take_while f xs</code> returns the longest prefix of <code class="code">xs</code> containing only
     elements which <code class="code">f</code> maps to true.<br>
-</div>
-
-<pre><span id="VALfilter_map"><span class="keyword">val</span> filter_map</span> : <code class="type">('a -> 'b option) -> 'a list -> 'b list</code></pre><div class="info ">
-<span class="warning">Deprecated.</span>Renamed to fmap.<br>
 </div>
 </body></html>

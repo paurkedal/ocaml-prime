@@ -15,6 +15,7 @@
 <link title="Prime_array" rel="Chapter" href="Prime_array.html">
 <link title="Prime_buffer" rel="Chapter" href="Prime_buffer.html">
 <link title="Prime_char" rel="Chapter" href="Prime_char.html">
+<link title="Prime_float" rel="Chapter" href="Prime_float.html">
 <link title="Prime_int" rel="Chapter" href="Prime_int.html">
 <link title="Prime_int32" rel="Chapter" href="Prime_int32.html">
 <link title="Prime_int64" rel="Chapter" href="Prime_int64.html">
@@ -38,10 +39,12 @@
 <link title="Prime_enumlist" rel="Chapter" href="Prime_enumlist.html">
 <link title="Prime_enummap" rel="Chapter" href="Prime_enummap.html">
 <link title="Prime_enumset" rel="Chapter" href="Prime_enumset.html">
+<link title="Prime_priqueue" rel="Chapter" href="Prime_priqueue.html">
 <link title="Prime_retraction" rel="Chapter" href="Prime_retraction.html">
 <link title="Prime_sigs" rel="Chapter" href="Prime_sigs.html">
 <link title="Prime_wallet" rel="Chapter" href="Prime_wallet.html">
-<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><title>The OCaml Prime Library : Prime_cache_metric</title>
+<link title="Unprime_enumlist" rel="Chapter" href="Unprime_enumlist.html"><link title="Internal Functions" rel="Section" href="#2_InternalFunctions">
+<title>The OCaml Prime Library : Prime_cache_metric</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Prime_cache.html" title="Prime_cache">Previous</a>
@@ -112,6 +115,12 @@ Creates specifications for how to measure whether objects are worth
     memory as cache for one unit of time.</div>
 <div class="param_info"><code class="code">report</code> : This function is called after a collection with information
     about how it went.</div>
+<br>
+<h2 id="2_InternalFunctions">Internal Functions</h2>
+<p>
+
+    The remaining functions of this module are <em>subject to change at any
+    time</em>.  They and are not needed for using the predefined caches.<br>
 
 <pre><span id="VALaccess_init"><span class="keyword">val</span> access_init</span> : <code class="type"><a href="Prime_cache_metric.html#TYPEt">t</a> -> float</code></pre>
 <pre><span id="VALaccess_step"><span class="keyword">val</span> access_step</span> : <code class="type"><a href="Prime_cache_metric.html#TYPEt">t</a> -> int -> float -> float</code></pre>
