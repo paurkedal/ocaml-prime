@@ -31,7 +31,10 @@ val round : float -> float
     a tie. *)
 
 val to_fraction : ?max_denom: int -> float -> int * int
-(** [to_fraction x] returns a best rational approximation of [x].  @param
-    max_denom The maximum denominator to return. The default is currenty
-    2{^30} to account for rounding errors and the width of [int] on 32 bit
-    platforms, but it may be tuned in future versions. *)
+(** [to_fraction x] returns [(n, d)] such that [n/d] is a best rational
+    approximation of [x].  The result is based on the continued fraction of
+    the absolute value, with sign copied to the numerator.
+
+    @param max_denom The maximum denominator to return.  The default is
+    currenty 2{^30} to account for rounding errors and the width of [int] on
+    32 bit platforms, but it may be tuned in future versions. *)
