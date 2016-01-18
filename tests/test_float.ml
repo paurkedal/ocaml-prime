@@ -14,30 +14,22 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-let e = exp 1.0
+let test_fraction () =
+  assert (Prime_float.to_fraction 0.0 = (0, 1));
+  let aux i j =
+    let x = float_of_int i /. float_of_int j in
+    let n, d = Prime_float.to_fraction x in
+    let g = Prime_int.gcd i j in
+    assert (n = i / g);
+    assert (d = j / g) in
+  for i = 1 to 199 do
+    for j = 1 to 199 do
+      aux i j
+    done
+  done;
+  for i = 1 to 10000 do
+    aux (Random.int 10000 + 200) (Random.int 10000 + 200)
+  done
 
-let pi = 4.0 *. atan 1.0
-
-let sign x =
-  if x < 0.0 then -1.0 else
-  if x > 0.0 then  1.0 else 0.0
-
-let round x = if x >= 0.0 then ceil (x -. 0.5) else floor (x +. 0.5)
-
-(* We have 53 bits, but there may be significant noise in the last bits after
- * repeated reciprocals. *)
-let default_max_denom = 1 lsl 30
-
-let to_fraction ?(max_denom = default_max_denom) x =
-  let rec loop n' n'' d' d'' x =
-    let c, a = modf x in
-    let n = int_of_float a * n' + n'' in
-    let d = int_of_float a * d' + d'' in
-    if d < 0 || d > max_denom then (n', d') else
-    if c <= epsilon_float then (n, d) else
-    loop n n' d d' (1.0 /. c) in
-  if x >= 0.0 then
-    loop 1 0 0 1 x
-  else
-    let n, d = loop 1 0 0 1 (-. x) in
-    (-n, d)
+let run () =
+  test_fraction ()

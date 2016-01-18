@@ -23,6 +23,7 @@ let suite = "prime" >::: [
   "test_enumlist" >:: Test_enumlist.run;
   "test_enummap" >:: Test_enummap.run;
   "test_enumset" >:: Test_enumset.run;
+  "test_float" >:: Test_float.run;
   "test_int" >:: Test_int.run;
   "test_int32" >:: Test_int32.run;
   "test_int64" >:: Test_int64.run;
