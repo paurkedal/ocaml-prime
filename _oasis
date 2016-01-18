@@ -15,6 +15,7 @@ Library prime
     Prime_array,
     Prime_buffer,
     Prime_char,
+    Prime_float,
     Prime_int,
     Prime_int32,
     Prime_int64,
