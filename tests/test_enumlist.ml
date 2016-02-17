@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -108,12 +108,12 @@ let test_iteration () =
   L.iteri (fun i x -> assert (x = 2*i + 1)) l;
   let m = Random.int (2*n + 2) in
   let l1 = L.fmapi (fun i x -> assert (x = 2*i + 1);
-			       if x <= m then Some (i + x) else None) l in
+                               if x <= m then Some (i + x) else None) l in
   let l2 = l |> L.filter (fun x -> x <= m)
-	     |> L.mapi (fun i x -> assert (x = 2*i + 1); i + x) in
+             |> L.mapi (fun i x -> assert (x = 2*i + 1); i + x) in
   assert (L.equal (=) l1 l2);
   let y = L.foldi (fun i x acc -> assert (x = 2*i + 1);
-				  assert (acc = 2*i - 1); acc + 2) l (-1) in
+                                  assert (acc = 2*i - 1); acc + 2) l (-1) in
   assert (y = 2*n - 1)
 
 let run () =

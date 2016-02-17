@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -28,7 +28,7 @@ module Int_emap = Prime_enummap.Make (Int_order)
 let random_emap n_max =
   let n = Random.int n_max in
   Prime_int.fold_to (fun v -> Int_emap.add (Random.int n_max) v) n
-		    Int_emap.empty
+                    Int_emap.empty
 
 let test_equal () =
   let kvs0 = Prime_array.sample (fun _ -> Random.int 40) 40 in
@@ -41,7 +41,7 @@ let test_equal () =
   let m2 =
     let i = Random.int (Array.length kvs0) in
     if Random.bool () then Int_emap.remove kvs0.(i) m0
-		      else Int_emap.add kvs0.(i) (-1) m0 in
+                      else Int_emap.add kvs0.(i) (-1) m0 in
   assert (not (Int_emap.equal (=) m0 m2));
   assert (not (Int_emap.equal (=) m1 m2));
   let c02 = Int_emap.compare compare m0 m2 in
@@ -63,9 +63,9 @@ let test_cut () =
   let mL, mR =
     Array.fold
       (fun e (mL, mR) ->
-	if e < e_cut then (Int_emap.add e e mL, mR) else
-	if e > e_cut then (mL, Int_emap.add e e mR) else
-	(mL, mR))
+        if e < e_cut then (Int_emap.add e e mL, mR) else
+        if e > e_cut then (mL, Int_emap.add e e mR) else
+        (mL, mR))
       es (Int_emap.empty, Int_emap.empty) in
   let e_opt, mL', mR' = Int_emap.cut_binding es.(i_cut) m in
   assert (e_opt = Some e_cut);
@@ -97,18 +97,18 @@ let test_alg () =
   assert (Int_emap.equal (>=) mAdB mB);
   let mAsB = Int_emap.funion (fun _ _ _ -> None) mA mB in
   assert (Int_emap.cardinal mAuB =
-	  Int_emap.cardinal mAsB + Int_emap.cardinal mAnB);
+          Int_emap.cardinal mAsB + Int_emap.cardinal mAnB);
   assert (Int_emap.cardinal mAcB =
-	  Int_emap.cardinal mB - Int_emap.cardinal mAnB);
+          Int_emap.cardinal mB - Int_emap.cardinal mAnB);
   let pB = Int_emap.merge
-	    (fun k eA_opt eB_opt ->
-	      match eA_opt, eB_opt with
-	      | None, None -> assert false
-	      | None, Some eB -> Some (Some eB)
-	      | Some eA, None -> Some None
-	      | Some eA, Some eB when eA = eB -> None
-	      | Some eA, Some eB -> Some (Some eB))
-	    mA mB in
+            (fun k eA_opt eB_opt ->
+              match eA_opt, eB_opt with
+              | None, None -> assert false
+              | None, Some eB -> Some (Some eB)
+              | Some eA, None -> Some None
+              | Some eA, Some eB when eA = eB -> None
+              | Some eA, Some eB -> Some (Some eB))
+            mA mB in
   let mB' = Int_emap.fpatch (fun _ e_opt _ -> e_opt) pB mA in
   assert (Int_emap.equal (=) mB mB')
 
@@ -138,13 +138,13 @@ let run () =
     let n = Random.int (1 lsl Random.int 10) + 1 in
     let m, em = populate n n Int_map.empty Int_emap.empty in
     assert_equal_int ~msg:"cardinality using fold" (Int_map.cardinal m)
-		     (Int_emap.fold (fun _ _ -> (+) 1) em 0);
+                     (Int_emap.fold (fun _ _ -> (+) 1) em 0);
     assert_equal_int ~msg:"cardinal"
-		     (Int_map.cardinal m) (Int_emap.cardinal em);
+                     (Int_map.cardinal m) (Int_emap.cardinal em);
     assert_equal ~msg:"min binding" (Int_emap.min_binding em)
-		 (Int_emap.get_binding 0 em);
+                 (Int_emap.get_binding 0 em);
     assert_equal ~msg:"max binding" (Int_emap.max_binding em)
-		 (Int_emap.get_binding (Int_emap.cardinal em - 1) em);
+                 (Int_emap.get_binding (Int_emap.cardinal em - 1) em);
     for i = 0 to Int_emap.cardinal em - 1 do
       let k, _ = Int_emap.get_binding i em in
       let pres, pos = Int_emap.locate k em in

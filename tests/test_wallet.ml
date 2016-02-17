@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -49,7 +49,7 @@ let test n =
     let rec loop i wg wf =
       if i = n then (wg, wf) else
       if Random.bool () then loop (i + 1) (set i (f i) wg) wf
-			else loop (i + 1) wg (set i (g i) wf) in
+                        else loop (i + 1) wg (set i (g i) wf) in
     loop 0 wg wf in
   assert (wg' = wf');
 

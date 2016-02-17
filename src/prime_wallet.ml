@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -166,7 +166,7 @@ let rec comapj_rev_gen : type a b. (int -> a -> b) -> int -> int -> a t -> b t =
     Even (comapj_rev_gen (fun i (y, x) -> (f (i - m) y, f i x)) (2*m) i t)
   | Odd (z, t) ->
     Odd (f i z,
-	 comapj_rev_gen (fun i (y, x) -> (f (i - m) y, f i x)) (2*m) (i - m) t)
+         comapj_rev_gen (fun i (y, x) -> (f (i - m) y, f i x)) (2*m) (i - m) t)
 let comapj_rev f j w = comapj_rev_gen f 1 (j - 1) w
 
 let rec iter : type a. (a -> unit) -> a t -> unit = fun f -> function

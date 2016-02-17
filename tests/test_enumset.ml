@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -55,9 +55,9 @@ let test_cut () =
   let sL, sR =
     Array.fold
       (fun e (sL, sR) ->
-	if e < e_cut then (Int_eset.add e sL, sR) else
-	if e > e_cut then (sL, Int_eset.add e sR) else
-	(sL, sR))
+        if e < e_cut then (Int_eset.add e sL, sR) else
+        if e > e_cut then (sL, Int_eset.add e sR) else
+        (sL, sR))
       es (Int_eset.empty, Int_eset.empty) in
   let pres, sL', sR' = Int_eset.cut_element es.(i_cut) s in
   assert pres;
@@ -126,15 +126,15 @@ let run () =
     let n = Random.int (1 lsl Random.int 10) + 1 in
     let s, es = populate n n Int_set.empty Int_eset.empty in
     assert_equal_int ~msg:"cardinality using fold" (Int_set.cardinal s)
-		     (Int_eset.fold (fun _ -> (+) 1) es 0);
+                     (Int_eset.fold (fun _ -> (+) 1) es 0);
     assert_equal_int ~msg:"cardinal"
-		     (Int_set.cardinal s) (Int_eset.cardinal es);
+                     (Int_set.cardinal s) (Int_eset.cardinal es);
     assert_equal ~msg:"elements" (Int_set.elements s)
-		 (List.rev (Int_eset.fold Prime_list.push es []));
+                 (List.rev (Int_eset.fold Prime_list.push es []));
     assert_equal_int ~msg:"min element" (Int_eset.min_elt es)
-		     (Int_eset.get 0 es);
+                     (Int_eset.get 0 es);
     assert_equal_int ~msg:"max element" (Int_eset.max_elt es)
-		     (Int_eset.get (Int_eset.cardinal es - 1) es);
+                     (Int_eset.get (Int_eset.cardinal es - 1) es);
     for i = 0 to Int_eset.cardinal es - 1 do
       let e = Int_eset.get i es in
       let pres, pos = Int_eset.locate e es in

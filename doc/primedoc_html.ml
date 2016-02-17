@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -23,13 +23,13 @@ let copy_file src dst =
   ( try
       let och = open_out dst in
       ( try
-	  let buflen = 4096 in
-	  let buf = Bytes.create buflen in
-	  let rec loop () =
-	    let n = input ich buf 0 buflen in
-	    if n > 0 then (output och buf 0 n; loop ()) in
-	  loop ()
-	with xc -> close_out och; close_in ich; raise xc );
+          let buflen = 4096 in
+          let buf = Bytes.create buflen in
+          let rec loop () =
+            let n = input ich buf 0 buflen in
+            if n > 0 then (output och buf 0 n; loop ()) in
+          loop ()
+        with xc -> close_out och; close_in ich; raise xc );
       close_out och
     with xc -> close_in ich; raise xc );
   close_in ich
@@ -42,9 +42,9 @@ module Generator (G : Odoc_html.Html_generator) = struct
       begin match !opt_copy_css_style with
       | None -> ()
       | Some (src, symbolic) ->
-	let dst = Filename.concat !Global.target_dir style_file in
-	if not (Sys.file_exists dst) then
-	  (if symbolic then Unix.symlink src dst else copy_file src dst)
+        let dst = Filename.concat !Global.target_dir style_file in
+        if not (Sys.file_exists dst) then
+          (if symbolic then Unix.symlink src dst else copy_file src dst)
       end;
       base#init_style
 

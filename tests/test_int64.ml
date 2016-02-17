@@ -24,7 +24,7 @@ let test_bitcount () =
   let rec count_bits x acc =
     if x = 0L then acc else
     count_bits Int64.(shift_right_logical x 1)
-	       (acc + Int64.(to_int (logand x 1L))) in
+               (acc + Int64.(to_int (logand x 1L))) in
   for round = 0 to 9999 do
     let x = random_bits64 () in
     assert (Prime_int64.bitcount x = count_bits x 0)

@@ -71,7 +71,7 @@ module Make (Elt : Set.OrderedType) = struct
     | P (eA, hsA), P (eB, hsB) ->
       let c = Elt.compare eA eB in
       if c < 0 then P (eA, Deck.Back  (hB, hsA))
-	       else P (eB, Deck.Front (hA, hsB))
+               else P (eB, Deck.Front (hA, hsB))
     | P (eA, hsA), N (eB, hsB) ->
       let c = Elt.compare eA eB in
       if c < 0 then P (eA, Deck.Back (hB, hsA)) else

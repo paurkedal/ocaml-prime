@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -171,7 +171,7 @@ module Make (Elt : OrderedType) : sig
 
   module Make_monadic (Monad : Monad) :
     S_monadic with type elt := elt and type t := t
-	       and type 'a monad = 'a Monad.t
+               and type 'a monad = 'a Monad.t
 end
 
 module Make_monadic (Elt : OrderedType) (Monad : Monad) :

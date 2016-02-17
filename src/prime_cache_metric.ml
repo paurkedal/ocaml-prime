@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -32,7 +32,7 @@ and check_state = {
 }
 
 let create ?(period_sample_size = 16)
-	   ~current_time ~current_memory_pressure ?(report = fun _ -> ()) () =
+           ~current_time ~current_memory_pressure ?(report = fun _ -> ()) () =
   let n = float_of_int period_sample_size in
   { cm_period_sample_size = period_sample_size;
     cm_w_past = (n -. 1.0) /. n;

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -51,7 +51,7 @@ module type S = sig
       elsewhere. *)
 
   val split_union : (key -> 'a -> 'b -> 'c) ->
-		    'a t -> 'b t -> 'a t * 'b t * 'c t
+                    'a t -> 'b t -> 'a t * 'b t * 'c t
   (** [split_union mA mB] is a triple [(mA', mB', mC')] where [mA'] and [mB']
       are the respective bindings of [mA] and [mB] which have disjoint keys,
       and [mC'] has a binding [(k, f k a b)] for each pair of bindings [(k,

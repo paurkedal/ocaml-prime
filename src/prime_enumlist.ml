@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -143,7 +143,7 @@ let rec insert i e = function
     if i < nL then bal (n + 1) eC (insert i e sL) sR else
     if i > nL then bal (n + 1) eC sL (insert (i - nL - 1) e sR) else
     if length sL > length sR then Y (n + 1, e, sL, push_first eC sR)
-			     else Y (n + 1, eC, push_last e sL, sR)
+                             else Y (n + 1, eC, push_last e sL, sR)
 
 let of_list xs =
   let rec aux n xs =

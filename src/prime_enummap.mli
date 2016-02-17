@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -161,7 +161,7 @@ module type S = sig
       true on the respective mappings for each key. *)
 
   val merge : (key -> 'a option -> 'b option -> 'c option) ->
-	      'a t -> 'b t -> 'c t
+              'a t -> 'b t -> 'c t
   (** [merge f m1 m2] is the map containing a binding [(k, e)] for each [k]
       bound in at least one of the maps, such that [f (find_o k m1) (find_o k
       m2) = Some e]. *)
@@ -185,7 +185,7 @@ module type S = sig
       e')] is in [m1] and [f k e' (find_o k m2) = Some e]. *)
 
   val split_union : (key -> 'a -> 'b -> 'c) ->
-		    'a t -> 'b t -> 'a t * 'b t * 'c t
+                    'a t -> 'b t -> 'a t * 'b t * 'c t
   (** [split_union mA mB] is a triple [(mA', mB', mC')] where [mA'] and [mB']
       are the respective bindings of [mA] and [mB] which have disjoint keys,
       and [mC'] has a binding [(k, f k a b)] for each pair of bindings [(k,
@@ -222,8 +222,8 @@ module Make (Key : OrderedType) : sig
 
   module Make_monadic (Monad : Monad) :
     S_monadic with type key := Key.t
-	       and type 'a t := 'a t
-	       and type 'a monad = 'a Monad.t
+               and type 'a t := 'a t
+               and type 'a monad = 'a Monad.t
 end
 
 module Make_monadic (Key : OrderedType) (Monad : Monad) :

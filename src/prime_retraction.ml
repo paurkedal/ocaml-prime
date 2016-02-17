@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -259,9 +259,9 @@ module Make (Elt : RETRACTABLE) = struct
     | Y (n, e, cL, cR) ->
       let o = Elt.compare ek e in
       if o < 0 then let e_opt, cLL, cRL = cut_elt ek cL in
-		    e_opt, cLL, glue e cRL cR else
+                    e_opt, cLL, glue e cRL cR else
       if o > 0 then let e_opt, cLR, cRR = cut_elt ek cR in
-		    e_opt, glue e cL cLR, cRR else
+                    e_opt, glue e cL cLR, cRR else
       Some e, cL, cR
 
   let rec remove' k = function
@@ -282,10 +282,10 @@ module Make (Elt : RETRACTABLE) = struct
       match f eC with
       | Some _ as z -> z
       | None ->
-	begin match search f cL with
-	| Some _ as z -> z
-	| None -> search f cR
-	end
+        begin match search f cL with
+        | Some _ as z -> z
+        | None -> search f cR
+        end
 
   let rec fold f = function
     | O -> fun acc -> acc
@@ -320,8 +320,8 @@ module Make (Elt : RETRACTABLE) = struct
       | End, More _ -> -1
       | More _, End -> 1
       | More (eA, cA, qA), More (eB, cB, qB) ->
-	let c = Elt.compare eA eB in if c <> 0 then c else
-	aux (cons_enum cA qA, cons_enum cB qB) in
+        let c = Elt.compare eA eB in if c <> 0 then c else
+        aux (cons_enum cA qA, cons_enum cB qB) in
     aux (cons_enum cA End, cons_enum cB End)
 
   let equal cA cB = compare cA cB = 0
@@ -337,19 +337,19 @@ module Make (Elt : RETRACTABLE) = struct
     | O, c | c, O -> O
     | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
       if nA < nB then
-	let eA_opt, cLA, cRA = cut_elt eB cA in
-	let cL = finter f cLA cLB in
-	let cR = finter f cRA cRB in
-	match eA_opt with
-	| None -> cat cL cR
-	| Some eA -> check_glue_opt ~msg f eA eB cL cR
+        let eA_opt, cLA, cRA = cut_elt eB cA in
+        let cL = finter f cLA cLB in
+        let cR = finter f cRA cRB in
+        match eA_opt with
+        | None -> cat cL cR
+        | Some eA -> check_glue_opt ~msg f eA eB cL cR
       else
-	let eB_opt, cLB, cRB = cut_elt eA cB in
-	let cL = finter f cLA cLB in
-	let cR = finter f cRA cRB in
-	match eB_opt with
-	| None -> cat cL cR
-	| Some eB -> check_glue_opt ~msg f eA eB cL cR
+        let eB_opt, cLB, cRB = cut_elt eA cB in
+        let cL = finter f cLA cLB in
+        let cR = finter f cRA cRB in
+        match eB_opt with
+        | None -> cat cL cR
+        | Some eB -> check_glue_opt ~msg f eA eB cL cR
 
   let rec funion f cA cB =
     let msg = "funion: Inconsistent merge function." in
@@ -357,19 +357,19 @@ module Make (Elt : RETRACTABLE) = struct
     | O, c | c, O -> c
     | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
       if nA < nB then
-	let eA_opt, cLA, cRA = cut_elt eB cA in
-	let cL = funion f cLA cLB in
-	let cR = funion f cRA cRB in
-	match eA_opt with
-	| None -> glue eB cL cR
-	| Some eA -> check_glue_opt ~msg f eA eB cL cR
+        let eA_opt, cLA, cRA = cut_elt eB cA in
+        let cL = funion f cLA cLB in
+        let cR = funion f cRA cRB in
+        match eA_opt with
+        | None -> glue eB cL cR
+        | Some eA -> check_glue_opt ~msg f eA eB cL cR
       else
-	let eB_opt, cLB, cRB = cut_elt eA cB in
-	let cL = funion f cLA cLB in
-	let cR = funion f cRA cRB in
-	match eB_opt with
-	| None -> glue eA cL cR
-	| Some eB -> check_glue_opt ~msg f eA eB cL cR
+        let eB_opt, cLB, cRB = cut_elt eA cB in
+        let cL = funion f cLA cLB in
+        let cR = funion f cRA cRB in
+        match eB_opt with
+        | None -> glue eA cL cR
+        | Some eB -> check_glue_opt ~msg f eA eB cL cR
 
   let rec fcompl f cA cB =
     let msg = "fcompl: Inconsistent merge function." in
@@ -378,17 +378,17 @@ module Make (Elt : RETRACTABLE) = struct
     | _, O -> O
     | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
       if nA < nB then
-	let eA_opt, cLA, cRA = cut_elt eB cA in
-	let cL = fcompl f cLA cLB in
-	let cR = fcompl f cRA cRB in
-	match eA_opt with
-	| None -> glue eB cL cR
-	| Some eA -> check_glue_opt ~msg f eA eB cL cR
+        let eA_opt, cLA, cRA = cut_elt eB cA in
+        let cL = fcompl f cLA cLB in
+        let cR = fcompl f cRA cRB in
+        match eA_opt with
+        | None -> glue eB cL cR
+        | Some eA -> check_glue_opt ~msg f eA eB cL cR
       else
-	let eB_opt, cLB, cRB = cut_elt eA cB in
-	let cL = fcompl f cLA cLB in
-	let cR = fcompl f cRA cRB in
-	match eB_opt with
-	| None -> cat cL cR
-	| Some eB -> check_glue_opt ~msg f eA eB cL cR
+        let eB_opt, cLB, cRB = cut_elt eA cB in
+        let cL = fcompl f cLA cLB in
+        let cR = fcompl f cRA cRB in
+        match eB_opt with
+        | None -> cat cL cR
+        | Some eB -> check_glue_opt ~msg f eA eB cL cR
 end

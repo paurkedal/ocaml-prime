@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -62,13 +62,13 @@ module type S = sig
   val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
   val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
   val merge : (key -> 'a option -> 'b option -> 'c option) ->
-	      'a t -> 'b t -> 'c t
+              'a t -> 'b t -> 'c t
   val finter : (key -> 'a -> 'b -> 'c option) -> 'a t -> 'b t -> 'c t
   val funion : (key -> 'a -> 'a -> 'a option) -> 'a t -> 'a t -> 'a t
   val fcompl : (key -> 'a -> 'b -> 'b option) -> 'a t -> 'b t -> 'b t
   val fpatch : (key -> 'a -> 'b option -> 'b option) -> 'a t -> 'b t -> 'b t
   val split_union : (key -> 'a -> 'b -> 'c) ->
-		    'a t -> 'b t -> 'a t * 'b t * 'c t
+                    'a t -> 'b t -> 'a t * 'b t * 'c t
 
   val card : 'a t -> int
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
@@ -227,9 +227,9 @@ module Make (K : OrderedType) = struct
     | Y (n, kC, eC, mL, mR) ->
       let o = K.compare k kC in
       if o < 0 then let dn, mL' = add' k e mL in
-		    dn, bal_y (n + dn) kC eC mL' mR else
+                    dn, bal_y (n + dn) kC eC mL' mR else
       if o > 0 then let dn, mR' = add' k e mR in
-		    dn, bal_y (n + dn) kC eC mL mR' else
+                    dn, bal_y (n + dn) kC eC mL mR' else
       0, Y (n, k, e, mL, mR)
   let add k e m = snd (add' k e m)
 
@@ -256,11 +256,11 @@ module Make (K : OrderedType) = struct
       let c = K.compare kC k in
       if c = 0 then (Some e, mL, mR) else
       if c < 0 then
-	let eC, mLL, mRL = cut_binding kC mL in
-	(eC, mLL, glue k e mRL mR)
+        let eC, mLL, mRL = cut_binding kC mL in
+        (eC, mLL, glue k e mRL mR)
       else
-	let eC, mLR, mRR = cut_binding kC mR in
-	(eC, glue k e mL mLR, mRR)
+        let eC, mLR, mRR = cut_binding kC mR in
+        (eC, glue k e mL mLR, mRR)
 
   let rec remove' k = function
     | O -> raise Keep
@@ -270,8 +270,8 @@ module Make (K : OrderedType) = struct
       if o > 0 then bal_y (n - 1) kC eC mL (remove' k mR) else
       if n = 1 then O else
       if cardinal mL > cardinal mR
-	then let kC', eC', mL' = pop_max mL in Y (n - 1, kC', eC', mL', mR)
-	else let kC', eC', mR' = pop_min mR in Y (n - 1, kC', eC', mL, mR')
+        then let kC', eC', mL' = pop_max mL in Y (n - 1, kC', eC', mL', mR)
+        else let kC', eC', mR' = pop_min mR in Y (n - 1, kC', eC', mL, mR')
   let remove k m = try remove' k m with Keep -> m
 
   let bindings m =
@@ -284,9 +284,9 @@ module Make (K : OrderedType) = struct
     let rec count_and_check n k' = function
       | [] -> n
       | (k, _) :: kes ->
-	if K.compare k' k >= 0 then
-	  invalid_arg "Prime_enummap.of_ordererd_bindings";
-	count_and_check (succ n) k kes in
+        if K.compare k' k >= 0 then
+          invalid_arg "Prime_enummap.of_ordererd_bindings";
+        count_and_check (succ n) k kes in
     let rec build n kes =
       if n = 0 then O, kes else
       if n = 1 then let k, e = List.hd kes in Y(1, k, e, O, O), List.tl kes else
@@ -304,10 +304,10 @@ module Make (K : OrderedType) = struct
       begin match search f mL with
       | Some _ as r -> r
       | None ->
-	begin match f kC eC with
-	| Some _ as r -> r
-	| None -> search f mR
-	end
+        begin match f kC eC with
+        | Some _ as r -> r
+        | None -> search f mR
+        end
       end
 
   let rec iter f = function
@@ -360,9 +360,9 @@ module Make (K : OrderedType) = struct
       | End, More _ -> -1
       | More _, End -> 1
       | More (kA, eA, mA, qA), More (kB, eB, mB, qB) ->
-	let ck = K.compare kA kB in if ck <> 0 then ck else
-	let cv = f eA eB in         if cv <> 0 then cv else
-	aux (cons_enum mA qA, cons_enum mB qB) in
+        let ck = K.compare kA kB in if ck <> 0 then ck else
+        let cv = f eA eB in         if cv <> 0 then cv else
+        aux (cons_enum mA qA, cons_enum mB qB) in
     aux (cons_enum mA End, cons_enum mB End)
 
   let equal f mA mB =
@@ -370,8 +370,8 @@ module Make (K : OrderedType) = struct
       | End, End -> true
       | End, More _ | More _, End -> false
       | More (kA, eA, mA, qA), More (kB, eB, mB, qB) ->
-	K.compare kA kB = 0 && f eA eB &&
-	aux (cons_enum mA qA, cons_enum mB qB) in
+        K.compare kA kB = 0 && f eA eB &&
+        aux (cons_enum mA qA, cons_enum mB qB) in
     aux (cons_enum mA End, cons_enum mB End)
 
   let rec merge f mA mB =
@@ -434,9 +434,9 @@ module Make (K : OrderedType) = struct
   let split_union f mA mB =
     let aux k a (mA, mB, mC) =
       try let b = find k mB in
-	(mA, remove k mB, add k (f k a b) mC)
+        (mA, remove k mB, add k (f k a b) mC)
       with Not_found ->
-	(add k a mA, mB, mC) in
+        (add k a mA, mB, mC) in
     fold aux mA (empty, mB, empty)
 
   let cut = cut_binding
@@ -448,84 +448,84 @@ module Make (K : OrderedType) = struct
     let rec fold_s f = function
       | O -> M.return
       | Y (_, k, e, mL, mR) ->
-	fun acc -> M.bind (fold_s f mL acc) @@
-	  fun acc -> M.bind (f k e acc) (fold_s f mR)
+        fun acc -> M.bind (fold_s f mL acc) @@
+          fun acc -> M.bind (f k e acc) (fold_s f mR)
 
     let rec iter_s f = function
       | O -> M.return ()
       | Y (_, k, e, mL, mR) ->
-	M.bind (iter_s f mL) @@ fun () ->
-	M.bind (f k e) @@ fun () ->
-	iter_s f mR
+        M.bind (iter_s f mL) @@ fun () ->
+        M.bind (f k e) @@ fun () ->
+        iter_s f mR
 
     let rec search_s f = function
       | O -> M.return None
       | Y (_, k, e, mL, mR) ->
-	M.bind (search_s f mL) begin function
-	| Some _ as r -> M.return r
-	| None ->
-	  M.bind (f k e) begin function
-	  | Some _ as r -> M.return r
-	  | None -> search_s f mR
-	  end
-	end
+        M.bind (search_s f mL) begin function
+        | Some _ as r -> M.return r
+        | None ->
+          M.bind (f k e) begin function
+          | Some _ as r -> M.return r
+          | None -> search_s f mR
+          end
+        end
 
     let rec for_all_s f = function
       | O -> M.return true
       | Y (_, k, e, mL, mR) ->
-	M.bind (for_all_s f mL) begin function
-	| false -> M.return false
-	| true ->
-	  M.bind (f k e) begin function
-	  | false -> M.return false
-	  | true -> for_all_s f mR
-	  end
-	end
+        M.bind (for_all_s f mL) begin function
+        | false -> M.return false
+        | true ->
+          M.bind (f k e) begin function
+          | false -> M.return false
+          | true -> for_all_s f mR
+          end
+        end
 
     let rec exists_s f = function
       | O -> M.return false
       | Y (_, k, e, mL, mR) ->
-	M.bind (exists_s f mL) begin function
-	| true -> M.return true
-	| false ->
-	  M.bind (f k e) begin function
-	  | true -> M.return true
-	  | false -> exists_s f mR
-	  end
-	end
+        M.bind (exists_s f mL) begin function
+        | true -> M.return true
+        | false ->
+          M.bind (f k e) begin function
+          | true -> M.return true
+          | false -> exists_s f mR
+          end
+        end
 
     let rec filter_s f = function
       | O -> M.return O
       | Y (_, k, e, sL, sR) ->
-	M.bind (filter_s f sL) @@ fun sL' ->
-	M.bind (filter_s f sR) @@ fun sR' ->
-	M.bind (f k e) @@ fun c ->
-	M.return (if c then glue k e sL' sR' else cat sL' sR')
+        M.bind (filter_s f sL) @@ fun sL' ->
+        M.bind (filter_s f sR) @@ fun sR' ->
+        M.bind (f k e) @@ fun c ->
+        M.return (if c then glue k e sL' sR' else cat sL' sR')
 
     let rec map_s f = function
       | O -> M.return O
       | Y (_, k, e, mL, mR) ->
-	M.bind (map_s f mL) @@ fun mL' ->
-	M.bind (map_s f mR) @@ fun mR' ->
-	M.bind (f e) @@ fun e' ->
-	M.return (glue k e' mL' mR')
+        M.bind (map_s f mL) @@ fun mL' ->
+        M.bind (map_s f mR) @@ fun mR' ->
+        M.bind (f e) @@ fun e' ->
+        M.return (glue k e' mL' mR')
 
     let rec mapi_s f = function
       | O -> M.return O
       | Y (_, k, e, mL, mR) ->
-	M.bind (mapi_s f mL) @@ fun mL' ->
-	M.bind (mapi_s f mR) @@ fun mR' ->
-	M.bind (f k e) @@ fun e' ->
-	M.return (glue k e' mL' mR')
+        M.bind (mapi_s f mL) @@ fun mL' ->
+        M.bind (mapi_s f mR) @@ fun mR' ->
+        M.bind (f k e) @@ fun e' ->
+        M.return (glue k e' mL' mR')
 
     let rec fmapi_s f = function
       | O -> M.return O
       | Y (_, k, e, mL, mR) ->
-	M.bind (fmapi_s f mL) @@ fun mL' ->
-	M.bind (fmapi_s f mR) @@ fun mR' ->
-	M.bind (f k e) @@ function
-	| None -> M.return (cat mL' mR')
-	| Some e' -> M.return (glue k e' mL' mR')
+        M.bind (fmapi_s f mL) @@ fun mL' ->
+        M.bind (fmapi_s f mR) @@ fun mR' ->
+        M.bind (f k e) @@ function
+        | None -> M.return (cat mL' mR')
+        | Some e' -> M.return (glue k e' mL' mR')
   end
 end
 

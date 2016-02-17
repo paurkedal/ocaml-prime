@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -217,11 +217,11 @@ module Make (E : OrderedType) = struct
       let c = E.compare eC e in
       if c = 0 then (true, sL, sR) else
       if c < 0 then
-	let pres, sLL, sRL = cut_element eC sL in
-	(pres, sLL, glue e sRL sR)
+        let pres, sLL, sRL = cut_element eC sL in
+        (pres, sLL, glue e sRL sR)
       else
-	let pres, sLR, sRR = cut_element eC sR in
-	(pres, glue e sL sLR, sRR)
+        let pres, sLR, sRR = cut_element eC sR in
+        (pres, glue e sL sLR, sRR)
 
   let rec remove' e = function
     | O -> raise Keep
@@ -231,8 +231,8 @@ module Make (E : OrderedType) = struct
       if o > 0 then bal_y (n - 1) eC sL (remove' e sR) else
       if n = 1 then O else
       if cardinal sL > cardinal sR
-	then let eC', sL' = pop_max sL in Y (n - 1, eC', sL', sR)
-	else let eC', sR' = pop_min sR in Y (n - 1, eC', sL, sR')
+        then let eC', sL' = pop_max sL in Y (n - 1, eC', sL', sR)
+        else let eC', sR' = pop_min sR in Y (n - 1, eC', sL, sR')
   let remove e s = try remove' e s with Keep -> s
 
   let elements s =
@@ -245,9 +245,9 @@ module Make (E : OrderedType) = struct
     let rec count_and_check n e' = function
       | [] -> n
       | e :: es ->
-	if E.compare e' e >= 0 then
-	  invalid_arg "Prime_enumset.of_ordererd_elements";
-	count_and_check (succ n) e es in
+        if E.compare e' e >= 0 then
+          invalid_arg "Prime_enumset.of_ordererd_elements";
+        count_and_check (succ n) e es in
     let rec build n es =
       if n = 0 then O, es else
       if n = 1 then Y (1, List.hd es, O, O), List.tl es else
@@ -265,10 +265,10 @@ module Make (E : OrderedType) = struct
       begin match search f sL with
       | Some _ as r -> r
       | None ->
-	begin match f eC with
-	| Some _ as r -> r
-	| None -> search f sR
-	end
+        begin match f eC with
+        | Some _ as r -> r
+        | None -> search f sR
+        end
       end
 
   let rec iter f = function
@@ -304,8 +304,8 @@ module Make (E : OrderedType) = struct
       | End, More _ -> -1
       | More _, End -> 1
       | More (eA, sA, qA), More (eB, sB, qB) ->
-	let c = E.compare eA eB in if c <> 0 then c else
-	aux (cons_enum sA qA, cons_enum sB qB) in
+        let c = E.compare eA eB in if c <> 0 then c else
+        aux (cons_enum sA qA, cons_enum sB qB) in
     aux (cons_enum sA End, cons_enum sB End)
 
   let equal sA sB = compare sA sB = 0
@@ -328,7 +328,7 @@ module Make (E : OrderedType) = struct
     | O, s | s, O -> s
     | Y (nA, eA, sLA, sRA), Y (nB, eB, sLB, sRB) ->
       if nA < nB then aux sA eB sLB sRB
-		 else aux sB eA sLA sRA
+                 else aux sB eA sLA sRA
 
   let rec inter sA sB =
     let aux sC e sL sR =
@@ -340,7 +340,7 @@ module Make (E : OrderedType) = struct
     | O, _ | _, O -> O
     | Y (nA, eA, sLA, sRA), Y (nB, eB, sLB, sRB) ->
       if nA < nB then aux sA eB sLB sRB
-		 else aux sB eA sLA sRA
+                 else aux sB eA sLA sRA
 
   let rec compl sA sB =
     match sA, sB with
@@ -349,7 +349,7 @@ module Make (E : OrderedType) = struct
     | _, Y (nB, eB, sLB, sRB) ->
       let presA, sLA, sRA = cut_element eB sA in
       if presA then cat     (compl sLA sLB) (compl sRA sRB)
-	       else glue eB (compl sLA sLB) (compl sRA sRB)
+               else glue eB (compl sLA sLB) (compl sRA sRB)
 
   (* Deprecated *)
   let card = cardinal
@@ -362,59 +362,59 @@ module Make (E : OrderedType) = struct
     let rec fold_s f = function
       | O -> M.return
       | Y (_, eC, sL, sR) ->
-	fun acc -> M.bind (fold_s f sL acc) @@
-	  fun acc -> M.bind (f eC acc) (fold_s f sR)
+        fun acc -> M.bind (fold_s f sL acc) @@
+          fun acc -> M.bind (f eC acc) (fold_s f sR)
 
     let rec iter_s f = function
       | O -> M.return ()
       | Y (_, eC, sL, sR) ->
-	M.bind (iter_s f sL) @@ fun () ->
-	M.bind (f eC) @@ fun () ->
-	iter_s f sR
+        M.bind (iter_s f sL) @@ fun () ->
+        M.bind (f eC) @@ fun () ->
+        iter_s f sR
 
     let rec search_s f = function
       | O -> M.return None
       | Y (_, eC, sL, sR) ->
-	M.bind (search_s f sL) begin function
-	| Some _ as r -> M.return r
-	| None ->
-	  M.bind (f eC) begin function
-	  | Some _ as r -> M.return r
-	  | None -> search_s f sR
-	  end
-	end
+        M.bind (search_s f sL) begin function
+        | Some _ as r -> M.return r
+        | None ->
+          M.bind (f eC) begin function
+          | Some _ as r -> M.return r
+          | None -> search_s f sR
+          end
+        end
 
     let rec for_all_s f = function
       | O -> M.return true
       | Y (_, eC, sL, sR) ->
-	M.bind (for_all_s f sL) begin function
-	| false -> M.return false
-	| true ->
-	  M.bind (f eC) begin function
-	  | false -> M.return false
-	  | true -> for_all_s f sR
-	  end
-	end
+        M.bind (for_all_s f sL) begin function
+        | false -> M.return false
+        | true ->
+          M.bind (f eC) begin function
+          | false -> M.return false
+          | true -> for_all_s f sR
+          end
+        end
 
     let rec exists_s f = function
       | O -> M.return false
       | Y (_, eC, sL, sR) ->
-	M.bind (exists_s f sL) begin function
-	| true -> M.return true
-	| false ->
-	  M.bind (f eC) begin function
-	  | true -> M.return true
-	  | false -> exists_s f sR
-	  end
-	end
+        M.bind (exists_s f sL) begin function
+        | true -> M.return true
+        | false ->
+          M.bind (f eC) begin function
+          | true -> M.return true
+          | false -> exists_s f sR
+          end
+        end
 
     let rec filter_s f = function
       | O -> M.return O
       | Y (_, e, sL, sR) ->
-	M.bind (filter_s f sL) @@ fun sL' ->
-	M.bind (filter_s f sR) @@ fun sR' ->
-	M.bind (f e) @@ fun c ->
-	M.return (if c then glue e sL' sR' else cat sL' sR')
+        M.bind (filter_s f sL) @@ fun sL' ->
+        M.bind (filter_s f sR) @@ fun sR' ->
+        M.bind (f e) @@ fun c ->
+        M.return (if c then glue e sL' sR' else cat sL' sR')
 
   end
 end

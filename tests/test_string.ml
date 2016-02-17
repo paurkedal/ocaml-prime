@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -93,9 +93,9 @@ let run () =
   assert_equal (Some ("","< >")) (String.cut_consecutive Char.is_space " < >");
   assert_equal (Some ("< >","")) (String.rcut_consecutive Char.is_space "< > ");
   assert_equal (Some ("<>", "< >"))
-	       (String.cut_consecutive Char.is_space "<> < >");
+               (String.cut_consecutive Char.is_space "<> < >");
   assert_equal (Some ("< >", "<>"))
-	       (String.rcut_consecutive Char.is_space "< > <>");
+               (String.rcut_consecutive Char.is_space "< > <>");
 
   assert_eq_string_list [] (String.chop_consecutive Char.is_space "");
   assert_eq_string_list [] (String.chop_consecutive Char.is_space "  ");

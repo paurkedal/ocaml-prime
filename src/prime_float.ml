@@ -34,33 +34,33 @@ let to_fraction =
     begin fun ?(max_denom = default_max_denom) x ->
       let max_denom = float_of_int max_denom in
       let rec loop n' n'' d' d'' x =
-	let c, a = modf x in
-	let n = a *. n' +. n'' in
-	let d = a *. d' +. d'' in
-	if d > max_denom then (n', d') else
-	if c <= epsilon_float then (n, d) else
-	loop n n' d d' (1.0 /. c) in
+        let c, a = modf x in
+        let n = a *. n' +. n'' in
+        let d = a *. d' +. d'' in
+        if d > max_denom then (n', d') else
+        if c <= epsilon_float then (n, d) else
+        loop n n' d d' (1.0 /. c) in
       if x >= 0.0 then
-	let n, d = loop 1. 0. 0. 1. x in
-	(int_of_float n, int_of_float d)
+        let n, d = loop 1. 0. 0. 1. x in
+        (int_of_float n, int_of_float d)
       else
-	let n, d = loop 1. 0. 0. 1. (-. x) in
-	(- int_of_float n, int_of_float d)
+        let n, d = loop 1. 0. 0. 1. (-. x) in
+        (- int_of_float n, int_of_float d)
     end
   else
     (* Accumulate with integers on 64 bit platforms. *)
     begin fun ?(max_denom = default_max_denom) x ->
       let rec loop n' n'' d' d'' x =
-	let c, a = modf x in
-	let a = int_of_float a in
-	let n = a * n' + n'' in
-	let d = a * d' + d'' in
-	if d < 0 || d > max_denom then (n', d') else
-	if c <= epsilon_float then (n, d) else
-	loop n n' d d' (1.0 /. c) in
+        let c, a = modf x in
+        let a = int_of_float a in
+        let n = a * n' + n'' in
+        let d = a * d' + d'' in
+        if d < 0 || d > max_denom then (n', d') else
+        if c <= epsilon_float then (n, d) else
+        loop n n' d d' (1.0 /. c) in
       if x >= 0.0 then
-	loop 1 0 0 1 x
+        loop 1 0 0 1 x
       else
-	let n, d = loop 1 0 0 1 (-. x) in
-	(- n, d)
+        let n, d = loop 1 0 0 1 (-. x) in
+        (- n, d)
     end

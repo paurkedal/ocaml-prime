@@ -18,19 +18,19 @@ let sign n = compare n 0
 
 let fdiv x y =
   if (x >= 0) = (y >= 0) then x / y
-			 else (x - y + 1) / y
+                         else (x - y + 1) / y
 
 let fmod x y =
   if (x >= 0) = (y >= 0) then x mod y
-			 else (x - y + 1) mod y + y - 1
+                         else (x - y + 1) mod y + y - 1
 
 let cdiv x y =
   if (x >= 0) = (y >= 0) then (x + y - 1) / y
-			 else x / y
+                         else x / y
 
 let cmod x y =
   if (x >= 0) = (y >= 0) then (x + y - 1) mod y - y + 1
-			 else x mod y
+                         else x mod y
 
 (* Based on "Binary GCD algoritm" from Wikipedia. *)
 let gcd u v =
@@ -49,7 +49,7 @@ let gcd u v =
     if v = 0 then u else
     let v = skip_shift v in
     if u <= v then common_divisor u (v - u)
-	      else common_divisor v (u - v) in
+              else common_divisor v (u - v) in
 
   let u, v, p = common_shift (abs u) (abs v) 0 in
   common_divisor (skip_shift u) v lsl p

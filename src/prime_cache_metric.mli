@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -28,10 +28,10 @@ type check_state = private {
 }
 
 val create : ?period_sample_size: int ->
-	     current_time: (unit -> float) ->
-	     current_memory_pressure: (unit -> float) ->
-	     ?report: (check_state -> unit) ->
-	     unit -> t
+             current_time: (unit -> float) ->
+             current_memory_pressure: (unit -> float) ->
+             ?report: (check_state -> unit) ->
+             unit -> t
 (** Creates specifications for how to measure whether objects are worth
     caching.  The returned object can be used by {!Prime_cache} and
     {!Prime_beacon}.

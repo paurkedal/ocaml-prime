@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -37,13 +37,13 @@ val with1_file_out : (out_channel -> 'a -> 'b) -> string -> 'a -> 'b
     a special case of {!with_file_out}. *)
 
 val fold_input : ?close: bool -> (in_channel -> 'a -> 'a) ->
-				 in_channel -> 'a -> 'a
+                                 in_channel -> 'a -> 'a
 (** [fold_input f ic] forms the composition of successive calls to [f ic]
     until [End_of_file] is raised.
     @param close If true, close [ic] before returning, including if an
-	   exception occurs while evaluating [f ic acc] for some [acc]. *)
+           exception occurs while evaluating [f ic acc] for some [acc]. *)
 
 val iter_input : ?close: bool -> (in_channel -> unit) -> in_channel -> unit
 (** [iter_input f ic] calls [f ic] until [End_of_file] is raised.
     @param close If true, close [ic] before returning, including if an
-	   exception occurs while executing [f ic]. *)
+           exception occurs while executing [f ic]. *)

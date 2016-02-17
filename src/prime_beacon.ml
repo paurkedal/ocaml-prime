@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,10 +71,10 @@ module Make (M : CACHE_METRIC) = struct
       if b.b_next == head then () else
       if check_beacon cs b.b_next then loop b.b_next else
       begin
-	let b' = b.b_next in
-	b.b_next <- b.b_next.b_next;
-	b'.b_next <- dummy;
-	loop b
+        let b' = b.b_next in
+        b.b_next <- b.b_next.b_next;
+        b'.b_next <- dummy;
+        loop b
       end in
     loop head;
     Prime_cache_metric.check_stop cs
@@ -93,25 +93,25 @@ module Make (M : CACHE_METRIC) = struct
       b.b_next <- head.b_next;
       head.b_next <- b;
       b.b_access_start <-
-	if b.b_access_count = 0 then
-	  Prime_cache_metric.access_init M.cache_metric
-	else
-	  Prime_cache_metric.access_step M.cache_metric b.b_access_count
-					 b.b_access_start
+        if b.b_access_count = 0 then
+          Prime_cache_metric.access_init M.cache_metric
+        else
+          Prime_cache_metric.access_step M.cache_metric b.b_access_count
+                                         b.b_access_start
     end else begin
       b.b_access_start <-
-	Prime_cache_metric.access_step M.cache_metric b.b_access_count
-				       b.b_access_start
+        Prime_cache_metric.access_step M.cache_metric b.b_access_count
+                                       b.b_access_start
     end;
     b.b_access_count <- b.b_access_count + 1
 
   let embed g f =
     let b =
       { b_owner = Obj.repr head;
-	b_next = head.b_next;
-	b_access_count = 1;
-	b_access_start = Prime_cache_metric.access_init M.cache_metric;
-	b_grade = g; } in
+        b_next = head.b_next;
+        b_access_count = 1;
+        b_access_start = Prime_cache_metric.access_init M.cache_metric;
+        b_grade = g; } in
     let obj = f b in
     b.b_owner <- Obj.repr obj;
     head.b_next <- b;
