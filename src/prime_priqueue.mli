@@ -54,6 +54,10 @@ module type S = sig
   val remove_min : t -> t
   (** [remove_min q] is [q] with one less copy of its minimal element. *)
 
+  val pop_min : t -> (elt * t) option
+  (** [pop_min q] gives the minimum element of [q] and [q] without the same
+      element if [q] is non-empty. *)
+
   val gc : t -> t
   (** [gc q] is an optimised queue containing the same elements as [q].  It is
       built from the empty queue, adding each element of [q]. *)

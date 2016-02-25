@@ -49,6 +49,8 @@ module type S = sig
 
   val remove_min : t -> t
 
+  val pop_min : t -> (elt * t) option
+
   val gc : t -> t
 end
 
@@ -103,6 +105,12 @@ module Make (Elt : Set.OrderedType) = struct
     | O -> raise Not_found
     | P (_, Deck.Empty) -> O
     | P (_, hs) -> reduce_merge hs
+    | N _ -> assert false
+
+  let pop_min = function
+    | O -> None
+    | P (e, Deck.Empty) -> Some (e, O)
+    | P (e, hs) -> Some (e, reduce_merge hs)
     | N _ -> assert false
 
   let gc h =
