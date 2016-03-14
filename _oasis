@@ -8,7 +8,7 @@ Plugins: DevFiles (0.3), META (0.3)
 BuildTools: ocamlbuild
 
 Library prime
-  Path: src
+  Path: lib
   # OBS: Keep modules sorted due to the documentation.
   Modules:
     Prime,
@@ -33,7 +33,7 @@ Library prime
     Unprime_string
 
 Library "prime-unstable"
-  Path: src
+  Path: lib
   FindlibParent: prime
   FindlibName: unstable
   Modules:
@@ -64,7 +64,7 @@ Document api
   Type: ocamlbuild (0.3)
   InstallDir: $htmldir/html
   BuildTools+: ocamldoc
-  XOCamlbuildPath: src
+  XOCamlbuildPath: lib
   XOCamlbuildLibraries: prime, prime.unstable
   DataFiles: COPYING ($docdir), COPYING.LESSER ($docdir)
 
@@ -73,7 +73,7 @@ Executable testsuite
   Path: tests
   MainIs: testsuite.ml
   BuildDepends: prime, oUnit
-  DllPath: _build/src
+  DllPath: _build/lib
   Build$: flag(tests)
 
 Test "testsuite"

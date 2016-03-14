@@ -1,4 +1,4 @@
-#directory "_build/src"
+#directory "_build/lib"
 #load "prime.cma"
 #load "prime-unstable.cma"
 

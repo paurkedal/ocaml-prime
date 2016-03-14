@@ -5,6 +5,6 @@
 /setup.data
 /setup.log
 /setup.ml
-/src/prime*.mldylib
-/src/prime*.mllib
+/lib/prime*.mldylib
+/lib/prime*.mllib
 /testsuite.byte
