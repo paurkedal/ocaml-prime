@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *)
 
 (** Amendment to the standard library [List] structure.
-    
+
     This structure does not include the original functions.  For a full
     replacement include {!Unprime_list}. *)
 
@@ -57,6 +57,9 @@ val fmap : ('a -> 'b option) -> 'a list -> 'b list
 val flatten_map : ('a -> 'b list) -> 'a list -> 'b list
 (** [flatten_map f xs] is a tail-recursive optimisation of [flatten (map f
     xs)]. *)
+
+val rev_flatten : 'a list list -> 'a list
+(** [rev_flatten] is [rev ∘ flatten]. *)
 
 (** {2 Iteration over Two Lists} *)
 

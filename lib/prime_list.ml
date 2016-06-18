@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -55,6 +55,8 @@ let flatten_map f xs =
     | [] -> ys
     | x :: xs -> loop (rev_append (f x) ys) xs in
   rev (loop [] xs)
+
+let rev_flatten xss = fold rev_append xss []
 
 let rec iter2t f xs ys =
   match xs, ys with
