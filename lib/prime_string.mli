@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -52,14 +52,14 @@ val rskip_until : (char -> bool) -> string -> int -> int
 (** [rskip_until f] is an optimization of [rskip_while (not ∘ f)]. *)
 
 val skip_affix : string -> string -> int -> int option
-(** [skip_affix afx s i] returns the end position of the leftmost occurrence
-    of [afx] in [s] which starts at or after [i].
-    @raise Not_found if [afx] does not occur in [slice i (length s) s]. *)
+(** [skip_affix afx s i] returns the end position of the leftmost occurrence of
+    [afx] in [s] which starts at or after [i], or [None] if [afx] does not occur
+    in [slice i (length s) s]. *)
 
 val rskip_affix : string -> string -> int -> int option
-(** [rskip_affix afx s j] retruns the start position of the rightmost
-    occurrence of [afx] in [s] which ends before or at [j].
-    @raise Not_found if [afx] does not occur in [slice 0 j s]. *)
+(** [rskip_affix afx s j] retruns the start position of the rightmost occurrence
+    of [afx] in [s] which ends before or at [j] or [None] if [afx] does not
+    occur in [slice 0 j s]. *)
 
 (** {2 Substring Predicates} *)
 
@@ -84,13 +84,11 @@ val slice_from : int -> string -> string
 
 val cut_affix : string -> string -> (string * string) option
 (** [cut_affix afx s] returns the substrings before and after the leftmost
-    occurrence of [afx] in [s].
-    @raise Not_found if [afx] does not occur in [s]. *)
+    occurrence of [afx] in [s] or [None] if [afx] does not occur in [s]. *)
 
 val rcut_affix : string -> string -> (string * string) option
 (** [rcut_affix afx s] returns the substrings before and after the rightmost
-    occurrence of [afx] in [s].
-    @raise Not_found if [afx] does not occur in [s]. *)
+    occurrence of [afx] in [s] or [None] if [afx] does not occur in [s]. *)
 
 val chop_affix : string -> string -> string list
 (** [chop_affix afx s] returns the substrings before, between, and after
