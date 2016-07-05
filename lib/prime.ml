@@ -19,6 +19,8 @@ let absurd z = z.absurd
 
 let ident x = x
 let konst x y = x
+let (<@) g f x = g (f x)
+let (@>) f g x = g (f x)
 let ( *< ) f g x = f (g x)
 let ( *> ) f g x = g (f x)
 let curry f x y = f (x, y)

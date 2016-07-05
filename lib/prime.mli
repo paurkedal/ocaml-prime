@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -36,11 +36,11 @@ val ident : 'a -> 'a
 val konst : 'a -> 'b -> 'a
 (** The K combinator: [konst x y] is [x]. *)
 
-val ( *< ) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
-(** The composition operator: [(f *< g) x] is [f (g x)]. *)
+val (<@) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
+(** Function composition: [(g <@ f) x] is [g (f x)]. *)
 
-val ( *> ) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
-(** The reversed composition operator: [(f *> g) x] is [g (f x)]. *)
+val (@>) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
+(** Reversed function composition: [(f @> g) x] is [g (f x)]. *)
 
 (** {2 Currying} *)
 
@@ -53,3 +53,9 @@ val uncurry : ('a -> 'b -> 'c) -> 'a * 'b -> 'c
 (** {2 Exceptions} *)
 
 val finally : (unit -> unit) -> (unit -> 'a) -> 'a
+
+(**/**)
+val ( *< ) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
+[@@ocaml.deprecated "Renamed to (<@) for optimal associativity of (@>)."]
+val ( *> ) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
+[@@ocaml.deprecated "Renamed to (@>) for optimal associativity."]
