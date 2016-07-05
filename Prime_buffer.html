@@ -58,17 +58,16 @@ Amendment to the standard library <code class="code"><span class="constructor">B
 <hr width="100%">
 
 <pre><span id="VALwith0"><span class="keyword">val</span> with0</span> : <code class="type">?n:int -> (Buffer.t -> unit) -> string</code></pre><div class="info ">
-<code class="code">with0 f</code> executes <code class="code">f buf</code> on a fresh buffer <code class="code">buf</code> and returns its
-    content.<br>
+<code class="code">with0 f</code> calls <code class="code">f buf</code> on a fresh buffer <code class="code">buf</code> and returns its content.<br>
 </div>
 
 <pre><span id="VALwith1"><span class="keyword">val</span> with1</span> : <code class="type">?n:int -> (Buffer.t -> 'a -> unit) -> 'a -> string</code></pre><div class="info ">
-<code class="code">with1 f x0</code> executes <code class="code">f buf x0</code> on a fresh buffer <code class="code">buf</code> and returns its
+<code class="code">with1 f x0</code> calls <code class="code">f buf x0</code> on a fresh buffer <code class="code">buf</code> and returns its
     content.<br>
 </div>
 
 <pre><span id="VALwith2"><span class="keyword">val</span> with2</span> : <code class="type">?n:int -> (Buffer.t -> 'a -> 'b -> unit) -> 'a -> 'b -> string</code></pre><div class="info ">
-<code class="code">with2 f x0</code> executes <code class="code">f buf x0 x1</code> on a fresh buffer <code class="code">buf</code> and returns
-    its content.<br>
+<code class="code">with2 f x0 x1</code> calls <code class="code">f buf x0 x1</code> on a fresh buffer <code class="code">buf</code> and returns its
+    content.<br>
 </div>
 </body></html>

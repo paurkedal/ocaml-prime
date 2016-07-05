@@ -47,14 +47,14 @@
 <h1>Index of values</h1>
 <table>
 <tr><td align="left"><br></td></tr>
-<tr><td><a href="Prime.html#VAL( *< )">( *&lt; )</a> [<a href="Prime.html">Prime</a>]</td>
+<tr><td><a href="Prime.html#VAL(<@)">(&lt;@)</a> [<a href="Prime.html">Prime</a>]</td>
 <td><div class="info">
-The composition operator: <code class="code">(f *&lt; g) x</code> is <code class="code">f (g x)</code>.
+Function composition: <code class="code">(g &lt;@ f) x</code> is <code class="code">g (f x)</code>.
 </div>
 </td></tr>
-<tr><td><a href="Prime.html#VAL( *> )">( *&gt; )</a> [<a href="Prime.html">Prime</a>]</td>
+<tr><td><a href="Prime.html#VAL(@>)">(@&gt;)</a> [<a href="Prime.html">Prime</a>]</td>
 <td><div class="info">
-The reversed composition operator: <code class="code">(f *&gt; g) x</code> is <code class="code">g (f x)</code>.
+Reversed function composition: <code class="code">(f @&gt; g) x</code> is <code class="code">g (f x)</code>.
 </div>
 </td></tr>
 <tr><td><a href="Unprime.html#VAL(|?>!)">(|?&gt;!)</a> [<a href="Unprime.html">Unprime</a>]</td>
@@ -368,7 +368,7 @@ Creates specifications for how to measure whether objects are worth
 <tr><td><a href="Prime_string.html#VALcut_affix">cut_affix</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td><div class="info">
 <code class="code">cut_affix afx s</code> returns the substrings before and after the leftmost
-    occurrence of <code class="code">afx</code> in <code class="code">s</code>.
+    occurrence of <code class="code">afx</code> in <code class="code">s</code> or <code class="code"><span class="constructor">None</span></code> if <code class="code">afx</code> does not occur in <code class="code">s</code>.
 </div>
 </td></tr>
 <tr><td><a href="Prime_enummap.S.html#VALcut_binding">cut_binding</a> [<a href="Prime_enummap.S.html">Prime_enummap.S</a>]</td>
@@ -419,7 +419,7 @@ A dummy beacon.
 <tr><td align="left"><br>E</td></tr>
 <tr><td><a href="Prime_float.html#VALe">e</a> [<a href="Prime_float.html">Prime_float</a>]</td>
 <td><div class="info">
-<code class="code">e</code> is the Euler's number <code class="code">e</code>.
+<code class="code">e</code> is the Euler's number <em>e</em>.
 </div>
 </td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALelements">elements</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
@@ -723,7 +723,7 @@ The identity element of <a href="Prime_accretion_map_intf.Monoid1.html#VALcat"><
 </td></tr>
 <tr><td><a href="Prime_array.html#VALfold">fold</a> [<a href="Prime_array.html">Prime_array</a>]</td>
 <td><div class="info">
-<code class="code">fold f [|x₁; …; xₙ|]</code> is the composition <code class="code">f xₙ ∘ ⋯ ∘ f x₁</code>.
+<code class="code">fold f [|x₁; …; xₙ|]</code> is <code class="code">f xₙ ∘ ⋯ ∘ f x₁</code>.
 </div>
 </td></tr>
 <tr><td><a href="Prime_wallet.html#VALfold2">fold2</a> [<a href="Prime_wallet.html">Prime_wallet</a>]</td>
@@ -785,8 +785,7 @@ The identity element of <a href="Prime_accretion_map_intf.Monoid1.html#VALcat"><
 <td></td></tr>
 <tr><td><a href="Prime_array.html#VALfoldi">foldi</a> [<a href="Prime_array.html">Prime_array</a>]</td>
 <td><div class="info">
-<code class="code">foldi f [|x₁; …; xₙ|]</code> returns the composition
-    <code class="code">f (n - 1) xₙ₋₁ ∘ ⋯ ∘ f 0 x₀</code>.
+<code class="code">foldi f [|x₁; …; xₙ|]</code> is <code class="code">f (n - 1) xₙ ∘ ⋯ ∘ f 0 x₁</code>.
 </div>
 </td></tr>
 <tr><td><a href="Prime_wallet.html#VALfor_all">for_all</a> [<a href="Prime_wallet.html">Prime_wallet</a>]</td>
@@ -1284,7 +1283,8 @@ The memory overhead of the beacon in machine words.
 <tr><td align="left"><br>P</td></tr>
 <tr><td><a href="Prime_float.html#VALpi">pi</a> [<a href="Prime_float.html">Prime_float</a>]</td>
 <td><div class="info">
-<code class="code">pi</code> is the well-known number <code class="code">π</code>.
+<code class="code">pi</code> is the ratio <em>π</em> of the circumference to the diameter of a circle in
+    the Euclidean plane.
 </div>
 </td></tr>
 <tr><td><a href="Prime_wallet.html#VALpop">pop</a> [<a href="Prime_wallet.html">Prime_wallet</a>]</td>
@@ -1317,6 +1317,12 @@ The memory overhead of the beacon in machine words.
 </td></tr>
 <tr><td><a href="Prime_retraction.S.html#VALpop_max_e">pop_max_e</a> [<a href="Prime_retraction.S.html">Prime_retraction.S</a>]</td>
 <td></td></tr>
+<tr><td><a href="Prime_priqueue.S.html#VALpop_min">pop_min</a> [<a href="Prime_priqueue.S.html">Prime_priqueue.S</a>]</td>
+<td><div class="info">
+<code class="code">pop_min q</code> gives the minimum element of <code class="code">q</code> and <code class="code">q</code> without the same
+      element if <code class="code">q</code> is non-empty.
+</div>
+</td></tr>
 <tr><td><a href="Prime_enumset.S.html#VALpop_min">pop_min</a> [<a href="Prime_enumset.S.html">Prime_enumset.S</a>]</td>
 <td><div class="info">
 <code class="code">pop_min s</code> is <code class="code">(e, s')</code> where <code class="code">e</code> is the smallest element of <code class="code">s</code> and
@@ -1358,7 +1364,7 @@ The memory overhead of the beacon in machine words.
 <tr><td><a href="Prime_string.html#VALrcut_affix">rcut_affix</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td><div class="info">
 <code class="code">rcut_affix afx s</code> returns the substrings before and after the rightmost
-    occurrence of <code class="code">afx</code> in <code class="code">s</code>.
+    occurrence of <code class="code">afx</code> in <code class="code">s</code> or <code class="code"><span class="constructor">None</span></code> if <code class="code">afx</code> does not occur in <code class="code">s</code>.
 </div>
 </td></tr>
 <tr><td><a href="Prime_string.html#VALrcut_consecutive">rcut_consecutive</a> [<a href="Prime_string.html">Prime_string</a>]</td>
@@ -1419,6 +1425,11 @@ The memory overhead of the beacon in machine words.
 </td></tr>
 <tr><td><a href="Prime_sigs.Monad.html#VALreturn">return</a> [<a href="Prime_sigs.Monad.html">Prime_sigs.Monad</a>]</td>
 <td></td></tr>
+<tr><td><a href="Prime_list.html#VALrev_flatten">rev_flatten</a> [<a href="Prime_list.html">Prime_list</a>]</td>
+<td><div class="info">
+<code class="code">rev_flatten</code> is <code class="code">rev ∘ flatten</code>.
+</div>
+</td></tr>
 <tr><td><a href="Prime_list.html#VALrev_map2t">rev_map2t</a> [<a href="Prime_list.html">Prime_list</a>]</td>
 <td><div class="info">
 <code class="code">rev_map2t f</code> is an optimisation of <code class="code">rev ∘ map2t f</code>.
@@ -1431,14 +1442,15 @@ The memory overhead of the beacon in machine words.
 </td></tr>
 <tr><td><a href="Prime_float.html#VALround">round</a> [<a href="Prime_float.html">Prime_float</a>]</td>
 <td><div class="info">
-<code class="code">round x</code> is the whole number closest to <code class="code">x</code>, rounding to zero in case of
-    a tie.
+<code class="code">round x</code> is the whole number closest to <code class="code">x</code>, rounding towards zero in case
+    of a tie.
 </div>
 </td></tr>
 <tr><td><a href="Prime_string.html#VALrskip_affix">rskip_affix</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td><div class="info">
-<code class="code">rskip_affix afx s j</code> retruns the start position of the rightmost
-    occurrence of <code class="code">afx</code> in <code class="code">s</code> which ends before or at <code class="code">j</code>.
+<code class="code">rskip_affix afx s j</code> retruns the start position of the rightmost occurrence
+    of <code class="code">afx</code> in <code class="code">s</code> which ends before or at <code class="code">j</code> or <code class="code"><span class="constructor">None</span></code> if <code class="code">afx</code> does not
+    occur in <code class="code">slice 0 j s</code>.
 </div>
 </td></tr>
 <tr><td><a href="Prime_string.html#VALrskip_until">rskip_until</a> [<a href="Prime_string.html">Prime_string</a>]</td>
@@ -1587,8 +1599,9 @@ The number of bits which can be stored in a signed integer.
 </td></tr>
 <tr><td><a href="Prime_string.html#VALskip_affix">skip_affix</a> [<a href="Prime_string.html">Prime_string</a>]</td>
 <td><div class="info">
-<code class="code">skip_affix afx s i</code> returns the end position of the leftmost occurrence
-    of <code class="code">afx</code> in <code class="code">s</code> which starts at or after <code class="code">i</code>.
+<code class="code">skip_affix afx s i</code> returns the end position of the leftmost occurrence of
+    <code class="code">afx</code> in <code class="code">s</code> which starts at or after <code class="code">i</code>, or <code class="code"><span class="constructor">None</span></code> if <code class="code">afx</code> does not occur
+    in <code class="code">slice i (length s) s</code>.
 </div>
 </td></tr>
 <tr><td><a href="Prime_string.html#VALskip_until">skip_until</a> [<a href="Prime_string.html">Prime_string</a>]</td>
@@ -1705,13 +1718,12 @@ The number of bits which can be stored in a signed integer.
 <tr><td align="left"><br>W</td></tr>
 <tr><td><a href="Prime_buffer.html#VALwith0">with0</a> [<a href="Prime_buffer.html">Prime_buffer</a>]</td>
 <td><div class="info">
-<code class="code">with0 f</code> executes <code class="code">f buf</code> on a fresh buffer <code class="code">buf</code> and returns its
-    content.
+<code class="code">with0 f</code> calls <code class="code">f buf</code> on a fresh buffer <code class="code">buf</code> and returns its content.
 </div>
 </td></tr>
 <tr><td><a href="Prime_buffer.html#VALwith1">with1</a> [<a href="Prime_buffer.html">Prime_buffer</a>]</td>
 <td><div class="info">
-<code class="code">with1 f x0</code> executes <code class="code">f buf x0</code> on a fresh buffer <code class="code">buf</code> and returns its
+<code class="code">with1 f x0</code> calls <code class="code">f buf x0</code> on a fresh buffer <code class="code">buf</code> and returns its
     content.
 </div>
 </td></tr>
@@ -1729,8 +1741,8 @@ The number of bits which can be stored in a signed integer.
 </td></tr>
 <tr><td><a href="Prime_buffer.html#VALwith2">with2</a> [<a href="Prime_buffer.html">Prime_buffer</a>]</td>
 <td><div class="info">
-<code class="code">with2 f x0</code> executes <code class="code">f buf x0 x1</code> on a fresh buffer <code class="code">buf</code> and returns
-    its content.
+<code class="code">with2 f x0 x1</code> calls <code class="code">f buf x0 x1</code> on a fresh buffer <code class="code">buf</code> and returns its
+    content.
 </div>
 </td></tr>
 <tr><td><a href="Prime_io.html#VALwith_file_in">with_file_in</a> [<a href="Prime_io.html">Prime_io</a>]</td>

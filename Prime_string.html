@@ -101,15 +101,15 @@ Amendment to the standard library <code class="code"><span class="constructor">S
 </div>
 
 <pre><span id="VALskip_affix"><span class="keyword">val</span> skip_affix</span> : <code class="type">string -> string -> int -> int option</code></pre><div class="info ">
-<code class="code">skip_affix afx s i</code> returns the end position of the leftmost occurrence
-    of <code class="code">afx</code> in <code class="code">s</code> which starts at or after <code class="code">i</code>.<br>
-<b>Raises</b> <code>Not_found</code> if <code class="code">afx</code> does not occur in <code class="code">slice i (length s) s</code>.<br>
+<code class="code">skip_affix afx s i</code> returns the end position of the leftmost occurrence of
+    <code class="code">afx</code> in <code class="code">s</code> which starts at or after <code class="code">i</code>, or <code class="code"><span class="constructor">None</span></code> if <code class="code">afx</code> does not occur
+    in <code class="code">slice i (length s) s</code>.<br>
 </div>
 
 <pre><span id="VALrskip_affix"><span class="keyword">val</span> rskip_affix</span> : <code class="type">string -> string -> int -> int option</code></pre><div class="info ">
-<code class="code">rskip_affix afx s j</code> retruns the start position of the rightmost
-    occurrence of <code class="code">afx</code> in <code class="code">s</code> which ends before or at <code class="code">j</code>.<br>
-<b>Raises</b> <code>Not_found</code> if <code class="code">afx</code> does not occur in <code class="code">slice 0 j s</code>.<br>
+<code class="code">rskip_affix afx s j</code> retruns the start position of the rightmost occurrence
+    of <code class="code">afx</code> in <code class="code">s</code> which ends before or at <code class="code">j</code> or <code class="code"><span class="constructor">None</span></code> if <code class="code">afx</code> does not
+    occur in <code class="code">slice 0 j s</code>.<br>
 </div>
 <br>
 <h2 id="2_SubstringPredicates">Substring Predicates</h2><br>
@@ -140,14 +140,12 @@ Amendment to the standard library <code class="code"><span class="constructor">S
 
 <pre><span id="VALcut_affix"><span class="keyword">val</span> cut_affix</span> : <code class="type">string -> string -> (string * string) option</code></pre><div class="info ">
 <code class="code">cut_affix afx s</code> returns the substrings before and after the leftmost
-    occurrence of <code class="code">afx</code> in <code class="code">s</code>.<br>
-<b>Raises</b> <code>Not_found</code> if <code class="code">afx</code> does not occur in <code class="code">s</code>.<br>
+    occurrence of <code class="code">afx</code> in <code class="code">s</code> or <code class="code"><span class="constructor">None</span></code> if <code class="code">afx</code> does not occur in <code class="code">s</code>.<br>
 </div>
 
 <pre><span id="VALrcut_affix"><span class="keyword">val</span> rcut_affix</span> : <code class="type">string -> string -> (string * string) option</code></pre><div class="info ">
 <code class="code">rcut_affix afx s</code> returns the substrings before and after the rightmost
-    occurrence of <code class="code">afx</code> in <code class="code">s</code>.<br>
-<b>Raises</b> <code>Not_found</code> if <code class="code">afx</code> does not occur in <code class="code">s</code>.<br>
+    occurrence of <code class="code">afx</code> in <code class="code">s</code> or <code class="code"><span class="constructor">None</span></code> if <code class="code">afx</code> does not occur in <code class="code">s</code>.<br>
 </div>
 
 <pre><span id="VALchop_affix"><span class="keyword">val</span> chop_affix</span> : <code class="type">string -> string -> string list</code></pre><div class="info ">

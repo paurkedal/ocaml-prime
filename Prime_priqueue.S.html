@@ -84,6 +84,11 @@ The empty queue.<br>
 <code class="code">remove_min q</code> is <code class="code">q</code> with one less copy of its minimal element.<br>
 </div>
 
+<pre><span id="VALpop_min"><span class="keyword">val</span> pop_min</span> : <code class="type"><a href="Prime_priqueue.S.html#TYPEt">t</a> -> (<a href="Prime_priqueue.S.html#TYPEelt">elt</a> * <a href="Prime_priqueue.S.html#TYPEt">t</a>) option</code></pre><div class="info ">
+<code class="code">pop_min q</code> gives the minimum element of <code class="code">q</code> and <code class="code">q</code> without the same
+      element if <code class="code">q</code> is non-empty.<br>
+</div>
+
 <pre><span id="VALgc"><span class="keyword">val</span> gc</span> : <code class="type"><a href="Prime_priqueue.S.html#TYPEt">t</a> -> <a href="Prime_priqueue.S.html#TYPEt">t</a></code></pre><div class="info ">
 <code class="code">gc q</code> is an optimised queue containing the same elements as <code class="code">q</code>.  It is
       built from the empty queue, adding each element of <code class="code">q</code>.<br>

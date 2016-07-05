@@ -85,12 +85,12 @@ The I combinator: <code class="code">ident x</code> is <code class="code">x</cod
 The K combinator: <code class="code">konst x y</code> is <code class="code">x</code>.<br>
 </div>
 
-<pre><span id="VAL( *< )"><span class="keyword">val</span> ( *&lt; )</span> : <code class="type">('b -> 'c) -> ('a -> 'b) -> 'a -> 'c</code></pre><div class="info ">
-The composition operator: <code class="code">(f *&lt; g) x</code> is <code class="code">f (g x)</code>.<br>
+<pre><span id="VAL(<@)"><span class="keyword">val</span> (&lt;@)</span> : <code class="type">('b -> 'c) -> ('a -> 'b) -> 'a -> 'c</code></pre><div class="info ">
+Function composition: <code class="code">(g &lt;@ f) x</code> is <code class="code">g (f x)</code>.<br>
 </div>
 
-<pre><span id="VAL( *> )"><span class="keyword">val</span> ( *&gt; )</span> : <code class="type">('a -> 'b) -> ('b -> 'c) -> 'a -> 'c</code></pre><div class="info ">
-The reversed composition operator: <code class="code">(f *&gt; g) x</code> is <code class="code">g (f x)</code>.<br>
+<pre><span id="VAL(@>)"><span class="keyword">val</span> (@&gt;)</span> : <code class="type">('a -> 'b) -> ('b -> 'c) -> 'a -> 'c</code></pre><div class="info ">
+Reversed function composition: <code class="code">(f @&gt; g) x</code> is <code class="code">g (f x)</code>.<br>
 </div>
 <br>
 <h2 id="2_Currying">Currying</h2><br>

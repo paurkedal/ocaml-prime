@@ -86,11 +86,11 @@ Helpers for standard library channels.<br>
     until <code class="code"><span class="constructor">End_of_file</span></code> is raised.<br>
 </div>
 <div class="param_info"><code class="code">close</code> : If true, close <code class="code">ic</code> before returning, including if an
-	   exception occurs while evaluating <code class="code">f ic acc</code> for some <code class="code">acc</code>.</div>
+           exception occurs while evaluating <code class="code">f ic acc</code> for some <code class="code">acc</code>.</div>
 
 <pre><span id="VALiter_input"><span class="keyword">val</span> iter_input</span> : <code class="type">?close:bool -><br>       (Pervasives.in_channel -> unit) -> Pervasives.in_channel -> unit</code></pre><div class="info ">
 <code class="code">iter_input f ic</code> calls <code class="code">f ic</code> until <code class="code"><span class="constructor">End_of_file</span></code> is raised.<br>
 </div>
 <div class="param_info"><code class="code">close</code> : If true, close <code class="code">ic</code> before returning, including if an
-	   exception occurs while executing <code class="code">f ic</code>.</div>
+           exception occurs while executing <code class="code">f ic</code>.</div>
 </body></html>
