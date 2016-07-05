@@ -15,7 +15,7 @@
  *)
 
 (** Enumerated map ({e prime.unstable}).
-    
+
     This is similar to [Map] from the standard library, but provides a
     {!locate} method which return the position of a binding within a map. *)
 
@@ -40,7 +40,7 @@ module type S = sig
   val singleton : key -> 'a -> 'a t
   (** [singleton k e] is the one-element map binding [k] to [e]. *)
 
-  val is_empty : 'e t -> bool
+  val is_empty : 'a t -> bool
   (** Holds for the empty map only. *)
 
   val cardinal : 'a t -> int

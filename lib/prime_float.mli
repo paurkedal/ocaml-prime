@@ -17,18 +17,19 @@
 (** Floating point functions. *)
 
 val e : float
-(** [e] is the Euler's number [e]. *)
+(** [e] is the Euler's number {e e}. *)
 
 val pi : float
-(** [pi] is the well-known number [π]. *)
+(** [pi] is the ratio {e π} of the circumference to the diameter of a circle in
+    the Euclidean plane. *)
 
 val sign : float -> float
 (** [sign x] is [-1.0], [0.0], or [1.0] where [x] is negative, zero, or
     positive, respectively. *)
 
 val round : float -> float
-(** [round x] is the whole number closest to [x], rounding to zero in case of
-    a tie. *)
+(** [round x] is the whole number closest to [x], rounding towards zero in case
+    of a tie. *)
 
 val to_fraction : ?max_denom: int -> float -> int * int
 (** [to_fraction x] returns [(n, d)] such that [n/d] is a best rational

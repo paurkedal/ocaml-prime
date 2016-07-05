@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -17,13 +17,12 @@
 (** Amendment to the standard library [Buffer] structure. *)
 
 val with0 : ?n: int -> (Buffer.t -> unit) -> string
-(** [with0 f] executes [f buf] on a fresh buffer [buf] and returns its
-    content. *)
+(** [with0 f] calls [f buf] on a fresh buffer [buf] and returns its content. *)
 
 val with1 : ?n: int -> (Buffer.t -> 'a -> unit) -> 'a -> string
-(** [with1 f x0] executes [f buf x0] on a fresh buffer [buf] and returns its
+(** [with1 f x0] calls [f buf x0] on a fresh buffer [buf] and returns its
     content. *)
 
 val with2 : ?n: int -> (Buffer.t -> 'a -> 'b -> unit) -> 'a -> 'b -> string
-(** [with2 f x0] executes [f buf x0 x1] on a fresh buffer [buf] and returns
-    its content. *)
+(** [with2 f x0 x1] calls [f buf x0 x1] on a fresh buffer [buf] and returns its
+    content. *)

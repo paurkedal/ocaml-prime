@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -29,12 +29,10 @@ val fmap : ('a -> 'b option) -> 'a array -> 'b array
     preserving order. *)
 
 val fold : ('a -> 'b -> 'b) -> 'a array -> 'b -> 'b
-(** [fold f [|x₁; …; xₙ|]] is the composition [f xₙ ∘ ⋯ ∘ f x₁].  This is
-    [fold_left] with arguments reorderd to make it easy to nest and compose. *)
+(** [fold f [|x₁; …; xₙ|]] is [f xₙ ∘ ⋯ ∘ f x₁]. *)
 
 val foldi : (int -> 'a -> 'b -> 'b) -> 'a array -> 'b -> 'b
-(** [foldi f [|x₁; …; xₙ|]] returns the composition
-    [f (n - 1) xₙ₋₁ ∘ ⋯ ∘ f 0 x₀]. *)
+(** [foldi f [|x₁; …; xₙ|]] is [f (n - 1) xₙ ∘ ⋯ ∘ f 0 x₁]. *)
 
 val for_all : ('a -> bool) -> 'a array -> bool
 (** [for_all f [|x₁; …; xₙ|]] is true iff [f xᵢ] is true for all [i].  [f] is
