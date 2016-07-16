@@ -21,6 +21,9 @@ module type OrderedType = Map.OrderedType
 module type S = sig
   include Map.S
 
+  val app : 'a t -> key -> 'a option
+  (** [app m] is the partial function corresponding to [m]. *)
+
   val pop : key -> 'a t -> 'a * 'a t
   (** [pop k m] returns [(find k m, remove k m)] raising [Not_found] if [k]
       has no mapping in [m]. *)

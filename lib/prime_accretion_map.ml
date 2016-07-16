@@ -52,6 +52,15 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
     | _, _ ->
       aY kC eC mL mR
 
+  let rec app m k =
+    match m with
+    | O -> None
+    | Y (_, _, kC, eC, mL, mR) ->
+      let o = Key.compare k kC in
+      if o < 0 then app mL k else
+      if o > 0 then app mR k else
+      Some eC
+
   let rec find k = function
     | O -> raise Not_found
     | Y (_, _, kC, eC, mL, mR) ->

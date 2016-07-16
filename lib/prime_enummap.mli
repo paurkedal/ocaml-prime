@@ -49,6 +49,11 @@ module type S = sig
   val contains : key -> 'a t -> bool
   (** [contains k m] is true iff [m] has a binding for [k]. *)
 
+  val app : 'a t -> key -> 'a option
+  (** [app m] is the partial function corresponding to [m].  This is the same as
+      [find] except for the argument ordering and that it does not raise any
+      exception. *)
+
   val find : key -> 'a t -> 'a
   (** [find k m] returns the binding for [k] in [m] or raises [Not_found] if
       it is unbound. *)

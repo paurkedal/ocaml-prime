@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -80,6 +80,9 @@ module type S1 = sig
   (** [result m] is the nested application of the monoid operator over
       elements of the map in key-order but arbitrary associative combination. *)
 
+  val app : 'a t -> key -> 'a elt option
+  (** [app m] is the partial function corresponding to the bindings of [m]. *)
+
   val find : key -> 'a t -> 'a elt
   (** [find k m] is the element mapped to [k].
       @raise Not_found if [k] has no binding in [m] *)
@@ -132,6 +135,8 @@ module type S = sig
   val cardinal : t -> int
 
   val result : t -> result
+
+  val app : t -> key -> elt option
 
   val find : key -> t -> elt
 

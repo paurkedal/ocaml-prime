@@ -31,6 +31,7 @@ module type S = sig
   val is_empty : 'a t -> bool
   val cardinal : 'a t -> int
   val contains : key -> 'a t -> bool
+  val app : 'a t -> key -> 'a option
   val find : key -> 'a t -> 'a
   val locate : key -> 'a t -> bool * int
   val get_o : int -> 'a t -> 'a option
@@ -119,6 +120,15 @@ module Make (K : OrderedType) = struct
       if o < 0 then contains k mL else
       if o > 0 then contains k mR else
       true
+
+  let rec app m k =
+    match m with
+    | O -> None
+    | Y (_, kC, eC, mL, mR) ->
+      let o = K.compare k kC in
+      if o < 0 then app mL k else
+      if o > 0 then app mR k else
+      Some eC
 
   let rec find k = function
     | O -> raise Not_found
