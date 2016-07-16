@@ -48,17 +48,13 @@ module type S = sig
 
   val app : t -> key -> elt option
 
-  val find_e : key -> t -> elt
-
-  val find_o : key -> t -> elt option
+  val find : key -> t -> elt
 
   val locate : key -> t -> bool * int
 
   val locate_elt : elt -> t -> bool * int
 
-  val get_e : int -> t -> elt
-
-  val get_o : int -> t -> elt option
+  val get : t -> int -> elt
 
   val min_e : t -> elt
 
@@ -111,6 +107,12 @@ module type S = sig
   val funion : (elt -> elt -> elt option) -> t -> t -> t
 
   val fcompl : (elt -> elt -> elt option) -> t -> t -> t
+
+  (**/**)
+  val find_e : key -> t -> elt [@@ocaml.deprecated "Renamed to find."]
+  val find_o : key -> t -> elt option [@@ocaml.deprecated "Use app."]
+  val get_e : int -> t -> elt [@@ocaml.deprecated "Use get."]
+  val get_o : int -> t -> elt option [@@ocaml.deprecated "Use get."]
 end
 
 module Make (Elt : RETRACTABLE) : S with type elt = Elt.t and type key = Elt.key

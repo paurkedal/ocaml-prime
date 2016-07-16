@@ -33,12 +33,10 @@ module type S = sig
   val contains : key -> t -> bool
   val contains_elt : elt -> t -> bool
   val app : t -> key -> elt option
-  val find_e : key -> t -> elt
-  val find_o : key -> t -> elt option
+  val find : key -> t -> elt
   val locate : key -> t -> bool * int
   val locate_elt : elt -> t -> bool * int
-  val get_e : int -> t -> elt
-  val get_o : int -> t -> elt option
+  val get : t -> int -> elt
   val min_e : t -> elt
   val max_e : t -> elt
   val pred_e : t -> key -> elt
@@ -62,6 +60,12 @@ module type S = sig
   val finter : (elt -> elt -> elt option) -> t -> t -> t
   val funion : (elt -> elt -> elt option) -> t -> t -> t
   val fcompl : (elt -> elt -> elt option) -> t -> t -> t
+
+  (**/**)
+  val find_e : key -> t -> elt
+  val find_o : key -> t -> elt option
+  val get_e : int -> t -> elt
+  val get_o : int -> t -> elt option
 end
 
 exception Keep
@@ -111,13 +115,15 @@ module Make (Elt : RETRACTABLE) = struct
       if o > 0 then app cR k else
       Some eC
 
-  let rec find_e k = function
+  let rec find k = function
     | O -> raise Not_found
     | Y (_, eC, cL, cR) ->
       let o = Elt.compare_key k eC in
-      if o < 0 then find_e k cL else
-      if o > 0 then find_e k cR else
+      if o < 0 then find k cL else
+      if o > 0 then find k cR else
       eC
+
+  let find_e = find
 
   let rec find_o k = function
     | O -> None
@@ -145,20 +151,14 @@ module Make (Elt : RETRACTABLE) = struct
       true, i + cardinal cL
   let locate_elt = locate_elt' 0
 
-  let rec get_o i = function
-    | O -> None
-    | Y (n, eC, cL, cR) ->
-      let nL = cardinal cL in
-      if i < nL then get_o i cL else
-      if i > nL then get_o (i - nL - 1) cR else
-      Some eC
 
-  let rec get_e i = function
+  let rec get m i =
+    match m with
     | O -> invalid_arg "Prime_collection.get: Index out of bounds."
     | Y (n, eC, cL, cR) ->
       let nL = cardinal cL in
-      if i < nL then get_e i cL else
-      if i > nL then get_e (i - nL - 1) cR else
+      if i < nL then get cL i else
+      if i > nL then get cR (i - nL - 1) else
       eC
 
   let rec min_e = function
@@ -404,4 +404,14 @@ module Make (Elt : RETRACTABLE) = struct
         match eB_opt with
         | None -> cat cL cR
         | Some eB -> check_glue_opt ~msg f eA eB cL cR
+
+  (**/**)
+  let get_e i m = get m i
+  let rec get_o i = function
+    | O -> None
+    | Y (n, eC, cL, cR) ->
+      let nL = cardinal cL in
+      if i < nL then get_o i cL else
+      if i > nL then get_o (i - nL - 1) cR else
+      Some eC
 end
