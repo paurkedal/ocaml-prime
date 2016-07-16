@@ -72,6 +72,8 @@ module type S = sig
 
   val add : elt -> t -> t
 
+  val pop : key -> t -> (elt * t) option
+
   val pop_min_e : t -> elt * t
 
   val pop_max_e : t -> elt * t

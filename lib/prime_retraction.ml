@@ -44,6 +44,7 @@ module type S = sig
   val elt_pred_e : t -> elt -> elt
   val elt_succ_e : t -> elt -> elt
   val add : elt -> t -> t
+  val pop : key -> t -> (elt * t) option
   val pop_min_e : t -> elt * t
   val pop_max_e : t -> elt * t
   val remove : key -> t -> t
@@ -255,6 +256,13 @@ module Make (Elt : RETRACTABLE) = struct
     | O, s | s, O -> s
     | _ -> let e, cL' = pop_max_e cL in glue e cL' cR
 
+  let cat_balanced n cL cR =
+    if n = 0 then O else
+    if cardinal cL > cardinal cR then
+      let eC', cL' = pop_max_e cL in Y (n, eC', cL', cR)
+    else
+      let eC', cR' = pop_min_e cR in Y (n, eC', cL, cR')
+
   let glue_opt = function None -> cat | Some e -> glue e
 
   let rec cut k = function
@@ -281,11 +289,22 @@ module Make (Elt : RETRACTABLE) = struct
       let o = Elt.compare_key k eC in
       if o < 0 then bal_y (n - 1) eC (remove' k cL) cR else
       if o > 0 then bal_y (n - 1) eC cL (remove' k cR) else
-      if n = 1 then O else
-      if cardinal cL > cardinal cR
-      then let eC', cL' = pop_max_e cL in Y (n - 1, eC', cL', cR)
-      else let eC', cR' = pop_min_e cR in Y (n - 1, eC', cL, cR')
+      cat_balanced (n - 1) cL cR
   let remove k c = try remove' k c with Keep -> c
+
+  let rec pop k = function
+    | O -> None
+    | Y (n, eC, cL, cR) ->
+      let o = Elt.compare_key k eC in
+      if o < 0 then
+        match pop k cL with
+        | None -> None
+        | Some (e, cL') -> Some (e, bal_y (n - 1) eC cL' cR) else
+      if o > 0 then
+        match pop k cR with
+        | None -> None
+        | Some (e, cR') -> Some (e, bal_y (n - 1) eC cL cR') else
+      Some (eC, cat_balanced (n - 1) cL cR)
 
   let rec search f = function
     | O -> None

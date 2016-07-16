@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -31,6 +31,23 @@ let random_retraction n_max =
   let n = Random.int n_max in
   Prime_int.fold_to (fun _ -> R.add (Random.int n_max)) n R.empty
 
+let test_pop_remove () =
+  let n_max = 1 lsl Random.int 6 in
+  let m = random_retraction n_max in
+  for round = 0 to 15 do
+    let k = Random.int n_max in
+    if not (R.contains k m) then begin
+      assert (R.pop k m = None);
+      let m' = R.add k m in
+      assert (R.equal (R.remove k m') m);
+      match R.pop k m' with
+      | None -> assert false
+      | Some (e, m'') ->
+        assert (e = k);
+        assert (R.equal m m'')
+    end
+  done
+
 let test_alg () =
   let n_max = 1 lsl Random.int 8 in
   let rA = random_retraction n_max in
@@ -55,5 +72,6 @@ let run () =
   assert (R.compare (R.singleton 0) (R.singleton 1) = -1);
   assert (R.compare (R.singleton 1) (R.singleton 0) = 1);
   for round = 0 to 9999 do
+    test_pop_remove ();
     test_alg ()
   done
