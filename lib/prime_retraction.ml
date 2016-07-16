@@ -29,6 +29,7 @@ module type S = sig
   val singleton : elt -> t
   val is_empty : t -> bool
   val cardinal : t -> int
+  val elements : t -> elt list
   val contains : key -> t -> bool
   val contains_elt : elt -> t -> bool
   val find_e : key -> t -> elt
@@ -294,6 +295,8 @@ module Make (Elt : RETRACTABLE) = struct
   let rec fold_rev f = function
     | O -> fun acc -> acc
     | Y (_, eC, cL, cR) -> fun acc -> fold_rev f cL (f eC (fold_rev f cR acc))
+
+  let elements c = fold_rev (fun e es -> e :: es) c []
 
   let rec iter f = function
     | O -> ()

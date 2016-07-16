@@ -38,6 +38,8 @@ module type S = sig
 
   val cardinal : t -> int
 
+  val elements : t -> elt list
+
   (** {2 Element Inspection} *)
 
   val contains : key -> t -> bool
