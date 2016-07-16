@@ -55,8 +55,8 @@ module type S = sig
       is a member of [s], and [pos] is the number of elements of [s] which
       precedes [e]. *)
 
-  val get : int -> t -> elt
-  (** [get i s] is the [i]th element of [s] according to the element order. *)
+  val get : t -> int -> elt
+  (** [get s i] is the [i]th element of [s] according to the element order. *)
 
   val choose : t -> elt
   (** [choose s] is an unspecified element of [s].

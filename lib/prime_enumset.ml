@@ -32,7 +32,7 @@ module type S = sig
   val cardinal : t -> int
   val contains : elt -> t -> bool
   val locate : elt -> t -> bool * int
-  val get : int -> t -> elt
+  val get : t -> int -> elt
   val choose : t -> elt
   val min_elt : t -> elt
   val max_elt : t -> elt
@@ -117,12 +117,13 @@ module Make (E : OrderedType) = struct
       true, i + cardinal sL
   let locate = locate' 0
 
-  let rec get i = function
+  let rec get s i =
+    match s with
     | O -> invalid_arg "Prime_enumset.get: Index out of bounds."
     | Y (n, eC, sL, sR) ->
       let nL = cardinal sL in
-      if i < nL then get i sL else
-      if i > nL then get (i - nL - 1) sR else
+      if i < nL then get sL i else
+      if i > nL then get sR (i - nL - 1) else
       eC
 
   let choose = function

@@ -64,21 +64,23 @@ let sample f n =
   let rec loop n w = if n < 0 then w else loop (n - 1) (push (f n) w) in
   loop (n - 1) empty
 
-let rec get : type a. int -> a t -> a = fun i -> function
+let rec get : type a. a t -> int -> a = fun w i ->
+  match w with
   | Empty -> bad_arg "get: Index out of bounds."
-  | Even t -> (if i land 1 = 0 then fst else snd) (get (i lsr 1) t)
+  | Even t -> (if i land 1 = 0 then fst else snd) (get t (i lsr 1))
   | Odd (z, t) ->
     if i = 0 then z else
     let j = i - 1 in
-    (if j land 1 = 0 then fst else snd) (get (j lsr 1) t)
+    (if j land 1 = 0 then fst else snd) (get t (j lsr 1))
 
-let rec coget : type a. int -> a t -> a = fun i -> function
+let rec coget : type a. a t -> int -> a = fun w i ->
+  match w with
   | Empty -> bad_arg "get: Index out of bounds."
-  | Even t -> (if i land 1 = 0 then snd else fst) (coget (i lsr 1) t)
+  | Even t -> (if i land 1 = 0 then snd else fst) (coget t (i lsr 1))
   | Odd (z, t) ->
     if i = 0 then z else
     let j = i - 1 in
-    (if j land 1 = 0 then snd else fst) (coget (j lsr 1) t)
+    (if j land 1 = 0 then snd else fst) (coget t (j lsr 1))
 
 let rec modify : type a. int -> (a -> a) -> a t -> a t = fun i f -> function
   | Empty -> bad_arg "set: Index out of bounds."

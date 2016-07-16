@@ -39,13 +39,13 @@ let sample f =
     Y (n, f (i + nL), aux i nL, aux (i + nL + 1) nR) in
   aux 0
 
-let rec get i s =
+let rec get s i =
   match s with
   | O -> invalid_arg "Prime_enumlist.get"
   | Y (n, eC, sL, sR) ->
     let nL = length sL in
-    if i < nL then get i sL else
-    if i > nL then get (i - nL - 1) sR else
+    if i < nL then get sL i else
+    if i > nL then get sR (i - nL - 1) else
     eC
 
 let rec set i e s =

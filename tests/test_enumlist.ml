@@ -103,7 +103,7 @@ let test_iteration () =
   let l = L.sample (fun i -> 2*i + 1) n in
   assert (L.length l = n);
   for i = 0 to n - 1 do
-    assert (L.get i l = 2*i + 1)
+    assert (L.get l i = 2*i + 1)
   done;
   L.iteri (fun i x -> assert (x = 2*i + 1)) l;
   let m = Random.int (2*n + 2) in
@@ -121,7 +121,7 @@ let run () =
   assert (L.length L.empty = 0);
   assert (not (L.is_empty (L.singleton 0)));
   assert (L.length (L.singleton 0) = 1);
-  assert (L.get 0 (L.singleton 3) = 3);
+  assert (L.get (L.singleton 3) 0 = 3);
   for round = 0 to 999 do
     test_push ();
     test_insert_delete ();

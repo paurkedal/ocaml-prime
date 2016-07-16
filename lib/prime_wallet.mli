@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -50,7 +50,7 @@ val pop : 'a t -> 'a * 'a t
     the remaining elements in the original order.
     @raise Invalid_argument if [w] is empty. *)
 
-val get : int -> 'a t -> 'a
+val get : 'a t -> int -> 'a
 (** [get i w] is element [i] of [w].
     @raise Invalid_argument if [i] is out of bounds. *)
 
@@ -123,7 +123,7 @@ val split_snd_length : int -> int
 
 val copush : 'a -> 'a t -> 'a t
 val copop : 'a t -> 'a * 'a t
-val coget : int -> 'a t -> 'a
+val coget : 'a t -> int -> 'a
 val coset : int -> 'a -> 'a t -> 'a t
 val comodify : int -> ('a -> 'a) -> 'a t -> 'a t
 val comapj_rev : (int -> 'a -> 'b) -> int -> 'a t -> 'b t

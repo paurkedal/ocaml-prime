@@ -39,7 +39,7 @@ let test n =
 
   (* Test get. *)
   for i = 0 to n - 1 do
-    assert (get i wf = f i)
+    assert (get wf i = f i)
   done;
 
   (* Test sample and map. *)

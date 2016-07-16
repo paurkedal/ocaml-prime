@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -30,7 +30,7 @@ val singleton : 'a -> 'a t
 
 val sample : (int -> 'a) -> int -> 'a t
 
-val get : int -> 'a t -> 'a
+val get : 'a t -> int -> 'a
 
 val set : int -> 'a -> 'a t -> 'a t
 
