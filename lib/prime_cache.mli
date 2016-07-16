@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -26,12 +26,12 @@ val create : cache_metric: Prime_cache_metric.t -> int -> ('a, 'b) t
 val clear : ('a, 'b) t -> unit
 (** [clear ct] removes all cached entries from [ct]. *)
 
+val app : ('a, 'b) t -> 'a -> 'b option
+(** [app ck k] is the cached mapping of [k] if any. *)
+
 val find : ('a, 'b) t -> 'a -> 'b
 (** [find ct k] returnes the object associated with [k].
     @raise Not_found if [k] has no associated object. *)
-
-val find_o : ('a, 'b) t -> 'a -> 'b option
-(** [find_o ck k] is the cached mapping of [k] if any. *)
 
 val replace : ('a, 'b) t -> float -> 'a -> 'b -> unit
 (** [replace ct g k v] replaces the mapping for [k] with [v] and associates it
@@ -40,3 +40,7 @@ val replace : ('a, 'b) t -> float -> 'a -> 'b -> unit
 val remove : ('a, 'b) t -> 'a -> unit
 (** [remove ct k] removes any entry cached under [k] from [ct].  Does nothing
     if [k] is not in the cache. *)
+
+(**/**)
+val find_o : ('a, 'b) t -> 'a -> 'b option
+  [@@ocaml.deprecated "Renamed to app."]

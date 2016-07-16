@@ -1,4 +1,4 @@
-(* Copyright (C) 2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -67,7 +67,8 @@ let charge c e =
 
 let find c k = let e = Hashtbl.find c.c_tbl k in charge c e; e.e_value
 
-let find_o c k = try Some (find c k) with Not_found -> None
+let app c k = try Some (find c k) with Not_found -> None
+let find_o = app
 
 let replace c g k v =
   let e = {
