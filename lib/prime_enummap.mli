@@ -62,11 +62,7 @@ module type S = sig
   (** [locate k m] is a pair [(present, pos)] where [present] is true iff [k]
       is bound in [m] and [pos] is the number of keys of [m] preceding [k]. *)
 
-  val get_o : int -> 'a t -> 'a option
-  (** [get_o i m] is the [i]th value of [m] or [None] if [i] is out of
-      bounds. *)
-
-  val get_e : int -> 'a t -> 'a
+  val get : 'a t -> int -> 'a
   (** [get_e i m] is the [i]th value of [m].
       @raise Invalid_argument if the index is out of bounds. *)
 
@@ -196,10 +192,12 @@ module type S = sig
       and [mC'] has a binding [(k, f k a b)] for each pair of bindings [(k,
       a)] of [mA] and [(k, b)] of [mB] sharing [k]. *)
 
-  val card : 'a t -> int
-  (** @deprecated Renamed to {!cardinal}. *)
+  (**/**)
+  val card : 'a t -> int [@@ocaml.deprecated "Use cardinal"]
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
-  (** @deprecated Renamed to {!cut_binding} *)
+    [@@ocaml.deprecated "Use cut_binding"]
+  val get_o : int -> 'a t -> 'a option [@@ocaml.deprecated "Use get."]
+  val get_e : int -> 'a t -> 'a [@@ocaml.deprecated "Use get."]
 end
 
 module type S_monadic = sig

@@ -34,8 +34,7 @@ module type S = sig
   val app : 'a t -> key -> 'a option
   val find : key -> 'a t -> 'a
   val locate : key -> 'a t -> bool * int
-  val get_o : int -> 'a t -> 'a option
-  val get_e : int -> 'a t -> 'a
+  val get : 'a t -> int -> 'a
   val get_binding : int -> 'a t -> key * 'a
   val min_binding : 'a t -> key * 'a
   val max_binding : 'a t -> key * 'a
@@ -71,8 +70,11 @@ module type S = sig
   val split_union : (key -> 'a -> 'b -> 'c) ->
                     'a t -> 'b t -> 'a t * 'b t * 'c t
 
+  (**/**)
   val card : 'a t -> int
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
+  val get_o : int -> 'a t -> 'a option
+  val get_e : int -> 'a t -> 'a
 end
 
 module type S_monadic = sig
@@ -139,7 +141,6 @@ module Make (K : OrderedType) = struct
       eC
 
   let cardinal = function O -> 0 | Y (n, _, _, _, _) -> n
-  let card = cardinal
 
   let rec locate' i k = function
     | O -> false, i
@@ -150,20 +151,13 @@ module Make (K : OrderedType) = struct
       true, i + cardinal mL
   let locate k = locate' 0 k
 
-  let rec get_o i = function
-    | O -> None
-    | Y (n, kC, eC, mL, mR) ->
-      let nL = cardinal mL in
-      if i < nL then get_o i mL else
-      if i > nL then get_o (i - nL - 1) mR else
-      Some eC
-
-  let rec get_e i = function
+  let rec get m i =
+    match m with
     | O -> invalid_arg "Prime_enummap.get_e: Index out of bounds."
     | Y (n, kC, eC, mL, mR) ->
       let nL = cardinal mL in
-      if i < nL then get_e i mL else
-      if i > nL then get_e (i - nL - 1) mR else
+      if i < nL then get mL i else
+      if i > nL then get mR (i - nL - 1) else
       eC
 
   let rec get_binding i = function
@@ -449,8 +443,6 @@ module Make (K : OrderedType) = struct
         (add k a mA, mB, mC) in
     fold aux mA (empty, mB, empty)
 
-  let cut = cut_binding
-
   module Make_monadic (M : Monad) = struct
 
     type 'a monad = 'a M.t
@@ -537,6 +529,18 @@ module Make (K : OrderedType) = struct
         | None -> M.return (cat mL' mR')
         | Some e' -> M.return (glue k e' mL' mR')
   end
+
+  (**/**)
+  let card = cardinal
+  let cut = cut_binding
+  let get_e i m = get m i
+  let rec get_o i = function
+    | O -> None
+    | Y (n, kC, eC, mL, mR) ->
+      let nL = cardinal mL in
+      if i < nL then get_o i mL else
+      if i > nL then get_o (i - nL - 1) mR else
+      Some eC
 end
 
 module Make_monadic (Key : OrderedType) (Monad : Monad) = struct
