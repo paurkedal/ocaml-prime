@@ -35,7 +35,7 @@ module type S = sig
   val find : key -> 'a t -> 'a
   val locate : key -> 'a t -> bool * int
   val get : 'a t -> int -> 'a
-  val get_binding : int -> 'a t -> key * 'a
+  val get_binding : 'a t -> int -> key * 'a
   val min_binding : 'a t -> (key * 'a) option
   val max_binding : 'a t -> (key * 'a) option
   val pred_binding : 'a t -> key -> (key * 'a) option
@@ -163,12 +163,13 @@ module Make (K : OrderedType) = struct
       if i > nL then get mR (i - nL - 1) else
       eC
 
-  let rec get_binding i = function
+  let rec get_binding m i =
+    match m with
     | O -> invalid_arg "Prime_enummap.get_binding: Index out of bounds."
     | Y (n, kC, eC, mL, mR) ->
       let nL = cardinal mL in
-      if i < nL then get_binding i mL else
-      if i > nL then get_binding (i - nL - 1) mR else
+      if i < nL then get_binding mL i else
+      if i > nL then get_binding mR (i - nL - 1) else
       (kC, eC)
 
   let rec min_binding = function

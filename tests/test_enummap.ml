@@ -159,11 +159,11 @@ let run () =
     assert_equal_int ~msg:"cardinal"
                      (Int_map.cardinal m) (Int_emap.cardinal em);
     assert_equal ~msg:"min binding" (Option.get (Int_emap.min_binding em))
-                 (Int_emap.get_binding 0 em);
+                 (Int_emap.get_binding em 0);
     assert_equal ~msg:"max binding" (Option.get (Int_emap.max_binding em))
-                 (Int_emap.get_binding (Int_emap.cardinal em - 1) em);
+                 (Int_emap.get_binding em (Int_emap.cardinal em - 1));
     for i = 0 to Int_emap.cardinal em - 1 do
-      let k, _ = Int_emap.get_binding i em in
+      let k, _ = Int_emap.get_binding em i in
       let pres, pos = Int_emap.locate k em in
       assert pres;
       assert_equal_int ~msg:"locate (get i em)" i pos

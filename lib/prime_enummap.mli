@@ -66,8 +66,8 @@ module type S = sig
   (** [get_e i m] is the [i]th value of [m].
       @raise Invalid_argument if the index is out of bounds. *)
 
-  val get_binding : int -> 'a t -> key * 'a
-  (** [get_binding i m] is the [i]th binding of [m] according to the key
+  val get_binding : 'a t -> int -> key * 'a
+  (** [get_binding m i] is the [i]th binding of [m] according to the key
       order. *)
 
   val min_binding : 'a t -> (key * 'a) option
