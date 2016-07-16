@@ -21,6 +21,8 @@
 - Functions `Prime_enummap.pop` and `Prime_retraction.pop`.
 - Functions `Prime_enummap.succ_binding` and `Prime_enummap.pred_binding`
   replacing `_e` and `_o` variants.
+- Functions `Prime_enumset.succ_elt` and `Prime_enumset.pred_elt` replacing
+  `succ_e` and `pred_e`.
 
 ### Deprecated
 - All `get_o`, `get_e`, `find_o`, `find_e`, `pred*_e`, `succ*_e` functions.

@@ -68,9 +68,11 @@ module type S = sig
   val max_elt : t -> elt
   (** [max_elt s] is the largest element of [s]. *)
 
-  val pred_e : t -> elt -> elt
+  val pred_elt : t -> elt -> elt option
+  (** [pred_elt s e] is the element before [e] in [s]. *)
 
-  val succ_e : t -> elt -> elt
+  val succ_elt : t -> elt -> elt option
+  (** [succ_elt s e] is the element after [e] in [s]. *)
 
   val add : elt -> t -> t
   (** [add e s] is the set containing [e] along with the elements of [s]. *)
@@ -143,10 +145,11 @@ module type S = sig
   val compl : t -> t -> t
   (** [compl s1 s2] is the complement of [s1] relative to [s2]. *)
 
-  val card : t -> int
-  (** @deprecated Renamed to {!cardinal}. *)
-  val cut : elt -> t -> bool * t * t
-  (** @deprecated Renamed to {!cut_element}. *)
+  (**/**)
+  val card : t -> int [@@ocaml.deprecated "Renamed to cardinal."]
+  val cut : elt -> t -> bool * t * t [@@ocaml.deprecated "Renamed cut_element."]
+  val pred_e : t -> elt -> elt [@@ocaml.deprecated "Use pred_elt."]
+  val succ_e : t -> elt -> elt [@@ocaml.deprecated "Use succ_elt."]
 end
 
 module type S_monadic = sig

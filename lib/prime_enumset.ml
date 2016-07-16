@@ -36,8 +36,8 @@ module type S = sig
   val choose : t -> elt
   val min_elt : t -> elt
   val max_elt : t -> elt
-  val pred_e : t -> elt -> elt
-  val succ_e : t -> elt -> elt
+  val pred_elt : t -> elt -> elt option
+  val succ_elt : t -> elt -> elt option
   val add : elt -> t -> t
   val remove : elt -> t -> t
   val cut_element : elt -> t -> bool * t * t
@@ -61,6 +61,8 @@ module type S = sig
 
   val card : t -> int
   val cut : elt -> t -> bool * t * t
+  val pred_e : t -> elt -> elt
+  val succ_e : t -> elt -> elt
 end
 
 module type S_monadic = sig
@@ -140,21 +142,37 @@ module Make (E : OrderedType) = struct
     | Y (_, eC, _, O) -> eC
     | Y (_, eC, _, sR) -> max_elt sR
 
-  let rec pred_e = function
-    | O -> fun _ -> raise Not_found
-    | Y (_, eC, sL, sR) -> fun e ->
-      let o = E.compare e eC in
-      if o < 0 then pred_e sL e else
-      if o > 0 then try pred_e sR e with Not_found -> eC else
-      max_elt sL
+  let rec min_opt = function
+    | O -> None
+    | Y (_, eC, O, _) -> Some eC
+    | Y (_, eC, sL, _) -> min_opt sL
 
-  let rec succ_e = function
-    | O -> fun _ -> raise Not_found
+  let rec max_opt = function
+    | O -> None
+    | Y (_, eC, _, O) -> Some eC
+    | Y (_, eC, _, sR) -> max_opt sR
+
+  let rec pred_elt = function
+    | O -> fun _ -> None
     | Y (_, eC, sL, sR) -> fun e ->
       let o = E.compare e eC in
-      if o < 0 then try succ_e sL e with Not_found -> eC else
-      if o > 0 then succ_e sR e else
-      min_elt sR
+      if o < 0 then pred_elt sL e else
+      if o > 0 then
+        match pred_elt sR e with
+        | Some _ as e -> e
+        | None -> Some eC else
+      max_opt sL
+
+  let rec succ_elt = function
+    | O -> fun _ -> None
+    | Y (_, eC, sL, sR) -> fun e ->
+      let o = E.compare e eC in
+      if o < 0 then
+        match succ_elt sL e with
+        | Some _ as e -> e
+        | None -> Some eC else
+      if o > 0 then succ_elt sR e else
+      min_opt sR
 
   let bal_y n eC sL sR =
     match sL, sR with
@@ -355,6 +373,8 @@ module Make (E : OrderedType) = struct
   (* Deprecated *)
   let card = cardinal
   let cut = cut_element
+  let pred_e s e = Prime_option.get (pred_elt s e)
+  let succ_e s e = Prime_option.get (succ_elt s e)
 
   module Make_monadic (M : Monad) = struct
 
