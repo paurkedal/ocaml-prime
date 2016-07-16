@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -40,6 +40,12 @@ val search : ('a -> 'b option) -> 'a option -> 'b option
 
 val flatten : 'a option option -> 'a option
 (** [flatten] maps [Some (Some x)] to [Some x] and other values to [None]. *)
+
+
+(** {2 Monad} *)
+
+val return : 'a -> 'a option
+val (>>=) : 'a option -> ('a -> 'b option) -> 'b option
 
 
 (** {2 Iteration} *)

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -22,6 +22,10 @@ let get_or d = function None -> d | Some a -> a
 let get_else h = function None -> h () | Some a -> a
 let found f = try Some (f ()) with Not_found -> None
 let flatten = function Some (Some x) -> Some x | _ -> None
+
+let return x = Some x
+let (>>=) m f = match m with Some x -> f x | None -> None
+
 let fold f = function None -> fun x -> x | Some x -> f x
 let iter f = function None -> () | Some x -> f x
 let for_all f = function None -> true | Some x -> f x
