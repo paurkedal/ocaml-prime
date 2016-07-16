@@ -21,7 +21,7 @@ module type OrderedType = Map.OrderedType
 module type S = sig
   include Map.S
   val app : 'a t -> key -> 'a option
-  val pop : key -> 'a t -> 'a * 'a t
+  val pop : key -> 'a t -> ('a * 'a t) option
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
   val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
@@ -38,7 +38,7 @@ module Make (K : OrderedType) = struct
 
   let app m k = try Some (find k m) with Not_found -> None
 
-  let pop k m = find k m, remove k m
+  let pop k m = try Some (find k m, remove k m) with Not_found -> None
 
   let search f m =
     let res = ref None in

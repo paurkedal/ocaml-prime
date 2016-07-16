@@ -24,9 +24,9 @@ module type S = sig
   val app : 'a t -> key -> 'a option
   (** [app m] is the partial function corresponding to [m]. *)
 
-  val pop : key -> 'a t -> 'a * 'a t
-  (** [pop k m] returns [(find k m, remove k m)] raising [Not_found] if [k]
-      has no mapping in [m]. *)
+  val pop : key -> 'a t -> ('a * 'a t) option
+  (** [pop k m] returns [Some (find k m, remove k m)] if [k] is bound in [m],
+      otherwise [None]. *)
 
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   (** [search f m] returns the first non-[None] result of [f k v] where [k, v]
