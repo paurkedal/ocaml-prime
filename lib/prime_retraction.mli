@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -38,6 +38,8 @@ module type S = sig
 
   val cardinal : t -> int
 
+  (** {2 Element Inspection} *)
+
   val contains : key -> t -> bool
 
   val contains_elt : elt -> t -> bool
@@ -66,6 +68,8 @@ module type S = sig
 
   val elt_succ_e : t -> elt -> elt
 
+  (** {2 Element Updates} *)
+
   val add : elt -> t -> t
 
   val pop_min_e : t -> elt * t
@@ -75,6 +79,8 @@ module type S = sig
   val remove : key -> t -> t
 
   val cut : key -> t -> elt option * t * t
+
+  (** {2 Iteration} *)
 
   val search : (elt -> 'a option) -> t -> 'a option
 
@@ -89,6 +95,8 @@ module type S = sig
   val exists : (elt -> bool) -> t -> bool
 
   val filter : (elt -> bool) -> t -> t
+
+  (** {2 Algebra} *)
 
   val compare : t -> t -> int
 
