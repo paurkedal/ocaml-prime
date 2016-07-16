@@ -36,12 +36,10 @@ module type S = sig
   val locate : key -> 'a t -> bool * int
   val get : 'a t -> int -> 'a
   val get_binding : int -> 'a t -> key * 'a
-  val min_binding : 'a t -> key * 'a
-  val max_binding : 'a t -> key * 'a
-  val pred_binding_e : 'a t -> key -> key * 'a
-  val succ_binding_e : 'a t -> key -> key * 'a
-  val pred_binding_o : 'a t -> key -> (key * 'a) option
-  val succ_binding_o : 'a t -> key -> (key * 'a) option
+  val min_binding : 'a t -> (key * 'a) option
+  val max_binding : 'a t -> (key * 'a) option
+  val pred_binding : 'a t -> key -> (key * 'a) option
+  val succ_binding : 'a t -> key -> (key * 'a) option
   val add : key -> 'a -> 'a t -> 'a t
   val pop : key -> 'a t -> ('a * 'a t) option
   val pop_min : 'a t -> key * 'a * 'a t
@@ -76,6 +74,10 @@ module type S = sig
   val cut : key -> 'a t -> 'a option * 'a t * 'a t
   val get_o : int -> 'a t -> 'a option
   val get_e : int -> 'a t -> 'a
+  val pred_binding_e : 'a t -> key -> key * 'a
+  val succ_binding_e : 'a t -> key -> key * 'a
+  val pred_binding_o : 'a t -> key -> (key * 'a) option
+  val succ_binding_o : 'a t -> key -> (key * 'a) option
 end
 
 module type S_monadic = sig
@@ -170,33 +172,36 @@ module Make (K : OrderedType) = struct
       (kC, eC)
 
   let rec min_binding = function
-    | O -> raise Not_found
-    | Y (_, kC, eC, O, _) -> kC, eC
+    | O -> None
+    | Y (_, kC, eC, O, _) -> Some (kC, eC)
     | Y (_, _, _, mL, _) -> min_binding mL
 
   let rec max_binding = function
-    | O -> raise Not_found
-    | Y (_, kC, eC, _, O) -> kC, eC
+    | O -> None
+    | Y (_, kC, eC, _, O) -> Some (kC, eC)
     | Y (_, _, _, _, mR) -> max_binding mR
 
-  let rec pred_binding_e = function
-    | O -> raise Not_found
+  let rec pred_binding = function
+    | O -> fun k -> None
     | Y (_, kC, eC, mL, mR) -> fun k ->
       let o = K.compare k kC in
-      if o < 0 then pred_binding_e mL k else
-      if o > 0 then try pred_binding_e mR k with Not_found -> (kC, eC) else
+      if o < 0 then pred_binding mL k else
+      if o > 0 then
+        match pred_binding mR k with
+        | Some _ as b -> b
+        | None -> Some (kC, eC) else
       max_binding mL
 
-  let rec succ_binding_e = function
-    | O -> raise Not_found
+  let rec succ_binding = function
+    | O -> fun k -> None
     | Y (_, kC, eC, mL, mR) -> fun k ->
       let o = K.compare k kC in
-      if o < 0 then try succ_binding_e mL k with Not_found -> (kC, eC) else
-      if o > 0 then succ_binding_e mR k else
+      if o < 0 then
+        match succ_binding mL k with
+        | Some _ as b -> b
+        | None -> Some (kC, eC) else
+      if o > 0 then succ_binding mR k else
       min_binding mR
-
-  let pred_binding_o m k = Prime_option.found (fun () -> pred_binding_e m k)
-  let succ_binding_o m k = Prime_option.found (fun () -> succ_binding_e m k)
 
   let bal_y n kC eC mL mR =
     match mL, mR with
@@ -560,6 +565,10 @@ module Make (K : OrderedType) = struct
       if i < nL then get_o i mL else
       if i > nL then get_o (i - nL - 1) mR else
       Some eC
+  let pred_binding_o = pred_binding
+  let succ_binding_o = succ_binding
+  let pred_binding_e m k = Prime_option.get (pred_binding m k)
+  let succ_binding_e m k = Prime_option.get (succ_binding m k)
 end
 
 module Make_monadic (Key : OrderedType) (Monad : Monad) = struct

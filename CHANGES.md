@@ -6,7 +6,9 @@
 - Add or change container `get` operations to be consistent with stdlib.
   This breaks backwards compatibility for `Prime_enumlist`, `Prime_enumset`,
   and `Prime_wallet`.
-- Let `Prime_map.S.pop` return an option instead of raising `Not_found`.
+- The following functions now return options instead of raising `Not_found`:
+  `Prime_map.S.pop`,
+  `Prime_enummap.S.pred_binding`, `Prime_enummap.S.succ_binding`.
 
 ### Added
 - Function `Prime_priqueue.pop_min`
@@ -17,9 +19,11 @@
 - A stdlib compatible function `Prime_retraction.find`.
 - Function `Prime_array.fmap`.
 - Functions `Prime_enummap.pop` and `Prime_retraction.pop`.
+- Functions `Prime_enummap.succ_binding` and `Prime_enummap.pred_binding`
+  replacing `_e` and `_o` variants.
 
 ### Deprecated
-- All `get_o`, `get_e`, `find_o`, `find_e` functions.
+- All `get_o`, `get_e`, `find_o`, `find_e`, `pred*_e`, `succ*_e` functions.
 - Composition operators `*>` and `*<`.
 - `Prime_array.filter_map`.
 

@@ -70,19 +70,17 @@ module type S = sig
   (** [get_binding i m] is the [i]th binding of [m] according to the key
       order. *)
 
-  val min_binding : 'a t -> key * 'a
+  val min_binding : 'a t -> (key * 'a) option
   (** [min_binding m] is the binding of [m] with the smallest key. *)
 
-  val max_binding : 'a t -> key * 'a
+  val max_binding : 'a t -> (key * 'a) option
   (** [max_binding m] is the binding of [m] with the largest key. *)
 
-  val pred_binding_e : 'a t -> key -> key * 'a
+  val pred_binding : 'a t -> key -> (key * 'a) option
+  (** [pred_binding m k] is the last binding strictly before [k] in [m]. *)
 
-  val succ_binding_e : 'a t -> key -> key * 'a
-
-  val pred_binding_o : 'a t -> key -> (key * 'a) option
-
-  val succ_binding_o : 'a t -> key -> (key * 'a) option
+  val succ_binding : 'a t -> key -> (key * 'a) option
+  (** [succ_binding m k] is the first binding strictly after [k] in [m]. *)
 
   val add : key -> 'a -> 'a t -> 'a t
   (** [add k e m] is the map which agrees with [m] on all keys except that [k]
@@ -202,6 +200,14 @@ module type S = sig
     [@@ocaml.deprecated "Use cut_binding"]
   val get_o : int -> 'a t -> 'a option [@@ocaml.deprecated "Use get."]
   val get_e : int -> 'a t -> 'a [@@ocaml.deprecated "Use get."]
+  val pred_binding_e : 'a t -> key -> key * 'a
+    [@@ocaml.deprecated "Use pred_binding."]
+  val succ_binding_e : 'a t -> key -> key * 'a
+    [@@ocaml.deprecated "Use succ_binding."]
+  val pred_binding_o : 'a t -> key -> (key * 'a) option
+    [@@ocaml.deprecated "Renamed to pred_binding."]
+  val succ_binding_o : 'a t -> key -> (key * 'a) option
+    [@@ocaml.deprecated "Renamed to succ_binding."]
 end
 
 module type S_monadic = sig
