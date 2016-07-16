@@ -88,6 +88,10 @@ module type S = sig
   (** [add k e m] is the map which agrees with [m] on all keys except that [k]
       is mapped to [e]. *)
 
+  val pop : key -> 'a t -> ('a * 'a t) option
+  (** [pop k m] is [Some (k, remove k m)] if [m] binds [k] to [e], otherwise
+      [None]. *)
+
   val pop_min : 'a t -> key * 'a * 'a t
   (** [pop_min m] is the tuple [(k, e, m')] where [(k, e)] is the binding of
       [m] with the minimal key and [m'] is the remainder of [m]. *)

@@ -53,6 +53,23 @@ let test_equal () =
   assert (c20 = - c02);
   assert (c21 = - c12)
 
+let test_pop_remove () =
+  let n_max = 1 lsl Random.int 6 in
+  let m = random_emap n_max in
+  for round = 0 to 15 do
+    let k = Random.int n_max in
+    if not (Int_emap.contains k m) then begin
+      assert (Int_emap.pop k m = None);
+      let m' = Int_emap.add k (2*k + 1) m in
+      assert (Int_emap.equal (=) (Int_emap.remove k m') m);
+      match Int_emap.pop k m' with
+      | None -> assert false
+      | Some (e, m'') ->
+        assert (e = 2*k + 1);
+        assert (Int_emap.equal (=) m m'')
+    end
+  done
+
 let test_cut () =
   let n = 40 in
   let es = Prime_array.sample (fun _ -> Random.int n) n in
@@ -152,6 +169,7 @@ let run () =
       assert_equal_int ~msg:"locate (get i em)" i pos
     done;
     test_equal ();
+    test_pop_remove ();
     test_cut ();
     test_alg ();
     test_bindings ()

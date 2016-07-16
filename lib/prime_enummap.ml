@@ -43,6 +43,7 @@ module type S = sig
   val pred_binding_o : 'a t -> key -> (key * 'a) option
   val succ_binding_o : 'a t -> key -> (key * 'a) option
   val add : key -> 'a -> 'a t -> 'a t
+  val pop : key -> 'a t -> ('a * 'a t) option
   val pop_min : 'a t -> key * 'a * 'a t
   val pop_max : 'a t -> key * 'a * 'a t
   val remove : key -> 'a t -> 'a t
@@ -251,6 +252,13 @@ module Make (K : OrderedType) = struct
     | O, m | m, O -> m
     | _, _ -> let k, e, mL' = pop_max mL in glue k e mL' mR
 
+  let cat_balanced n mL mR =
+    if n = 0 then O else
+    if cardinal mL > cardinal mR then
+      let kC', eC', mL' = pop_max mL in Y (n, kC', eC', mL', mR)
+    else
+      let kC', eC', mR' = pop_min mR in Y (n, kC', eC', mL, mR')
+
   let glue_opt k e_opt mL mR =
     match e_opt with None -> cat mL mR | Some e -> glue k e mL mR
 
@@ -272,11 +280,22 @@ module Make (K : OrderedType) = struct
       let o = K.compare k kC in
       if o < 0 then bal_y (n - 1) kC eC (remove' k mL) mR else
       if o > 0 then bal_y (n - 1) kC eC mL (remove' k mR) else
-      if n = 1 then O else
-      if cardinal mL > cardinal mR
-        then let kC', eC', mL' = pop_max mL in Y (n - 1, kC', eC', mL', mR)
-        else let kC', eC', mR' = pop_min mR in Y (n - 1, kC', eC', mL, mR')
+      cat_balanced (n - 1) mL mR
   let remove k m = try remove' k m with Keep -> m
+
+  let rec pop k = function
+    | O -> None
+    | Y (n, kC, eC, mL, mR) ->
+      let o = K.compare k kC in
+      if o < 0 then
+        match pop k mL with
+        | None -> None
+        | Some (e, mL') -> Some (e, bal_y (n - 1) kC eC mL' mR) else
+      if o > 0 then
+        match pop k mR with
+        | None -> None
+        | Some (e, mR') -> Some (e, bal_y (n - 1) kC eC mL mR') else
+      Some (eC, cat_balanced (n - 1) mL mR)
 
   let bindings m =
     let rec loop acc = function
