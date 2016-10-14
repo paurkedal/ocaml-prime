@@ -1,0 +1,3 @@
+false: package(adpkg), package(topkg)
+"lib": include
+<tests/*>: package(oUnit)

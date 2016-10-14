@@ -1,0 +1,15 @@
+opam-version: "1.2"
+name: "prime"
+authors: ["Petter A. Urkedal"]
+maintainer: "paurkedal@gmail.com"
+homepage: "https://github.com/paurkedal/ocaml-prime/"
+bug-reports: "https://github.com/paurkedal/ocaml-prime/issues"
+dev-repo: "https://github.com/paurkedal/ocaml-prime.git"
+license: "LGPL-3 with OCaml linking exception"
+
+build: ["ocaml" "pkg/pkg.ml" "build" "--pinned" "%{pinned}%"]
+depends: [
+  "adpkg" {build}
+  "ocamlbuild" {build}
+  "topkg" {build}
+]
