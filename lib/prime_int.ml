@@ -79,19 +79,22 @@ let bitcount31 n =
 
 let rec bitcount n = if n = 0 then 0 else bitcount31 n + bitcount (n lsr 31)
 
+let floor_log2_halfwidth = if signed_width <= 32 then 16 else 32
+
 let rec floor_log2_loop j n l =
   if j = 0 then (assert (n = 1); l) else
-  if n lsr j = 0 then floor_log2_loop (j / 2) n l else
-  floor_log2_loop (j / 2) (n lsr j) (l + j)
+  if n lsr j = 0
+    then floor_log2_loop (j / 2) n l
+    else floor_log2_loop (j / 2) (n lsr j) (l + j)
 
 let floor_log2 n =
   if n <= 0 then invalid_arg "floor_log2 on non-positive argument." else
-  floor_log2_loop 32 n 0 (* supports up to 64 bits *)
+  floor_log2_loop floor_log2_halfwidth n 0
 
 let ceil_log2 n =
   if n <= 0 then invalid_arg "ceil_log2 on non-positive argument." else
   if n = 1 then 0 else
-  floor_log2_loop 32 (n - 1) 0 + 1
+  floor_log2_loop floor_log2_halfwidth (n - 1) 0 + 1
 
 let fold_to f n acc =
   let rec loop i acc =
