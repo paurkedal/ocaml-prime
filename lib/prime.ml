@@ -17,6 +17,21 @@
 type counit = {absurd : 'a. 'a}
 let absurd z = z.absurd
 
+type (+_, _) knowable =
+  | Unknown : ('a, [> `Unknown]) knowable
+  | Known : 'a -> ('a, [> `Known]) knowable
+
+let know : (_, [`Known]) knowable -> _ = function Known x -> x
+
+let inquire (type k) : (_, k) knowable -> _ = function
+ | Known x -> Some (Known x)
+ | Unknown -> None
+
+let option_of_knowable (type k) : ('a, k) knowable -> 'a option =
+  function Unknown -> None | Known x -> Some x
+let knowable_of_option : 'a option -> ('a, _) knowable =
+  function None -> Unknown | Some x -> Known x
+
 let ident x = x
 let konst x y = x
 let (<@) g f x = g (f x)

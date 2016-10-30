@@ -28,6 +28,29 @@ val absurd : counit -> 'a
     and thus be shortcut as [absurd x].  This is the analogue of
     pattern-matching a variant with no constructors. *)
 
+(** {2 Optional Values with Type-Level Information about Presence} *)
+
+type (+_, _) knowable =
+  | Unknown : ('a, [> `Unknown]) knowable
+  | Known : 'a -> ('a, [> `Known]) knowable (*/*)
+(** [('a, 'k) knowable] is a type-enriched analogue of ['a option], where ['k]
+    determines whether the value is present or not. *)
+
+val know : ('a, [`Known]) knowable -> 'a
+(** [know k] is the value held by the type-assured knowledge of it. *)
+
+val inquire : ('a, [< `Known | `Unknown]) knowable ->
+              ('a, [> `Known]) knowable option
+(** [inquire k] checks if [k] is known, and if so adds assures this fact in the
+    returned copy. *)
+
+val option_of_knowable : ('a, [< `Known | `Unknown]) knowable -> 'a option
+(** [option_of_knowable k] is [Option.map know (inquire k)]. *)
+
+val knowable_of_option : 'a option -> ('a, [> `Known | `Unknown]) knowable
+(** [knowable_of_option None] is [Unknown] and [knowable_of_option (Some x)] is
+    [Known x]. *)
+
 (** {2 Combinators} *)
 
 val ident : 'a -> 'a
