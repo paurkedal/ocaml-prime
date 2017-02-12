@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -45,7 +45,7 @@ val gcd : int -> int -> int
 (** {2 Bitwise Operations} *)
 
 val signed_width : int
-(** The number of bits which can be stored in a signed integer. *)
+(** The number of non-sign bits of an [int]. *)
 
 val bitcount : int -> int
 (** [bitcount n] is the number of ones in the binary representation of [n]. *)

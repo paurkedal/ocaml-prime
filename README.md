@@ -18,5 +18,5 @@ The library is available though OPAM:
 It can also be installed form the GitHub-generated tarballs, provided the
 following dependencies are available:
 
-  * [OASIS](http://oasis.forge.ocamlcore.org/)
-  * [ounit](http://ounit.forge.ocamlcore.org/)
+  * [OUnit](http://ounit.forge.ocamlcore.org/)
+  * [Topkg](http://erratique.ch/software/topkg)
