@@ -28,6 +28,7 @@ val to_chars : string -> char list
 (** {2 Iteration over Elements} *)
 
 val fold : (char -> 'a -> 'a) -> string -> 'a -> 'a
+val foldi : (int -> char -> 'a -> 'a) -> string -> 'a -> 'a
 val for_all : (char -> bool) -> string -> bool
 val exists : (char -> bool) -> string -> bool
 val filter : (char -> bool) -> string -> string

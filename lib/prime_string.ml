@@ -41,6 +41,13 @@ let fold f s accu =
   done;
   !accu_r
 
+let foldi f s accu =
+  let accu_r = ref accu in
+  for i = 0 to length s - 1 do
+    accu_r := f i s.[i] !accu_r
+  done;
+  !accu_r
+
 let for_all f s =
   let n = length s in
   let rec loop i = i >= n || f s.[i] && loop (i + 1) in
