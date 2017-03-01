@@ -22,17 +22,37 @@
 (** {2 Construction and Conversion} *)
 
 val sample : (int -> char) -> int -> string
+(** [sample f n] is the string of length [n] with [s.[i] = f i] for each [i] in
+    range. *)
+
 val of_chars : char list -> string
+(** [of_chars cs] is the order-preserving concatenation of [cs]. *)
+
 val to_chars : string -> char list
+(** [to_chars s] is [[s.[0]; ...; s.[n - 1]]] where [n = length s]. *)
 
 (** {2 Iteration over Elements} *)
 
 val fold : (char -> 'a -> 'a) -> string -> 'a -> 'a
+(** [fold f s] is [f s.[n - 1] ∘ ... ∘ f s[0]] where [n = length s]. *)
+
 val foldi : (int -> char -> 'a -> 'a) -> string -> 'a -> 'a
+(** [foldi f s] is [f (n - 1) s.[n - 1] ∘ ... ∘ f 0 s[0]] where
+    [n = length s]. *)
+
 val for_all : (char -> bool) -> string -> bool
+(** [for_all f s] is [f s.[0] && ... && f s.[n - 1]]. *)
+
 val exists : (char -> bool) -> string -> bool
+(** [exists f s] is [f s.[0] || ... || f s.[n - 1]]. *)
+
 val filter : (char -> bool) -> string -> string
+(** [filter f s] is the string [s] with characters not fulfilling [f] edited
+    out. *)
+
 val search : (char -> 'a option) -> string -> 'a option
+(** [search f s] is [Some c] where [c] is the first character in [s] which
+    fulfils [f], or [None] if there is no such [c] in [s]. *)
 
 (** {2 Search Primitives} *)
 
