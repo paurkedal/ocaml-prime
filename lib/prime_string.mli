@@ -46,6 +46,10 @@ val for_all : (char -> bool) -> string -> bool
 val exists : (char -> bool) -> string -> bool
 (** [exists f s] is [f s.[0] || ... || f s.[n - 1]]. *)
 
+val count : (char -> bool) -> string -> int
+(** [count f s] is the number of occurrences of a characters in [s] which fulfil
+    [f]. *)
+
 val filter : (char -> bool) -> string -> string
 (** [filter f s] is the string [s] with characters not fulfilling [f] edited
     out. *)

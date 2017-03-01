@@ -58,6 +58,13 @@ let exists f s =
   let rec loop i = i < n && (f s.[i] || loop (i + 1)) in
   loop 0
 
+let count f s =
+  let n = length s in
+  let rec loop i acc =
+    if i = n then acc else
+    loop (i + 1) (if f s.[i] then acc + 1 else acc) in
+  loop 0 0
+
 let filter f s =
   let buf = Buffer.create (length s) in
   for i = 0 to length s - 1 do
