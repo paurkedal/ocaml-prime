@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2015  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -19,7 +19,7 @@ open Unprime
 
 let sample f n = String.init n f
 
-let of_list xs =
+let of_chars xs =
   let n = List.length xs in
   let xs_r = ref xs in
   String.init n @@ fun i ->
@@ -27,7 +27,7 @@ let of_list xs =
     | [] -> assert false
     | x :: xs -> xs_r := xs; x
 
-let to_list s =
+let to_chars s =
   let zs_r = ref [] in
   for i = String.length s - 1 downto 0 do
     zs_r := s.[i] :: !zs_r
@@ -164,3 +164,7 @@ let chop_consecutive f s =
     let i = rskip_until f s j in
     loop (rskip_while f s i) (slice i j s :: acc) in
   loop (rskip_while f s (length s)) []
+
+(**/**)
+let of_list = of_chars
+let to_list = to_chars

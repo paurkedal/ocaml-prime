@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -22,8 +22,8 @@
 (** {2 Construction and Conversion} *)
 
 val sample : (int -> char) -> int -> string
-val of_list : char list -> string
-val to_list : string -> char list
+val of_chars : char list -> string
+val to_chars : string -> char list
 
 (** {2 Iteration over Elements} *)
 
@@ -112,3 +112,7 @@ val chop_consecutive : (char -> bool) -> string -> string list
     and after consecutive sequences of bytes [c] for which [f c] is true.  In
     particular [chop_consecutive Char.is_space] is suitable for splitting
     words separated by ASCII white-spaces. *)
+
+(**/**)
+val of_list : char list -> string [@@deprecated "Renamed to of_chars"]
+val to_list : string -> char list [@@deprecated "Renamed to to_chars"]

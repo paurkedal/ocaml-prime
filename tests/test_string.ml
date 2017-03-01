@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -30,8 +30,8 @@ let run () =
   let s = "I won't make bugs.  I won't make bugs.  I won't make bugs." in
   let s' = "IwontmakebugsIwontmakebugsIwontmakebugs" in
   let n = String.length s in
-  let xs = String.to_list s in
-  assert_eq_string s (String.of_list xs);
+  let xs = String.to_chars s in
+  assert_eq_string s (String.of_chars xs);
   assert_equal (List.rev xs) (String.fold List.push s []);
   assert (String.for_all Char.is_ascii s);
   assert (not (String.for_all Char.is_alpha s));
