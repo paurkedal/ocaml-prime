@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -23,7 +23,7 @@ let run () =
     (List.fmap (fun x -> if x >= 0 then Some x else None) [1; 2; -3; -4; 5]);
   assert_equal
     [3; 2; 1; 0; 1; 0; 2; 1; 0]
-    (List.flatten_map (fun n -> Prime_int.fold_to List.push n []) [4; 2; 3]);
+    (List.flatten_map (fun n -> Prime_int.fold_to List.cons n []) [4; 2; 3]);
   assert_equal
     [-1; 0; 1; 2; 3; 4; 5]
     (List.rev_flatten [[5; 4; 3]; [2; 1]; [0; -1]])

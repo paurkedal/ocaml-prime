@@ -32,7 +32,7 @@ let run () =
   let n = String.length s in
   let xs = String.to_chars s in
   assert_eq_string s (String.of_chars xs);
-  assert_equal (List.rev xs) (String.fold List.push s []);
+  assert_equal (List.rev xs) (String.fold List.cons s []);
   assert (String.for_all Char.is_ascii s);
   assert (not (String.for_all Char.is_alpha s));
   assert (String.exists Char.is_punct s);
