@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -42,7 +42,7 @@ let sample f =
 let rec get s i =
   match s with
   | O -> invalid_arg "Prime_enumlist.get"
-  | Y (n, eC, sL, sR) ->
+  | Y (_n, eC, sL, sR) ->
     let nL = length sL in
     if i < nL then get sL i else
     if i > nL then get sR (i - nL - 1) else
@@ -119,7 +119,7 @@ let cat sL sR =
 
 let rec cut i = function
   | O -> if i = 0 then (O, O) else invalid_arg "Prime_enumlist.cut_at"
-  | Y (n, e, sL, sR) ->
+  | Y (_n, e, sL, sR) ->
     let nL = length sL in
     if i < nL then let sX, sL' = cut i sL in (sX, glue e sL' sR) else
     if i > nL then let sR', sX = cut (i - nL - 1) sR in (glue e sL sR', sX) else
@@ -180,7 +180,7 @@ let rec iter f = function
 let iteri f =
   let rec aux i = function
     | O -> ()
-    | Y (n, e, sL, sR) ->
+    | Y (_n, e, sL, sR) ->
       let nL = length sL in
       aux i sL; f (i + nL) e; aux (i + nL + 1) sR in
   aux 0
@@ -192,7 +192,7 @@ let rec fold f = function
 let foldi f =
   let rec aux i = function
     | O -> fun acc -> acc
-    | Y (n, e, sL, sR) ->
+    | Y (_n, e, sL, sR) ->
       let nL = length sL in
       fun acc -> acc |> aux i sL |> f (i + nL) e |> aux (i + nL + 1) sR in
   aux 0
@@ -225,7 +225,7 @@ let mapi f =
 
 let rec fmap f = function
   | O -> O
-  | Y (n, e, sL, sR) ->
+  | Y (_n, e, sL, sR) ->
     let sL', sR' = fmap f sL, fmap f sR in
     match f e with
     | Some e' -> glue e' sL' sR'
@@ -234,7 +234,7 @@ let rec fmap f = function
 let fmapi f =
   let rec aux i = function
     | O -> O
-    | Y (n, e, sL, sR) ->
+    | Y (_n, e, sL, sR) ->
       let nL = length sL in
       let sL' = aux i sL in
       let sR' = aux (i + nL + 1) sR in

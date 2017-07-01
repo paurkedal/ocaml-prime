@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -122,7 +122,7 @@ let run () =
   assert (not (L.is_empty (L.singleton 0)));
   assert (L.length (L.singleton 0) = 1);
   assert (L.get (L.singleton 3) 0 = 3);
-  for round = 0 to 999 do
+  for _ = 0 to 999 do
     test_push ();
     test_insert_delete ();
     test_cutting ();

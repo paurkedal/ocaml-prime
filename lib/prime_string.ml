@@ -22,7 +22,7 @@ let sample f n = String.init n f
 let of_chars xs =
   let n = List.length xs in
   let xs_r = ref xs in
-  String.init n @@ fun i ->
+  String.init n @@ fun _ ->
     match !xs_r with
     | [] -> assert false
     | x :: xs -> xs_r := xs; x

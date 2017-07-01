@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -14,7 +14,6 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-open Prime
 open Prime_sigs
 
 module type OrderedType = sig
@@ -111,7 +110,7 @@ module Make (K : OrderedType) = struct
   let rec cons_enum m q =
     match m with
     | O -> q
-    | Y (n, k, e, mL, mR) -> cons_enum mL (More (k, e, mR, q))
+    | Y (_n, k, e, mL, mR) -> cons_enum mL (More (k, e, mR, q))
 
   let empty = O
   let singleton k e = Y (1, k, e, O, O)
@@ -147,7 +146,7 @@ module Make (K : OrderedType) = struct
 
   let rec locate' i k = function
     | O -> false, i
-    | Y (n, kC, _, mL, mR) ->
+    | Y (_n, kC, _, mL, mR) ->
       let o = K.compare k kC in
       if o < 0 then locate' i k mL else
       if o > 0 then locate' (i + cardinal mL + 1) k mR else
@@ -157,7 +156,7 @@ module Make (K : OrderedType) = struct
   let rec get m i =
     match m with
     | O -> invalid_arg "Prime_enummap.get_e: Index out of bounds."
-    | Y (n, kC, eC, mL, mR) ->
+    | Y (_n, _kC, eC, mL, mR) ->
       let nL = cardinal mL in
       if i < nL then get mL i else
       if i > nL then get mR (i - nL - 1) else
@@ -166,7 +165,7 @@ module Make (K : OrderedType) = struct
   let rec get_binding m i =
     match m with
     | O -> invalid_arg "Prime_enummap.get_binding: Index out of bounds."
-    | Y (n, kC, eC, mL, mR) ->
+    | Y (_n, kC, eC, mL, mR) ->
       let nL = cardinal mL in
       if i < nL then get_binding mL i else
       if i > nL then get_binding mR (i - nL - 1) else
@@ -183,7 +182,7 @@ module Make (K : OrderedType) = struct
     | Y (_, _, _, _, mR) -> max_binding mR
 
   let rec pred_binding = function
-    | O -> fun k -> None
+    | O -> fun _k -> None
     | Y (_, kC, eC, mL, mR) -> fun k ->
       let o = K.compare k kC in
       if o < 0 then pred_binding mL k else
@@ -194,7 +193,7 @@ module Make (K : OrderedType) = struct
       max_binding mL
 
   let rec succ_binding = function
-    | O -> fun k -> None
+    | O -> fun _k -> None
     | Y (_, kC, eC, mL, mR) -> fun k ->
       let o = K.compare k kC in
       if o < 0 then
@@ -223,13 +222,13 @@ module Make (K : OrderedType) = struct
 
   let rec pop_min = function
     | O -> raise Not_found
-    | Y (n, kC, eC, O, mR) -> kC, eC, mR
+    | Y (_, kC, eC, O, mR) -> kC, eC, mR
     | Y (n, kC, eC, mL, mR) ->
       let k', e', mL' = pop_min mL in k', e', bal_y (n - 1) kC eC mL' mR
 
   let rec pop_max = function
     | O -> raise Not_found
-    | Y (n, kC, eC, mL, O) -> kC, eC, mL
+    | Y (_, kC, eC, mL, O) -> kC, eC, mL
     | Y (n, kC, eC, mL, mR) ->
       let k', e', mR' = pop_max mR in k', e', bal_y (n - 1) kC eC mL mR'
 
@@ -270,7 +269,7 @@ module Make (K : OrderedType) = struct
 
   let rec cut_binding kC = function
     | O -> (None, O, O)
-    | Y (n, k, e, mL, mR) ->
+    | Y (_, k, e, mL, mR) ->
       let c = K.compare kC k in
       if c = 0 then (Some e, mL, mR) else
       if c < 0 then
@@ -370,7 +369,7 @@ module Make (K : OrderedType) = struct
 
   let rec fmapi f = function
     | O -> O
-    | Y (n, k, e, mL, mR) ->
+    | Y (_, k, e, mL, mR) ->
       let mL' = fmapi f mL and mR' = fmapi f mR in
       match f k e with
       | None -> cat mL' mR'
@@ -378,7 +377,7 @@ module Make (K : OrderedType) = struct
 
   let rec filter f = function
     | O -> O
-    | Y (n, k, e, mL, mR) ->
+    | Y (_, k, e, mL, mR) ->
       let mL' = filter f mL in
       let mR' = filter f mR in
       if f k e then glue k e mL' mR' else cat mL' mR'
@@ -409,7 +408,7 @@ module Make (K : OrderedType) = struct
     | Y (nA, kA, eA, mLA, mRA), _ when nA > cardinal mB ->
       let eB_opt, mLB, mRB = cut_binding kA mB in
       glue_opt kA (f kA (Some eA) eB_opt) (merge f mLA mLB) (merge f mRA mRB)
-    | _, Y (nB, kB, eB, mLB, mRB) ->
+    | _, Y (_nB, kB, eB, mLB, mRB) ->
       let eA_opt, mLA, mRA = cut_binding kB mA in
       glue_opt kB (f kB eA_opt (Some eB)) (merge f mLA mLB) (merge f mRA mRB)
     | _ -> assert false
@@ -417,7 +416,7 @@ module Make (K : OrderedType) = struct
   let rec finter f mA mB =
     match mA, mB with
     | O, _ | _, O -> O
-    | Y (nA, kA, eA, mLA, mRA), _ ->
+    | Y (_nA, kA, eA, mLA, mRA), _ ->
       let eB_opt, mLB, mRB = cut_binding kA mB in
       let mL = finter f mLA mLB in
       let mR = finter f mRA mRB in
@@ -428,7 +427,7 @@ module Make (K : OrderedType) = struct
   let rec funion f mA mB =
     match mA, mB with
     | O, m | m, O -> m
-    | Y (nA, kA, eA, mLA, mRA), _ ->
+    | Y (_nA, kA, eA, mLA, mRA), _ ->
       let eB_opt, mLB, mRB = cut_binding kA mB in
       let mL = funion f mLA mLB in
       let mR = funion f mRA mRB in
@@ -440,7 +439,7 @@ module Make (K : OrderedType) = struct
     match mA, mB with
     | O, _ -> mB
     | _, O -> O
-    | _, Y (nB, kB, eB, mLB, mRB) ->
+    | _, Y (_nB, kB, eB, mLB, mRB) ->
       let eA_opt, mLA, mRA = cut_binding kB mA in
       let mL = fcompl f mLA mLB in
       let mR = fcompl f mRA mRB in
@@ -452,7 +451,7 @@ module Make (K : OrderedType) = struct
     match mA, mB with
     | O, _ -> mB
     | _, O -> fmapi (fun k eA -> f k eA None) mA
-    | _, Y (nB, k, eB, mLB, mRB) ->
+    | _, Y (_nB, k, eB, mLB, mRB) ->
       let eA_opt, mLA, mRA = cut_binding k mA in
       let mL = fpatch f mLA mLB in
       let mR = fpatch f mRA mRB in
@@ -561,7 +560,7 @@ module Make (K : OrderedType) = struct
   let get_e i m = get m i
   let rec get_o i = function
     | O -> None
-    | Y (n, kC, eC, mL, mR) ->
+    | Y (_n, _kC, eC, mL, mR) ->
       let nL = cardinal mL in
       if i < nL then get_o i mL else
       if i > nL then get_o (i - nL - 1) mR else

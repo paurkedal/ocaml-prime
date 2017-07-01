@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -33,7 +33,7 @@ let knowable_of_option : 'a option -> ('a, _) knowable =
   function None -> Unknown | Some x -> Known x
 
 let ident x = x
-let konst x y = x
+let konst x _ = x
 let (<@) g f x = g (f x)
 let (@>) f g x = g (f x)
 let ( *< ) f g x = f (g x)

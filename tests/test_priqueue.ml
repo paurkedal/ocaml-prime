@@ -1,4 +1,4 @@
-(* Copyright (C) 2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -49,6 +49,6 @@ let rec test n i q r =
   end
 
 let run () =
-  for round = 0 to 999 do
+  for _ = 0 to 999 do
     test (Random.int 200) 0 Q.empty R.empty
   done

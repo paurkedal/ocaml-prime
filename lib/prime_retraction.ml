@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -136,7 +136,7 @@ module Make (Elt : RETRACTABLE) = struct
 
   let rec locate' i k = function
     | O -> false, i
-    | Y (n, eC, cL, cR) ->
+    | Y (_n, eC, cL, cR) ->
       let o = Elt.compare_key k eC in
       if o < 0 then locate' i k cL else
       if o > 0 then locate' (i + cardinal cL + 1) k cR else
@@ -145,7 +145,7 @@ module Make (Elt : RETRACTABLE) = struct
 
   let rec locate_elt' i e' = function
     | O -> false, i
-    | Y (n, eC, cL, cR) ->
+    | Y (_n, eC, cL, cR) ->
       let o = Elt.compare e' eC in
       if o < 0 then locate_elt' i e' cL else
       if o > 0 then locate_elt' (i + cardinal cL + 1) e' cR else
@@ -156,7 +156,7 @@ module Make (Elt : RETRACTABLE) = struct
   let rec get m i =
     match m with
     | O -> invalid_arg "Prime_collection.get: Index out of bounds."
-    | Y (n, eC, cL, cR) ->
+    | Y (_n, eC, cL, cR) ->
       let nL = cardinal cL in
       if i < nL then get cL i else
       if i > nL then get cR (i - nL - 1) else
@@ -232,13 +232,13 @@ module Make (Elt : RETRACTABLE) = struct
 
   let rec pop_min_e = function
     | O -> raise Not_found
-    | Y (n, eC, O, cR) -> eC, cR
+    | Y (_, eC, O, cR) -> eC, cR
     | Y (n, eC, cL, cR) ->
       let e', cL' = pop_min_e cL in e', bal_y (n - 1) eC cL' cR
 
   let rec pop_max_e = function
     | O -> raise Not_found
-    | Y (n, eC, cL, O) -> eC, cL
+    | Y (_, eC, cL, O) -> eC, cL
     | Y (n, eC, cL, cR) ->
       let e', cR' = pop_max_e cR in e', bal_y (n - 1) eC cL cR'
 
@@ -263,11 +263,13 @@ module Make (Elt : RETRACTABLE) = struct
     else
       let eC', cR' = pop_min_e cR in Y (n, eC', cL, cR')
 
+(*
   let glue_opt = function None -> cat | Some e -> glue e
+*)
 
   let rec cut k = function
     | O -> None, O, O
-    | Y (n, e, cL, cR) ->
+    | Y (_n, e, cL, cR) ->
       let o = Elt.compare_key k e in
       if o < 0 then let eo, cLL, cRL = cut k cL in eo, cLL, glue e cRL cR else
       if o > 0 then let eo, cLR, cRR = cut k cR in eo, glue e cL cLR, cRR else
@@ -275,7 +277,7 @@ module Make (Elt : RETRACTABLE) = struct
 
   let rec cut_elt ek = function
     | O -> None, O, O
-    | Y (n, e, cL, cR) ->
+    | Y (_n, e, cL, cR) ->
       let o = Elt.compare ek e in
       if o < 0 then let e_opt, cLL, cRL = cut_elt ek cL in
                     e_opt, cLL, glue e cRL cR else
@@ -346,7 +348,7 @@ module Make (Elt : RETRACTABLE) = struct
       let cR' = filter f cR in
       if f eC then glue eC cL' cR' else cat cL' cR'
 
-  let rec compare cA cB =
+  let compare cA cB =
     let rec aux = function
       | End, End -> 0
       | End, More _ -> -1
@@ -366,7 +368,7 @@ module Make (Elt : RETRACTABLE) = struct
   let rec finter f cA cB =
     let msg = "finter: Inconsistent merge function." in
     match cA, cB with
-    | O, c | c, O -> O
+    | O, _ | _, O -> O
     | Y (nA, eA, cLA, cRA), Y (nB, eB, cLB, cRB) ->
       if nA < nB then
         let eA_opt, cLA, cRA = cut_elt eB cA in
@@ -428,7 +430,7 @@ module Make (Elt : RETRACTABLE) = struct
   let get_e i m = get m i
   let rec get_o i = function
     | O -> None
-    | Y (n, eC, cL, cR) ->
+    | Y (_n, eC, cL, cR) ->
       let nL = cardinal cL in
       if i < nL then get_o i cL else
       if i > nL then get_o (i - nL - 1) cR else

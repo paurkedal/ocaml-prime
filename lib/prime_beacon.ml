@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,8 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *)
-
-open Printf
 
 module type CACHE_METRIC = sig
   val cache_metric : Prime_cache_metric.t
@@ -79,9 +77,9 @@ module Make (M : CACHE_METRIC) = struct
     loop head;
     Prime_cache_metric.check_stop cs
 
-  let gc_alarm = Gc.create_alarm discard_depleted_beacons
+  let _gc_alarm = Gc.create_alarm discard_depleted_beacons
 
-  let grade {b_grade} = b_grade
+  let grade b = b.b_grade
 
   let set_grade g b =
     assert (b != dummy);

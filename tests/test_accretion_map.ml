@@ -1,4 +1,4 @@
-(* Copyright (C) 2015  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +26,7 @@ module Am = Prime_accretion_map.Make1 (Int_order) (List_monoid)
 module Rm = Map.Make (Int_order)
 
 let test n =
-  let rec aux i (rm, am) =
+  let aux i (rm, am) =
     let k = Random.int n in
     let x = [i] in
     Rm.add k x rm, Am.add k x am in

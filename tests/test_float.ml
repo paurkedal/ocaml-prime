@@ -1,4 +1,4 @@
-(* Copyright (C) 2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -27,7 +27,7 @@ let test_fraction () =
       aux i j
     done
   done;
-  for i = 1 to 10000 do
+  for _ = 1 to 10000 do
     aux (Random.int 10000 + 200) (Random.int 10000 + 200)
   done
 

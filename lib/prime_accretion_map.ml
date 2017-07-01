@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -91,7 +91,7 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
 
   let rec remove' k = function
     | O -> raise Not_found
-    | Y (n, zC, kC, eC, mL, mR) ->
+    | Y (n, _zC, kC, eC, mL, mR) ->
       let o = Key.compare k kC in
       if o < 0 then bY kC eC (remove' k mL) mR else
       if o > 0 then bY kC eC mL (remove' k mR) else

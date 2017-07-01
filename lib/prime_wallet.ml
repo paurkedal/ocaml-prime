@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -213,7 +213,7 @@ let rec cofold_rev : type a. (a -> 'b -> 'b) -> a t -> 'b -> 'b = fun f ->
 
 let rec split : type a. a t -> a t * a t = function
   | Empty -> Empty, Empty
-  | Odd (x, Empty) as t -> Empty, t
+  | Odd (_, Empty) as t -> Empty, t
   | Even (Odd ((x, y), Empty)) -> Odd (x, Empty), Odd (y, Empty)
   | Odd (x, t) -> let tR, tC = split t in Odd (x, tR), Even tC
   | Even t     -> let tR, tC = split t in even tR, Even tC
@@ -223,7 +223,7 @@ let split_snd_length n =
 
 let rec cosplit : type a. a t -> a t * a t = function
   | Empty -> Empty, Empty
-  | Odd (x, Empty) as t -> Empty, t
+  | Odd (_, Empty) as t -> Empty, t
   | Even (Odd ((y, x), Empty)) -> Odd (x, Empty), Odd (y, Empty)
   | Odd (x, t) -> let tR, tC = cosplit t in Odd (x, tR), Even tC
   | Even t     -> let tR, tC = cosplit t in even tR, Even tC

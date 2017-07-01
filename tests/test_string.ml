@@ -14,7 +14,6 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-open Unprime
 open Unprime_char
 open Unprime_list
 open Unprime_string

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -46,7 +46,7 @@ let test_fdiv_fmod () =
   assert_equal_int ~msg:"7 cmod -3"   1 (Prime_int.cmod 7 (-3));
 
   (* fdiv and fmod randomised *)
-  for round = 0 to 9999 do
+  for _ = 0 to 9999 do
     let ex, ey = Random.int 29, Random.int 29 in
     let x = Random.int (1 lsl ex) - (1 lsl (ex - 1)) in
     let y = Random.int (1 lsl ey) - (1 lsl (ey - 1)) in
@@ -97,7 +97,7 @@ let test_bitcount () =
   let rec count_bits x acc =
     if x = 0 then acc else
     count_bits (x lsr 1) (acc + x land 1) in
-  for round = 0 to 9999 do
+  for _ = 0 to 9999 do
     let x = Random.bits () in
     assert (Prime_int.bitcount x = count_bits x 0)
   done

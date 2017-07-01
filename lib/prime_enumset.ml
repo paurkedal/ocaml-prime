@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,6 @@
  *)
 
 open Prime_sigs
-open Unprime
 
 module type OrderedType = sig
   type t
@@ -112,7 +111,7 @@ module Make (E : OrderedType) = struct
 
   let rec locate' i e = function
     | O -> false, i
-    | Y (n, eC, sL, sR) ->
+    | Y (_n, eC, sL, sR) ->
       let o = E.compare e eC in
       if o < 0 then locate' i e sL else
       if o > 0 then locate' (i + cardinal sL + 1) e sR else
@@ -122,7 +121,7 @@ module Make (E : OrderedType) = struct
   let rec get s i =
     match s with
     | O -> invalid_arg "Prime_enumset.get: Index out of bounds."
-    | Y (n, eC, sL, sR) ->
+    | Y (_n, eC, sL, sR) ->
       let nL = cardinal sL in
       if i < nL then get sL i else
       if i > nL then get sR (i - nL - 1) else
@@ -135,22 +134,22 @@ module Make (E : OrderedType) = struct
   let rec min_elt = function
     | O -> raise Not_found
     | Y (_, eC, O, _) -> eC
-    | Y (_, eC, sL, _) -> min_elt sL
+    | Y (_, _, sL, _) -> min_elt sL
 
   let rec max_elt = function
     | O -> raise Not_found
     | Y (_, eC, _, O) -> eC
-    | Y (_, eC, _, sR) -> max_elt sR
+    | Y (_, _, _, sR) -> max_elt sR
 
   let rec min_opt = function
     | O -> None
     | Y (_, eC, O, _) -> Some eC
-    | Y (_, eC, sL, _) -> min_opt sL
+    | Y (_, _, sL, _) -> min_opt sL
 
   let rec max_opt = function
     | O -> None
     | Y (_, eC, _, O) -> Some eC
-    | Y (_, eC, _, sR) -> max_opt sR
+    | Y (_, _, _, sR) -> max_opt sR
 
   let rec pred_elt = function
     | O -> fun _ -> None
@@ -195,13 +194,13 @@ module Make (E : OrderedType) = struct
 
   let rec pop_min = function
     | O -> raise Not_found
-    | Y (n, eC, O, sR) -> eC, sR
+    | Y (_, eC, O, sR) -> eC, sR
     | Y (n, eC, sL, sR) ->
       let e', sL' = pop_min sL in e', bal_y (n - 1) eC sL' sR
 
   let rec pop_max = function
     | O -> raise Not_found
-    | Y (n, eC, sL, O) -> eC, sL
+    | Y (_, eC, sL, O) -> eC, sL
     | Y (n, eC, sL, sR) ->
       let e', sR' = pop_max sR in e', bal_y (n - 1) eC sL sR'
 
@@ -232,7 +231,7 @@ module Make (E : OrderedType) = struct
 
   let rec cut_element eC = function
     | O -> (false, O, O)
-    | Y (n, e, sL, sR) ->
+    | Y (_, e, sL, sR) ->
       let c = E.compare eC e in
       if c = 0 then (true, sL, sR) else
       if c < 0 then
@@ -365,7 +364,7 @@ module Make (E : OrderedType) = struct
     match sA, sB with
     | O, _ -> sB
     | _, O -> O
-    | _, Y (nB, eB, sLB, sRB) ->
+    | _, Y (_nB, eB, sLB, sRB) ->
       let presA, sLA, sRA = cut_element eB sA in
       if presA then cat     (compl sLA sLB) (compl sRA sRB)
                else glue eB (compl sLA sLB) (compl sRA sRB)

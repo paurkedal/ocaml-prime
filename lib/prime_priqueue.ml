@@ -1,4 +1,4 @@
-(* Copyright (C) 2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -27,10 +27,12 @@ module Deck = struct
     | Front (x, xs) -> f x (reduce f xs)
     | Back  (x, xs) -> f (reduce f xs) x
 
+(*
   let rec iter f = function
     | Empty -> ()
     | Front (x, xs) -> f x; iter f xs
     | Back  (x, xs) -> iter f xs; f x
+*)
 end
 
 module type S = sig
@@ -68,7 +70,7 @@ module Make (Elt : Set.OrderedType) = struct
 
   let rec merge hA hB =
     match hA, hB with
-    | O, N (e, hs) | N (e, hs), O -> reduce_merge hs
+    | O, N (_, hs) | N (_, hs), O -> reduce_merge hs
     | O, h | h, O -> h
     | P (eA, hsA), P (eB, hsB) ->
       let c = Elt.compare eA eB in
@@ -84,13 +86,13 @@ module Make (Elt : Set.OrderedType) = struct
       if c < 0 then merge (reduce_merge hsA) hB else
       if c > 0 then P (eB, Deck.Front (hA, hsB)) else
       merge (reduce_merge hsA) (reduce_merge hsB)
-    | N (eA, hsA), N (eB, hsB) ->
+    | N (_, hsA), N (_, hsB) ->
       merge (reduce_merge hsA) (reduce_merge hsB)
 
   and reduce_merge = function
     | Deck.Empty -> O
-    | Deck.Front (N (e, hs), Deck.Empty)
-    | Deck.Back  (N (e, hs), Deck.Empty) -> reduce_merge hs
+    | Deck.Front (N (_, hs), Deck.Empty)
+    | Deck.Back  (N (_, hs), Deck.Empty) -> reduce_merge hs
     | hs -> Deck.reduce merge hs
 
   let add e = merge (P (e, Deck.Empty))
@@ -101,7 +103,7 @@ module Make (Elt : Set.OrderedType) = struct
     | P (e, _) -> e
     | N _ -> assert false
 
-  let rec remove_min = function
+  let remove_min = function
     | O -> raise Not_found
     | P (_, Deck.Empty) -> O
     | P (_, hs) -> reduce_merge hs

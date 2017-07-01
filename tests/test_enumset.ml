@@ -19,7 +19,6 @@ open Utils
 open Unprime
 open Unprime_array
 open Unprime_list
-open Unprime_option
 
 module Int_order = struct type t = int let compare = compare end
 module Int_set = Set.Make (Int_order)
@@ -113,7 +112,7 @@ let test_elements () =
 let run () =
   assert (Int_eset.equal Int_eset.empty Int_eset.empty);
   assert (Int_eset.compare Int_eset.empty Int_eset.empty = 0);
-  for round = 0 to 999 do
+  for _ = 0 to 999 do
     let rec populate imax n s es =
       if n < 0 then (s, es) else
       let i = Random.int imax in

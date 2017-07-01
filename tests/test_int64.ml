@@ -1,4 +1,4 @@
-(* Copyright (C) 2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -25,7 +25,7 @@ let test_bitcount () =
     if x = 0L then acc else
     count_bits Int64.(shift_right_logical x 1)
                (acc + Int64.(to_int (logand x 1L))) in
-  for round = 0 to 9999 do
+  for _ = 0 to 9999 do
     let x = random_bits64 () in
     assert (Prime_int64.bitcount x = count_bits x 0)
   done

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -56,7 +56,7 @@ let test_equal () =
 let test_pop_remove () =
   let n_max = 1 lsl Random.int 6 in
   let m = random_emap n_max in
-  for round = 0 to 15 do
+  for _ = 0 to 15 do
     let k = Random.int n_max in
     if not (Int_emap.contains k m) then begin
       assert (Int_emap.pop k m = None);
@@ -118,13 +118,13 @@ let test_alg () =
   assert (Int_emap.cardinal mAcB =
           Int_emap.cardinal mB - Int_emap.cardinal mAnB);
   let pB = Int_emap.merge
-            (fun k eA_opt eB_opt ->
+            (fun _ eA_opt eB_opt ->
               match eA_opt, eB_opt with
               | None, None -> assert false
               | None, Some eB -> Some (Some eB)
-              | Some eA, None -> Some None
+              | Some _, None -> Some None
               | Some eA, Some eB when eA = eB -> None
-              | Some eA, Some eB -> Some (Some eB))
+              | Some _, Some eB -> Some (Some eB))
             mA mB in
   let mB' = Int_emap.fpatch (fun _ e_opt _ -> e_opt) pB mA in
   assert (Int_emap.equal (=) mB mB')
@@ -141,7 +141,7 @@ let test_bindings () =
 let run () =
   assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);
   assert (Int_emap.compare compare Int_emap.empty Int_emap.empty = 0);
-  for round = 0 to 999 do
+  for _ = 0 to 999 do
     let rec populate imax n m em =
       if n < 0 then (m, em) else
       let i = Random.int imax in
