@@ -1,0 +1,47 @@
+(jbuild_version 1)
+
+(library
+ ((name prime)
+  (public_name prime)
+  (wrapped false)
+  (modules
+   (Prime
+    Prime_array
+    Prime_buffer
+    Prime_char
+    Prime_float
+    Prime_int
+    Prime_int32
+    Prime_int64
+    Prime_io
+    Prime_list
+    Prime_map
+    Prime_option
+    Prime_string
+    Unprime
+    Unprime_array
+    Unprime_buffer
+    Unprime_char
+    Unprime_list
+    Unprime_option
+    Unprime_string))))
+
+(library
+ ((name prime_unstable)
+  (public_name prime.unstable)
+  (wrapped false)
+  (modules
+   (Prime_accretion_map
+    Prime_accretion_map_intf
+    Prime_beacon
+    Prime_cache
+    Prime_cache_metric
+    Prime_enumlist
+    Prime_enummap
+    Prime_enumset
+    Prime_priqueue
+    Prime_retraction
+    Prime_sigs
+    Prime_wallet
+    Unprime_enumlist))
+  (libraries (prime))))

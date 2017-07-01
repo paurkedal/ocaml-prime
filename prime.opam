@@ -7,9 +7,12 @@ bug-reports: "https://github.com/paurkedal/ocaml-prime/issues"
 dev-repo: "https://github.com/paurkedal/ocaml-prime.git"
 license: "LGPL-3 with OCaml linking exception"
 
-build: ["ocaml" "pkg/pkg.ml" "build" "--pinned" "%{pinned}%"]
+build: [["jbuilder" "build" "-p" name "-j" jobs]]
+build-test: [["jbuilder" "runtest" "-p" name "-j" jobs]]
+
 depends: [
-  "adpkg" {build}
-  "ocamlbuild" {build}
+  "jbuilder" {build}
+  "oUnit"
   "topkg" {build}
+  "topkg-jbuilder" {build}
 ]

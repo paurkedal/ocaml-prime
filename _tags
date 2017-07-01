@@ -1,4 +1,0 @@
-true: bin_annot
-false: package(adpkg), package(topkg)
-"lib": include
-<tests/*>: package(oUnit)

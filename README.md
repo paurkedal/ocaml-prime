@@ -15,8 +15,5 @@ The library is available though OPAM:
     opam repo add paurkedal https://github.com/paurkedal/opam-repo-paurkedal.git
     opam install ocaml-prime
 
-It can also be installed form the GitHub-generated tarballs, provided the
-following dependencies are available:
-
-  * [OUnit](http://ounit.forge.ocamlcore.org/)
-  * [Topkg](http://erratique.ch/software/topkg)
+To build form sources, first install the dependencies listed in
+[prime.opam](prime.opam) are installed.
