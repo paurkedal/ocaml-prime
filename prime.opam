@@ -16,3 +16,4 @@ depends: [
   "topkg" {build}
   "topkg-jbuilder" {build}
 ]
+available: [ocaml-version >= "4.02.3"]
