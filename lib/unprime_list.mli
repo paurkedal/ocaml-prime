@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -20,6 +20,7 @@
     original and the {!Prime_list} extensions. *)
 
 module List : sig
+  val cons : 'a -> 'a list -> 'a list [@@ocaml.warning "-32"] (* 4.02 compat *)
   include module type of List
   include module type of Prime_list
 end
