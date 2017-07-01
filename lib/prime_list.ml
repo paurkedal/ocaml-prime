@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -61,7 +61,7 @@ let rev_flatten xss = fold rev_append xss []
 let rec iter2t f xs ys =
   match xs, ys with
   | [], _ | _, [] -> ()
-  | x :: xs', y :: ys' -> iter2t f xs' ys'
+  | x :: xs', y :: ys' -> f x y; iter2t f xs' ys'
 
 let rec fold2 f xs ys accu =
   match xs, ys with
