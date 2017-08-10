@@ -36,11 +36,11 @@ val ident : 'a -> 'a
 val konst : 'a -> 'b -> 'a
 (** The K combinator: [konst x y] is [x]. *)
 
-val (<@) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
-(** Function composition: [(g <@ f) x] is [g (f x)]. *)
+val (%) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
+(** Function composition: [(g % f) x] is [g (f x)]. *)
 
-val (@>) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
-(** Reversed function composition: [(f @> g) x] is [g (f x)]. *)
+val (%>) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
+(** Reversed function composition: [(f %> g) x] is [g (f x)]. *)
 
 (** {2 Currying} *)
 
@@ -56,6 +56,10 @@ val finally : (unit -> unit) -> (unit -> 'a) -> 'a
 
 (**/**)
 val ( *< ) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
-[@@ocaml.deprecated "Renamed to (<@) for optimal associativity of (@>)."]
+[@@ocaml.deprecated "Renamed to (%)."]
 val ( *> ) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
-[@@ocaml.deprecated "Renamed to (@>) for optimal associativity."]
+[@@ocaml.deprecated "Renamed to (%>)."]
+val (<@) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
+[@@ocaml.deprecated "Renamed to (%)."]
+val (@>) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
+[@@ocaml.deprecated "Renamed to (%>)."]

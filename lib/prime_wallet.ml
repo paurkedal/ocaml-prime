@@ -192,24 +192,24 @@ let rec coiter_rev : type a. (a -> unit) -> a t -> unit = fun f -> function
 
 let rec fold : type a. (a -> 'b -> 'b) -> a t -> 'b -> 'b = fun f -> function
   | Empty -> ident
-  | Even t -> fold (fun (x, y) -> f y <@ f x) t
-  | Odd (z, t) -> fold (fun (x, y) -> f y <@ f x) t <@ f z
+  | Even t -> fold (fun (x, y) -> f y % f x) t
+  | Odd (z, t) -> fold (fun (x, y) -> f y % f x) t % f z
 
 let rec fold2 : type a b. (a -> b -> 'c -> 'c) -> a t -> b t -> 'c -> 'c =
   fun f tA' tB' ->
   match tA', tB' with
   | Empty, Empty -> ident
   | Even tA, Even tB ->
-    fold2 (fun (xA, yA) (xB, yB) -> f yA yB <@ f xA xB) tA tB
+    fold2 (fun (xA, yA) (xB, yB) -> f yA yB % f xA xB) tA tB
   | Odd (zA, tA), Odd (zB, tB) ->
-    fold2 (fun (xA, yA) (xB, yB) -> f yA yB <@ f xA xB) tA tB <@ f zA zB
+    fold2 (fun (xA, yA) (xB, yB) -> f yA yB % f xA xB) tA tB % f zA zB
   | Empty, _ | Even _, _ | Odd _, _ -> bad_arg "fold2: Different size."
 
 let rec cofold_rev : type a. (a -> 'b -> 'b) -> a t -> 'b -> 'b = fun f ->
   function
   | Empty -> ident
-  | Even t -> cofold_rev (fun (x, y) -> f y <@ f x) t
-  | Odd (z, t) -> f z <@ cofold_rev (fun (x, y) -> f y <@ f x) t
+  | Even t -> cofold_rev (fun (x, y) -> f y % f x) t
+  | Odd (z, t) -> f z % cofold_rev (fun (x, y) -> f y % f x) t
 
 let rec split : type a. a t -> a t * a t = function
   | Empty -> Empty, Empty
