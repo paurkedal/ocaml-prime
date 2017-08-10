@@ -39,6 +39,7 @@
     Prime_enumlist
     Prime_enummap
     Prime_enumset
+    Prime_knowable
     Prime_priqueue
     Prime_retraction
     Prime_sigs

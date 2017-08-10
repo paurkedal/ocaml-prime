@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2017  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -14,19 +14,20 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-type counit = {absurd : 'a. 'a}
-let absurd z = z.absurd
+type (+_, _) t =
+  | Unknown : ('a, [> `Unknown]) t
+  | Known : 'a -> ('a, [> `Known]) t
 
-let ident x = x
-let konst x _ = x
-let (<@) g f x = g (f x)
-let (@>) f g x = g (f x)
-let ( *< ) f g x = f (g x)
-let ( *> ) f g x = g (f x)
-let curry f x y = f (x, y)
-let uncurry f (x, y) = f x y
+let get : (_, [`Known]) t -> _ = function Known x -> x
 
-let finally cleanup thunk =
-  let r = try thunk ()
-          with xc -> cleanup (); raise xc in
-  cleanup (); r
+let get_opt (type k) : ('a, k) t -> 'a option = function
+ | Unknown -> None
+ | Known x -> Some x
+
+let of_option : 'a option -> ('a, _) t = function
+ | None -> Unknown
+ | Some x -> Known x
+
+let inquire (type k) : (_, k) t -> _ = function
+ | Known x -> Some (Known x)
+ | Unknown -> None
