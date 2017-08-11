@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.8.0]
+
+- Change composition operators to `(%)` and `(%>)` for consistency with
+  `ppx_compose` and Batteries.
+- In `Prime_list`, fix `Prime_list.iter2t` and deprecate `push`.
+- In `Prime_string`, add `count` and rename `of_list` to `of_chars` and
+  `to_list` to `to_chars`.
+- Add a new `Prime_unknowable` module in `prime.unstable`.
+
 ## [0.7.1]
 
 - Fix `Prime_int.floor_log2` and `Prime_int.ceil_log2` for 32 bit
