@@ -44,5 +44,6 @@
 - Composition operators `*>` and `*<`.
 - `Prime_array.filter_map`.
 
+[0.8.0]: https://github.com/paurkedal/ocaml-prime/compare/0.7.1...v0.8.0
 [0.7.1]: https://github.com/paurkedal/ocaml-prime/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/paurkedal/ocaml-prime/compare/0.6.9...0.7.0
