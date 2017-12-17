@@ -13,7 +13,5 @@ build-test: [["jbuilder" "runtest" "-p" name "-j" jobs]]
 depends: [
   "jbuilder" {build}
   "ounit" {test}
-  "topkg" {build}
-  "topkg-jbuilder" {build}
 ]
 available: [ocaml-version >= "4.02.3"]
