@@ -56,6 +56,15 @@ let gcd u v =
 
 let delta n m = if n = m then 1 else 0
 
+let fact n =
+  let rec loop n acc =
+    if n <= 1 then acc else
+    let acc' = n * acc in
+    if acc' >= acc then loop (n - 1) (n * acc) else
+    failwith "Prime_int.fact: overflow" in
+  if n >= 0 then loop n 1 else
+  invalid_arg "Prime_int.fact: negative"
+
 let binom n k =
   let rec loop n k i acc =
     if i >= k then acc else

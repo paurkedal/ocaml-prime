@@ -44,6 +44,10 @@ val gcd : int -> int -> int
 
 (** {2 Combinatorics} *)
 
+val fact : int -> int
+(** [fact n] is the factorial of [n] representing the number of ways to order
+    [n] distinct elements. *)
+
 val binom : int -> int -> int
 (** [binom n k] is the binominal coefficient corresponding to the number of ways
     to choosing [k] elements out of [n].
