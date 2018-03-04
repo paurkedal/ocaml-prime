@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -41,6 +41,14 @@ val cmod : int -> int -> int
 val gcd : int -> int -> int
 (** [gcd n m] is the greatest common divisor of [n] and [m]. *)
 
+
+(** {2 Combinatorics} *)
+
+val binom : int -> int -> int
+(** [binom n k] is the binominal coefficient corresponding to the number of ways
+    to choosing [k] elements out of [n].
+
+    @raise Failure if the result cannot be represented as an [int]. *)
 
 (** {2 Bitwise Operations} *)
 

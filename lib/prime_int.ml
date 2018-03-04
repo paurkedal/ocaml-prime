@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -55,6 +55,16 @@ let gcd u v =
   common_divisor (skip_shift u) v lsl p
 
 let delta n m = if n = m then 1 else 0
+
+let binom n k =
+  let rec loop n k i acc =
+    if i >= k then acc else
+    let acc' = acc * (n - i) / (i + 1) in
+    if acc' >= acc then loop n k (i + 1) acc' else
+    let acc' = acc / (i + 1) * (n - i) + acc mod (i + 1) * (n - i) / (i + 1) in
+    if acc' >= acc then loop n k (i + 1) acc' else
+    failwith "Prime_int.binom: overflow" in
+  if k < n - k then loop n k 0 1 else loop n (n - k) 0 1
 
 let signed_width =
   let rec loop i x =

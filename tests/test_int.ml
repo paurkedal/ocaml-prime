@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,8 @@
 
 open OUnit
 open Utils
+
+let verbose = false
 
 let test_fdiv_fmod () =
   (* Assumed by the implementation of fmod: *)
@@ -115,9 +117,34 @@ let test_floor_ceil_log2 () =
     end
   done
 
+let test_binom () =
+  let n_max = 70 in
+  let pascal = Array.init (n_max + 1) (fun _ -> 0) in
+  pascal.(0) <- 1;
+  if verbose then Printf.printf "\n";
+  for n = 0 to n_max do
+    if verbose then Printf.printf "%*s" (3 * (n_max - n)) "";
+    for k = n downto 1 do
+      begin
+        try
+          let b = Prime_int.binom n k in
+          pascal.(k) <- pascal.(k - 1) + pascal.(k);
+          assert (b = pascal.(k))
+        with Failure _ ->
+          if pascal.(k) <> -1 then begin
+            assert (pascal.(k) + pascal.(k - 1) < pascal.(k));
+            pascal.(k) <- -1
+          end
+      end;
+      if verbose then Printf.printf "%6d" pascal.(k)
+    done;
+    if verbose then Printf.printf "%6d\n%!" pascal.(0)
+  done
+
 let run () =
   test_fdiv_fmod ();
   test_gcd ();
   test_signed_width ();
   test_bitcount ();
-  test_floor_ceil_log2 ()
+  test_floor_ceil_log2 ();
+  test_binom ()
