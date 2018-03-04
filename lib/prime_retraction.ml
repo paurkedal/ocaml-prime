@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -63,10 +63,10 @@ module type S = sig
   val fcompl : (elt -> elt -> elt option) -> t -> t -> t
 
   (**/**)
-  val find_e : key -> t -> elt
-  val find_o : key -> t -> elt option
-  val get_e : int -> t -> elt
-  val get_o : int -> t -> elt option
+  val find_e : key -> t -> elt [@@ocaml.deprecated]
+  val find_o : key -> t -> elt option [@@ocaml.deprecated]
+  val get_e : int -> t -> elt [@@ocaml.deprecated]
+  val get_o : int -> t -> elt option [@@ocaml.deprecated]
 end
 
 exception Keep

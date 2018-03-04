@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -69,14 +69,14 @@ module type S = sig
                     'a t -> 'b t -> 'a t * 'b t * 'c t
 
   (**/**)
-  val card : 'a t -> int
-  val cut : key -> 'a t -> 'a option * 'a t * 'a t
-  val get_o : int -> 'a t -> 'a option
-  val get_e : int -> 'a t -> 'a
-  val pred_binding_e : 'a t -> key -> key * 'a
-  val succ_binding_e : 'a t -> key -> key * 'a
-  val pred_binding_o : 'a t -> key -> (key * 'a) option
-  val succ_binding_o : 'a t -> key -> (key * 'a) option
+  val card : 'a t -> int [@@ocaml.deprecated]
+  val cut : key -> 'a t -> 'a option * 'a t * 'a t [@@ocaml.deprecated]
+  val get_o : int -> 'a t -> 'a option [@@ocaml.deprecated]
+  val get_e : int -> 'a t -> 'a [@@ocaml.deprecated]
+  val pred_binding_e : 'a t -> key -> key * 'a [@@ocaml.deprecated]
+  val succ_binding_e : 'a t -> key -> key * 'a [@@ocaml.deprecated]
+  val pred_binding_o : 'a t -> key -> (key * 'a) option [@@ocaml.deprecated]
+  val succ_binding_o : 'a t -> key -> (key * 'a) option [@@ocaml.deprecated]
 end
 
 module type S_monadic = sig

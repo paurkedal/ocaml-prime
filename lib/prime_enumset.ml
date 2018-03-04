@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -58,10 +58,10 @@ module type S = sig
   val inter : t -> t -> t
   val compl : t -> t -> t
 
-  val card : t -> int
-  val cut : elt -> t -> bool * t * t
-  val pred_e : t -> elt -> elt
-  val succ_e : t -> elt -> elt
+  val card : t -> int [@@ocaml.deprecated]
+  val cut : elt -> t -> bool * t * t [@@ocaml.deprecated]
+  val pred_e : t -> elt -> elt [@@ocaml.deprecated]
+  val succ_e : t -> elt -> elt [@@ocaml.deprecated]
 end
 
 module type S_monadic = sig
