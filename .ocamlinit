@@ -1,6 +1,8 @@
-#directory "_build/lib"
+#directory "_build/default/lib"
+#directory "_build/default/lib/.prime.objs"
+#directory "_build/default/lib/.prime_unstable.objs"
 #load "prime.cma"
-#load "prime-unstable.cma"
+#load "prime_unstable.cma"
 
 open Unprime
 open Unprime_array
