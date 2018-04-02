@@ -19,7 +19,19 @@ open Utils
 
 let verbose = false
 
-let test_fdiv_fmod () =
+let rec alt_pow x n = if n = 0 then 1 else x * alt_pow x (n - 1)
+
+let test_arith () =
+  (* pow *)
+  for n = 0 to 9 do
+    assert (Prime_int.pow 0 n = Prime_int.delta 0 n);
+    assert (Prime_int.pow 1 n = 1);
+    assert (Prime_int.pow 2 n = 1 lsl n);
+    assert (Prime_int.pow (-3) n = alt_pow (-3) n);
+    assert (Prime_int.pow 5 n = alt_pow 5 n);
+    assert (Prime_int.pow (-7) n = alt_pow (-7) n)
+  done;
+
   (* Assumed by the implementation of fmod: *)
   assert_equal_int ((min_int-1) lxor min_int) (-1);
 
@@ -142,7 +154,7 @@ let test_binom () =
   done
 
 let run () =
-  test_fdiv_fmod ();
+  test_arith ();
   test_gcd ();
   test_signed_width ();
   test_bitcount ();

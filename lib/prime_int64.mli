@@ -1,4 +1,4 @@
-(* Copyright (C) 2013  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,6 +15,9 @@
  *)
 
 (** 64 bit integer functions. *)
+
+val pow : int64 -> int -> int64
+(** [pow b n] is [b] raised to [n]. *)
 
 val bitcount : int64 -> int
 (** [bitcount n] is the number of ones in the binary representation of [n]. *)

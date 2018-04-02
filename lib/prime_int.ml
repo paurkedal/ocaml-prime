@@ -16,6 +16,13 @@
 
 let sign n = compare n 0
 
+let pow b n =
+  if n < 0 then failwith "Prime_int.pow" else
+  let rec loop b n acc =
+    if n = 0 then acc else
+    loop (b * b) (n lsr 1) (if n land 1 = 0 then acc else b * acc) in
+  loop b n 1
+
 let fdiv x y =
   if (x >= 0) = (y >= 0) then x / y
                          else (x - y + 1) / y

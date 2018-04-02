@@ -1,4 +1,4 @@
-(* Copyright (C) 2016--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -13,6 +13,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
+
+let rec alt_pow x n = if n = 0 then 1L else Int64.mul x (alt_pow x (n - 1))
+
+let test_arith () =
+  (* pow *)
+  for n = 0 to 9 do
+    assert (Prime_int64.pow 0L n = alt_pow 0L n);
+    assert (Prime_int64.pow 1L n = 1L);
+    assert (Prime_int64.pow 2L n = Int64.shift_left 1L n);
+    assert (Prime_int64.pow (-3L) n = alt_pow (-3L) n);
+    assert (Prime_int64.pow 5L n = alt_pow 5L n);
+    assert (Prime_int64.pow (-7L) n = alt_pow (-7L) n)
+  done
 
 let random_bits64 () =
   let a = Random.int64 (Int64.shift_left 1L 32) in
@@ -31,4 +44,5 @@ let test_bitcount () =
   done
 
 let run () =
+  test_arith ();
   test_bitcount ()

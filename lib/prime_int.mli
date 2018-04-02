@@ -24,7 +24,11 @@ val delta : int -> int -> int
 (** [delta n m] is [1] if [n = m], [0] otherwise. *)
 
 
-(** {2 Division} *)
+(** {2 Arithmetic} *)
+
+val pow : int -> int -> int
+(** [pow b n] is [b] raised to [n].
+    @raise Failure if [n < 0]. *)
 
 val fdiv : int -> int -> int
 (** [fdiv n m] is the quotient of floored division, [⌊n / m⌋]. *)
