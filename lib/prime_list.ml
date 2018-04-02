@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -118,6 +118,16 @@ let take_while f xs =
     | [] -> xs
     | y :: ys -> if f y then loop (y :: zs) ys else rev zs in
   loop [] xs
+
+let rev_interfix x ys =
+  let rec loop acc = function
+   | [] -> acc
+   | y :: ys -> loop (y :: x :: acc) ys in
+  (match ys with
+   | [] -> failwith "Prime_list.rev_interfix"
+   | y :: ys -> loop [y] ys)
+
+let interfix x ys = List.rev (rev_interfix x ys)
 
 (* Deprecated *)
 let filter_map = fmap

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -110,6 +110,15 @@ val drop_while : ('a -> bool) -> 'a list -> 'a list
 val take_while : ('a -> bool) -> 'a list -> 'a list
 (** [take_while f xs] returns the longest prefix of [xs] containing only
     elements which [f] maps to true. *)
+
+(** {2 Combining Lists} *)
+
+val interfix : 'a -> 'a list -> 'a list
+(** [interfix x [y₁; y₂; ...; yₙ₋₁; yₙ]] is [[y₁; x; y₂; ...; yₙ₋₁; x; yₙ]].
+    @raise Failure if [ys = []]. *)
+
+val rev_interfix : 'a -> 'a list -> 'a list
+(** [rev_interfix x ys] is [List.rev (concat x ys)]. *)
 
 (**/**)
 val filter_map : ('a -> 'b option) -> 'a list -> 'b list
