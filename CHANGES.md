@@ -1,6 +1,11 @@
 # Change Log
 
-## [0.8.0]
+## [0.8.1] - 2018-04-02
+
+- Add integer functions: `pow`, `fact`, and `binom`.
+- Add list functions `interfix` and `rev_interfix`.
+
+## [0.8.0] - 2017-08-11
 
 - Change composition operators to `(%)` and `(%>)` for consistency with
   `ppx_compose` and Batteries.
@@ -44,6 +49,7 @@
 - Composition operators `*>` and `*<`.
 - `Prime_array.filter_map`.
 
+[0.8.1]: https://github.com/paurkedal/ocaml-prime/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/paurkedal/ocaml-prime/compare/0.7.1...v0.8.0
 [0.7.1]: https://github.com/paurkedal/ocaml-prime/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/paurkedal/ocaml-prime/compare/0.6.9...0.7.0
