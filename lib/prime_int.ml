@@ -67,7 +67,7 @@ let fact n =
   let rec loop n acc =
     if n <= 1 then acc else
     let acc' = n * acc in
-    if acc' >= acc then loop (n - 1) (n * acc) else
+    if acc' >= acc then loop (n - 1) acc' else
     failwith "Prime_int.fact: overflow" in
   if n >= 0 then loop n 1 else
   invalid_arg "Prime_int.fact: negative"

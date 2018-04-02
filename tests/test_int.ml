@@ -100,33 +100,12 @@ let test_gcd () =
     done
   done
 
-let test_signed_width () =
-  let x = (1 lsl (Prime_int.signed_width - 1) - 1) lsl 1 + 1 in
-  assert (x > 0);
-  assert (-x < 0);
-  assert (Prime_int.bitcount x = Prime_int.signed_width);
-  assert (x lsl 1 <= x)
-
-let test_bitcount () =
-  let rec count_bits x acc =
-    if x = 0 then acc else
-    count_bits (x lsr 1) (acc + x land 1) in
-  for _ = 0 to 9999 do
-    let x = Random.bits () in
-    assert (Prime_int.bitcount x = count_bits x 0)
-  done
-
-let test_floor_ceil_log2 () =
-
-  (* floor_log2 and ceil_log2 *)
-  for n = 1 to 10000 do
-    let i, j = Prime_int.floor_log2 n, Prime_int.ceil_log2 n in
-    if i = j then assert_equal_int n (1 lsl i) else
-    begin
-      assert_equal_int 1 (j - i);
-      assert (1 lsl i < n);
-      assert (n < 1 lsl j)
-    end
+let test_fact () =
+  assert (Prime_int.fact 0 = 1);
+  let fact_n = ref 1 in
+  for n = 1 to 12 do
+    fact_n := n * !fact_n;
+    assert (Prime_int.fact n = !fact_n)
   done
 
 let test_binom () =
@@ -153,10 +132,38 @@ let test_binom () =
     if verbose then Printf.printf "%6d\n%!" pascal.(0)
   done
 
+let test_signed_width () =
+  let x = (1 lsl (Prime_int.signed_width - 1) - 1) lsl 1 + 1 in
+  assert (x > 0);
+  assert (-x < 0);
+  assert (Prime_int.bitcount x = Prime_int.signed_width);
+  assert (x lsl 1 <= x)
+
+let test_bitcount () =
+  let rec count_bits x acc =
+    if x = 0 then acc else
+    count_bits (x lsr 1) (acc + x land 1) in
+  for _ = 0 to 9999 do
+    let x = Random.bits () in
+    assert (Prime_int.bitcount x = count_bits x 0)
+  done
+
+let test_floor_log2_and_ceil_log2 () =
+  for n = 1 to 10000 do
+    let i, j = Prime_int.floor_log2 n, Prime_int.ceil_log2 n in
+    if i = j then assert_equal_int n (1 lsl i) else
+    begin
+      assert_equal_int 1 (j - i);
+      assert (1 lsl i < n);
+      assert (n < 1 lsl j)
+    end
+  done
+
 let run () =
   test_arith ();
   test_gcd ();
+  test_fact ();
+  test_binom ();
   test_signed_width ();
   test_bitcount ();
-  test_floor_ceil_log2 ();
-  test_binom ()
+  test_floor_log2_and_ceil_log2 ()
