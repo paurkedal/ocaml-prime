@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -130,9 +130,9 @@ let run () =
                      (Int_set.cardinal s) (Int_eset.cardinal es);
     assert_equal ~msg:"elements" (Int_set.elements s)
                  (List.rev (Int_eset.fold List.cons es []));
-    assert_equal_int ~msg:"min element" (Int_eset.min_elt es)
+    assert_equal_int ~msg:"min element" (Int_eset.min_elt_exn es)
                      (Int_eset.get es 0);
-    assert_equal_int ~msg:"max element" (Int_eset.max_elt es)
+    assert_equal_int ~msg:"max element" (Int_eset.max_elt_exn es)
                      (Int_eset.get es (Int_eset.cardinal es - 1));
     for i = 0 to Int_eset.cardinal es - 1 do
       let e = Int_eset.get es i in

@@ -33,8 +33,8 @@ module type S = sig
   val locate : elt -> t -> bool * int
   val get : t -> int -> elt
   val choose : t -> elt
-  val min_elt : t -> elt
-  val max_elt : t -> elt
+  val min_elt_exn : t -> elt
+  val max_elt_exn : t -> elt
   val pred_elt : t -> elt -> elt option
   val succ_elt : t -> elt -> elt option
   val add : elt -> t -> t
@@ -62,6 +62,8 @@ module type S = sig
   val cut : elt -> t -> bool * t * t [@@ocaml.deprecated]
   val pred_e : t -> elt -> elt [@@ocaml.deprecated]
   val succ_e : t -> elt -> elt [@@ocaml.deprecated]
+  val min_elt : t -> elt [@@ocaml.deprecated]
+  val max_elt : t -> elt [@@ocaml.deprecated]
 end
 
 module type S_monadic = sig
@@ -131,15 +133,15 @@ module Make (E : OrderedType) = struct
     | O -> raise Not_found
     | Y (_, eC, _, _) -> eC
 
-  let rec min_elt = function
+  let rec min_elt_exn = function
     | O -> raise Not_found
     | Y (_, eC, O, _) -> eC
-    | Y (_, _, sL, _) -> min_elt sL
+    | Y (_, _, sL, _) -> min_elt_exn sL
 
-  let rec max_elt = function
+  let rec max_elt_exn = function
     | O -> raise Not_found
     | Y (_, eC, _, O) -> eC
-    | Y (_, _, _, sR) -> max_elt sR
+    | Y (_, _, _, sR) -> max_elt_exn sR
 
   let rec min_opt = function
     | O -> None
@@ -374,6 +376,8 @@ module Make (E : OrderedType) = struct
   let cut = cut_element
   let pred_e s e = Prime_option.get (pred_elt s e)
   let succ_e s e = Prime_option.get (succ_elt s e)
+  let min_elt = min_elt_exn
+  let max_elt = max_elt_exn
 
   module Make_monadic (M : Monad) = struct
 

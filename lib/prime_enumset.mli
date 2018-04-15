@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -62,11 +62,11 @@ module type S = sig
   (** [choose s] is an unspecified element of [s].
       @raise Not_found if [s] is empty. *)
 
-  val min_elt : t -> elt
-  (** [min_elt s] is the smallest element of [s]. *)
+  val min_elt_exn : t -> elt
+  (** [min_elt_exn s] is the smallest element of [s]. *)
 
-  val max_elt : t -> elt
-  (** [max_elt s] is the largest element of [s]. *)
+  val max_elt_exn : t -> elt
+  (** [max_elt_exn s] is the largest element of [s]. *)
 
   val pred_elt : t -> elt -> elt option
   (** [pred_elt s e] is the element before [e] in [s]. *)
@@ -150,6 +150,8 @@ module type S = sig
   val cut : elt -> t -> bool * t * t [@@ocaml.deprecated "Renamed cut_element."]
   val pred_e : t -> elt -> elt [@@ocaml.deprecated "Use pred_elt."]
   val succ_e : t -> elt -> elt [@@ocaml.deprecated "Use succ_elt."]
+  val min_elt : t -> elt [@@ocaml.deprecated "Renamed to min_elt_exn."]
+  val max_elt : t -> elt [@@ocaml.deprecated "Renamed to max_elt_exn."]
 end
 
 module type S_monadic = sig
