@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -56,17 +56,17 @@ module type S = sig
 
   val get : t -> int -> elt
 
-  val min_e : t -> elt
+  val min_exn : t -> elt
 
-  val max_e : t -> elt
+  val max_exn : t -> elt
 
-  val pred_e : t -> key -> elt
+  val pred_exn : t -> key -> elt
 
-  val succ_e : t -> key -> elt
+  val succ_exn : t -> key -> elt
 
-  val elt_pred_e : t -> elt -> elt
+  val elt_pred_exn : t -> elt -> elt
 
-  val elt_succ_e : t -> elt -> elt
+  val elt_succ_exn : t -> elt -> elt
 
   (** {2 Element Updates} *)
 
@@ -74,9 +74,9 @@ module type S = sig
 
   val pop : key -> t -> (elt * t) option
 
-  val pop_min_e : t -> elt * t
+  val pop_min_exn : t -> elt * t
 
-  val pop_max_e : t -> elt * t
+  val pop_max_exn : t -> elt * t
 
   val remove : key -> t -> t
 
@@ -115,6 +115,16 @@ module type S = sig
   val find_o : key -> t -> elt option [@@ocaml.deprecated "Use app."]
   val get_e : int -> t -> elt [@@ocaml.deprecated "Use get."]
   val get_o : int -> t -> elt option [@@ocaml.deprecated "Use get."]
+  val min_e : t -> elt [@@ocaml.deprecated "Renamed to min_exn."]
+  val max_e : t -> elt [@@ocaml.deprecated "Renamed to max_exn."]
+  val pred_e : t -> key -> elt [@@ocaml.deprecated "Renamed to pred_exn."]
+  val succ_e : t -> key -> elt [@@ocaml.deprecated "Renamed to succ_exn."]
+  val elt_pred_e : t -> elt -> elt
+    [@@ocaml.deprecated "Renamed to elt_pred_exn."]
+  val elt_succ_e : t -> elt -> elt
+    [@@ocaml.deprecated "Renamed to elt_succ_exn."]
+  val pop_min_e : t -> elt * t [@@ocaml.deprecated "Renamed to pop_min_exn."]
+  val pop_max_e : t -> elt * t [@@ocaml.deprecated "Renamed to pop_max_exn."]
 end
 
 module Make (Elt : RETRACTABLE) : S with type elt = Elt.t and type key = Elt.key

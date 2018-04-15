@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -44,11 +44,11 @@ let test_push () =
   assert (L.compare compare l3 l2 = 1);
   assert (L.equal (=) l3 l2 = false);
   if n > 0 then begin
-    let l4 = L.push_first (n + 1) (snd (L.pop_first_e l2)) in
+    let l4 = L.push_first (n + 1) (snd (L.pop_first_exn l2)) in
     assert (L.compare compare l2 l4 = -1);
     assert (L.compare compare l4 l2 = 1);
     assert (L.equal (=) l2 l4 = false);
-    let l5 = L.push_first (-1) (snd (L.pop_first_e l2)) in
+    let l5 = L.push_first (-1) (snd (L.pop_first_exn l2)) in
     assert (L.compare compare l2 l5 = 1);
     assert (L.compare compare l5 l2 = -1);
     assert (L.equal (=) l2 l5 = false)

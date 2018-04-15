@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -36,13 +36,13 @@ val set : int -> 'a -> 'a t -> 'a t
 
 val update : int -> ('a -> 'a) -> 'a t -> 'a t
 
-val first_e : 'a t -> 'a
+val first_exn : 'a t -> 'a
 
-val last_e : 'a t -> 'a
+val last_exn : 'a t -> 'a
 
-val pop_first_e : 'a t -> 'a * 'a t
+val pop_first_exn : 'a t -> 'a * 'a t
 
-val pop_last_e : 'a t -> 'a * 'a t
+val pop_last_exn : 'a t -> 'a * 'a t
 
 val push_first : 'a -> 'a t -> 'a t
 
@@ -89,3 +89,13 @@ val fmapi : (int -> 'a -> 'b option) -> 'a t -> 'b t
 val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
 
 val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
+
+(**/**)
+val first_e : 'a t -> 'a
+  [@@ocaml.deprecated "Renamed to first_exn."]
+val last_e : 'a t -> 'a
+  [@@ocaml.deprecated "Renamed to last_exn."]
+val pop_first_e : 'a t -> 'a * 'a t
+  [@@ocaml.deprecated "Renamed to pop_first_exn."]
+val pop_last_e : 'a t -> 'a * 'a t
+  [@@ocaml.deprecated "Renamed to pop_last_exn."]

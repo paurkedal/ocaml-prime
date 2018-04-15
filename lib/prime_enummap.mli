@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -63,7 +63,7 @@ module type S = sig
       is bound in [m] and [pos] is the number of keys of [m] preceding [k]. *)
 
   val get : 'a t -> int -> 'a
-  (** [get_e i m] is the [i]th value of [m].
+  (** [get i m] is the [i]th value of [m].
       @raise Invalid_argument if the index is out of bounds. *)
 
   val get_binding : 'a t -> int -> key * 'a

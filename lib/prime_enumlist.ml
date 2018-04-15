@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -66,15 +66,15 @@ let rec update i f s =
     if i > nL then Y (n, eC, sL, update (i - nL - 1) f sR) else
     Y (n, f eC, sL, sR)
 
-let rec first_e = function
-  | O -> invalid_arg "Prime_enumlist.first_e"
+let rec first_exn = function
+  | O -> invalid_arg "Prime_enumlist.first_exn"
   | Y (_, eC, O, _) -> eC
-  | Y (_, _, sL, _) -> first_e sL
+  | Y (_, _, sL, _) -> first_exn sL
 
-let rec last_e = function
-  | O -> invalid_arg "Prime_enumlist.last_e"
+let rec last_exn = function
+  | O -> invalid_arg "Prime_enumlist.last_exn"
   | Y (_, eC, _, O) -> eC
-  | Y (_, _, _, sR) -> last_e sR
+  | Y (_, _, _, sR) -> last_exn sR
 
 let bal n eC sL sR =
   match sL, sR with
@@ -85,15 +85,19 @@ let bal n eC sL sR =
   | _, _ ->
     Y (n, eC, sL, sR)
 
-let rec pop_first_e = function
-  | O -> invalid_arg "Prime_enumlist.pop_first_e"
+let rec pop_first_exn = function
+  | O -> invalid_arg "Prime_enumlist.pop_first_exn"
   | Y (_, eC, O, sR) -> eC, sR
-  | Y (n, eC, sL, sR) -> let e', sL' = pop_first_e sL in e', bal (n-1) eC sL' sR
+  | Y (n, eC, sL, sR) ->
+    let e', sL' = pop_first_exn sL in
+    (e', bal (n-1) eC sL' sR)
 
-let rec pop_last_e = function
-  | O -> invalid_arg "Prime_enumlist.pop_last_e"
+let rec pop_last_exn = function
+  | O -> invalid_arg "Prime_enumlist.pop_last_exn"
   | Y (_, eC, sL, O) -> eC, sL
-  | Y (n, eC, sL, sR) -> let e', sR' = pop_last_e sR in e', bal (n-1) eC sL sR'
+  | Y (n, eC, sL, sR) ->
+    let e', sR' = pop_last_exn sR in
+    (e', bal (n-1) eC sL sR')
 
 let rec push_first e = function
   | O -> Y (1, e, O, O)
@@ -115,7 +119,7 @@ let rec glue e sL sR =
 let cat sL sR =
   match sL, sR with
   | O, s | s, O -> s
-  | _, _ -> let e, sL' = pop_last_e sL in glue e sL' sR
+  | _, _ -> let e, sL' = pop_last_exn sL in glue e sL' sR
 
 let rec cut i = function
   | O -> if i = 0 then (O, O) else invalid_arg "Prime_enumlist.cut_at"
@@ -133,8 +137,8 @@ let rec delete i = function
     if i > nL then bal (n - 1) eC sL (delete (i - nL - 1) sR) else
     if n = 1 then O else
     if length sL > length sR
-    then let eC', sL' = pop_last_e sL in Y (n - 1, eC', sL', sR)
-    else let eC', sR' = pop_first_e sR in Y (n - 1, eC', sL, sR')
+    then let eC', sL' = pop_last_exn sL in Y (n - 1, eC', sL', sR)
+    else let eC', sR' = pop_first_exn sR in Y (n - 1, eC', sL, sR')
 
 let rec insert i e = function
   | O -> if i = 0 then Y (1, e, O, O) else invalid_arg "Prime_enumlist.insert"
@@ -260,3 +264,9 @@ let equal f sA sB =
     | More (eA, sA, qA), More (eB, sB, qB) ->
       f eA eB && aux (cons_enum sA qA, cons_enum sB qB) in
   aux (cons_enum sA End, cons_enum sB End)
+
+(* deprecated *)
+let first_e = first_exn
+let last_e = last_exn
+let pop_first_e = pop_first_exn
+let pop_last_e = pop_last_exn

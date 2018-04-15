@@ -37,16 +37,16 @@ module type S = sig
   val locate : key -> t -> bool * int
   val locate_elt : elt -> t -> bool * int
   val get : t -> int -> elt
-  val min_e : t -> elt
-  val max_e : t -> elt
-  val pred_e : t -> key -> elt
-  val succ_e : t -> key -> elt
-  val elt_pred_e : t -> elt -> elt
-  val elt_succ_e : t -> elt -> elt
+  val min_exn : t -> elt
+  val max_exn : t -> elt
+  val pred_exn : t -> key -> elt
+  val succ_exn : t -> key -> elt
+  val elt_pred_exn : t -> elt -> elt
+  val elt_succ_exn : t -> elt -> elt
   val add : elt -> t -> t
   val pop : key -> t -> (elt * t) option
-  val pop_min_e : t -> elt * t
-  val pop_max_e : t -> elt * t
+  val pop_min_exn : t -> elt * t
+  val pop_max_exn : t -> elt * t
   val remove : key -> t -> t
   val cut : key -> t -> elt option * t * t
   val search : (elt -> 'a option) -> t -> 'a option
@@ -67,6 +67,14 @@ module type S = sig
   val find_o : key -> t -> elt option [@@ocaml.deprecated]
   val get_e : int -> t -> elt [@@ocaml.deprecated]
   val get_o : int -> t -> elt option [@@ocaml.deprecated]
+  val min_e : t -> elt [@@ocaml.deprecated]
+  val max_e : t -> elt [@@ocaml.deprecated]
+  val pred_e : t -> key -> elt [@@ocaml.deprecated]
+  val succ_e : t -> key -> elt [@@ocaml.deprecated]
+  val elt_pred_e : t -> elt -> elt [@@ocaml.deprecated]
+  val elt_succ_e : t -> elt -> elt [@@ocaml.deprecated]
+  val pop_min_e : t -> elt * t [@@ocaml.deprecated]
+  val pop_max_e : t -> elt * t [@@ocaml.deprecated]
 end
 
 exception Keep
@@ -162,47 +170,47 @@ module Make (Elt : RETRACTABLE) = struct
       if i > nL then get cR (i - nL - 1) else
       eC
 
-  let rec min_e = function
+  let rec min_exn = function
     | O -> raise Not_found
     | Y (_, eC, O, _) -> eC
-    | Y (_, _, cL, _) -> min_e cL
+    | Y (_, _, cL, _) -> min_exn cL
 
-  let rec max_e = function
+  let rec max_exn = function
     | O -> raise Not_found
     | Y (_, eC, _, O) -> eC
-    | Y (_, _, _, cR) -> max_e cR
+    | Y (_, _, _, cR) -> max_exn cR
 
-  let rec pred_e = function
+  let rec pred_exn = function
     | O -> fun _ -> raise Not_found
     | Y (_, eC, cL, cR) -> fun k ->
       let o = Elt.compare_key k eC in
-      if o < 0 then pred_e cL k else
-      if o > 0 then try pred_e cR k with Not_found -> eC else
-      max_e cL
+      if o < 0 then pred_exn cL k else
+      if o > 0 then try pred_exn cR k with Not_found -> eC else
+      max_exn cL
 
-  let rec succ_e = function
+  let rec succ_exn = function
     | O -> fun _ -> raise Not_found
     | Y (_, eC, cL, cR) -> fun k ->
       let o = Elt.compare_key k eC in
-      if o < 0 then try succ_e cL k with Not_found -> eC else
-      if o > 0 then succ_e cR k else
-      min_e cR
+      if o < 0 then try succ_exn cL k with Not_found -> eC else
+      if o > 0 then succ_exn cR k else
+      min_exn cR
 
-  let rec elt_pred_e = function
+  let rec elt_pred_exn = function
     | O -> fun _ -> raise Not_found
     | Y (_, eC, cL, cR) -> fun e ->
       let o = Elt.compare e eC in
-      if o < 0 then elt_pred_e cL e else
-      if o > 0 then try elt_pred_e cR e with Not_found -> eC else
-      max_e cL
+      if o < 0 then elt_pred_exn cL e else
+      if o > 0 then try elt_pred_exn cR e with Not_found -> eC else
+      max_exn cL
 
-  let rec elt_succ_e = function
+  let rec elt_succ_exn = function
     | O -> fun _ -> raise Not_found
     | Y (_, eC, cL, cR) -> fun e ->
       let o = Elt.compare e eC in
-      if o < 0 then try elt_succ_e cL e with Not_found -> eC else
-      if o > 0 then elt_succ_e cR e else
-      min_e cR
+      if o < 0 then try elt_succ_exn cL e with Not_found -> eC else
+      if o > 0 then elt_succ_exn cR e else
+      min_exn cR
 
   let bal_y n eC cL cR =
     match cL, cR with
@@ -230,17 +238,17 @@ module Make (Elt : RETRACTABLE) = struct
       raise Keep
   let add e c = try add' e c with Keep -> c
 
-  let rec pop_min_e = function
+  let rec pop_min_exn = function
     | O -> raise Not_found
     | Y (_, eC, O, cR) -> eC, cR
     | Y (n, eC, cL, cR) ->
-      let e', cL' = pop_min_e cL in e', bal_y (n - 1) eC cL' cR
+      let e', cL' = pop_min_exn cL in e', bal_y (n - 1) eC cL' cR
 
-  let rec pop_max_e = function
+  let rec pop_max_exn = function
     | O -> raise Not_found
     | Y (_, eC, cL, O) -> eC, cL
     | Y (n, eC, cL, cR) ->
-      let e', cR' = pop_max_e cR in e', bal_y (n - 1) eC cL cR'
+      let e', cR' = pop_max_exn cR in e', bal_y (n - 1) eC cL cR'
 
   let rec glue e cL cR =
     match cL, cR with
@@ -254,14 +262,14 @@ module Make (Elt : RETRACTABLE) = struct
   let cat cL cR =
     match cL, cR with
     | O, s | s, O -> s
-    | _ -> let e, cL' = pop_max_e cL in glue e cL' cR
+    | _ -> let e, cL' = pop_max_exn cL in glue e cL' cR
 
   let cat_balanced n cL cR =
     if n = 0 then O else
     if cardinal cL > cardinal cR then
-      let eC', cL' = pop_max_e cL in Y (n, eC', cL', cR)
+      let eC', cL' = pop_max_exn cL in Y (n, eC', cL', cR)
     else
-      let eC', cR' = pop_min_e cR in Y (n, eC', cL, cR')
+      let eC', cR' = pop_min_exn cR in Y (n, eC', cL, cR')
 
 (*
   let glue_opt = function None -> cat | Some e -> glue e
@@ -426,7 +434,7 @@ module Make (Elt : RETRACTABLE) = struct
         | None -> cat cL cR
         | Some eB -> check_glue_opt ~msg f eA eB cL cR
 
-  (**/**)
+  (* deprecated *)
   let get_e i m = get m i
   let rec get_o i = function
     | O -> None
@@ -435,4 +443,12 @@ module Make (Elt : RETRACTABLE) = struct
       if i < nL then get_o i cL else
       if i > nL then get_o (i - nL - 1) cR else
       Some eC
+  let min_e = min_exn
+  let max_e = max_exn
+  let pred_e = pred_exn
+  let succ_e = succ_exn
+  let elt_pred_e = elt_pred_exn
+  let elt_succ_e = elt_succ_exn
+  let pop_min_e = pop_min_exn
+  let pop_max_e = pop_max_exn
 end
