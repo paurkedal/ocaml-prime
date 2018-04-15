@@ -44,6 +44,12 @@ let rec fold f xs accu =
   | [] -> accu
   | x :: xs' -> fold f xs' (f x accu)
 
+let rev_filter f xs =
+  let rec loop acc = function
+   | [] -> acc
+   | x :: xs -> loop (if f x then x :: acc else acc) xs in
+  loop [] xs
+
 let fmap f xs =
   let rec loop ys = function
     | [] -> ys

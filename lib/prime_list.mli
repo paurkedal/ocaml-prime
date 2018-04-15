@@ -44,6 +44,9 @@ val fold : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
 (** [fold f [x₁; …; xₙ]] returns the composition [f xₙ ∘ ⋯ ∘ f x₁].  This is
     [fold_left] with parameters reordered to make it more composable. *)
 
+val rev_filter : ('a -> bool) -> 'a list -> 'a list
+(** [rev_filter xs] is [rev (filter xs)] but faster. *)
+
 val fmap : ('a -> 'b option) -> 'a list -> 'b list
 (** [fmap f xs] is the list of all [y] such that [f x = Some y] for some [x]
     in [xs], and having the same order as the corresponding elemets of [xs].
