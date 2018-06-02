@@ -125,6 +125,6 @@ val rev_interfix : 'a -> 'a list -> 'a list
 
 (**/**)
 val filter_map : ('a -> 'b option) -> 'a list -> 'b list
-(** @deprecated Renamed to fmap. *)
-
-val push : 'a -> 'a list -> 'a list [@@deprecated "Use List.cons."]
+[@@ocaml.deprecated "Renamed to fmap."]
+val push : 'a -> 'a list -> 'a list
+[@@ocaml.deprecated "Use List.cons."]
