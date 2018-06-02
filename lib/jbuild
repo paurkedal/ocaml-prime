@@ -46,6 +46,10 @@
     Prime_wallet
     Unprime_enumlist))
   (modules_without_implementation
-   (Prime_accretion_map_intf
-    Prime_sigs))
+   (Prime_sigs))
   (libraries (prime))))
+
+(rule
+ ((targets (prime_accretion_map_intf.ml))
+  (deps (prime_accretion_map_intf.mli))
+  (action (copy ${<} ${@}))))
