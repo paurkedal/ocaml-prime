@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.8.2] - 2018-05-02
+
+- Rename `_e` extensions to `_exn` many places for consistency with stdlib.
+- Rename all `contains` and `contains_elt` to `mem` and `mem_elt` for
+  consistency with stdlib.
+- In `Prime_enumset`, rename `{min,max}_elt` to `{min,max}_elt_exn`.
+- Add `List.rev_filter`.
+
 ## [0.8.1] - 2018-04-02
 
 - Add integer functions: `pow`, `fact`, and `binom`.
@@ -49,6 +57,7 @@
 - Composition operators `*>` and `*<`.
 - `Prime_array.filter_map`.
 
+[0.8.2]: https://github.com/paurkedal/ocaml-prime/compare/v0.8.1...v0.8.2
 [0.8.1]: https://github.com/paurkedal/ocaml-prime/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/paurkedal/ocaml-prime/compare/0.7.1...v0.8.0
 [0.7.1]: https://github.com/paurkedal/ocaml-prime/compare/0.7.0...0.7.1
