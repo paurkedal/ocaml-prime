@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -36,7 +36,7 @@ let test_pop_remove () =
   let m = random_retraction n_max in
   for _ = 0 to 15 do
     let k = Random.int n_max in
-    if not (R.contains k m) then begin
+    if not (R.mem k m) then begin
       assert (R.pop k m = None);
       let m' = R.add k m in
       assert (R.equal (R.remove k m') m);
@@ -57,7 +57,7 @@ let test_alg () =
   let rAsB = R.funion (fun _ _ -> None) rA rB in (* sym. diff *)
   let rAcB = R.fcompl (fun _ _ -> None) rA rB in
   let rAuB' = R.fold R.add rB rA in
-  let rAnB' = R.filter (fun e -> R.contains e rA) rB in
+  let rAnB' = R.filter (fun e -> R.mem e rA) rB in
   let rAcB' = R.fold R.remove rA rB in
   assert (R.equal rAuB rAuB');
   assert (R.equal rAnB rAnB');

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -58,7 +58,7 @@ let test_pop_remove () =
   let m = random_emap n_max in
   for _ = 0 to 15 do
     let k = Random.int n_max in
-    if not (Int_emap.contains k m) then begin
+    if not (Int_emap.mem k m) then begin
       assert (Int_emap.pop k m = None);
       let m' = Int_emap.add k (2*k + 1) m in
       assert (Int_emap.equal (=) (Int_emap.remove k m') m);
@@ -95,7 +95,7 @@ let test_alg () =
   let mB = random_emap n_max in
   let mAnB = Int_emap.finter (fun _ x y -> Some (max x y)) mA mB in
   let mAnB' = Int_emap.merge (fun _ -> Option.inter max) mA mB in
-  let mAnB'' = Int_emap.filter (fun k _ -> Int_emap.contains k mB) mA in
+  let mAnB'' = Int_emap.filter (fun k _ -> Int_emap.mem k mB) mA in
   assert (Int_emap.equal (=) mAnB mAnB');
   assert (Int_emap.equal (>=) mAnB mAnB'');
   let mAuB = Int_emap.funion (fun _ x y -> Some (max x y)) mA mB in
@@ -148,8 +148,8 @@ let run () =
       let j = Random.int imax in
       let em' = Int_emap.remove i em in
       let em'' = Int_emap.add j (j + 1) em' in
-      assert (not (Int_emap.contains i em'));
-      assert (Int_emap.contains j em'');
+      assert (not (Int_emap.mem i em'));
+      assert (Int_emap.mem j em'');
       assert_equal (Int_emap.find j em'') (j + 1);
       populate imax (n - 1) (Int_map.add j (j + 1) (Int_map.remove i m)) em'' in
     let n = Random.int (1 lsl Random.int 10) + 1 in

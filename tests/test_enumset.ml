@@ -90,14 +90,14 @@ let test_alg () =
   assert (not (Int_eset.subset sB sAnB) || Int_eset.equal sB sAnB);
   let sAnB' =
     Array.fold
-      (fun i -> if Int_eset.contains i sA then Int_eset.add i else ident)
+      (fun i -> if Int_eset.mem i sA then Int_eset.add i else ident)
       esB Int_eset.empty in
   assert (Int_eset.equal sAnB sAnB');
-  let sAnB'' = Int_eset.filter (fun e -> Int_eset.contains e sA) sB in
+  let sAnB'' = Int_eset.filter (fun e -> Int_eset.mem e sA) sB in
   assert (Int_eset.equal sAnB sAnB'');
   let sAcB = Int_eset.compl sA sB in
   assert (Int_eset.subset sAcB sB);
-  let sAcB' = Int_eset.filter (fun e -> not (Int_eset.contains e sA)) sB in
+  let sAcB' = Int_eset.filter (fun e -> not (Int_eset.mem e sA)) sB in
   assert (Int_eset.equal sAcB sAcB')
 
 let test_elements () =
@@ -119,8 +119,8 @@ let run () =
       let j = Random.int imax in
       let es' = Int_eset.remove i es in
       let es'' = Int_eset.add j es' in
-      assert (not (Int_eset.contains i es'));
-      assert (Int_eset.contains j es'');
+      assert (not (Int_eset.mem i es'));
+      assert (Int_eset.mem j es'');
       populate imax (n - 1) (Int_set.add j (Int_set.remove i s)) es'' in
     let n = Random.int (1 lsl Random.int 10) + 1 in
     let s, es = populate n n Int_set.empty Int_eset.empty in
