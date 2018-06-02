@@ -152,7 +152,7 @@ module type S = sig
   val succ_e : t -> elt -> elt [@@ocaml.deprecated "Use succ_elt."]
   val min_elt : t -> elt [@@ocaml.deprecated "Renamed to min_elt_exn."]
   val max_elt : t -> elt [@@ocaml.deprecated "Renamed to max_elt_exn."]
-  (* 2018-05 *)
+  (* 2018-06 *)
   val contains : elt -> t -> bool [@@ocaml.deprecated "Renamed to mem."]
 end
 

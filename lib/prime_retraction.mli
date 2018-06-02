@@ -125,7 +125,7 @@ module type S = sig
     [@@ocaml.deprecated "Renamed to elt_succ_exn."]
   val pop_min_e : t -> elt * t [@@ocaml.deprecated "Renamed to pop_min_exn."]
   val pop_max_e : t -> elt * t [@@ocaml.deprecated "Renamed to pop_max_exn."]
-  (* 2018-05 *)
+  (* 2018-06 *)
   val contains : key -> t -> bool [@@ocaml.deprecated "Renamed to mem."]
   val contains_elt : elt -> t -> bool [@@ocaml.deprecated "Renamed to mem."]
 end

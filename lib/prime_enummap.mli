@@ -208,7 +208,7 @@ module type S = sig
     [@@ocaml.deprecated "Renamed to pred_binding."]
   val succ_binding_o : 'a t -> key -> (key * 'a) option
     [@@ocaml.deprecated "Renamed to succ_binding."]
-  (* 2018-05 *)
+  (* 2018-06 *)
   val contains : key -> 'a t -> bool [@@ocaml.deprecated "Renamed to mem."]
 end
 
