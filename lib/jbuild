@@ -45,4 +45,7 @@
     Prime_sigs
     Prime_wallet
     Unprime_enumlist))
+  (modules_without_implementation
+   (Prime_accretion_map_intf
+    Prime_sigs))
   (libraries (prime))))
