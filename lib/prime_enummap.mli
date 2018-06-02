@@ -46,8 +46,8 @@ module type S = sig
   val cardinal : 'a t -> int
   (** [cardinal m] is the cardinality of [m]. *)
 
-  val contains : key -> 'a t -> bool
-  (** [contains k m] is true iff [m] has a binding for [k]. *)
+  val mem : key -> 'a t -> bool
+  (** [mem k m] is true iff [m] has a binding for [k]. *)
 
   val app : 'a t -> key -> 'a option
   (** [app m] is the partial function corresponding to [m].  This is the same as
@@ -208,6 +208,8 @@ module type S = sig
     [@@ocaml.deprecated "Renamed to pred_binding."]
   val succ_binding_o : 'a t -> key -> (key * 'a) option
     [@@ocaml.deprecated "Renamed to succ_binding."]
+  (* 2018-05 *)
+  val contains : key -> 'a t -> bool [@@ocaml.deprecated "Renamed to mem."]
 end
 
 module type S_monadic = sig

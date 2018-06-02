@@ -30,8 +30,8 @@ module type S = sig
   val is_empty : t -> bool
   val cardinal : t -> int
   val elements : t -> elt list
-  val contains : key -> t -> bool
-  val contains_elt : elt -> t -> bool
+  val mem : key -> t -> bool
+  val mem_elt : elt -> t -> bool
   val app : t -> key -> elt option
   val find : key -> t -> elt
   val locate : key -> t -> bool * int
@@ -75,6 +75,8 @@ module type S = sig
   val elt_succ_e : t -> elt -> elt [@@ocaml.deprecated]
   val pop_min_e : t -> elt * t [@@ocaml.deprecated]
   val pop_max_e : t -> elt * t [@@ocaml.deprecated]
+  val contains : key -> t -> bool [@@ocaml.deprecated]
+  val contains_elt : elt -> t -> bool [@@ocaml.deprecated]
 end
 
 exception Keep
@@ -99,20 +101,20 @@ module Make (Elt : RETRACTABLE) = struct
 
   let cardinal = function O -> 0 | Y (n, _, _, _) -> n
 
-  let rec contains k = function
+  let rec mem k = function
     | O -> false
     | Y (_, eC, cL, cR) ->
       let o = Elt.compare_key k eC in
-      if o < 0 then contains k cL else
-      if o > 0 then contains k cR else
+      if o < 0 then mem k cL else
+      if o > 0 then mem k cR else
       true
 
-  let rec contains_elt e = function
+  let rec mem_elt e = function
     | O -> false
     | Y (_, eC, cL, cR) ->
       let o = Elt.compare e eC in
-      if o < 0 then contains_elt e cL else
-      if o > 0 then contains_elt e cR else
+      if o < 0 then mem_elt e cL else
+      if o > 0 then mem_elt e cR else
       true
 
   let rec app m k =
@@ -451,4 +453,6 @@ module Make (Elt : RETRACTABLE) = struct
   let elt_succ_e = elt_succ_exn
   let pop_min_e = pop_min_exn
   let pop_max_e = pop_max_exn
+  let contains = mem
+  let contains_elt = mem_elt
 end

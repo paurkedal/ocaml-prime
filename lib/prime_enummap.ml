@@ -29,7 +29,7 @@ module type S = sig
   val singleton : key -> 'a -> 'a t
   val is_empty : 'a t -> bool
   val cardinal : 'a t -> int
-  val contains : key -> 'a t -> bool
+  val mem : key -> 'a t -> bool
   val app : 'a t -> key -> 'a option
   val find : key -> 'a t -> 'a
   val locate : key -> 'a t -> bool * int
@@ -77,6 +77,7 @@ module type S = sig
   val succ_binding_e : 'a t -> key -> key * 'a [@@ocaml.deprecated]
   val pred_binding_o : 'a t -> key -> (key * 'a) option [@@ocaml.deprecated]
   val succ_binding_o : 'a t -> key -> (key * 'a) option [@@ocaml.deprecated]
+  val contains : key -> 'a t -> bool [@@ocaml.deprecated]
 end
 
 module type S_monadic = sig
@@ -117,12 +118,12 @@ module Make (K : OrderedType) = struct
 
   let is_empty = function O -> true | _ -> false
 
-  let rec contains k = function
+  let rec mem k = function
     | O -> false
     | Y (_, kC, _, mL, mR) ->
       let o = K.compare k kC in
-      if o < 0 then contains k mL else
-      if o > 0 then contains k mR else
+      if o < 0 then mem k mL else
+      if o > 0 then mem k mR else
       true
 
   let rec app m k =
@@ -569,6 +570,7 @@ module Make (K : OrderedType) = struct
   let succ_binding_o = succ_binding
   let pred_binding_e m k = Prime_option.get (pred_binding m k)
   let succ_binding_e m k = Prime_option.get (succ_binding m k)
+  let contains = mem
 end
 
 module Make_monadic (Key : OrderedType) (Monad : Monad) = struct

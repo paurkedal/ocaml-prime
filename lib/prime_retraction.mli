@@ -42,9 +42,9 @@ module type S = sig
 
   (** {2 Element Inspection} *)
 
-  val contains : key -> t -> bool
+  val mem : key -> t -> bool
 
-  val contains_elt : elt -> t -> bool
+  val mem_elt : elt -> t -> bool
 
   val app : t -> key -> elt option
 
@@ -125,6 +125,9 @@ module type S = sig
     [@@ocaml.deprecated "Renamed to elt_succ_exn."]
   val pop_min_e : t -> elt * t [@@ocaml.deprecated "Renamed to pop_min_exn."]
   val pop_max_e : t -> elt * t [@@ocaml.deprecated "Renamed to pop_max_exn."]
+  (* 2018-05 *)
+  val contains : key -> t -> bool [@@ocaml.deprecated "Renamed to mem."]
+  val contains_elt : elt -> t -> bool [@@ocaml.deprecated "Renamed to mem."]
 end
 
 module Make (Elt : RETRACTABLE) : S with type elt = Elt.t and type key = Elt.key

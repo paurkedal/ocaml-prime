@@ -29,7 +29,7 @@ module type S = sig
   val singleton : elt -> t
   val is_empty : t -> bool
   val cardinal : t -> int
-  val contains : elt -> t -> bool
+  val mem : elt -> t -> bool
   val locate : elt -> t -> bool * int
   val get : t -> int -> elt
   val choose : t -> elt
@@ -64,6 +64,7 @@ module type S = sig
   val succ_e : t -> elt -> elt [@@ocaml.deprecated]
   val min_elt : t -> elt [@@ocaml.deprecated]
   val max_elt : t -> elt [@@ocaml.deprecated]
+  val contains : elt -> t -> bool [@@ocaml.deprecated]
 end
 
 module type S_monadic = sig
@@ -101,12 +102,12 @@ module Make (E : OrderedType) = struct
 
   let is_empty = function O -> true | _ -> false
 
-  let rec contains e = function
+  let rec mem e = function
     | O -> false
     | Y (_, eC, sL, sR) ->
       let o = E.compare e eC in
-      if o < 0 then contains e sL else
-      if o > 0 then contains e sR else
+      if o < 0 then mem e sL else
+      if o > 0 then mem e sR else
       true
 
   let cardinal = function O -> 0 | Y (n, _, _, _) -> n
@@ -378,6 +379,7 @@ module Make (E : OrderedType) = struct
   let succ_e s e = Prime_option.get (succ_elt s e)
   let min_elt = min_elt_exn
   let max_elt = max_elt_exn
+  let contains = mem
 
   module Make_monadic (M : Monad) = struct
 
