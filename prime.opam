@@ -7,11 +7,11 @@ bug-reports: "https://github.com/paurkedal/ocaml-prime/issues"
 dev-repo: "https://github.com/paurkedal/ocaml-prime.git"
 license: "LGPL-3 with OCaml linking exception"
 
-build: [["jbuilder" "build" "-p" name "-j" jobs]]
-build-test: [["jbuilder" "runtest" "-p" name "-j" jobs]]
+build: ["dune" "build" "-p" name "-j" jobs]
+build-test: ["dune" "runtest" "-p" name "-j" jobs]
 
 depends: [
-  "jbuilder" {build}
+  "dune" {build}
   "ounit" {test}
 ]
 available: [ocaml-version >= "4.02.3"]

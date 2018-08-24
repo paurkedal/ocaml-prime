@@ -1,11 +1,9 @@
-(jbuild_version 1)
-
 (library
- ((name prime)
+  (name prime)
   (public_name prime)
   (wrapped false)
   (modules
-   (Prime
+    Prime
     Prime_array
     Prime_buffer
     Prime_char
@@ -24,14 +22,14 @@
     Unprime_char
     Unprime_list
     Unprime_option
-    Unprime_string))))
+    Unprime_string))
 
 (library
- ((name prime_unstable)
+  (name prime_unstable)
   (public_name prime.unstable)
   (wrapped false)
   (modules
-   (Prime_accretion_map
+    Prime_accretion_map
     Prime_accretion_map_intf
     Prime_beacon
     Prime_cache
@@ -44,12 +42,12 @@
     Prime_retraction
     Prime_sigs
     Prime_wallet
-    Unprime_enumlist))
+    Unprime_enumlist)
   (modules_without_implementation
-   (Prime_sigs))
-  (libraries (prime))))
+    Prime_sigs)
+  (libraries prime))
 
 (rule
- ((targets (prime_accretion_map_intf.ml))
-  (deps (prime_accretion_map_intf.mli))
-  (action (copy ${<} ${@}))))
+  (targets prime_accretion_map_intf.ml)
+  (deps prime_accretion_map_intf.mli)
+  (action (copy %{deps} %{targets})))

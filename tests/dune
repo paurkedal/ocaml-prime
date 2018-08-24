@@ -1,0 +1,8 @@
+(executable
+  (name testsuite)
+  (libraries oUnit prime prime_unstable))
+
+(alias
+  (name runtest)
+  (deps testsuite.exe)
+  (action (run %{deps})))
