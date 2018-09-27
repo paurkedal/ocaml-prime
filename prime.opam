@@ -1,17 +1,17 @@
-opam-version: "1.2"
+opam-version: "2.0"
 name: "prime"
-author: "Petter A. Urkedal <paurkedal@gmail.com>"
 maintainer: "Petter A. Urkedal <paurkedal@gmail.com>"
+authors: "Petter A. Urkedal <paurkedal@gmail.com>"
+license: "LGPL-3 with OCaml linking exception"
 homepage: "https://github.com/paurkedal/ocaml-prime/"
 bug-reports: "https://github.com/paurkedal/ocaml-prime/issues"
-dev-repo: "https://github.com/paurkedal/ocaml-prime.git"
-license: "LGPL-3 with OCaml linking exception"
-
-build: ["dune" "build" "-p" name "-j" jobs]
-build-test: ["dune" "runtest" "-p" name "-j" jobs]
-
 depends: [
+  "ocaml" {>= "4.02.3"}
   "dune" {build}
-  "ounit" {test}
+  "ounit" {with-test}
 ]
-available: [ocaml-version >= "4.02.3"]
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
+]
+dev-repo: "git+https://github.com/paurkedal/ocaml-prime.git"
