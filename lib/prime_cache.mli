@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -40,7 +40,3 @@ val replace : ('a, 'b) t -> float -> 'a -> 'b -> unit
 val remove : ('a, 'b) t -> 'a -> unit
 (** [remove ct k] removes any entry cached under [k] from [ct].  Does nothing
     if [k] is not in the cache. *)
-
-(**/**)
-val find_o : ('a, 'b) t -> 'a -> 'b option
-  [@@ocaml.deprecated "Renamed to app."]

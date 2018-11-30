@@ -62,21 +62,6 @@ module type S = sig
   val funion : (elt -> elt -> elt option) -> t -> t -> t
   val fcompl : (elt -> elt -> elt option) -> t -> t -> t
 
-  (**/**)
-  val find_e : key -> t -> elt [@@ocaml.deprecated]
-  val find_o : key -> t -> elt option [@@ocaml.deprecated]
-  val get_e : int -> t -> elt [@@ocaml.deprecated]
-  val get_o : int -> t -> elt option [@@ocaml.deprecated]
-  val min_e : t -> elt [@@ocaml.deprecated]
-  val max_e : t -> elt [@@ocaml.deprecated]
-  val pred_e : t -> key -> elt [@@ocaml.deprecated]
-  val succ_e : t -> key -> elt [@@ocaml.deprecated]
-  val elt_pred_e : t -> elt -> elt [@@ocaml.deprecated]
-  val elt_succ_e : t -> elt -> elt [@@ocaml.deprecated]
-  val pop_min_e : t -> elt * t [@@ocaml.deprecated]
-  val pop_max_e : t -> elt * t [@@ocaml.deprecated]
-  val contains : key -> t -> bool [@@ocaml.deprecated]
-  val contains_elt : elt -> t -> bool [@@ocaml.deprecated]
 end
 
 exception Keep
@@ -133,16 +118,6 @@ module Make (Elt : RETRACTABLE) = struct
       if o < 0 then find k cL else
       if o > 0 then find k cR else
       eC
-
-  let find_e = find
-
-  let rec find_o k = function
-    | O -> None
-    | Y (_, eC, cL, cR) ->
-      let o = Elt.compare_key k eC in
-      if o < 0 then find_o k cL else
-      if o > 0 then find_o k cR else
-      Some eC
 
   let rec locate' i k = function
     | O -> false, i
@@ -436,23 +411,4 @@ module Make (Elt : RETRACTABLE) = struct
         | None -> cat cL cR
         | Some eB -> check_glue_opt ~msg f eA eB cL cR
 
-  (* deprecated *)
-  let get_e i m = get m i
-  let rec get_o i = function
-    | O -> None
-    | Y (_n, eC, cL, cR) ->
-      let nL = cardinal cL in
-      if i < nL then get_o i cL else
-      if i > nL then get_o (i - nL - 1) cR else
-      Some eC
-  let min_e = min_exn
-  let max_e = max_exn
-  let pred_e = pred_exn
-  let succ_e = succ_exn
-  let elt_pred_e = elt_pred_exn
-  let elt_succ_e = elt_succ_exn
-  let pop_min_e = pop_min_exn
-  let pop_max_e = pop_max_exn
-  let contains = mem
-  let contains_elt = mem_elt
 end

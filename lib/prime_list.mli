@@ -53,6 +53,9 @@ val fmap : ('a -> 'b option) -> 'a list -> 'b list
     This provides an optimisation of [map Option.get (filter ((<>) None) (map
     f xs))]. *)
 
+val filter_map : ('a -> 'b option) -> 'a list -> 'b list
+(** An alias for {!fmap}. *)
+
 val flatten_map : ('a -> 'b list) -> 'a list -> 'b list
 (** [flatten_map f xs] is a tail-recursive optimisation of [flatten (map f
     xs)]. *)
@@ -122,9 +125,3 @@ val interfix : 'a -> 'a list -> 'a list
 
 val rev_interfix : 'a -> 'a list -> 'a list
 (** [rev_interfix x ys] is [List.rev (concat x ys)]. *)
-
-(**/**)
-val filter_map : ('a -> 'b option) -> 'a list -> 'b list
-[@@ocaml.deprecated "Renamed to fmap."]
-val push : 'a -> 'a list -> 'a list
-[@@ocaml.deprecated "Use List.cons."]

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2014  Petter Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -31,6 +31,8 @@ let fmap f xa =
     | None -> skip_phase (i + 1)
     | Some y -> fill_phase (Array.make (n - i) y) (i + 1) 1 in
   skip_phase 0
+
+let filter_map = fmap
 
 (* TODO: Optimise. *)
 let filter f = fmap (fun x -> if f x then Some x else None)
@@ -76,6 +78,3 @@ let search f xa =
   search_from 0
 
 let slice i j xa = sub xa i (j - i)
-
-(* Deprecated *)
-let filter_map = fmap

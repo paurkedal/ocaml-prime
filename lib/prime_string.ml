@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -178,7 +178,3 @@ let chop_consecutive f s =
     let i = rskip_until f s j in
     loop (rskip_while f s i) (slice i j s :: acc) in
   loop (rskip_while f s (length s)) []
-
-(**/**)
-let of_list = of_chars
-let to_list = to_chars

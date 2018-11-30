@@ -89,13 +89,3 @@ val fmapi : (int -> 'a -> 'b option) -> 'a t -> 'b t
 val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
 
 val equal : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
-
-(**/**)
-val first_e : 'a t -> 'a
-  [@@ocaml.deprecated "Renamed to first_exn."]
-val last_e : 'a t -> 'a
-  [@@ocaml.deprecated "Renamed to last_exn."]
-val pop_first_e : 'a t -> 'a * 'a t
-  [@@ocaml.deprecated "Renamed to pop_first_exn."]
-val pop_last_e : 'a t -> 'a * 'a t
-  [@@ocaml.deprecated "Renamed to pop_last_exn."]

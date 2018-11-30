@@ -194,22 +194,6 @@ module type S = sig
       and [mC'] has a binding [(k, f k a b)] for each pair of bindings [(k,
       a)] of [mA] and [(k, b)] of [mB] sharing [k]. *)
 
-  (**/**)
-  val card : 'a t -> int [@@ocaml.deprecated "Use cardinal"]
-  val cut : key -> 'a t -> 'a option * 'a t * 'a t
-    [@@ocaml.deprecated "Use cut_binding"]
-  val get_o : int -> 'a t -> 'a option [@@ocaml.deprecated "Use get."]
-  val get_e : int -> 'a t -> 'a [@@ocaml.deprecated "Use get."]
-  val pred_binding_e : 'a t -> key -> key * 'a
-    [@@ocaml.deprecated "Use pred_binding."]
-  val succ_binding_e : 'a t -> key -> key * 'a
-    [@@ocaml.deprecated "Use succ_binding."]
-  val pred_binding_o : 'a t -> key -> (key * 'a) option
-    [@@ocaml.deprecated "Renamed to pred_binding."]
-  val succ_binding_o : 'a t -> key -> (key * 'a) option
-    [@@ocaml.deprecated "Renamed to succ_binding."]
-  (* 2018-06 *)
-  val contains : key -> 'a t -> bool [@@ocaml.deprecated "Renamed to mem."]
 end
 
 module type S_monadic = sig

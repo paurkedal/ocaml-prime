@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -21,10 +21,6 @@ let ident x = x
 let konst x _ = x
 let (%) g f x = g (f x)
 let (%>) f g x = g (f x)
-let (<@) g f x = g (f x)
-let (@>) f g x = g (f x)
-let ( *< ) f g x = f (g x)
-let ( *> ) f g x = g (f x)
 let curry f x y = f (x, y)
 let uncurry f (x, y) = f x y
 

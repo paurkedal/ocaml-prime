@@ -68,16 +68,6 @@ module type S = sig
   val split_union : (key -> 'a -> 'b -> 'c) ->
                     'a t -> 'b t -> 'a t * 'b t * 'c t
 
-  (**/**)
-  val card : 'a t -> int [@@ocaml.deprecated]
-  val cut : key -> 'a t -> 'a option * 'a t * 'a t [@@ocaml.deprecated]
-  val get_o : int -> 'a t -> 'a option [@@ocaml.deprecated]
-  val get_e : int -> 'a t -> 'a [@@ocaml.deprecated]
-  val pred_binding_e : 'a t -> key -> key * 'a [@@ocaml.deprecated]
-  val succ_binding_e : 'a t -> key -> key * 'a [@@ocaml.deprecated]
-  val pred_binding_o : 'a t -> key -> (key * 'a) option [@@ocaml.deprecated]
-  val succ_binding_o : 'a t -> key -> (key * 'a) option [@@ocaml.deprecated]
-  val contains : key -> 'a t -> bool [@@ocaml.deprecated]
 end
 
 module type S_monadic = sig
@@ -555,22 +545,6 @@ module Make (K : OrderedType) = struct
         | Some e' -> M.return (glue k e' mL' mR')
   end
 
-  (**/**)
-  let card = cardinal
-  let cut = cut_binding
-  let get_e i m = get m i
-  let rec get_o i = function
-    | O -> None
-    | Y (_n, _kC, eC, mL, mR) ->
-      let nL = cardinal mL in
-      if i < nL then get_o i mL else
-      if i > nL then get_o (i - nL - 1) mR else
-      Some eC
-  let pred_binding_o = pred_binding
-  let succ_binding_o = succ_binding
-  let pred_binding_e m k = Prime_option.get (pred_binding m k)
-  let succ_binding_e m k = Prime_option.get (succ_binding m k)
-  let contains = mem
 end
 
 module Make_monadic (Key : OrderedType) (Monad : Monad) = struct

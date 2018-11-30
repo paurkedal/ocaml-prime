@@ -145,15 +145,6 @@ module type S = sig
   val compl : t -> t -> t
   (** [compl s1 s2] is the complement of [s1] relative to [s2]. *)
 
-  (**/**)
-  val card : t -> int [@@ocaml.deprecated "Renamed to cardinal."]
-  val cut : elt -> t -> bool * t * t [@@ocaml.deprecated "Renamed cut_element."]
-  val pred_e : t -> elt -> elt [@@ocaml.deprecated "Use pred_elt."]
-  val succ_e : t -> elt -> elt [@@ocaml.deprecated "Use succ_elt."]
-  val min_elt : t -> elt [@@ocaml.deprecated "Renamed to min_elt_exn."]
-  val max_elt : t -> elt [@@ocaml.deprecated "Renamed to max_elt_exn."]
-  (* 2018-06 *)
-  val contains : elt -> t -> bool [@@ocaml.deprecated "Renamed to mem."]
 end
 
 module type S_monadic = sig

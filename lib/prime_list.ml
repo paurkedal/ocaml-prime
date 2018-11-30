@@ -23,8 +23,6 @@ let sample f n =
     loop (i - 1) (f i :: accu) in
   loop (n - 1) []
 
-let push x xs = x :: xs
-
 let of_option = function
   | None -> []
   | Some x -> [x]
@@ -55,6 +53,8 @@ let fmap f xs =
     | [] -> ys
     | x :: xs -> loop (match f x with None -> ys | Some y -> (y :: ys)) xs in
   rev (loop [] xs)
+
+let filter_map = fmap
 
 let flatten_map f xs =
   let rec loop ys = function
@@ -134,6 +134,3 @@ let rev_interfix x ys =
    | y :: ys -> loop [y] ys)
 
 let interfix x ys = List.rev (rev_interfix x ys)
-
-(* Deprecated *)
-let filter_map = fmap

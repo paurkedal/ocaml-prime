@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -53,13 +53,3 @@ val uncurry : ('a -> 'b -> 'c) -> 'a * 'b -> 'c
 (** {2 Exceptions} *)
 
 val finally : (unit -> unit) -> (unit -> 'a) -> 'a
-
-(**/**)
-val ( *< ) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
-[@@ocaml.deprecated "Renamed to (%)."]
-val ( *> ) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
-[@@ocaml.deprecated "Renamed to (%>)."]
-val (<@) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
-[@@ocaml.deprecated "Renamed to (%)."]
-val (@>) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
-[@@ocaml.deprecated "Renamed to (%>)."]

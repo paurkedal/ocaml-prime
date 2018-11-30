@@ -264,9 +264,3 @@ let equal f sA sB =
     | More (eA, sA, qA), More (eB, sB, qB) ->
       f eA eB && aux (cons_enum sA qA, cons_enum sB qB) in
   aux (cons_enum sA End, cons_enum sB End)
-
-(* deprecated *)
-let first_e = first_exn
-let last_e = last_exn
-let pop_first_e = pop_first_exn
-let pop_last_e = pop_last_exn

@@ -58,13 +58,6 @@ module type S = sig
   val inter : t -> t -> t
   val compl : t -> t -> t
 
-  val card : t -> int [@@ocaml.deprecated]
-  val cut : elt -> t -> bool * t * t [@@ocaml.deprecated]
-  val pred_e : t -> elt -> elt [@@ocaml.deprecated]
-  val succ_e : t -> elt -> elt [@@ocaml.deprecated]
-  val min_elt : t -> elt [@@ocaml.deprecated]
-  val max_elt : t -> elt [@@ocaml.deprecated]
-  val contains : elt -> t -> bool [@@ocaml.deprecated]
 end
 
 module type S_monadic = sig
@@ -371,15 +364,6 @@ module Make (E : OrderedType) = struct
       let presA, sLA, sRA = cut_element eB sA in
       if presA then cat     (compl sLA sLB) (compl sRA sRB)
                else glue eB (compl sLA sLB) (compl sRA sRB)
-
-  (* Deprecated *)
-  let card = cardinal
-  let cut = cut_element
-  let pred_e s e = Prime_option.get (pred_elt s e)
-  let succ_e s e = Prime_option.get (succ_elt s e)
-  let min_elt = min_elt_exn
-  let max_elt = max_elt_exn
-  let contains = mem
 
   module Make_monadic (M : Monad) = struct
 

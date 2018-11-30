@@ -110,24 +110,6 @@ module type S = sig
 
   val fcompl : (elt -> elt -> elt option) -> t -> t -> t
 
-  (**/**)
-  val find_e : key -> t -> elt [@@ocaml.deprecated "Renamed to find."]
-  val find_o : key -> t -> elt option [@@ocaml.deprecated "Use app."]
-  val get_e : int -> t -> elt [@@ocaml.deprecated "Use get."]
-  val get_o : int -> t -> elt option [@@ocaml.deprecated "Use get."]
-  val min_e : t -> elt [@@ocaml.deprecated "Renamed to min_exn."]
-  val max_e : t -> elt [@@ocaml.deprecated "Renamed to max_exn."]
-  val pred_e : t -> key -> elt [@@ocaml.deprecated "Renamed to pred_exn."]
-  val succ_e : t -> key -> elt [@@ocaml.deprecated "Renamed to succ_exn."]
-  val elt_pred_e : t -> elt -> elt
-    [@@ocaml.deprecated "Renamed to elt_pred_exn."]
-  val elt_succ_e : t -> elt -> elt
-    [@@ocaml.deprecated "Renamed to elt_succ_exn."]
-  val pop_min_e : t -> elt * t [@@ocaml.deprecated "Renamed to pop_min_exn."]
-  val pop_max_e : t -> elt * t [@@ocaml.deprecated "Renamed to pop_max_exn."]
-  (* 2018-06 *)
-  val contains : key -> t -> bool [@@ocaml.deprecated "Renamed to mem."]
-  val contains_elt : elt -> t -> bool [@@ocaml.deprecated "Renamed to mem."]
 end
 
 module Make (Elt : RETRACTABLE) : S with type elt = Elt.t and type key = Elt.key
