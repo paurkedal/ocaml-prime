@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -33,15 +33,15 @@ let run () =
   assert_eq_string s (String.of_chars xs);
   assert_equal (List.rev xs) (String.fold List.cons s []);
   assert (String.for_all Char.is_ascii s);
-  assert (not (String.for_all Char.is_alpha s));
-  assert (String.exists Char.is_punct s);
-  assert (not (String.exists Char.is_digit s));
-  assert_equal (s') (String.filter Char.is_alpha s);
+  assert (not (String.for_all Char.is_ascii_alpha s));
+  assert (String.exists Char.is_ascii_punct s);
+  assert (not (String.exists Char.is_ascii_digit s));
+  assert_equal (s') (String.filter Char.is_ascii_alpha s);
 
-  assert_eq_int 12 (String.skip_while Char.is_alpha s 8);
-  assert_eq_int 12 (String.skip_until Char.is_space s 8);
-  assert_eq_int 8 (String.rskip_while Char.is_alpha s 12);
-  assert_eq_int 8 (String.rskip_until Char.is_space s 12);
+  assert_eq_int 12 (String.skip_while Char.is_ascii_alpha s 8);
+  assert_eq_int 12 (String.skip_until Char.is_ascii_space s 8);
+  assert_eq_int 8 (String.rskip_while Char.is_ascii_alpha s 12);
+  assert_eq_int 8 (String.rskip_until Char.is_ascii_space s 12);
   assert_eq_int n (String.skip_while Char.is_ascii s 0);
   assert_eq_int 0 (String.rskip_while Char.is_ascii s n);
 
@@ -87,20 +87,22 @@ let run () =
   assert_eq_string_list ["a"; "b"] (String.chop_affix "->" "a->b");
   assert_eq_string_list ["a-";"b-";"c+"] (String.chop_affix "->" "a-->b-->c+");
 
-  assert_equal None (String.cut_consecutive Char.is_space "");
-  assert_equal None (String.cut_consecutive Char.is_space "  ");
-  assert_equal (Some ("","< >")) (String.cut_consecutive Char.is_space " < >");
-  assert_equal (Some ("< >","")) (String.rcut_consecutive Char.is_space "< > ");
+  assert_equal None (String.cut_consecutive Char.is_ascii_space "");
+  assert_equal None (String.cut_consecutive Char.is_ascii_space "  ");
+  assert_equal (Some ("","< >"))
+    (String.cut_consecutive Char.is_ascii_space " < >");
+  assert_equal (Some ("< >",""))
+    (String.rcut_consecutive Char.is_ascii_space "< > ");
   assert_equal (Some ("<>", "< >"))
-               (String.cut_consecutive Char.is_space "<> < >");
+               (String.cut_consecutive Char.is_ascii_space "<> < >");
   assert_equal (Some ("< >", "<>"))
-               (String.rcut_consecutive Char.is_space "< > <>");
+               (String.rcut_consecutive Char.is_ascii_space "< > <>");
 
-  assert_eq_string_list [] (String.chop_consecutive Char.is_space "");
-  assert_eq_string_list [] (String.chop_consecutive Char.is_space "  ");
+  assert_eq_string_list [] (String.chop_consecutive Char.is_ascii_space "");
+  assert_eq_string_list [] (String.chop_consecutive Char.is_ascii_space "  ");
   assert_eq_string_list ["three"; "small"; "words"]
-    (String.chop_consecutive Char.is_space "three small words");
+    (String.chop_consecutive Char.is_ascii_space "three small words");
   assert_eq_string_list ["three"; "small"; "words"]
-    (String.chop_consecutive Char.is_space "  three   small  words  ");
+    (String.chop_consecutive Char.is_ascii_space "  three   small  words  ");
 
   ()
