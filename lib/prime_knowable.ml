@@ -1,4 +1,4 @@
-(* Copyright (C) 2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2017--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -29,5 +29,5 @@ let of_option : 'a option -> ('a, _) t = function
  | Some x -> Known x
 
 let inquire (type k) : (_, k) t -> _ = function
- | Known x -> Some (Known x)
+ | Known _ as k -> Some k
  | Unknown -> None

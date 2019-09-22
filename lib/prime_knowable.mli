@@ -1,4 +1,4 @@
-(* Copyright (C) 2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2017--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -33,5 +33,5 @@ val of_option : 'a option -> ('a, [> `Known | `Unknown]) t
     [Known x]. *)
 
 val inquire : ('a, [< `Known | `Unknown]) t -> ('a, [> `Known]) t option
-(** [inquire k] checks if [k] is known, and if so adds assures this fact in the
+(** [inquire k] checks if [k] is known, and, if so, assures this fact in the
     returned copy. *)

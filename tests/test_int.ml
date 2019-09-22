@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -144,7 +144,7 @@ let test_bitcount () =
     if x = 0 then acc else
     count_bits (x lsr 1) (acc + x land 1) in
   for _ = 0 to 9999 do
-    let x = Random.bits () in
+    let x = Random.bits () lxor Random.bits () lsl 30 in
     assert (Prime_int.bitcount x = count_bits x 0)
   done
 
