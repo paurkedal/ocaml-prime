@@ -15,3 +15,4 @@ build: [
   ["dune" "runtest" "-p" name "-j" jobs] {with-test}
 ]
 dev-repo: "git+https://github.com/paurkedal/ocaml-prime.git"
+synopsis: "Supplements to the OCaml standard library"
