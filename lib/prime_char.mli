@@ -31,6 +31,9 @@ val is_ascii_graph : char -> bool
 (** True on characters normally rendered as non-blank glyphs; that is all
     non-space printable characters. *)
 
+val is_ascii_cntrl : char -> bool
+(** True for control characters in the ASCII range. *)
+
 val is_ascii_space : char -> bool
 (** Maps space, tab, NL, CR, VT, FF to true, everything else to false. *)
 

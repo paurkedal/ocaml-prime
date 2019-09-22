@@ -14,20 +14,25 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *)
 
-let is_ascii ch = ch <= '\x7f'
-let is_ascii_graph ch = '!' <= ch && ch <= '~'
+let is_ascii = function '\x00'..'\x7f' -> true | _ -> false
+let is_ascii_graph = function '!'..'~' -> true | _ -> false
 let is_ascii_space = function
-  | ' ' | '\t' | '\n' | '\r' | '\x0b' | '\x0c' -> true
-  | _ -> false
+ | ' ' | '\t' | '\n' | '\r' | '\x0b' | '\x0c' -> true
+ | _ -> false
+let is_ascii_cntrl = function
+ | '\x00'..'\x1f' | '\x7f' -> true
+ | _ -> false
 
-let is_ascii_digit ch = '0' <= ch && ch <= '9'
-let is_xdigit ch =
-  is_ascii_digit ch || ('a' <= ch && ch <= 'f' || 'A' <= ch && ch <= 'F')
-let is_ascii_lower ch = 'a' <= ch && ch <= 'z'
-let is_ascii_upper ch = 'A' <= ch && ch <= 'Z'
-let is_ascii_alpha ch = is_ascii_lower ch || is_ascii_upper ch
-let is_ascii_alnum ch = is_ascii_digit ch || is_ascii_alpha ch
-let is_ascii_punct ch = is_ascii_graph ch && not (is_ascii_alnum ch)
+let is_ascii_digit = function '0'..'9' -> true | _ -> false
+let is_xdigit = function '0'..'9' | 'a'..'f' | 'A'..'F' -> true | _ -> false
+let is_ascii_lower = function 'a'..'z' -> true | _ -> false
+let is_ascii_upper = function 'A'..'Z' -> true | _ -> false
+let is_ascii_alpha = function 'a'..'z' | 'A'..'Z' -> true | _ -> false
+let is_ascii_alnum = function '0'..'9' | 'a'..'z' | 'A'..'Z' -> true | _ ->false
+
+let is_ascii_punct = function
+ | '!'..'/' | ':'..'@' | '['..'`' | '{'..'~' -> true
+ | _ -> false
 
 let is_graph = is_ascii_graph
 let is_space = is_ascii_space
