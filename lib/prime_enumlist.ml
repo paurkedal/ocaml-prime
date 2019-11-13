@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -227,15 +227,15 @@ let mapi f =
       Y (n, f (i + nL) e, aux i sL, aux (i + nL + 1) sR) in
   aux 0
 
-let rec fmap f = function
+let rec filter_map f = function
   | O -> O
   | Y (_n, e, sL, sR) ->
-    let sL', sR' = fmap f sL, fmap f sR in
+    let sL', sR' = filter_map f sL, filter_map f sR in
     match f e with
     | Some e' -> glue e' sL' sR'
     | None -> cat sL' sR'
 
-let fmapi f =
+let filter_mapi f =
   let rec aux i = function
     | O -> O
     | Y (_n, e, sL, sR) ->
@@ -246,6 +246,9 @@ let fmapi f =
       | Some e' -> glue e' sL' sR'
       | None -> cat sL' sR' in
   aux 0
+
+let fmap = filter_map
+let fmapi = filter_mapi
 
 let compare f sA sB =
   let rec aux = function

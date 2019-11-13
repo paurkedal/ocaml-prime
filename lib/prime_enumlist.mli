@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -82,9 +82,15 @@ val map : ('a -> 'b) -> 'a t -> 'b t
 
 val mapi : (int -> 'a -> 'b) -> 'a t -> 'b t
 
+val filter_map : ('a -> 'b option) -> 'a t -> 'b t
+
+val filter_mapi : (int -> 'a -> 'b option) -> 'a t -> 'b t
+
 val fmap : ('a -> 'b option) -> 'a t -> 'b t
+[@@deprecated "Renamed to filter_map."]
 
 val fmapi : (int -> 'a -> 'b option) -> 'a t -> 'b t
+[@@deprecated "Renamed to filter_mapi."]
 
 val compare : ('a -> 'b -> int) -> 'a t -> 'b t -> int
 

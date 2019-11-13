@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -48,13 +48,13 @@ val rev_filter : ('a -> bool) -> 'a list -> 'a list
 (** [rev_filter xs] is [rev (filter xs)] but faster. *)
 
 val fmap : ('a -> 'b option) -> 'a list -> 'b list
-(** [fmap f xs] is the list of all [y] such that [f x = Some y] for some [x]
-    in [xs], and having the same order as the corresponding elemets of [xs].
-    This provides an optimisation of [map Option.get (filter ((<>) None) (map
-    f xs))]. *)
+[@@deprecated "Use filter_map, which is also in stdlib since 4.08.0."]
 
 val filter_map : ('a -> 'b option) -> 'a list -> 'b list
-(** An alias for {!fmap}. *)
+(** [filter_map f xs] is the list of all [y] such that [f x = Some y] for some
+    [x] in [xs], and having the same order as the corresponding elemets of [xs].
+    This provides an optimisation of [map Option.get (filter ((<>) None) (map
+    f xs))]. *)
 
 val flatten_map : ('a -> 'b list) -> 'a list -> 'b list
 (** [flatten_map f xs] is a tail-recursive optimisation of [flatten (map f

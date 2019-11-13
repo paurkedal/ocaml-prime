@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -25,11 +25,11 @@ val filter : ('a -> bool) -> 'a array -> 'a array
     true with order preserved. *)
 
 val fmap : ('a -> 'b option) -> 'a array -> 'b array
-(** [fmap f xa] is the array of the non-[None] elements of [map f xa],
-    preserving order. *)
+[@@deprecated "Renamed back to filter_map for consistency with stdlib."]
 
 val filter_map : ('a -> 'b option) -> 'a array -> 'b array
-(** An alias for {!fmap}. *)
+(** [filter_map f xa] is the array of the non-[None] elements of [map f xa],
+    preserving order. *)
 
 val fold : ('a -> 'b -> 'b) -> 'a array -> 'b -> 'b
 (** [fold f [|x₁; …; xₙ|]] is [f xₙ ∘ ⋯ ∘ f x₁]. *)
