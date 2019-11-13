@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -48,13 +48,13 @@ let rev_filter f xs =
    | x :: xs -> loop (if f x then x :: acc else acc) xs in
   loop [] xs
 
-let fmap f xs =
+let filter_map f xs =
   let rec loop ys = function
     | [] -> ys
     | x :: xs -> loop (match f x with None -> ys | Some y -> (y :: ys)) xs in
   rev (loop [] xs)
 
-let filter_map = fmap
+let fmap = filter_map
 
 let flatten_map f xs =
   let rec loop ys = function
