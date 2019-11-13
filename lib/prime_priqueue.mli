@@ -1,4 +1,4 @@
-(* Copyright (C) 2016  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -21,7 +21,7 @@
     alongside regular nodes, and erasing matching regular nodes as they get
     merged by the [remove_min] operation.
 
-    This is most efficient when {!S.remove} is rare compared to {S.add} and
+    This is most efficient when {!S.remove} is rare compared to {!S.add} and
     {!S.remove_min}, otherwise a balanced tree may be better suited.  In the
     most feasible case, the deletion-nodes created by {!S.remove} gets flushed
     by {!S.remove_min} at a rate comparable to their creation.  If this is not
