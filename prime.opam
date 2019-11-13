@@ -4,6 +4,7 @@ maintainer: "Petter A. Urkedal <paurkedal@gmail.com>"
 authors: "Petter A. Urkedal <paurkedal@gmail.com>"
 license: "LGPL-3 with OCaml linking exception"
 homepage: "https://github.com/paurkedal/ocaml-prime/"
+doc: "https://paurkedal.github.io/ocaml-prime/index.html"
 bug-reports: "https://github.com/paurkedal/ocaml-prime/issues"
 depends: [
   "ocaml" {>= "4.02.3"}
@@ -16,3 +17,8 @@ build: [
 ]
 dev-repo: "git+https://github.com/paurkedal/ocaml-prime.git"
 synopsis: "Supplements to the OCaml standard library"
+description: """
+This is a small OCaml library, mostly adding functionality to existing types
+from the standard library.  The main focus is to amend the container
+structures in a uniform way, keeping functions as composable as possible.
+"""
