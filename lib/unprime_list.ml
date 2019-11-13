@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2019  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,10 +15,6 @@
  *)
 
 module List = struct
-  [@@@ocaml.warning "-32"] (* 4.02 compat for cons *)
-
-  let cons x xs = x :: xs
-
   include List
   include Prime_list
 end
