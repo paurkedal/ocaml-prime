@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.9.0] - 2019-11-13
+
+- Removed most deprecated functions from last release.
+- Rename `Prime_char` predicates to indicate ASCII limitation and optimize.
+- Renamed `fmap` to `filter_map` for consistency with stdlib.
+- Removed `Unprime_list.cons` since it exists in stdlib since 4.03.
+
+Internal:
+- Updated to dune and opam 2.
+- Minor test improvement for `Prime_int`.
+
 ## [0.8.2] - 2018-05-02
 
 - Rename `_e` extensions to `_exn` many places for consistency with stdlib.
@@ -57,6 +68,7 @@
 - Composition operators `*>` and `*<`.
 - `Prime_array.filter_map`.
 
+[0.9.0]: https://github.com/paurkedal/ocaml-prime/compare/v0.8.2...v0.9.0
 [0.8.2]: https://github.com/paurkedal/ocaml-prime/compare/v0.8.1...v0.8.2
 [0.8.1]: https://github.com/paurkedal/ocaml-prime/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/paurkedal/ocaml-prime/compare/0.7.1...v0.8.0
