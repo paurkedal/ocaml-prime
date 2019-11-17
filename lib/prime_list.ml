@@ -37,6 +37,22 @@ let rec search f = function
   | [] -> None
   | x :: xs -> match f x with None -> search f xs | y -> y
 
+let rec equal f xs ys =
+  (match xs, ys with
+   | [], [] -> true
+   | [], _ :: _ | _ :: _, [] -> false
+   | x :: xs, y :: ys -> f x y && equal f xs ys)
+
+let rec compare f xs ys =
+  (match xs, ys with
+   | [], [] -> 0
+   | [], _ :: _ -> -1
+   | _ :: _, [] -> +1
+   | x :: xs, y :: ys ->
+      let c = f x y in
+      if c <> 0 then c else
+      compare f xs ys)
+
 let rec fold f xs accu =
   match xs with
   | [] -> accu

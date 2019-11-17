@@ -38,6 +38,17 @@ val search : ('a -> 'b option) -> 'a list -> 'b option
     lists. *)
 
 
+(** {2 Comparison} *)
+
+val equal : ('a -> 'b -> bool) -> 'a list -> 'b list -> bool
+(** [equal f xs ys] is true iff [xs] and [ys] have the same length and [f x y]
+    is true for all corresponding elements [x] and [y] in [xs] and [ys]. *)
+
+val compare : ('a -> 'b -> int) -> 'a list -> 'b list -> int
+(** [compare f xs ys] is the lexicographic comparison of [xs] and [ys] using [f]
+    to compare corresponding pairs of elements. *)
+
+
 (** {2 Iteration} *)
 
 val fold : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
