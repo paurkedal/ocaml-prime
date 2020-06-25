@@ -15,6 +15,7 @@
     Prime_list
     Prime_map
     Prime_option
+    Prime_seq
     Prime_string
     Unprime
     Unprime_array
@@ -22,6 +23,7 @@
     Unprime_char
     Unprime_list
     Unprime_option
+    Unprime_seq
     Unprime_string))
 
 (library
