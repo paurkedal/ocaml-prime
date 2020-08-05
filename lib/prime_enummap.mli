@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2020  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -58,6 +58,8 @@ module type S = sig
   (** [find k m] returns the binding for [k] in [m] or raises [Not_found] if
       it is unbound. *)
 
+  val find_opt : key -> 'a t -> 'a option
+
   val locate : key -> 'a t -> bool * int
   (** [locate k m] is a pair [(present, pos)] where [present] is true iff [k]
       is bound in [m] and [pos] is the number of keys of [m] preceding [k]. *)
@@ -101,6 +103,8 @@ module type S = sig
   val remove : key -> 'a t -> 'a t
   (** [remove k m] is the map which agrees with [m] on all keys except that
       [k] is unbound.  If [k] is unbound in [m], then [remove k m] is [m]. *)
+
+  val update : key -> ('a option -> 'a option) -> 'a t -> 'a t
 
   val cut_binding : key -> 'a t -> 'a option * 'a t * 'a t
   (** [cut_binding k m] is [(e_opt, sL, sR)] where [e_opt] is the element

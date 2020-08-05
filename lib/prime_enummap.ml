@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2020  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -32,6 +32,7 @@ module type S = sig
   val mem : key -> 'a t -> bool
   val app : 'a t -> key -> 'a option
   val find : key -> 'a t -> 'a
+  val find_opt : key -> 'a t -> 'a option
   val locate : key -> 'a t -> bool * int
   val get : 'a t -> int -> 'a
   val get_binding : 'a t -> int -> key * 'a
@@ -44,6 +45,7 @@ module type S = sig
   val pop_min : 'a t -> key * 'a * 'a t
   val pop_max : 'a t -> key * 'a * 'a t
   val remove : key -> 'a t -> 'a t
+  val update : key -> ('a option -> 'a option) -> 'a t -> 'a t
   val cut_binding : key -> 'a t -> 'a option * 'a t * 'a t
   val bindings : 'a t -> (key * 'a) list
   val of_ordered_bindings : (key * 'a) list -> 'a t
@@ -132,6 +134,8 @@ module Make (K : OrderedType) = struct
       if o < 0 then find k mL else
       if o > 0 then find k mR else
       eC
+
+  let find_opt k m = try Some (find k m) with Not_found -> None
 
   let cardinal = function O -> 0 | Y (n, _, _, _, _) -> n
 
@@ -278,6 +282,13 @@ module Make (K : OrderedType) = struct
       if o > 0 then bal_y (n - 1) kC eC mL (remove' k mR) else
       cat_balanced (n - 1) mL mR
   let remove k m = try remove' k m with Keep -> m
+
+  let update k f m =
+    let e = find_opt k m in
+    (match e, f e with
+     | None, None -> m
+     | Some _, None -> remove k m
+     | _, Some e' -> add k e' m)
 
   let rec pop k = function
     | O -> None
