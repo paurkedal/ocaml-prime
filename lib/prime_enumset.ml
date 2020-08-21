@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2020  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -52,6 +52,7 @@ module type S = sig
   val exists : (elt -> bool) -> t -> bool
   val filter : (elt -> bool) -> t -> t
   val compare : t -> t -> int
+  val disjoint : t -> t -> bool
   val equal : t -> t -> bool
   val subset : t -> t -> bool
   val union : t -> t -> t
@@ -321,6 +322,15 @@ module Make (E : OrderedType) = struct
         let c = E.compare eA eB in if c <> 0 then c else
         aux (cons_enum sA qA, cons_enum sB qB) in
     aux (cons_enum sA End, cons_enum sB End)
+
+  let rec disjoint sA sB =
+    (match sA, sB with
+     | O, _ | _, O -> true
+     | Y (nA, eA, sLA, sRA), Y (nB, eB, sLB, sRB) ->
+        if nA < nB then
+          not (mem eB sA) && disjoint sA sLB && disjoint sA sRB
+        else
+          not (mem eA sB) && disjoint sLA sB && disjoint sRA sB)
 
   let equal sA sB = compare sA sB = 0
 

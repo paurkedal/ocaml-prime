@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2020  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -129,6 +129,10 @@ module type S = sig
 
   val compare : t -> t -> int
   (** Total order. *)
+
+  val disjoint : t -> t -> bool
+  (** [disjoint s0 s1] is true iff no element is contained in both [s0] and
+      [s1]. *)
 
   val equal : t -> t -> bool
   (** [equal s0 s1] is true iff [s0] and [s1] contain the same elements. *)

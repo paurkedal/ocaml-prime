@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2020  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -84,6 +84,7 @@ let test_alg () =
   let sAuB' = Array.fold Int_eset.add esB sA in
   assert (Int_eset.equal sAuB sAuB');
   let sAnB = Int_eset.inter sA sB in
+  assert (Int_eset.is_empty sAnB = Int_eset.disjoint sA sB);
   assert (Int_eset.subset sAnB sA);
   assert (Int_eset.subset sAnB sB);
   assert (not (Int_eset.subset sA sAnB) || Int_eset.equal sA sAnB);
