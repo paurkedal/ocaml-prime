@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2020  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -52,6 +52,25 @@ let test_equal () =
   assert (c12 <> 0);
   assert (c20 = - c02);
   assert (c21 = - c12)
+
+let test_update () =
+  let n = 40 in
+  let rec loop i m = if i < n then begin
+    let k = Random.int n in
+    let e' = if Random.bool () then None else Some (Random.int n) in
+    let aux = function
+     | None -> assert (not (Int_emap.mem k m)); e'
+     | Some e -> assert (Int_emap.find k m = e); e'
+    in
+    let m' = Int_emap.update k aux m in
+    let m'' = match e' with
+     | None -> Int_emap.remove k m
+     | Some e' -> Int_emap.add k e' m
+    in
+    assert (Int_emap.equal Int.equal m' m'');
+    loop (i + 1) m'
+  end in
+  loop 0 Int_emap.empty
 
 let test_pop_remove () =
   let n_max = 1 lsl Random.int 6 in
@@ -169,6 +188,7 @@ let run () =
       assert_equal_int ~msg:"locate (get i em)" i pos
     done;
     test_equal ();
+    test_update ();
     test_pop_remove ();
     test_cut ();
     test_alg ();

@@ -283,12 +283,25 @@ module Make (K : OrderedType) = struct
       cat_balanced (n - 1) mL mR
   let remove k m = try remove' k m with Keep -> m
 
-  let update k f m =
-    let e = find_opt k m in
-    (match e, f e with
-     | None, None -> m
-     | Some _, None -> remove k m
-     | _, Some e' -> add k e' m)
+  let rec update' k f = function
+   | O ->
+      (match f None with
+       | None -> raise Keep
+       | Some e -> (1, Y (1, k, e, O, O)))
+   | Y (n, kC, eC, mL, mR) ->
+      let o = K.compare k kC in
+      if o < 0 then
+        let dn, mL' = update' k f mL in
+        (dn, bal_y (n + dn) kC eC mL' mR)
+      else
+      if o > 0 then
+        let dn, mR' = update' k f mR in
+        (dn, bal_y (n + dn) kC eC mL mR')
+      else
+      (match f (Some eC) with
+       | None -> (-1, cat mL mR)
+       | Some e -> (0, bal_y n kC e mL mR))
+  let update k f m = try snd (update' k f m) with Keep -> m
 
   let rec pop k = function
     | O -> None

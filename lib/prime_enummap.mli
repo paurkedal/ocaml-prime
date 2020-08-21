@@ -105,6 +105,9 @@ module type S = sig
       [k] is unbound.  If [k] is unbound in [m], then [remove k m] is [m]. *)
 
   val update : key -> ('a option -> 'a option) -> 'a t -> 'a t
+  (** [update k f m] is the map [m] with [k] rebound to [f v] where [v] is the
+      current binding of [k] in [m] and [None] means no binding for both
+      argument and result. *)
 
   val cut_binding : key -> 'a t -> 'a option * 'a t * 'a t
   (** [cut_binding k m] is [(e_opt, sL, sR)] where [e_opt] is the element
