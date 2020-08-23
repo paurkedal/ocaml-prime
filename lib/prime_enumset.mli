@@ -101,6 +101,22 @@ module type S = sig
       [es], which must be listed in order.
       @raise Invalid_argument if [es] is not sorted. *)
 
+  val asc_elements : ?where: (elt -> int) -> t -> elt Seq.t
+  (** [asc_elements ?where s] is the sequence of elements of [e] in ascending
+      order, optionally restricted to a subrange given by [where].
+
+      @param where
+        must be a monotonically increasing function, in which case the returned
+        elements will be the continuous range at which it evaluates to zero. *)
+
+  val dsc_elements : ?where: (elt -> int) -> t -> elt Seq.t
+  (** [dsc_elements ?where s] is the sequence of elements of [e] in descending
+      order, optionally restricted to a subrange given by [where].
+
+      @param where
+        must be a monotonically increasing function, in which case the returned
+        elements will be the continuous range at which it evaluates to zero. *)
+
   val search : (elt -> 'a option) -> t -> 'a option
   (** [search f s] is the first [f e] for [e] in [s] which is different from
       [None], or [None] if there is no such [e]. *)

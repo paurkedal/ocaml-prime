@@ -155,7 +155,17 @@ let test_bindings () =
   let m' = List.fold (uncurry Int_emap.add) kvs Int_emap.empty in
   assert (Int_emap.equal (=) m m');
   let m'' = Int_emap.of_ordered_bindings kvs in
-  assert (Int_emap.equal (=) m m'')
+  assert (Int_emap.equal (=) m m'');
+  for _ = 0 to 9 do
+    let i, j = Random.int n_max, Random.int n_max in
+    let i, j = if i < j then (i, j) else (j, i) in
+    let where e = if e < i then -1 else if e > j then 1 else 0 in
+    let es_ij = Int_emap.asc_bindings ~where m |> List.of_seq in
+    let es_ij_rev = Int_emap.dsc_bindings ~where m |> List.of_seq in
+    let m_ij = Int_emap.filter (fun k _ -> i <= k && k <= j) m in
+    assert (es_ij = Int_emap.bindings m_ij);
+    assert (es_ij = List.rev es_ij_rev)
+  done
 
 let run () =
   assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);

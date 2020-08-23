@@ -44,6 +44,8 @@ module type S = sig
   val pop_max : t -> elt * t
   val elements : t -> elt list
   val of_ordered_elements : elt list -> t
+  val asc_elements : ?where: (elt -> int) -> t -> elt Seq.t
+  val dsc_elements : ?where: (elt -> int) -> t -> elt Seq.t
   val search : (elt -> 'a option) -> t -> 'a option
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val fold_rev : (elt -> 'a -> 'a) -> t -> 'a -> 'a
@@ -273,6 +275,90 @@ module Make (E : OrderedType) = struct
     match es with
     | [] -> O
     | e :: es' -> fst (build (count_and_check 1 e es') es)
+
+  let rec asc_full_seq ~cont s rest () =
+    (match s, rest with
+     | O, [] -> cont
+     | O, (e', s') :: rest' -> Seq.Cons (e', asc_full_seq ~cont s' rest')
+     | Y (_, eC, sL, sR), _ ->
+        asc_full_seq ~cont sL ((eC, sR) :: rest) ())
+
+  let rec asc_upper_seq ~where ~cont s rest () =
+    (match s, rest with
+     | O, [] -> cont
+     | O, (e', s') :: rest' -> Seq.Cons (e', asc_full_seq ~cont s' rest')
+     | Y (_, eC, sL, sR), _ ->
+        let c = where eC in
+        if c < 0 then asc_upper_seq ~where ~cont sR rest () else
+        if c > 0 then invalid_arg "Prime_enumset.asc_elements" else
+        asc_upper_seq ~where ~cont sL ((eC, sR) :: rest) ())
+
+  let rec asc_lower_seq ~where s rest () =
+    (match s, rest with
+     | O, [] -> Seq.Nil
+     | O, (e', s') :: rest' -> Seq.Cons (e', asc_lower_seq ~where s' rest')
+     | Y (_, eC, sL, sR), _ ->
+        let c = where eC in
+        if c < 0 then invalid_arg "Prime_enumset.asc_elements" else
+        if c > 0 then asc_lower_seq ~where sL rest () else
+        let cont = Seq.Cons (eC, asc_lower_seq ~where sR rest) in
+        asc_full_seq ~cont sL [] ())
+
+  let asc_elements ?where s =
+    (match where with
+     | None -> asc_full_seq ~cont:Seq.Nil s []
+     | Some where ->
+        let rec seek = function
+         | O -> Seq.empty
+         | Y (_, eC, sL, sR) ->
+            let c = where eC in
+            if c < 0 then seek sR else
+            if c > 0 then seek sL else
+            let cont = Seq.Cons (eC, asc_lower_seq ~where sR []) in
+            asc_upper_seq ~where ~cont sL []
+        in seek s)
+
+  let rec desc_full_seq ~cont s rest () =
+    (match s, rest with
+     | O, [] -> cont
+     | O, (e', s') :: rest' -> Seq.Cons (e', desc_full_seq ~cont s' rest')
+     | Y (_, eC, sL, sR), _ ->
+        desc_full_seq ~cont sR ((eC, sL) :: rest) ())
+
+  let rec desc_lower_seq ~where ~cont s rest () =
+    (match s, rest with
+     | O, [] -> cont
+     | O, (e', s') :: rest' -> Seq.Cons (e', desc_full_seq ~cont s' rest')
+     | Y (_, eC, sL, sR), _ ->
+        let c = where eC in
+        if c < 0 then invalid_arg "Prime_enumset.dsc_elements" else
+        if c > 0 then desc_lower_seq ~where ~cont sL rest () else
+        desc_lower_seq ~where ~cont sR ((eC, sL) :: rest) ())
+
+  let rec desc_upper_seq ~where s rest () =
+    (match s, rest with
+     | O, [] -> Seq.Nil
+     | O, (e', s') :: rest' -> Seq.Cons (e', desc_upper_seq ~where s' rest')
+     | Y (_, eC, sL, sR), _ ->
+        let c = where eC in
+        if c < 0 then desc_upper_seq ~where sR rest () else
+        if c > 0 then invalid_arg "Prime_enumset.dsc_elements" else
+        let cont = Seq.Cons (eC, desc_upper_seq ~where sL rest) in
+        desc_full_seq ~cont sR [] ())
+
+  let dsc_elements ?where s =
+    (match where with
+     | None -> desc_full_seq ~cont:Seq.Nil s []
+     | Some where ->
+        let rec seek = function
+         | O -> Seq.empty
+         | Y (_, eC, sL, sR) ->
+            let c = where eC in
+            if c < 0 then seek sR else
+            if c > 0 then seek sL else
+            let cont = Seq.Cons (eC, desc_upper_seq ~where sL []) in
+            desc_lower_seq ~where ~cont sR []
+        in seek s)
 
   let rec search f = function
     | O -> None

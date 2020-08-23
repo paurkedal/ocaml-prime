@@ -108,7 +108,18 @@ let test_elements () =
   let es = Int_eset.elements s in
   assert (uniq (List.sort compare es_init) = es);
   let s' = Int_eset.of_ordered_elements es in
-  assert (Int_eset.equal s s')
+  assert (Int_eset.equal s s');
+  assert (Int_eset.asc_elements s |> List.of_seq = es);
+  for _ = 0 to 9 do
+    let i, j = Random.int n, Random.int n in
+    let i, j = if i < j then (i, j) else (j, i) in
+    let where e = if e < i then -1 else if e > j then 1 else 0 in
+    let es_ij = Int_eset.asc_elements ~where s |> List.of_seq in
+    let es_ij_rev = Int_eset.dsc_elements ~where s |> List.of_seq in
+    let s_ij = Int_eset.filter (fun e -> i <= e && e <= j) s in
+    assert (es_ij = Int_eset.elements s_ij);
+    assert (es_ij = List.rev es_ij_rev)
+  done
 
 let run () =
   assert (Int_eset.equal Int_eset.empty Int_eset.empty);

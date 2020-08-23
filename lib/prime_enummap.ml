@@ -49,6 +49,8 @@ module type S = sig
   val cut_binding : key -> 'a t -> 'a option * 'a t * 'a t
   val bindings : 'a t -> (key * 'a) list
   val of_ordered_bindings : (key * 'a) list -> 'a t
+  val asc_bindings : ?where: (key -> int) -> 'a t -> (key * 'a) Seq.t
+  val dsc_bindings : ?where: (key -> int) -> 'a t -> (key * 'a) Seq.t
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
   val fold_rev : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
@@ -340,6 +342,90 @@ module Make (K : OrderedType) = struct
     match kes with
     | [] -> O
     | (k0, _) :: kes' -> fst (build (count_and_check 1 k0 kes') kes)
+
+  let rec asc_full_seq ~cont m rest () =
+    (match m, rest with
+     | O, [] -> cont
+     | O, (ke', m') :: rest' -> Seq.Cons (ke', asc_full_seq ~cont m' rest')
+     | Y (_, kC, eC, mL, mR), _ ->
+        asc_full_seq ~cont mL (((kC, eC), mR) :: rest) ())
+
+  let rec asc_upper_seq ~where ~cont m rest () =
+    (match m, rest with
+     | O, [] -> cont
+     | O, (ke', m') :: rest' -> Seq.Cons (ke', asc_full_seq ~cont m' rest')
+     | Y (_, kC, eC, mL, mR), _ ->
+        let c = where kC in
+        if c < 0 then asc_upper_seq ~where ~cont mR rest () else
+        if c > 0 then invalid_arg "Prime_enummap.asc_elements" else
+        asc_upper_seq ~where ~cont mL (((kC, eC), mR) :: rest) ())
+
+  let rec asc_lower_seq ~where m rest () =
+    (match m, rest with
+     | O, [] -> Seq.Nil
+     | O, (ke', m') :: rest' -> Seq.Cons (ke', asc_lower_seq ~where m' rest')
+     | Y (_, kC, eC, mL, mR), _ ->
+        let c = where kC in
+        if c < 0 then invalid_arg "Prime_enummap.asc_elements" else
+        if c > 0 then asc_lower_seq ~where mL rest () else
+        let cont = Seq.Cons ((kC, eC), asc_lower_seq ~where mR rest) in
+        asc_full_seq ~cont mL [] ())
+
+  let asc_bindings ?where m =
+    (match where with
+     | None -> asc_full_seq ~cont:Seq.Nil m []
+     | Some where ->
+        let rec seek = function
+         | O -> Seq.empty
+         | Y (_, kC, eC, mL, mR) ->
+            let c = where kC in
+            if c < 0 then seek mR else
+            if c > 0 then seek mL else
+            let cont = Seq.Cons ((kC, eC), asc_lower_seq ~where mR []) in
+            asc_upper_seq ~where ~cont mL []
+        in seek m)
+
+  let rec desc_full_seq ~cont m rest () =
+    (match m, rest with
+     | O, [] -> cont
+     | O, (ke', m') :: rest' -> Seq.Cons (ke', desc_full_seq ~cont m' rest')
+     | Y (_, kC, eC, mL, mR), _ ->
+        desc_full_seq ~cont mR (((kC, eC), mL) :: rest) ())
+
+  let rec desc_lower_seq ~where ~cont m rest () =
+    (match m, rest with
+     | O, [] -> cont
+     | O, (ke', m') :: rest' -> Seq.Cons (ke', desc_full_seq ~cont m' rest')
+     | Y (_, kC, eC, mL, mR), _ ->
+        let c = where kC in
+        if c < 0 then invalid_arg "Prime_enummap.dsc_elements" else
+        if c > 0 then desc_lower_seq ~where ~cont mL rest () else
+        desc_lower_seq ~where ~cont mR (((kC, eC), mL) :: rest) ())
+
+  let rec desc_upper_seq ~where m rest () =
+    (match m, rest with
+     | O, [] -> Seq.Nil
+     | O, (ke', m') :: rest' -> Seq.Cons (ke', desc_upper_seq ~where m' rest')
+     | Y (_, kC, eC, mL, mR), _ ->
+        let c = where kC in
+        if c < 0 then desc_upper_seq ~where mR rest () else
+        if c > 0 then invalid_arg "Prime_enummap.dsc_elements" else
+        let cont = Seq.Cons ((kC, eC), desc_upper_seq ~where mL rest) in
+        desc_full_seq ~cont mR [] ())
+
+  let dsc_bindings ?where m =
+    (match where with
+     | None -> desc_full_seq ~cont:Seq.Nil m []
+     | Some where ->
+        let rec seek = function
+         | O -> Seq.empty
+         | Y (_, kC, eC, mL, mR) ->
+            let c = where kC in
+            if c < 0 then seek mR else
+            if c > 0 then seek mL else
+            let cont = Seq.Cons ((kC, eC), desc_upper_seq ~where mL []) in
+            desc_lower_seq ~where ~cont mR []
+        in seek m)
 
   let rec search f = function
     | O -> None

@@ -124,6 +124,26 @@ module type S = sig
       optimisation of [List.fold (uncurry add) bindings empty].
       @raise Invalid_argument of [bindings] is not sorted. *)
 
+  val asc_bindings : ?where: (key -> int) -> 'a t -> (key * 'a) Seq.t
+  (** [asc_bindings ?where m] is the sequence of bindings of [e] in order of
+      increasing keys, optionally restricted to keys in a subrange given by
+      [where].
+
+      @param where
+        must be monotonically increasing, in which case the returned bindings
+        will be the continuous range with keys at which this function evaluates
+        to zero. *)
+
+  val dsc_bindings : ?where: (key -> int) -> 'a t -> (key * 'a) Seq.t
+  (** [dsc_bindings ?where m] is the sequence of bindings of [m] in order of
+      decreasing keys, optionally restricted to keys in a subrange given by
+      [where].
+
+      @param where
+        must be monotonically increasing, in which case the returned bindings
+        will be the continuous range with keys at which this function evaluates
+        to zero. *)
+
   val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
   (** [search f m] is the first [f k e] for [k ↦ e] in [m] which is different
       from [None], or [None] if no such mapping exists in [m]. *)
