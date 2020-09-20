@@ -67,7 +67,7 @@ let test_update () =
      | None -> Int_emap.remove k m
      | Some e' -> Int_emap.add k e' m
     in
-    assert (Int_emap.equal Int.equal m' m'');
+    assert (Int_emap.equal (=) m' m'');
     loop (i + 1) m'
   end in
   loop 0 Int_emap.empty
