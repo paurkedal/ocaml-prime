@@ -1,3 +1,11 @@
+## v0.9.1 - 2020-09-20
+
+- Add `Prime_list.compare` and `Prime_list.equal`.
+- Add `Prime_enummap.find_opt` and `Prime_enummap.update`.
+- Add `Prime_enumset.disjoint`.
+- Add `Prime_seq`.
+- Add sequence extraction for `Prime_enumset` and `Prime_enummap`.
+
 ## v0.9.0 - 2019-11-13
 
 - Removed most deprecated functions from last release.
