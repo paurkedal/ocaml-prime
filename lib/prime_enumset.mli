@@ -62,11 +62,19 @@ module type S = sig
   (** [choose s] is an unspecified element of [s].
       @raise Not_found if [s] is empty. *)
 
+  val min_elt : t -> elt option
+  (** [min_elt s] is the smallest element of [s], or [None] if [s] is empty. *)
+
   val min_elt_exn : t -> elt
-  (** [min_elt_exn s] is the smallest element of [s]. *)
+  (** [min_elt_exn s] is the smallest element of [s].
+      @raise Not_found if the set is empty. *)
+
+  val max_elt : t -> elt option
+  (** [max_elt s] is the greatest element of [s], or [None] if [s] is empty. *)
 
   val max_elt_exn : t -> elt
-  (** [max_elt_exn s] is the largest element of [s]. *)
+  (** [max_elt_exn s] is the largest element of [s].
+      @raise Not_found if the set is empty. *)
 
   val pred_elt : t -> elt -> elt option
   (** [pred_elt s e] is the element before [e] in [s]. *)

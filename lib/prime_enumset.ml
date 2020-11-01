@@ -33,7 +33,9 @@ module type S = sig
   val locate : elt -> t -> bool * int
   val get : t -> int -> elt
   val choose : t -> elt
+  val min_elt : t -> elt option
   val min_elt_exn : t -> elt
+  val max_elt : t -> elt option
   val max_elt_exn : t -> elt
   val pred_elt : t -> elt -> elt option
   val succ_elt : t -> elt -> elt option
@@ -135,10 +137,14 @@ module Make (E : OrderedType) = struct
     | Y (_, eC, O, _) -> eC
     | Y (_, _, sL, _) -> min_elt_exn sL
 
+  let min_elt s = try Some (min_elt_exn s) with Not_found -> None
+
   let rec max_elt_exn = function
     | O -> raise Not_found
     | Y (_, eC, _, O) -> eC
     | Y (_, _, _, sR) -> max_elt_exn sR
+
+  let max_elt s = try Some (max_elt_exn s) with Not_found -> None
 
   let rec min_opt = function
     | O -> None
