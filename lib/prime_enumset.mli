@@ -93,13 +93,21 @@ module type S = sig
       the subsets of [s] with keys smaller and larger than [k],
       respectively. *)
 
-  val pop_min : t -> elt * t
-  (** [pop_min s] is [(e, s')] where [e] is the smallest element of [s] and
-      [s'] contains the remaining elements. *)
+  val pop_min : t -> elt * t [@@deprecated "Renamed to pop_min_exn."]
+  (** @deprecated Renamed to pop_min_exn. *)
 
-  val pop_max : t -> elt * t
-  (** [pop_max s] is [(e, s')] where [e] is the largest element of [s] and
-      [s'] contains the remaining elements. *)
+  val pop_min_exn : t -> elt * t
+  (** [pop_min_exn s] is [(e, s')] where [e] is the smallest element of [s] and
+      [s'] contains the remaining elements.
+      @raise Not_found if the set is empty. *)
+
+  val pop_max : t -> elt * t [@@deprecated "Renamed to pop_max_exn."]
+  (** @deprecated Renamed to pop_max_exn. *)
+
+  val pop_max_exn : t -> elt * t
+  (** [pop_max_exn s] is [(e, s')] where [e] is the largest element of [s] and
+      [s'] contains the remaining elements.
+      @raise Not_found if the set is empty. *)
 
   val elements : t -> elt list
   (** [elements s] is the list of elements of [s] in order. *)

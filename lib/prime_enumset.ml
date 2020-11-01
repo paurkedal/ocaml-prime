@@ -42,8 +42,10 @@ module type S = sig
   val add : elt -> t -> t
   val remove : elt -> t -> t
   val cut_element : elt -> t -> bool * t * t
-  val pop_min : t -> elt * t
-  val pop_max : t -> elt * t
+  val pop_min : t -> elt * t [@@deprecated]
+  val pop_min_exn : t -> elt * t
+  val pop_max : t -> elt * t [@@deprecated]
+  val pop_max_exn : t -> elt * t
   val elements : t -> elt list
   val of_ordered_elements : elt list -> t
   val asc_elements : ?where: (elt -> int) -> t -> elt Seq.t
@@ -197,17 +199,20 @@ module Make (E : OrderedType) = struct
     | O -> Y (1, e, O, O)
     | Y (n, eC, sL, sR) -> bal_y (n + 1) eC sL (add_max e sR)
 
-  let rec pop_min = function
+  let rec pop_min_exn = function
     | O -> raise Not_found
     | Y (_, eC, O, sR) -> eC, sR
     | Y (n, eC, sL, sR) ->
-      let e', sL' = pop_min sL in e', bal_y (n - 1) eC sL' sR
+      let e', sL' = pop_min_exn sL in e', bal_y (n - 1) eC sL' sR
 
-  let rec pop_max = function
+  let rec pop_max_exn = function
     | O -> raise Not_found
     | Y (_, eC, sL, O) -> eC, sL
     | Y (n, eC, sL, sR) ->
-      let e', sR' = pop_max sR in e', bal_y (n - 1) eC sL sR'
+      let e', sR' = pop_max_exn sR in e', bal_y (n - 1) eC sL sR'
+
+  let pop_min = pop_min_exn
+  let pop_max = pop_max_exn
 
   let rec add' e = function
     | O -> Y (1, e, O, O)
