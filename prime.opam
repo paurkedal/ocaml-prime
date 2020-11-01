@@ -7,8 +7,9 @@ homepage: "https://github.com/paurkedal/ocaml-prime/"
 doc: "https://paurkedal.github.io/ocaml-prime/index.html"
 bug-reports: "https://github.com/paurkedal/ocaml-prime/issues"
 depends: [
-  "ocaml" {>= "4.07.0"}
+  "extunix" {with-test}
   "dune" {>= "1.1"}
+  "ocaml" {>= "4.07.0"}
   "ounit" {with-test}
 ]
 build: [

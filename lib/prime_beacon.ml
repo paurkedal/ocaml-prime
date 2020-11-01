@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2017  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2020  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,14 +66,16 @@ module Make (M : CACHE_METRIC) = struct
   let discard_depleted_beacons () =
     let cs = Prime_cache_metric.check_start M.cache_metric in
     let rec loop b =
+      assert (b != dummy);
       if b.b_next == head then () else
       if check_beacon cs b.b_next then loop b.b_next else
       begin
         let b' = b.b_next in
-        b.b_next <- b.b_next.b_next;
+        b.b_next <- b'.b_next;
         b'.b_next <- dummy;
         loop b
-      end in
+      end
+    in
     loop head;
     Prime_cache_metric.check_stop cs
 
@@ -106,12 +108,13 @@ module Make (M : CACHE_METRIC) = struct
   let embed g f =
     let b =
       { b_owner = Obj.repr head;
-        b_next = head.b_next;
+        b_next = dummy;
         b_access_count = 1;
         b_access_start = Prime_cache_metric.access_init M.cache_metric;
         b_grade = g; } in
     let obj = f b in
     b.b_owner <- Obj.repr obj;
+    b.b_next <- head.b_next;
     head.b_next <- b;
     obj
 
