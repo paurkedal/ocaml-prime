@@ -33,46 +33,46 @@ end
 module Make (M : CACHE_METRIC) = struct
 
   type t = {
-    mutable b_owner : Obj.t;
-    mutable b_next : t;
-    mutable b_access_count : int;
-    mutable b_access_start : float;
-    mutable b_grade : float;
+    mutable owner : Obj.t;
+    mutable next : t;
+    mutable access_count : int;
+    mutable access_start : float;
+    mutable grade : float;
   }
 
   let rec head = {
-    b_owner = Obj.repr "head beacon";
-    b_next = head;
-    b_access_count = -1;
-    b_access_start = -1.0;
-    b_grade = 0.0;
+    owner = Obj.repr "head beacon";
+    next = head;
+    access_count = -1;
+    access_start = -1.0;
+    grade = 0.0;
   }
 
   let rec dummy = {
-    b_owner = Obj.repr "dummy beacon";
-    b_next = dummy;
-    b_access_count = -2;
-    b_access_start = -2.0;
-    b_grade = 0.0;
+    owner = Obj.repr "dummy beacon";
+    next = dummy;
+    access_count = -2;
+    access_start = -2.0;
+    grade = 0.0;
   }
 
-  let expire_all () = head.b_next <- head
+  let expire_all () = head.next <- head
 
   let overhead = Obj.size (Obj.repr head) + 3
 
   let check_beacon cs b =
-    Prime_cache_metric.check cs b.b_access_count b.b_access_start b.b_grade
+    Prime_cache_metric.check cs b.access_count b.access_start b.grade
 
   let discard_depleted_beacons () =
     let cs = Prime_cache_metric.check_start M.cache_metric in
     let rec loop b =
       assert (b != dummy);
-      if b.b_next == head then () else
-      if check_beacon cs b.b_next then loop b.b_next else
+      if b.next == head then () else
+      if check_beacon cs b.next then loop b.next else
       begin
-        let b' = b.b_next in
-        b.b_next <- b'.b_next;
-        b'.b_next <- dummy;
+        let b' = b.next in
+        b.next <- b'.next;
+        b'.next <- dummy;
         loop b
       end
     in
@@ -81,41 +81,41 @@ module Make (M : CACHE_METRIC) = struct
 
   let _gc_alarm = Gc.create_alarm discard_depleted_beacons
 
-  let grade b = b.b_grade
+  let grade b = b.grade
 
   let set_grade g b =
     assert (b != dummy);
-    b.b_grade <- g
+    b.grade <- g
 
   let charge b =
-    if b.b_next == dummy then begin
+    if b.next == dummy then begin
       assert (b != dummy);
-      b.b_next <- head.b_next;
-      head.b_next <- b;
-      b.b_access_start <-
-        if b.b_access_count = 0 then
+      b.next <- head.next;
+      head.next <- b;
+      b.access_start <-
+        if b.access_count = 0 then
           Prime_cache_metric.access_init M.cache_metric
         else
-          Prime_cache_metric.access_step M.cache_metric b.b_access_count
-                                         b.b_access_start
+          Prime_cache_metric.access_step M.cache_metric b.access_count
+                                         b.access_start
     end else begin
-      b.b_access_start <-
-        Prime_cache_metric.access_step M.cache_metric b.b_access_count
-                                       b.b_access_start
+      b.access_start <-
+        Prime_cache_metric.access_step M.cache_metric b.access_count
+                                       b.access_start
     end;
-    b.b_access_count <- b.b_access_count + 1
+    b.access_count <- b.access_count + 1
 
   let embed g f =
     let b =
-      { b_owner = Obj.repr head;
-        b_next = dummy;
-        b_access_count = 1;
-        b_access_start = Prime_cache_metric.access_init M.cache_metric;
-        b_grade = g; } in
+      { owner = Obj.repr head;
+        next = dummy;
+        access_count = 1;
+        access_start = Prime_cache_metric.access_init M.cache_metric;
+        grade = g; } in
     let obj = f b in
-    b.b_owner <- Obj.repr obj;
-    b.b_next <- head.b_next;
-    head.b_next <- b;
+    b.owner <- Obj.repr obj;
+    b.next <- head.next;
+    head.next <- b;
     obj
 
   let cache_metric = M.cache_metric
