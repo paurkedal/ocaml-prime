@@ -94,11 +94,13 @@ module type S = sig
 
   val pop_min_exn : 'a t -> key * 'a * 'a t
   (** [pop_min_exn m] is the tuple [(k, e, m')] where [(k, e)] is the binding of
-      [m] with the minimal key and [m'] is the remainder of [m]. *)
+      [m] with the minimal key and [m'] is the remainder of [m].
+      @raise Not_found if the map is empty. *)
 
   val pop_max_exn : 'a t -> key * 'a * 'a t
   (** [pop_max_exn m] is the tuple [(k, e, m')] where [(k, e)] is the binding of
-      [m] with the maximum key and [m'] is the remainder of [m]. *)
+      [m] with the maximum key and [m'] is the remainder of [m].
+      @raise Not_found if the map is empty. *)
 
   val pop_min : 'a t -> key * 'a * 'a t [@@deprecated "Renamed to pop_min_exn."]
   val pop_max : 'a t -> key * 'a * 'a t [@@deprecated "Renamed to pop_max_exn."]
