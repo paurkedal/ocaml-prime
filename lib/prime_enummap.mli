@@ -92,13 +92,16 @@ module type S = sig
   (** [pop k m] is [Some (k, remove k m)] if [m] binds [k] to [e], otherwise
       [None]. *)
 
-  val pop_min : 'a t -> key * 'a * 'a t
-  (** [pop_min m] is the tuple [(k, e, m')] where [(k, e)] is the binding of
+  val pop_min_exn : 'a t -> key * 'a * 'a t
+  (** [pop_min_exn m] is the tuple [(k, e, m')] where [(k, e)] is the binding of
       [m] with the minimal key and [m'] is the remainder of [m]. *)
 
-  val pop_max : 'a t -> key * 'a * 'a t
-  (** [pop_max m] is the tuple [(k, e, m')] where [(k, e)] is the binding of
+  val pop_max_exn : 'a t -> key * 'a * 'a t
+  (** [pop_max_exn m] is the tuple [(k, e, m')] where [(k, e)] is the binding of
       [m] with the maximum key and [m'] is the remainder of [m]. *)
+
+  val pop_min : 'a t -> key * 'a * 'a t [@@deprecated "Renamed to pop_min_exn."]
+  val pop_max : 'a t -> key * 'a * 'a t [@@deprecated "Renamed to pop_max_exn."]
 
   val remove : key -> 'a t -> 'a t
   (** [remove k m] is the map which agrees with [m] on all keys except that

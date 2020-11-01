@@ -42,8 +42,10 @@ module type S = sig
   val succ_binding : 'a t -> key -> (key * 'a) option
   val add : key -> 'a -> 'a t -> 'a t
   val pop : key -> 'a t -> ('a * 'a t) option
-  val pop_min : 'a t -> key * 'a * 'a t
-  val pop_max : 'a t -> key * 'a * 'a t
+  val pop_min_exn : 'a t -> key * 'a * 'a t
+  val pop_max_exn : 'a t -> key * 'a * 'a t
+  val pop_min : 'a t -> key * 'a * 'a t [@@deprecated]
+  val pop_max : 'a t -> key * 'a * 'a t [@@deprecated]
   val remove : key -> 'a t -> 'a t
   val update : key -> ('a option -> 'a option) -> 'a t -> 'a t
   val cut_binding : key -> 'a t -> 'a option * 'a t * 'a t
@@ -217,17 +219,20 @@ module Make (K : OrderedType) = struct
     | O -> Y (1, k, e, O, O)
     | Y (n, kC, eC, mL, mR) -> bal_y (n + 1) kC eC mL (add_max k e mR)
 
-  let rec pop_min = function
+  let rec pop_min_exn = function
     | O -> raise Not_found
     | Y (_, kC, eC, O, mR) -> kC, eC, mR
     | Y (n, kC, eC, mL, mR) ->
-      let k', e', mL' = pop_min mL in k', e', bal_y (n - 1) kC eC mL' mR
+      let k', e', mL' = pop_min_exn mL in k', e', bal_y (n - 1) kC eC mL' mR
 
-  let rec pop_max = function
+  let rec pop_max_exn = function
     | O -> raise Not_found
     | Y (_, kC, eC, mL, O) -> kC, eC, mL
     | Y (n, kC, eC, mL, mR) ->
-      let k', e', mR' = pop_max mR in k', e', bal_y (n - 1) kC eC mL mR'
+      let k', e', mR' = pop_max_exn mR in k', e', bal_y (n - 1) kC eC mL mR'
+
+  let pop_min = pop_min_exn
+  let pop_max = pop_max_exn
 
   let rec add' k e = function
     | O -> 1, Y (1, k, e, O, O)
@@ -252,14 +257,14 @@ module Make (K : OrderedType) = struct
   let cat mL mR =
     match mL, mR with
     | O, m | m, O -> m
-    | _, _ -> let k, e, mL' = pop_max mL in glue k e mL' mR
+    | _, _ -> let k, e, mL' = pop_max_exn mL in glue k e mL' mR
 
   let cat_balanced n mL mR =
     if n = 0 then O else
     if cardinal mL > cardinal mR then
-      let kC', eC', mL' = pop_max mL in Y (n, kC', eC', mL', mR)
+      let kC', eC', mL' = pop_max_exn mL in Y (n, kC', eC', mL', mR)
     else
-      let kC', eC', mR' = pop_min mR in Y (n, kC', eC', mL, mR')
+      let kC', eC', mR' = pop_min_exn mR in Y (n, kC', eC', mL, mR')
 
   let glue_opt k e_opt mL mR =
     match e_opt with None -> cat mL mR | Some e -> glue k e mL mR
