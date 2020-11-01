@@ -1,3 +1,9 @@
+## v0.9.2 - 2020-11-01
+
+- Fix atomicity issue in `Prime_beacon`.
+- Add `min_elt` and `max_elt` to `Prime_enumset`.
+- Add `_exn` suffixes to `pop_min` and `pop_max` in `Prime_enumset`.
+
 ## v0.9.1 - 2020-09-20
 
 - Add `Prime_list.compare` and `Prime_list.equal`.
