@@ -13,7 +13,7 @@ For details see the [API reference](http://paurkedal.github.io/ocaml-prime/).
 The library is available though OPAM:
 
     opam repo add paurkedal https://github.com/paurkedal/opam-repo-paurkedal.git
-    opam install ocaml-prime
+    opam install prime
 
 To build form sources, first install the dependencies listed in
 [prime.opam](prime.opam) are installed.
