@@ -10,10 +10,14 @@ For details see the [API reference](http://paurkedal.github.io/ocaml-prime/).
 
 ## Installation
 
-The library is available though OPAM:
+The library is available in a custom OPAM repository:
 
     opam repo add paurkedal https://github.com/paurkedal/opam-repo-paurkedal.git
     opam install prime
 
+You can also install a development version with
+
+    opam pin prime git+https://github.com/paurkedal/ocaml-prime.git
+
 To build form sources, first install the dependencies listed in
-[prime.opam](prime.opam) are installed.
+[prime.opam](prime.opam).
