@@ -1,9 +1,9 @@
-(* Copyright (C) 2013--2018  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your
- * option) any later version, with the OCaml static compilation exception.
+ * option) any later version, with the LGPL-3.0 Linking Exception.
  *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -11,7 +11,8 @@
  * License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * and the LGPL-3.0 Linking Exception along with this library.  If not, see
+ * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
 (** Integer functions. *)
@@ -78,6 +79,8 @@ val ceil_log2 : int -> int
 val fold_to : (int -> 'a -> 'a) -> int -> 'a -> 'a
 (** [fold_to f n] returns [f (n - 1) ∘ ⋯ ∘ f 0].
     @raise Invalid_argument if [n < 0]. *)
+
+val range : start: int -> ?stop: int -> ?step: int -> unit -> int Seq.t
 
 
 (**/**)
