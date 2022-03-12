@@ -80,8 +80,6 @@ val fold_to : (int -> 'a -> 'a) -> int -> 'a -> 'a
 (** [fold_to f n] returns [f (n - 1) ∘ ⋯ ∘ f 0].
     @raise Invalid_argument if [n < 0]. *)
 
-val range : start: int -> ?stop: int -> ?step: int -> unit -> int Seq.t
-
 
 (**/**)
 val bitcount16 : int -> int
