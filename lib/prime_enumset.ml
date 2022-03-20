@@ -51,7 +51,8 @@ module type S = sig
   val of_ordered_elements : elt list -> t
   val asc_elements : ?where: (elt -> int) -> t -> elt Seq.t
   val dsc_elements : ?where: (elt -> int) -> t -> elt Seq.t
-  val search : (elt -> 'a option) -> t -> 'a option
+  val find_map : (elt -> 'a option) -> t -> 'a option
+  val search : (elt -> 'a option) -> t -> 'a option [@@deprecated]
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val fold_rev : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
@@ -74,7 +75,8 @@ module type S_monadic = sig
   type 'a monad
   val fold_s : (elt -> 'a -> 'a monad) -> t -> 'a -> 'a monad
   val iter_s : (elt -> unit monad) -> t -> unit monad
-  val search_s : (elt -> 'a option monad) -> t -> 'a option monad
+  val find_map_s : (elt -> 'a option monad) -> t -> 'a option monad
+  val search_s : (elt -> 'a option monad) -> t -> 'a option monad [@@deprecated]
   val for_all_s : (elt -> bool monad) -> t -> bool monad
   val exists_s : (elt -> bool monad) -> t -> bool monad
   val filter_s : (elt -> bool monad) -> t -> t monad
@@ -372,17 +374,19 @@ module Make (E : OrderedType) = struct
             desc_lower_seq ~where ~cont sR []
         in seek s)
 
-  let rec search f = function
+  let rec find_map f = function
     | O -> None
     | Y (_, eC, sL, sR) ->
-      begin match search f sL with
+      begin match find_map f sL with
       | Some _ as r -> r
       | None ->
         begin match f eC with
         | Some _ as r -> r
-        | None -> search f sR
+        | None -> find_map f sR
         end
       end
+
+  let search = find_map
 
   let rec iter f = function
     | O -> ()
@@ -490,17 +494,19 @@ module Make (E : OrderedType) = struct
         M.bind (f eC) @@ fun () ->
         iter_s f sR
 
-    let rec search_s f = function
+    let rec find_map_s f = function
       | O -> M.return None
       | Y (_, eC, sL, sR) ->
-        M.bind (search_s f sL) begin function
+        M.bind (find_map_s f sL) begin function
         | Some _ as r -> M.return r
         | None ->
           M.bind (f eC) begin function
           | Some _ as r -> M.return r
-          | None -> search_s f sR
+          | None -> find_map_s f sR
           end
         end
+
+    let search_s = find_map_s
 
     let rec for_all_s f = function
       | O -> M.return true

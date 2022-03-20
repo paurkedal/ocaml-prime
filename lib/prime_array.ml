@@ -69,13 +69,16 @@ let count f xa =
     loop (if f xa.(i) then c + 1 else c) (i + 1) in
   loop 0 0
 
-let search f xa =
+let find_map f xa =
   let n = length xa in
-  let rec search_from i =
+  let rec loop i =
     if i = n then None else
-    match f xa.(i) with
-    | None -> search_from (i + 1)
-    | y -> y in
-  search_from 0
+    (match f xa.(i) with
+     | None -> loop (i + 1)
+     | y -> y)
+  in
+  loop 0
+
+let search = find_map
 
 let slice i j xa = sub xa i (j - i)

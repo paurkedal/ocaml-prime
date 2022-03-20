@@ -50,7 +50,8 @@ module type S = sig
   val pop_max_exn : t -> elt * t
   val remove : key -> t -> t
   val cut : key -> t -> elt option * t * t
-  val search : (elt -> 'a option) -> t -> 'a option
+  val find_map : (elt -> 'a option) -> t -> 'a option
+  val search : (elt -> 'a option) -> t -> 'a option [@@deprecated]
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val fold_rev : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   val iter : (elt -> unit) -> t -> unit
@@ -294,16 +295,18 @@ module Make (Elt : RETRACTABLE) = struct
         | Some (e, cR') -> Some (e, bal_y (n - 1) eC cL cR') else
       Some (eC, cat_balanced (n - 1) cL cR)
 
-  let rec search f = function
+  let rec find_map f = function
     | O -> None
     | Y (_, eC, cL, cR) ->
       match f eC with
       | Some _ as z -> z
       | None ->
-        begin match search f cL with
+        begin match find_map f cL with
         | Some _ as z -> z
-        | None -> search f cR
+        | None -> find_map f cR
         end
+
+  let search = find_map
 
   let rec fold f = function
     | O -> fun acc -> acc

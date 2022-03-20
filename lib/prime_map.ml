@@ -23,7 +23,8 @@ module type S = sig
   include Map.S
   val app : 'a t -> key -> 'a option
   val pop : key -> 'a t -> ('a * 'a t) option
-  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
+  val find_map : (key -> 'a -> 'b option) -> 'a t -> 'b option
+  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option [@@deprecated]
   val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
   val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
   val mapi2t : (key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
@@ -41,7 +42,7 @@ module Make (K : OrderedType) = struct
 
   let pop k m = try Some (find k m, remove k m) with Not_found -> None
 
-  let search f m =
+  let find_map f m =
     let res = ref None in
     let capture k v =
       match f k v with
@@ -49,6 +50,8 @@ module Make (K : OrderedType) = struct
       | Some r -> res := Some r; true in
     ignore (exists capture m);
     !res
+
+  let search = find_map
 
   let fold2t f m0 m1 =
     fold (fun k v0 -> try f k v0 (find k m1) with Not_found -> ident) m0

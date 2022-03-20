@@ -35,8 +35,8 @@ let run () =
   assert (Array.exists ((=) 2) a);
   assert (not (Array.exists ((=) 5) a));
   assert (Array.count is_even b = 3);
-  assert (Array.search half_even b = Some 1);
-  assert (Array.search half_even c = None);
+  assert (Array.find_map half_even b = Some 1);
+  assert (Array.find_map half_even c = None);
   assert (Array.slice 2 2 b = [||]);
   assert (Array.slice 2 4 b = [|4; 3|]);
   ()

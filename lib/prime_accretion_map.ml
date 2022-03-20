@@ -117,12 +117,14 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
     | O -> ()
     | Y (_, _, k, e, mL, mR) -> iter f mL; f k e; iter f mR
 
-  let rec search f = function
+  let rec find_map f = function
     | O -> None
     | Y (_, _, k, e, mL, mR) ->
-      match search f mL with
+      match find_map f mL with
       | Some _ as r -> r
-      | None -> (match f k e with Some _ as r -> r | None -> search f mR)
+      | None -> (match f k e with Some _ as r -> r | None -> find_map f mR)
+
+  let search = find_map
 
   let rec for_all f = function
     | O -> true

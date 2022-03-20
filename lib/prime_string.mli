@@ -55,9 +55,12 @@ val filter : (char -> bool) -> string -> string
 (** [filter f s] is the string [s] with characters not fulfilling [f] edited
     out. *)
 
-val search : (char -> 'a option) -> string -> 'a option
-(** [search f s] is [Some c] where [c] is the first character in [s] which
+val find_map : (char -> 'a option) -> string -> 'a option
+(** [find_map f s] is [Some c] where [c] is the first character in [s] which
     fulfils [f], or [None] if there is no such [c] in [s]. *)
+
+val search : (char -> 'a option) -> string -> 'a option
+[@@deprecated "Renamed to find_map."]
 
 (** {2 Search Primitives} *)
 

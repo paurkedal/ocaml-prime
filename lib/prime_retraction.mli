@@ -85,7 +85,10 @@ module type S = sig
 
   (** {2 Iteration} *)
 
+  val find_map : (elt -> 'a option) -> t -> 'a option
+
   val search : (elt -> 'a option) -> t -> 'a option
+  [@@deprecated "Renamed to find_map."]
 
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
 

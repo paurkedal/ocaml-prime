@@ -30,13 +30,16 @@ val count : ('a -> bool) -> 'a list -> int
 (** [count f xs] is the number of elements [x] of [xs] for which [f x]
     holds. *)
 
-val search : ('a -> 'b option) -> 'a list -> 'b option
-(** [search f xs] returns the first element of [map f xs] which is different
+val find_map : ('a -> 'b option) -> 'a list -> 'b option
+(** [find_map f xs] returns the first element of [map f xs] which is different
     from [None] or [None] if all elements are [None].  This is an alternative
     to [find] which is easy to nest, e.g. the function
-    [Prime_array.search (Prime_option.search (Prime_list.search f))]
+    [Prime_array.find_map (Prime_option.find_map (Prime_list.find_map f))]
     returns the first non-[None] mapping of [f] in an array of optional
     lists. *)
+
+val search : ('a -> 'b option) -> 'a list -> 'b option
+[@@deprecated "Renamed to find_map, also available in stdlib since 4.07.0."]
 
 
 (** {2 Comparison} *)

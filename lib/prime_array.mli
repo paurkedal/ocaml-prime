@@ -50,9 +50,12 @@ val count : ('a -> bool) -> 'a array -> int
 (** [count f xa] is the number of elements [x] of [xa] for which [f x]
     holds. *)
 
-val search : ('a -> 'b option) -> 'a array -> 'b option
-(** [search f xa] returns the first element of [map f xa] which is not [None],
+val find_map : ('a -> 'b option) -> 'a array -> 'b option
+(** [find_map f xa] returns the first element of [map f xa] which is not [None],
     or [None] if there is no such element. *)
+
+val search : ('a -> 'b option) -> 'a array -> 'b option
+[@@deprecated "Renamed to find_map."]
 
 val slice : int -> int -> 'a array -> 'a array
 (** [slice i j xa] returns the subarray from index [i] inclusive to index [j]

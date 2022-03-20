@@ -63,7 +63,10 @@ val of_list : 'a list -> 'a t
 
 val to_list : 'a t -> 'a list
 
+val find_map : ('a -> 'b option) -> 'a t -> 'b option
+
 val search : ('a -> 'b option) -> 'a t -> 'b option
+[@@deprecated "Renamed to find_map."]
 
 val iter : ('a -> unit) -> 'a t -> unit
 

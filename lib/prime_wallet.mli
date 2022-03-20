@@ -72,9 +72,12 @@ val for_all2 : ('a -> 'b -> bool) -> 'a t -> 'b t -> bool
     [xB] taken from the same position of [wA] and [wB], respectively.
     @raise Invalid_argument if [wA] and [wB] have different size. *)
 
-val search : ('a -> 'b option) -> 'a t -> 'b option
-(** [search f w] is the first [f x] different from [None] for [x] in [w], or
+val find_map : ('a -> 'b option) -> 'a t -> 'b option
+(** [find_map f w] is the first [f x] different from [None] for [x] in [w], or
     [None] if no such [x] is found. *)
+
+val search : ('a -> 'b option) -> 'a t -> 'b option
+[@@deprecated "Renamed to find_map."]
 
 val map : ('a -> 'b) -> 'a t -> 'b t
 (** [map f w] is the image of [w] under [f]. *)

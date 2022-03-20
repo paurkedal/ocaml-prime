@@ -150,9 +150,12 @@ module type S = sig
         will be the continuous range with keys at which this function evaluates
         to zero. *)
 
-  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
-  (** [search f m] is the first [f k e] for [k ↦ e] in [m] which is different
+  val find_map : (key -> 'a -> 'b option) -> 'a t -> 'b option
+  (** [find_map f m] is the first [f k e] for [k ↦ e] in [m] which is different
       from [None], or [None] if no such mapping exists in [m]. *)
+
+  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
+  [@@deprecated "Renamed to find_map."]
 
   val fold : (key -> 'a -> 'b -> 'b) -> 'a t -> 'b -> 'b
   (** [fold f m] is the composition of [f k e] for each [(k, e)] in [m],
@@ -235,7 +238,9 @@ module type S_monadic = sig
   type 'a monad
   val fold_s : (key -> 'a -> 'b -> 'b monad) -> 'a t -> 'b -> 'b monad
   val iter_s : (key -> 'a -> unit monad) -> 'a t -> unit monad
+  val find_map_s : (key -> 'a -> 'b option monad) -> 'a t -> 'b option monad
   val search_s : (key -> 'a -> 'b option monad) -> 'a t -> 'b option monad
+  [@@deprecated "Renamed to find_map_s."]
   val for_all_s : (key -> 'a -> bool monad) -> 'a t -> bool monad
   val exists_s : (key -> 'a -> bool monad) -> 'a t -> bool monad
   val filter_s : (key -> 'a -> bool monad) -> 'a t -> 'a t monad

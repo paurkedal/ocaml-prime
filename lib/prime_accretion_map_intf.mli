@@ -106,9 +106,12 @@ module type S1 = sig
   val iter : (key -> 'a elt -> unit) -> 'a t -> unit
   (** [iter f m] calls [f k e] for each binding [(k, e)] of [m] in key order. *)
 
-  val search : (key -> 'a elt -> 'b option) -> 'a t -> 'b option
-  (** [search f m] is [f k e] where [(k, e)] is the binding with smallest [k]
+  val find_map : (key -> 'a elt -> 'b option) -> 'a t -> 'b option
+  (** [find_map f m] is [f k e] where [(k, e)] is the binding with smallest [k]
       for which [f k e ≠ None], or [None] if [m] has no such binding. *)
+
+  val search : (key -> 'a elt -> 'b option) -> 'a t -> 'b option
+  [@@deprecated "Renamed to find_map."]
 
   val for_all : (key -> 'a elt -> bool) -> 'a t -> bool
   (** [for_all f m] is true iff [f k e] is true for all bindings [(k, e)] of
@@ -151,7 +154,10 @@ module type S = sig
 
   val iter : (key -> elt -> unit) -> t -> unit
 
+  val find_map : (key -> elt -> 'a option) -> t -> 'a option
+
   val search : (key -> elt -> 'a option) -> t -> 'a option
+  [@@deprecated "Renamed to find_map."]
 
   val for_all : (key -> elt -> bool) -> t -> bool
 

@@ -36,8 +36,11 @@ val get_else : (unit -> 'a) -> 'a option -> 'a
 val found : (unit -> 'a) -> 'a option
 (** [found f] is [try Some (f ()) with Not_found -> None]. *)
 
+val find_map : ('a -> 'b option) -> 'a option -> 'b option
+(** [find_map f None] is [None] and [find_map f (Some a)] is [f a]. *)
+
 val search : ('a -> 'b option) -> 'a option -> 'b option
-(** [search f None] is [None] and [search f (Some a)] is [f a]. *)
+[@@deprecated "Renamed to find_map."]
 
 val flatten : 'a option option -> 'a option
 (** [flatten] maps [Some (Some x)] to [Some x] and other values to [None]. *)

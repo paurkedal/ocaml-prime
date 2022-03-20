@@ -34,9 +34,11 @@ let count f =
     | x :: xs -> loop (if f x then n + 1 else n) xs in
   loop 0
 
-let rec search f = function
+let rec find_map f = function
   | [] -> None
-  | x :: xs -> match f x with None -> search f xs | y -> y
+  | x :: xs -> match f x with None -> find_map f xs | y -> y
+
+let search = find_map
 
 let rec equal f xs ys =
   (match xs, ys with

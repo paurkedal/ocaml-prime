@@ -29,9 +29,12 @@ module type S = sig
   (** [pop k m] returns [Some (find k m, remove k m)] if [k] is bound in [m],
       otherwise [None]. *)
 
-  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
-  (** [search f m] returns the first non-[None] result of [f k v] where [k, v]
+  val find_map : (key -> 'a -> 'b option) -> 'a t -> 'b option
+  (** [find_map f m] returns the first non-[None] result of [f k v] where [k, v]
       runs over the bindings of [m] if it exists, otherwise [None]. *)
+
+  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
+  [@@deprecated "Renamed to find_map."]
 
   val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
   (** [fold2t f m0 m1] returns the composition [f kₙ vₙ wₙ ∘ ⋯ ∘ f k₁ v₁ w₁]

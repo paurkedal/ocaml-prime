@@ -134,9 +134,12 @@ module type S = sig
         must be a monotonically increasing function, in which case the returned
         elements will be the continuous range at which it evaluates to zero. *)
 
-  val search : (elt -> 'a option) -> t -> 'a option
-  (** [search f s] is the first [f e] for [e] in [s] which is different from
+  val find_map : (elt -> 'a option) -> t -> 'a option
+  (** [find_map f s] is the first [f e] for [e] in [s] which is different from
       [None], or [None] if there is no such [e]. *)
+
+  val search : (elt -> 'a option) -> t -> 'a option
+  [@@deprecated "Renamed to find_map."]
 
   val fold : (elt -> 'a -> 'a) -> t -> 'a -> 'a
   (** [fold f s] is the composition of [f e] for each [e] in [s] applied in
@@ -190,7 +193,9 @@ module type S_monadic = sig
   type 'a monad
   val fold_s : (elt -> 'a -> 'a monad) -> t -> 'a -> 'a monad
   val iter_s : (elt -> unit monad) -> t -> unit monad
+  val find_map_s : (elt -> 'a option monad) -> t -> 'a option monad
   val search_s : (elt -> 'a option monad) -> t -> 'a option monad
+  [@@deprecated "Renamed to find_map_s."]
   val for_all_s : (elt -> bool monad) -> t -> bool monad
   val exists_s : (elt -> bool monad) -> t -> bool monad
   val filter_s : (elt -> bool monad) -> t -> t monad

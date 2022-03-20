@@ -166,17 +166,19 @@ let rec push_elements = function
 
 let to_list s = push_elements s []
 
-let rec search f = function
+let rec find_map f = function
   | O -> None
   | Y (_, eC, sL, sR) ->
-    begin match search f sL with
+    begin match find_map f sL with
     | Some _ as r -> r
     | None ->
       begin match f eC with
       | Some _ as r -> r
-      | None -> search f sR
+      | None -> find_map f sR
       end
     end
+
+let search = find_map
 
 let rec iter f = function
   | O -> ()
