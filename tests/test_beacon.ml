@@ -17,7 +17,7 @@
 
 module Beacon = Prime_beacon.Make (struct
 
-  let cache_hertz = Int64.to_float ExtUnixSpecific.(sysconf CLK_TCK)
+  let cache_hertz = Int64.to_float ExtUnix.Specific.(sysconf CLK_TCK)
 
   let cache_metric =
     let current_time () =
