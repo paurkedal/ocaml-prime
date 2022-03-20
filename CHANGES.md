@@ -1,3 +1,12 @@
+## v0.9.3 - 2022-03-20
+
+- Add iterators for `Prime_cache`.
+- In `Prime_enummap`, rename `pop_min` to `pop_min_exn` and `pop_max` to
+  `pop_max_exn`.
+- Rename `search` and `search_s` to `find_map` and `find_map_s` in all
+  modules and signatures where present.
+- Switch to LGPL-3.0 Linking Exception.
+
 ## v0.9.2 - 2020-11-01
 
 - Fix atomicity issue in `Prime_beacon`.
