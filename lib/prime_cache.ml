@@ -81,3 +81,6 @@ let replace c g k v =
   c.c_add_count <- c.c_add_count + 1
 
 let remove c k = Hashtbl.remove c.c_tbl k
+
+let iter f c = Hashtbl.iter (fun k e -> f k e.e_value) c.c_tbl
+let fold f c = Hashtbl.fold (fun k e -> f k e.e_value) c.c_tbl

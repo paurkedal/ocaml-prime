@@ -41,3 +41,11 @@ val replace : ('a, 'b) t -> float -> 'a -> 'b -> unit
 val remove : ('a, 'b) t -> 'a -> unit
 (** [remove ct k] removes any entry cached under [k] from [ct].  Does nothing
     if [k] is not in the cache. *)
+
+val iter : ('a -> 'b -> unit) -> ('a, 'b) t -> unit
+(** [iter f ct] calls [f k v] for each binding [(k, v)] of [ct] which happens to
+    be cached at the moment of the call. *)
+
+val fold : ('a -> 'b -> 'c -> 'c) -> ('a, 'b) t -> 'c -> 'c
+(** [fold f ct] composes [f k v] over each binding [(k, v)] of [ct] which
+    happens to be cached at the moment of the call. *)
