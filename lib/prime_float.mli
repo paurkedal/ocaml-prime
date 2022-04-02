@@ -18,19 +18,25 @@
 (** Floating point functions. *)
 
 val e : float
-(** [e] is the Euler's number {e e}. *)
+(** [e] is Euler's number {e e}. *)
 
 val pi : float
 (** [pi] is the ratio {e π} of the circumference to the diameter of a circle in
-    the Euclidean plane. *)
+    the Euclidean plane.
+    @deprecated This is available in the standard library since 4.07.0. *)
 
 val sign : float -> float
 (** [sign x] is [-1.0], [0.0], or [1.0] where [x] is negative, zero, or
-    positive, respectively. *)
+    positive, respectively.  This is different from
+    [Stdlib.Float.copy_sign 1.0], which returns [1.0] and [-1.0] at [0.0] and
+    [0.0], respectively. *)
 
 val round : float -> float
-(** [round x] is the whole number closest to [x], rounding towards zero in case
-    of a tie. *)
+[@@deprecated
+  "Use Stdlib.Float.round instead, available since OCaml 4.07, \
+   but note the opposite behaviour in case of a tie."]
+(** [round_nonstd x] is the whole number closest to [x], rounding towards zero
+    in case of a tie. *)
 
 val to_fraction : ?max_denom: int -> float -> int * int
 (** [to_fraction x] returns [(n, d)] such that [n/d] is a best rational
