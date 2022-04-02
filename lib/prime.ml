@@ -15,8 +15,8 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
-type counit = {absurd : 'a. 'a}
-let absurd z = z.absurd
+type counit = |
+let absurd = function (_ : counit) -> .
 
 let ident x = x
 let konst x _ = x

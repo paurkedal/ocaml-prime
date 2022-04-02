@@ -19,7 +19,7 @@
 
 (** {2 The Empty Type} *)
 
-type counit
+type counit = |
 (** A type which is uninhabited by well-founded code.  This is equivalent to a
     variant type with no constructors, though syntax forbids naming or
     defining such types. *)
