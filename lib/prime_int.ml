@@ -89,22 +89,17 @@ let signed_width =
     if x' <= x then i else loop (succ i) x' in
   loop 0 0
 
-let bitcount16 n =
-  let n = (n land 0x5555) + (n lsr 1 land 0x5555) in
-  let n = (n land 0x3333) + (n lsr 2 land 0x3333) in
-  let n = (n land 0x0f0f) + (n lsr 4 land 0x0f0f) in
-  let n = (n land 0x00ff) + (n lsr 8 land 0x00ff) in
-  n
-
-let bitcount31 n =
-  let n = (n land 0x55555555) + (n lsr  1 land 0x15555555(*sic*)) in
-  let n = (n land 0x33333333) + (n lsr  2 land 0x33333333) in
-  let n = (n land 0x0f0f0f0f) + (n lsr  4 land 0x0f0f0f0f) in
-  let n = (n land 0x00ff00ff) + (n lsr  8 land 0x00ff00ff) in
-  let n = (n land 0x0000ffff) + (n lsr 16 land 0x0000ffff) in
-  n
-
-let rec bitcount n = if n = 0 then 0 else bitcount31 n + bitcount (n lsr 31)
+let bitcount =
+  (* Cf. https://en.wikipedia.org/wiki/Hamming_weight *)
+  let m1 = Int64.to_int 0x5555555555555555L in
+  let m2 = Int64.to_int 0x3333333333333333L in
+  let m4 = Int64.to_int 0x0f0f0f0f0f0f0f0fL in
+  let h01 = Int64.to_int 0x0101010101010101L in
+  fun x ->
+    let x = x - (x lsr 1 land m1) in
+    let x = (x land m2) + (x lsr 2 land m2) in
+    let x = (x + (x lsr 4)) land m4 in
+    (x * h01) lsr 56
 
 let floor_log2_halfwidth = if signed_width <= 32 then 16 else 32
 

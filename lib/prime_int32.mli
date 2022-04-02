@@ -21,4 +21,4 @@ val pow : int32 -> int -> int32
 (** [pow b n] is [b] raised to [n]. *)
 
 val bitcount : int32 -> int
-(** [bitcount n] is the number of bits in the binary representation of [n]. *)
+(** [bitcount n] is the binary digit sum of [n]. *)

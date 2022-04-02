@@ -15,6 +15,14 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
+module Infix = struct
+  let ( + ) = Int32.add
+  let ( - ) = Int32.sub
+  let ( * ) = Int32.mul
+  let ( lsr ) = Int32.shift_right_logical
+  let ( land ) = Int32.logand
+end
+
 let pow b n =
   if n < 0 then failwith "Prime_int32.pow" else
   let rec loop b n acc =
@@ -23,6 +31,15 @@ let pow b n =
          (if n land 1 = 0 then acc else Int32.(mul b acc)) in
   loop b n 1l
 
-let bitcount n =
-    Prime_int.bitcount31 (Int32.to_int n)
-  + (if n < 0l then 1 else 0)
+let bitcount =
+  (* Cf. https://en.wikipedia.org/wiki/Hamming_weight *)
+  let m1 = 0x55555555l in
+  let m2 = 0x33333333l in
+  let m4 = 0x0f0f0f0fl in
+  let h01 = 0x01010101l in
+  fun x ->
+    let open Infix in
+    let x = x - (x lsr 1 land m1) in
+    let x = (x land m2) + (x lsr 2 land m2) in
+    let x = (x + (x lsr 4)) land m4 in
+    Int32.to_int ((x * h01) lsr 24)

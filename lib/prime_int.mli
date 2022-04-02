@@ -65,7 +65,7 @@ val signed_width : int
 (** The number of non-sign bits of an [int]. *)
 
 val bitcount : int -> int
-(** [bitcount n] is the number of ones in the binary representation of [n]. *)
+(** [bitcount n] is the binary digit sum of [n]. *)
 
 val floor_log2 : int -> int
 (** [floor_log2 n] is [⌊log₂ n⌋]. *)
@@ -79,8 +79,3 @@ val ceil_log2 : int -> int
 val fold_to : (int -> 'a -> 'a) -> int -> 'a -> 'a
 (** [fold_to f n] returns [f (n - 1) ∘ ⋯ ∘ f 0].
     @raise Invalid_argument if [n < 0]. *)
-
-
-(**/**)
-val bitcount16 : int -> int
-val bitcount31 : int -> int
