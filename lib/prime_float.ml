@@ -1,4 +1,4 @@
-(* Copyright (C) 2016--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -40,7 +40,8 @@ let to_fraction =
         let d = a *. d' +. d'' in
         if d > max_denom then (n', d') else
         if c <= epsilon_float then (n, d) else
-        loop n n' d d' (1.0 /. c) in
+        loop n n' d d' (1.0 /. c)
+      in
       if x >= 0.0 then
         let n, d = loop 1. 0. 0. 1. x in
         (int_of_float n, int_of_float d)
@@ -58,7 +59,8 @@ let to_fraction =
         let d = a * d' + d'' in
         if d < 0 || d > max_denom then (n', d') else
         if c <= epsilon_float then (n, d) else
-        loop n n' d d' (1.0 /. c) in
+        loop n n' d d' (1.0 /. c)
+      in
       if x >= 0.0 then
         loop 1 0 0 1 x
       else

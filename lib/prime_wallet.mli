@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -23,7 +23,7 @@
     elements from the front.
 
     A wallet is represented as an optional element and a wallet of pairs,
-    {[type 'a t = Empty | Even of ('a * 'a) t | Odd 'a * ('a * 'a) t]}
+    {[type 'a t = Empty | Even of ('a * 'a) t | Odd of 'a * ('a * 'a) t]}
     which amounts to a sequence of complete trees of increasing length. *)
 
 type 'a t

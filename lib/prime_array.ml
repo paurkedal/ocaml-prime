@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -25,12 +25,14 @@ let fmap f xa =
     if i = n then (if j = Array.length ya then ya else Array.sub ya 0 j) else
     match f xa.(i) with
     | None -> fill_phase ya (i + 1) j
-    | Some y -> ya.(j) <- y; fill_phase ya (i + 1) (j + 1) in
+    | Some y -> ya.(j) <- y; fill_phase ya (i + 1) (j + 1)
+  in
   let rec skip_phase i =
     if i = n then [||] else
     match f xa.(i) with
     | None -> skip_phase (i + 1)
-    | Some y -> fill_phase (Array.make (n - i) y) (i + 1) 1 in
+    | Some y -> fill_phase (Array.make (n - i) y) (i + 1) 1
+  in
   skip_phase 0
 
 let filter_map = fmap
@@ -66,7 +68,8 @@ let count f xa =
   let n = length xa in
   let rec loop c i =
     if i = n then c else
-    loop (if f xa.(i) then c + 1 else c) (i + 1) in
+    loop (if f xa.(i) then c + 1 else c) (i + 1)
+  in
   loop 0 0
 
 let find_map f xa =

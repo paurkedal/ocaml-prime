@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -47,7 +47,8 @@ module Make (K : OrderedType) = struct
     let capture k v =
       match f k v with
       | None -> false
-      | Some r -> res := Some r; true in
+      | Some r -> res := Some r; true
+    in
     ignore (exists capture m);
     !res
 
@@ -57,26 +58,28 @@ module Make (K : OrderedType) = struct
     fold (fun k v0 -> try f k v0 (find k m1) with Not_found -> ident) m0
 
   let map2t f =
-    merge (fun _ xopt yopt ->
-           match xopt, yopt with
-           | Some x, Some y -> Some (f x y)
-           | _, _ -> None)
+    merge @@ fun _ x y ->
+    (match x, y with
+     | Some x, Some y -> Some (f x y)
+     | _, _ -> None)
 
   let mapi2t f =
-    merge (fun k xopt yopt ->
-           match xopt, yopt with
-           | Some x, Some y -> Some (f k x y)
-           | _, _ -> None)
+    merge @@ fun k x y ->
+    (match x, y with
+     | Some x, Some y -> Some (f k x y)
+     | _, _ -> None)
 
   let left_union m0 m1 =
     merge (fun _ v0o v1o -> match v0o with None -> v1o | _ -> v0o) m0 m1
 
   let split_union f mA mB =
     let aux k a (mA, mB, mC) =
-      try let b = find k mB in
+      try
+        let b = find k mB in
         (mA, remove k mB, add k (f k a b) mC)
       with Not_found ->
-        (add k a mA, mB, mC) in
+        (add k a mA, mB, mC)
+    in
     fold aux mA (empty, mB, empty)
 
   let left_inter m0 m1 = filter (fun k _ -> mem k m1) m0

@@ -1,4 +1,4 @@
-(* Copyright (C) 2016--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -119,6 +119,7 @@ module Make (Elt : Set.OrderedType) = struct
   let gc h =
     let rec loop h h' =
       if is_empty h then h' else
-      loop (remove_min h) (add (find_min h) h') in
+      loop (remove_min h) (add (find_min h) h')
+    in
     loop h O
 end

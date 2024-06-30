@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2020  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,12 +106,13 @@ module Make (M : CACHE_METRIC) = struct
     b.access_count <- b.access_count + 1
 
   let embed g f =
-    let b =
-      { owner = Obj.repr head;
-        next = dummy;
-        access_count = 1;
-        access_start = Prime_cache_metric.access_init M.cache_metric;
-        grade = g; } in
+    let b = {
+      owner = Obj.repr head;
+      next = dummy;
+      access_count = 1;
+      access_start = Prime_cache_metric.access_init M.cache_metric;
+      grade = g;
+    } in
     let obj = f b in
     b.owner <- Obj.repr obj;
     b.next <- head.next;

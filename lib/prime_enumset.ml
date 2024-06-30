@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -268,8 +268,9 @@ module Make (E : OrderedType) = struct
 
   let elements s =
     let rec loop acc = function
-      | O -> acc
-      | Y (_, eC, sL, sR) -> loop (eC :: loop acc sR) sL in
+     | O -> acc
+     | Y (_, eC, sL, sR) -> loop (eC :: loop acc sR) sL
+    in
     loop [] s
 
   let of_ordered_elements es =
@@ -278,14 +279,16 @@ module Make (E : OrderedType) = struct
       | e :: es ->
         if E.compare e' e >= 0 then
           invalid_arg "Prime_enumset.of_ordererd_elements";
-        count_and_check (succ n) e es in
+        count_and_check (succ n) e es
+    in
     let rec build n es =
       if n = 0 then O, es else
       if n = 1 then Y (1, List.hd es, O, O), List.tl es else
       let sL, es = build (n / 2) es in
       let e = List.hd es in
       let sR, es = build ((n - 1) / 2) (List.tl es) in
-      Y (n, e, sL, sR), es in
+      Y (n, e, sL, sR), es
+    in
     match es with
     | [] -> O
     | e :: es' -> fst (build (count_and_check 1 e es') es)
@@ -422,7 +425,8 @@ module Make (E : OrderedType) = struct
       | More _, End -> 1
       | More (eA, sA, qA), More (eB, sB, qB) ->
         let c = E.compare eA eB in if c <> 0 then c else
-        aux (cons_enum sA qA, cons_enum sB qB) in
+        aux (cons_enum sA qA, cons_enum sB qB)
+    in
     aux (cons_enum sA End, cons_enum sB End)
 
   let rec disjoint sA sB =
@@ -449,7 +453,8 @@ module Make (E : OrderedType) = struct
   let rec union sA sB =
     let aux sC e sL sR =
       let _, sLC, sRC = cut_element e sC in
-      glue e (union sLC sL) (union sRC sR) in
+      glue e (union sLC sL) (union sRC sR)
+    in
     match sA, sB with
     | O, s | s, O -> s
     | Y (nA, eA, sLA, sRA), Y (nB, eB, sLB, sRB) ->
@@ -461,7 +466,8 @@ module Make (E : OrderedType) = struct
       let pres, sLC, sRC = cut_element e sC in
       let sL' = inter sLC sL in
       let sR' = inter sRC sR in
-      if pres then glue e sL' sR' else cat sL' sR' in
+      if pres then glue e sL' sR' else cat sL' sR'
+    in
     match sA, sB with
     | O, _ | _, O -> O
     | Y (nA, eA, sLA, sRA), Y (nB, eB, sLB, sRB) ->

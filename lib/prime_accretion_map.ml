@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -81,14 +81,16 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
   let rec pop_min = function
     | O -> invalid_arg "Prime_accretion_map.pop_min"
     | Y (_, _, kC, eC, O, mR) -> kC, eC, mR
-    | Y (_, _, kC, eC, mL, mR) -> let k, e, mL' = pop_min mL in
-                                  k, e, aY kC eC mL' mR
+    | Y (_, _, kC, eC, mL, mR) ->
+      let k, e, mL' = pop_min mL in
+      k, e, aY kC eC mL' mR
 
   let rec pop_max = function
     | O -> invalid_arg "Prime_accretion_map.pop_max"
     | Y (_, _, kC, eC, mL, O) -> kC, eC, mL
-    | Y (_, _, kC, eC, mL, mR) -> let k, e, mR' = pop_max mR in
-                                  k, e, aY kC eC mL mR'
+    | Y (_, _, kC, eC, mL, mR) ->
+      let k, e, mR' = pop_max mR in
+      k, e, aY kC eC mL mR'
 
   let rec remove' k = function
     | O -> raise Not_found
@@ -105,7 +107,8 @@ module Make_ (Key : Map.OrderedType) (Elt : Monoid_) = struct
   let bindings m =
     let rec push acc = function
       | O -> acc
-      | Y (_, _, k, e, mL, mR) -> push ((k, e) :: push acc mR) mL in
+      | Y (_, _, k, e, mL, mR) -> push ((k, e) :: push acc mR) mL
+    in
     push [] m
 
   let rec fold f = function

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -58,7 +58,8 @@ let test_cut () =
         if e < e_cut then (Int_eset.add e sL, sR) else
         if e > e_cut then (sL, Int_eset.add e sR) else
         (sL, sR))
-      es (Int_eset.empty, Int_eset.empty) in
+      es (Int_eset.empty, Int_eset.empty)
+  in
   let pres, sL', sR' = Int_eset.cut_element es.(i_cut) s in
   assert pres;
   assert (Int_eset.equal sL sL');
@@ -93,7 +94,8 @@ let test_alg () =
   let sAnB' =
     Array.fold
       (fun i -> if Int_eset.mem i sA then Int_eset.add i else ident)
-      esB Int_eset.empty in
+      esB Int_eset.empty
+  in
   assert (Int_eset.equal sAnB sAnB');
   let sAnB'' = Int_eset.filter (fun e -> Int_eset.mem e sA) sB in
   assert (Int_eset.equal sAnB sAnB'');
@@ -134,7 +136,8 @@ let run () =
       let es'' = Int_eset.add j es' in
       assert (not (Int_eset.mem i es'));
       assert (Int_eset.mem j es'');
-      populate imax (n - 1) (Int_set.add j (Int_set.remove i s)) es'' in
+      populate imax (n - 1) (Int_set.add j (Int_set.remove i s)) es''
+    in
     let n = Random.int (1 lsl Random.int 10) + 1 in
     let s, es = populate n n Int_set.empty Int_eset.empty in
     assert_equal_int ~msg:"cardinality using fold" (Int_set.cardinal s)

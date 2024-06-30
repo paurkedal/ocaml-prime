@@ -1,4 +1,4 @@
-(* Copyright (C) 2016--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -43,7 +43,8 @@ let rec test n i q r =
       | 0 -> let x = Random.int n in (Q.add x q, R.add x r)
       | 1 -> let x = Random.int n in (Q.remove x q, R.remove x r)
       | 2 -> (Q.remove_min q, R.remove_min r)
-      | _ -> assert false in
+      | _ -> assert false
+    in
     assert (Q.is_empty q' = R.is_empty r');
     if not (Q.is_empty q') then assert (Q.find_min q' = R.find_min r');
     test n (i + 1) q' r'

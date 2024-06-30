@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -30,7 +30,8 @@ let test n =
   let aux i (rm, am) =
     let k = Random.int n in
     let x = [i] in
-    Rm.add k x rm, Am.add k x am in
+    Rm.add k x rm, Am.add k x am
+  in
   let rm, am = Prime_int.fold_to aux n (Rm.empty, Am.empty) in
   assert (Am.cardinal am = Rm.cardinal rm);
   assert (Am.bindings am = Rm.bindings rm);

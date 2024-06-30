@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -63,7 +63,8 @@ let count f s =
   let n = length s in
   let rec loop i acc =
     if i = n then acc else
-    loop (i + 1) (if f s.[i] then acc + 1 else acc) in
+    loop (i + 1) (if f s.[i] then acc + 1 else acc)
+  in
   loop 0 0
 
 let filter f s =
@@ -114,7 +115,8 @@ let skip_affix afx s i =
     if l = m then Some (i + m) else
     if s.[i + l] = afx.[l] then loop i (l + 1) else
     if i < n - m then loop (i + 1) 0 else
-    None in
+    None
+  in
   if i < 0 then invalid_arg "Prime_string.skip_affix: Negative index." else
   if i <= n - m then loop i 0 else
   if i > n then invalid_arg "Prime_string.skip_affix: Index past EOS." else
@@ -126,7 +128,8 @@ let rskip_affix afx s j =
     if l = m then Some i else
     if s.[i + l] = afx.[l] then loop i (l + 1) else
     if i > 0 then loop (i - 1) 0 else
-    None in
+    None
+  in
   if j < 0 then invalid_arg "Prime_string.rskip_affix: Negative index." else
   if j >= m then loop (j - m) 0 else
   if j > n then invalid_arg "Prime_string.rskip_affix: Index past EOS." else
@@ -160,7 +163,8 @@ let chop_affix afx s =
   let rec loop i j acc =
     if i < 0 then slice 0 j s :: acc else
     if has_slice i afx s then loop (i - m) i (slice (i + m) j s :: acc) else
-    loop (i - 1) j acc in
+    loop (i - 1) j acc
+  in
   let n = length s in
   if n = 0 then [] else loop (n - m) n []
 
@@ -180,5 +184,6 @@ let chop_consecutive f s =
   let rec loop j acc =
     if j = 0 then acc else
     let i = rskip_until f s j in
-    loop (rskip_while f s i) (slice i j s :: acc) in
+    loop (rskip_while f s i) (slice i j s :: acc)
+  in
   loop (rskip_while f s (length s)) []

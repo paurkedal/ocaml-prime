@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -266,10 +266,14 @@ module Make (Elt : RETRACTABLE) = struct
     | O -> None, O, O
     | Y (_n, e, cL, cR) ->
       let o = Elt.compare ek e in
-      if o < 0 then let e_opt, cLL, cRL = cut_elt ek cL in
-                    e_opt, cLL, glue e cRL cR else
-      if o > 0 then let e_opt, cLR, cRR = cut_elt ek cR in
-                    e_opt, glue e cL cLR, cRR else
+      if o < 0 then
+        let e_opt, cLL, cRL = cut_elt ek cL in
+        e_opt, cLL, glue e cRL cR
+      else
+      if o > 0 then
+        let e_opt, cLR, cRR = cut_elt ek cR in
+        e_opt, glue e cL cLR, cRR
+      else
       Some e, cL, cR
 
   let rec remove' k = function
@@ -344,7 +348,8 @@ module Make (Elt : RETRACTABLE) = struct
       | More _, End -> 1
       | More (eA, cA, qA), More (eB, cB, qB) ->
         let c = Elt.compare eA eB in if c <> 0 then c else
-        aux (cons_enum cA qA, cons_enum cB qB) in
+        aux (cons_enum cA qA, cons_enum cB qB)
+    in
     aux (cons_enum cA End, cons_enum cB End)
 
   let equal cA cB = compare cA cB = 0

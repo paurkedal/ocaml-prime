@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -64,7 +64,8 @@ let check cs access_count access_time g =
     let dt_hist = cs.cs_time -. access_time in
     if access_count >= cs.cs_cm.cm_period_sample_size
     then dt_hist *. cs.cs_cm.cm_renorm
-    else dt_hist /. (float_of_int access_count -. 0.5) in
+    else dt_hist /. (float_of_int access_count -. 0.5)
+  in
   if dt *. cs.cs_memory_pressure < g
   then (cs.cs_live_count <- cs.cs_live_count + 1; true)
   else (cs.cs_dead_count <- cs.cs_dead_count + 1; false)

@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -28,7 +28,8 @@ let pow b n =
   let rec loop b n acc =
     if n = 0 then acc else
     loop Int64.(mul b b) (n lsr 1)
-         (if n land 1 = 0 then acc else Int64.(mul b acc)) in
+         (if n land 1 = 0 then acc else Int64.(mul b acc))
+  in
   loop b n 1L
 
 let bitcount =

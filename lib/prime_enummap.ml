@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -242,10 +242,14 @@ module Make (K : OrderedType) = struct
     | O -> 1, Y (1, k, e, O, O)
     | Y (n, kC, eC, mL, mR) ->
       let o = K.compare k kC in
-      if o < 0 then let dn, mL' = add' k e mL in
-                    dn, bal_y (n + dn) kC eC mL' mR else
-      if o > 0 then let dn, mR' = add' k e mR in
-                    dn, bal_y (n + dn) kC eC mL mR' else
+      if o < 0 then
+        let dn, mL' = add' k e mL in
+        dn, bal_y (n + dn) kC eC mL' mR
+      else
+      if o > 0 then
+        let dn, mR' = add' k e mR in
+        dn, bal_y (n + dn) kC eC mL mR'
+      else
       0, Y (n, k, e, mL, mR)
   let add k e m = snd (add' k e m)
 
@@ -330,8 +334,9 @@ module Make (K : OrderedType) = struct
 
   let bindings m =
     let rec loop acc = function
-      | O -> acc
-      | Y (_, kC, eC, mL, mR) -> loop ((kC, eC) :: loop acc mR) mL in
+     | O -> acc
+     | Y (_, kC, eC, mL, mR) -> loop ((kC, eC) :: loop acc mR) mL
+    in
     loop [] m
 
   let of_ordered_bindings kes =
@@ -340,14 +345,16 @@ module Make (K : OrderedType) = struct
       | (k, _) :: kes ->
         if K.compare k' k >= 0 then
           invalid_arg "Prime_enummap.of_ordererd_bindings";
-        count_and_check (succ n) k kes in
+        count_and_check (succ n) k kes
+    in
     let rec build n kes =
       if n = 0 then O, kes else
       if n = 1 then let k, e = List.hd kes in Y(1, k, e, O, O), List.tl kes else
       let mL, kes = build (n / 2) kes in
       let k, e = List.hd kes in
       let mR, kes = build ((n - 1) / 2) (List.tl kes) in
-      Y (n, k, e, mL, mR), kes in
+      Y (n, k, e, mL, mR), kes
+    in
     match kes with
     | [] -> O
     | (k0, _) :: kes' -> fst (build (count_and_check 1 k0 kes') kes)
@@ -502,7 +509,8 @@ module Make (K : OrderedType) = struct
       | More (kA, eA, mA, qA), More (kB, eB, mB, qB) ->
         let ck = K.compare kA kB in if ck <> 0 then ck else
         let cv = f eA eB in         if cv <> 0 then cv else
-        aux (cons_enum mA qA, cons_enum mB qB) in
+        aux (cons_enum mA qA, cons_enum mB qB)
+    in
     aux (cons_enum mA End, cons_enum mB End)
 
   let equal f mA mB =
@@ -511,7 +519,8 @@ module Make (K : OrderedType) = struct
       | End, More _ | More _, End -> false
       | More (kA, eA, mA, qA), More (kB, eB, mB, qB) ->
         K.compare kA kB = 0 && f eA eB &&
-        aux (cons_enum mA qA, cons_enum mB qB) in
+        aux (cons_enum mA qA, cons_enum mB qB)
+    in
     aux (cons_enum mA End, cons_enum mB End)
 
   let rec merge f mA mB =
@@ -573,10 +582,12 @@ module Make (K : OrderedType) = struct
 
   let split_union f mA mB =
     let aux k a (mA, mB, mC) =
-      try let b = find k mB in
+      try
+        let b = find k mB in
         (mA, remove k mB, add k (f k a b) mC)
       with Not_found ->
-        (add k a mA, mB, mC) in
+        (add k a mA, mB, mC)
+    in
     fold aux mA (empty, mB, empty)
 
   module Make_monadic (M : Monad) = struct

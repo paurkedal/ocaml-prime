@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -32,8 +32,8 @@ let scrub c =
   let cs = Prime_cache_metric.check_start c.c_cm in
   let check k e ks =
     if Prime_cache_metric.check cs e.e_access_count e.e_access_start e.e_grade
-    then ks
-    else k :: ks in
+    then ks else k :: ks
+  in
   [] |> Hashtbl.fold check c.c_tbl
      |> List.iter (fun k -> Hashtbl.remove c.c_tbl k);
   Prime_cache_metric.check_stop cs
@@ -43,7 +43,8 @@ let monitor wc =
   let on_gc () =
     match Weak.get wc 0 with
     | Some c -> scrub c
-    | None -> Prime_option.iter Gc.delete_alarm !alarm_r in
+    | None -> Prime_option.iter Gc.delete_alarm !alarm_r
+  in
   let alarm = Gc.create_alarm on_gc in
   alarm_r := Some alarm
 

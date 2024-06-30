@@ -1,4 +1,4 @@
-(* Copyright (C) 2016--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2016--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -22,7 +22,8 @@ let test_fraction () =
     let n, d = Prime_float.to_fraction x in
     let g = Prime_int.gcd i j in
     assert (n = i / g);
-    assert (d = j / g) in
+    assert (d = j / g)
+  in
   for i = 1 to 199 do
     for j = 1 to 199 do
       aux i j

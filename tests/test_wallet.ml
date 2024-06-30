@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -34,7 +34,8 @@ let test n =
       let wf' = push (f i) wf in
       assert (pop wf' = (f i, wf));
       build (i - 1) wf'
-    end in
+    end
+  in
   let wf = build (n - 1) empty in
   assert (length wf = n);
 
@@ -49,9 +50,12 @@ let test n =
   let wg', wf' =
     let rec loop i wg wf =
       if i = n then (wg, wf) else
-      if Random.bool () then loop (i + 1) (set i (f i) wg) wf
-                        else loop (i + 1) wg (set i (g i) wf) in
-    loop 0 wg wf in
+      if Random.bool ()
+      then loop (i + 1) (set i (f i) wg) wf
+      else loop (i + 1) wg (set i (g i) wf)
+    in
+    loop 0 wg wf
+  in
   assert (wg' = wf');
 
   (* Test iterators. *)
@@ -71,7 +75,8 @@ let test n =
       let cowf' = copush (f j) cowf in
       assert (copop cowf' = (f j, cowf));
       cobuild (i + 1) cowf'
-    end in
+    end
+  in
   let cowf = cobuild 0 empty in
   assert (length cowf = n);
 

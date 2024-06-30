@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -37,7 +37,8 @@ let sample f =
     if n = 0 then O else
     let nL = n / 2 in
     let nR = n - nL - 1 in
-    Y (n, f (i + nL), aux i nL, aux (i + nL + 1) nR) in
+    Y (n, f (i + nL), aux i nL, aux (i + nL + 1) nR)
+  in
   aux 0
 
 let rec get s i =
@@ -156,7 +157,8 @@ let of_list xs =
     let sL, xs = aux (n / 2) xs in
     let e,  xs = List.hd xs, List.tl xs in
     let sR, xs = aux ((n - 1) / 2) xs in
-    (Y (n, e, sL, sR), xs) in
+    (Y (n, e, sL, sR), xs)
+  in
   fst (aux (List.length xs) xs)
 
 let rec push_elements = function
@@ -189,7 +191,8 @@ let iteri f =
     | O -> ()
     | Y (_n, e, sL, sR) ->
       let nL = length sL in
-      aux i sL; f (i + nL) e; aux (i + nL + 1) sR in
+      aux i sL; f (i + nL) e; aux (i + nL + 1) sR
+  in
   aux 0
 
 let rec fold f = function
@@ -201,7 +204,8 @@ let foldi f =
     | O -> fun acc -> acc
     | Y (_n, e, sL, sR) ->
       let nL = length sL in
-      fun acc -> acc |> aux i sL |> f (i + nL) e |> aux (i + nL + 1) sR in
+      fun acc -> acc |> aux i sL |> f (i + nL) e |> aux (i + nL + 1) sR
+  in
   aux 0
 
 let rec for_all f = function
@@ -227,7 +231,8 @@ let mapi f =
     | O -> O
     | Y (n, e, sL, sR) ->
       let nL = length sL in
-      Y (n, f (i + nL) e, aux i sL, aux (i + nL + 1) sR) in
+      Y (n, f (i + nL) e, aux i sL, aux (i + nL + 1) sR)
+  in
   aux 0
 
 let rec filter_map f = function
@@ -247,7 +252,8 @@ let filter_mapi f =
       let sR' = aux (i + nL + 1) sR in
       match f (i + nL) e with
       | Some e' -> glue e' sL' sR'
-      | None -> cat sL' sR' in
+      | None -> cat sL' sR'
+  in
   aux 0
 
 let fmap = filter_map
@@ -260,7 +266,8 @@ let compare f sA sB =
     | More _, End -> 1
     | More (eA, sA, qA), More (eB, sB, qB) ->
       let c = f eA eB in if c <> 0 then c else
-      aux (cons_enum sA qA, cons_enum sB qB) in
+      aux (cons_enum sA qA, cons_enum sB qB)
+  in
   aux (cons_enum sA End, cons_enum sB End)
 
 let equal f sA sB =
@@ -268,5 +275,6 @@ let equal f sA sB =
     | End, End -> true
     | End, More _ | More _, End -> false
     | More (eA, sA, qA), More (eB, sB, qB) ->
-      f eA eB && aux (cons_enum sA qA, cons_enum sB qB) in
+      f eA eB && aux (cons_enum sA qA, cons_enum sB qB)
+  in
   aux (cons_enum sA End, cons_enum sB End)

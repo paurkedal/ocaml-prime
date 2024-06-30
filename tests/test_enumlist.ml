@@ -1,4 +1,4 @@
-(* Copyright (C) 2015--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2015--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -67,13 +67,14 @@ let test_insert_delete () =
     let _, pos = Int_set.locate x s in
     let s' = Int_set.add x s in
     let l' = L.insert pos x l in
-    (s', l') in
-
+    (s', l')
+  in
   let del x (s, l) =
     let _, pos = Int_set.locate x s in
     let s' = Int_set.remove x s in
     let l' = L.delete pos l in
-    (s', l') in
+    (s', l')
+  in
 
   permute_array a0;
   let s0, l0 = Prime_array.fold ins a0 (Int_set.empty, L.empty) in
@@ -112,11 +113,16 @@ let test_iteration () =
     L.filter_mapi
       (fun i x -> assert (x = 2*i + 1); if x <= m then Some (i + x) else None) l
   in
-  let l2 = l |> L.filter (fun x -> x <= m)
-             |> L.mapi (fun i x -> assert (x = 2*i + 1); i + x) in
+  let l2 =
+    l |> L.filter (fun x -> x <= m)
+      |> L.mapi (fun i x -> assert (x = 2*i + 1); i + x)
+  in
   assert (L.equal (=) l1 l2);
-  let y = L.foldi (fun i x acc -> assert (x = 2*i + 1);
-                                  assert (acc = 2*i - 1); acc + 2) l (-1) in
+  let y =
+    L.foldi
+      (fun i x acc -> assert (x = 2*i + 1); assert (acc = 2*i - 1); acc + 2)
+      l (-1)
+  in
   assert (y = 2*n - 1)
 
 let run () =
