@@ -32,9 +32,11 @@ val absurd : counit -> 'a
 (** {2 Combinators} *)
 
 val ident : 'a -> 'a
+[@@deprecated "Use Fun.id from the standard library."]
 (** The I combinator: [ident x] is [x]. *)
 
 val konst : 'a -> 'b -> 'a
+[@@deprecated "Use Fun.const from the standard library."]
 (** The K combinator: [konst x y] is [x]. *)
 
 val (%) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c
@@ -54,3 +56,4 @@ val uncurry : ('a -> 'b -> 'c) -> 'a * 'b -> 'c
 (** {2 Exceptions} *)
 
 val finally : (unit -> unit) -> (unit -> 'a) -> 'a
+[@@deprecated "Use Fun.protect from the standard library."]
