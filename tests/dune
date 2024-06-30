@@ -1,6 +1,6 @@
 (executable
   (name testsuite)
-  (libraries extunix oUnit prime prime_unstable))
+  (libraries alcotest extunix prime prime_unstable))
 
 (alias
   (name runtest)

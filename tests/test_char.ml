@@ -1,4 +1,4 @@
-(* Copyright (C) 2019--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2019--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,9 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
-let run () =
+open Alcotest.V1
+
+let test_char () =
   for i = 0 to 255 do
     let c = Char.chr i in
     let open Prime_char in
@@ -35,3 +37,7 @@ let run () =
     assert (is_xdigit c = (is_ascii_digit c || 'a' <= c && c <= 'f'
                                             || 'A' <= c && c <= 'F'))
   done
+
+let test_cases = [
+  test_case "char" `Quick test_char;
+]

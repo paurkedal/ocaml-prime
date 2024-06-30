@@ -15,8 +15,7 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
-open OUnit
-open Utils
+module A = Alcotest.V1
 open Unprime
 open Unprime_array
 open Unprime_list
@@ -175,41 +174,49 @@ let test_bindings () =
     assert (es_ij = List.rev es_ij_rev)
   done
 
-let run () =
+let test_special_cases () =
   assert (Int_emap.equal (=) Int_emap.empty Int_emap.empty);
-  assert (Int_emap.compare compare Int_emap.empty Int_emap.empty = 0);
-  for _ = 0 to 999 do
-    let rec populate imax n m em =
-      if n < 0 then (m, em) else
-      let i = Random.int imax in
-      let j = Random.int imax in
-      let em' = Int_emap.remove i em in
-      let em'' = Int_emap.add j (j + 1) em' in
-      assert (not (Int_emap.mem i em'));
-      assert (Int_emap.mem j em'');
-      assert_equal (Int_emap.find j em'') (j + 1);
-      populate imax (n - 1) (Int_map.add j (j + 1) (Int_map.remove i m)) em''
-    in
-    let n = Random.int (1 lsl Random.int 10) + 1 in
-    let m, em = populate n n Int_map.empty Int_emap.empty in
-    assert_equal_int ~msg:"cardinality using fold" (Int_map.cardinal m)
-                     (Int_emap.fold (fun _ _ -> (+) 1) em 0);
-    assert_equal_int ~msg:"cardinal"
-                     (Int_map.cardinal m) (Int_emap.cardinal em);
-    assert_equal ~msg:"min binding" (Option.get (Int_emap.min_binding em))
-                 (Int_emap.get_binding em 0);
-    assert_equal ~msg:"max binding" (Option.get (Int_emap.max_binding em))
-                 (Int_emap.get_binding em (Int_emap.cardinal em - 1));
-    for i = 0 to Int_emap.cardinal em - 1 do
-      let k, _ = Int_emap.get_binding em i in
-      let pres, pos = Int_emap.locate k em in
-      assert pres;
-      assert_equal_int ~msg:"locate (get i em)" i pos
-    done;
-    test_equal ();
-    test_update ();
-    test_pop_remove ();
-    test_cut ();
-    test_alg ();
-    test_bindings ()
+  assert (Int_emap.compare compare Int_emap.empty Int_emap.empty = 0)
+
+let test_populate_and_query () =
+  let rec populate imax n m em =
+    if n < 0 then (m, em) else
+    let i = Random.int imax in
+    let j = Random.int imax in
+    let em' = Int_emap.remove i em in
+    let em'' = Int_emap.add j (j + 1) em' in
+    assert (not (Int_emap.mem i em'));
+    assert (Int_emap.mem j em'');
+    A.(check int) "find added" (Int_emap.find j em'') (j + 1);
+    populate imax (n - 1) (Int_map.add j (j + 1) (Int_map.remove i m)) em''
+  in
+  let n = Random.int (1 lsl Random.int 10) + 1 in
+  let m, em = populate n n Int_map.empty Int_emap.empty in
+  A.(check int) "cardinality using fold"
+    (Int_map.cardinal m) (Int_emap.fold (fun _ _ -> (+) 1) em 0);
+  A.(check int) "cardinal"
+    (Int_map.cardinal m) (Int_emap.cardinal em);
+  A.(check (pair int int)) "min binding"
+    (Option.get (Int_emap.min_binding em)) (Int_emap.get_binding em 0);
+  A.(check (pair int int)) "max binding"
+    (Option.get (Int_emap.max_binding em))
+    (Int_emap.get_binding em (Int_emap.cardinal em - 1));
+  for i = 0 to Int_emap.cardinal em - 1 do
+    let k, _ = Int_emap.get_binding em i in
+    let pres, pos = Int_emap.locate k em in
+    assert pres;
+    A.(check int) "locate (get i em)" i pos
   done
+
+let repeat n f () = for _ = 1 to n do f () done
+
+let test_cases = [
+  A.test_case "special cases" `Quick test_special_cases;
+  A.test_case "equal" `Quick (repeat 1000 test_equal);
+  A.test_case "update" `Quick (repeat 1000 test_update);
+  A.test_case "pop_remove" `Quick (repeat 1000 test_pop_remove);
+  A.test_case "cut" `Quick (repeat 1000 test_cut);
+  A.test_case "alg" `Quick (repeat 1000 test_alg);
+  A.test_case "bindings" `Quick (repeat 1000 test_bindings);
+  A.test_case "populate & query" `Quick (repeat 1000 test_populate_and_query);
+]

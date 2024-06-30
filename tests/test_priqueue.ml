@@ -15,6 +15,8 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
+module A = Alcotest.V1
+
 module Int_order = struct
   type t = int
   let compare = compare
@@ -50,7 +52,11 @@ let rec test n i q r =
     test n (i + 1) q' r'
   end
 
-let run () =
+let test_misc () =
   for _ = 0 to 999 do
     test (Random.int 200) 0 Q.empty R.empty
   done
+
+let test_cases = [
+  A.test_case "misc" `Quick test_misc;
+]

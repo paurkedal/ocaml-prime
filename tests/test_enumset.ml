@@ -15,9 +15,7 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
-open OUnit
-open Utils
-open Unprime
+module A = Alcotest.V1
 open Unprime_array
 open Unprime_list
 
@@ -93,7 +91,7 @@ let test_alg () =
   assert (not (Int_eset.subset sB sAnB) || Int_eset.equal sB sAnB);
   let sAnB' =
     Array.fold
-      (fun i -> if Int_eset.mem i sA then Int_eset.add i else ident)
+      (fun i -> if Int_eset.mem i sA then Int_eset.add i else Fun.id)
       esB Int_eset.empty
   in
   assert (Int_eset.equal sAnB sAnB');
@@ -124,40 +122,47 @@ let test_elements () =
     assert (es_ij = List.rev es_ij_rev)
   done
 
-let run () =
+let test_special_cases () =
   assert (Int_eset.equal Int_eset.empty Int_eset.empty);
-  assert (Int_eset.compare Int_eset.empty Int_eset.empty = 0);
-  for _ = 0 to 999 do
-    let rec populate imax n s es =
-      if n < 0 then (s, es) else
-      let i = Random.int imax in
-      let j = Random.int imax in
-      let es' = Int_eset.remove i es in
-      let es'' = Int_eset.add j es' in
-      assert (not (Int_eset.mem i es'));
-      assert (Int_eset.mem j es'');
-      populate imax (n - 1) (Int_set.add j (Int_set.remove i s)) es''
-    in
-    let n = Random.int (1 lsl Random.int 10) + 1 in
-    let s, es = populate n n Int_set.empty Int_eset.empty in
-    assert_equal_int ~msg:"cardinality using fold" (Int_set.cardinal s)
-                     (Int_eset.fold (fun _ -> (+) 1) es 0);
-    assert_equal_int ~msg:"cardinal"
-                     (Int_set.cardinal s) (Int_eset.cardinal es);
-    assert_equal ~msg:"elements" (Int_set.elements s)
-                 (List.rev (Int_eset.fold List.cons es []));
-    assert_equal_int ~msg:"min element" (Int_eset.min_elt_exn es)
-                     (Int_eset.get es 0);
-    assert_equal_int ~msg:"max element" (Int_eset.max_elt_exn es)
-                     (Int_eset.get es (Int_eset.cardinal es - 1));
-    for i = 0 to Int_eset.cardinal es - 1 do
-      let e = Int_eset.get es i in
-      let pres, pos = Int_eset.locate e es in
-      assert pres;
-      assert_equal_int ~msg:"locate (get i es)" i pos
-    done;
-    test_equal ();
-    test_cut ();
-    test_alg ();
-    test_elements ()
+  assert (Int_eset.compare Int_eset.empty Int_eset.empty = 0)
+
+let test_populate_and_query () =
+  let rec populate imax n s es =
+    if n < 0 then (s, es) else
+    let i = Random.int imax in
+    let j = Random.int imax in
+    let es' = Int_eset.remove i es in
+    let es'' = Int_eset.add j es' in
+    assert (not (Int_eset.mem i es'));
+    assert (Int_eset.mem j es'');
+    populate imax (n - 1) (Int_set.add j (Int_set.remove i s)) es''
+  in
+  let n = Random.int (1 lsl Random.int 10) + 1 in
+  let s, es = populate n n Int_set.empty Int_eset.empty in
+  A.(check int) "cardinality using fold"
+    (Int_set.cardinal s) (Int_eset.fold (fun _ -> (+) 1) es 0);
+  A.(check int) "cardinal"
+    (Int_set.cardinal s) (Int_eset.cardinal es);
+  A.(check (list int)) "elements"
+    (Int_set.elements s) (List.rev (Int_eset.fold List.cons es []));
+  A.(check int) "min element"
+    (Int_eset.min_elt_exn es) (Int_eset.get es 0);
+  A.(check int) "max element"
+    (Int_eset.max_elt_exn es) (Int_eset.get es (Int_eset.cardinal es - 1));
+  for i = 0 to Int_eset.cardinal es - 1 do
+    let e = Int_eset.get es i in
+    let pres, pos = Int_eset.locate e es in
+    assert pres;
+    A.(check int) "locate (get i es)" i pos
   done
+
+let repeat n f () = for _ = 1 to n do f () done
+
+let test_cases = [
+  A.test_case "special cases" `Quick test_special_cases;
+  A.test_case "equal" `Quick (repeat 1000 test_equal);
+  A.test_case "cut" `Quick (repeat 1000 test_cut);
+  A.test_case "alg" `Quick (repeat 1000 test_alg);
+  A.test_case "elements" `Quick (repeat 1000 test_elements);
+  A.test_case "populate & query" `Quick (repeat 1000 test_populate_and_query);
+]

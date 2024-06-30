@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,12 +15,13 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
+open Alcotest.V1
 open Unprime_array
 
 let is_even x = x mod 2 = 0
 let half_even x = if x mod 2 = 0 then Some (x / 2) else None
 
-let run () =
+let test_array () =
   let a = [|4; 1; 2; 3|] in
   let b = [|1; 2; 4; 3; 6|] in
   let c = [|3; 7|] in
@@ -40,3 +41,7 @@ let run () =
   assert (Array.slice 2 2 b = [||]);
   assert (Array.slice 2 4 b = [|4; 3|]);
   ()
+
+let test_cases = [
+  test_case "array" `Quick test_array;
+]

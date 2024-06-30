@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -14,6 +14,8 @@
  * and the LGPL-3.0 Linking Exception along with this library.  If not, see
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
+
+module A = Alcotest.V1
 
 module R = Prime_retraction.Make
   (struct
@@ -66,13 +68,17 @@ let test_alg () =
   assert (R.cardinal rAuB = R.cardinal rAnB + R.cardinal rAsB);
   assert (R.cardinal rAcB = R.cardinal rB - R.cardinal rAnB)
 
-let run () =
+let test_special_cases () =
   assert (R.equal R.empty R.empty);
   assert (R.compare R.empty (R.singleton 0) = -1);
   assert (R.compare (R.singleton 0) R.empty = 1);
   assert (R.compare (R.singleton 0) (R.singleton 1) = -1);
-  assert (R.compare (R.singleton 1) (R.singleton 0) = 1);
-  for _ = 0 to 9999 do
-    test_pop_remove ();
-    test_alg ()
-  done
+  assert (R.compare (R.singleton 1) (R.singleton 0) = 1)
+
+let repeat n f () = for _ = 1 to n do f () done
+
+let test_cases = [
+  A.test_case "special cases" `Quick test_special_cases;
+  A.test_case "pop_remove" `Quick (repeat 10_000 test_pop_remove);
+  A.test_case "alg" `Quick (repeat 10_000 test_alg);
+]

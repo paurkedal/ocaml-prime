@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -194,26 +194,29 @@ let rec coiter_rev : type a. (a -> unit) -> a t -> unit = fun f -> function
   | Even t -> coiter_rev (fun (x, y) -> f x; f y) t
   | Odd (z, t) -> coiter_rev (fun (x, y) -> f x; f y) t; f z
 
-let rec fold : type a. (a -> 'b -> 'b) -> a t -> 'b -> 'b = fun f -> function
-  | Empty -> ident
-  | Even t -> fold (fun (x, y) -> f y % f x) t
-  | Odd (z, t) -> fold (fun (x, y) -> f y % f x) t % f z
+let rec fold : type a. (a -> 'b -> 'b) -> a t -> 'b -> 'b =
+  fun f m acc ->
+  (match m with
+   | Empty -> acc
+   | Even t -> fold (fun (x, y) -> f y % f x) t acc
+   | Odd (z, t) -> fold (fun (x, y) -> f y % f x) t (f z acc))
 
 let rec fold2 : type a b. (a -> b -> 'c -> 'c) -> a t -> b t -> 'c -> 'c =
-  fun f tA' tB' ->
+  fun f tA' tB' acc ->
   match tA', tB' with
-  | Empty, Empty -> ident
+  | Empty, Empty -> acc
   | Even tA, Even tB ->
-    fold2 (fun (xA, yA) (xB, yB) -> f yA yB % f xA xB) tA tB
+    fold2 (fun (xA, yA) (xB, yB) -> f yA yB % f xA xB) tA tB acc
   | Odd (zA, tA), Odd (zB, tB) ->
-    fold2 (fun (xA, yA) (xB, yB) -> f yA yB % f xA xB) tA tB % f zA zB
+    fold2 (fun (xA, yA) (xB, yB) -> f yA yB % f xA xB) tA tB (f zA zB acc)
   | Empty, _ | Even _, _ | Odd _, _ -> bad_arg "fold2: Different size."
 
-let rec cofold_rev : type a. (a -> 'b -> 'b) -> a t -> 'b -> 'b = fun f ->
-  function
-  | Empty -> ident
-  | Even t -> cofold_rev (fun (x, y) -> f y % f x) t
-  | Odd (z, t) -> f z % cofold_rev (fun (x, y) -> f y % f x) t
+let rec cofold_rev : type a. (a -> 'b -> 'b) -> a t -> 'b -> 'b =
+  fun f w acc ->
+  (match w with
+   | Empty -> acc
+   | Even t -> cofold_rev (fun (x, y) -> f y % f x) t acc
+   | Odd (z, t) -> f z (cofold_rev (fun (x, y) -> f y % f x) t acc))
 
 let rec split : type a. a t -> a t * a t = function
   | Empty -> Empty, Empty

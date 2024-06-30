@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,21 +15,25 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
-include OUnit
+module A = Alcotest.V1
 include Unprime_list
 
-let run () =
-  assert_equal
+let test_list () =
+  A.(check (list int)) "filter_map"
     [1; 2; 5]
     (List.filter_map (fun x -> if x >= 0 then Some x else None) [1; 2; -3; -4; 5]);
-  assert_equal
+  A.(check (list int)) "flatten_map"
     [3; 2; 1; 0; 1; 0; 2; 1; 0]
     (List.flatten_map (fun n -> Prime_int.fold_to List.cons n []) [4; 2; 3]);
-  assert_equal
+  A.(check (list int)) "rev_flatten"
     [-1; 0; 1; 2; 3; 4; 5]
     (List.rev_flatten [[5; 4; 3]; [2; 1]; [0; -1]]);
 
   (* concat *)
-  assert (List.interfix 0 [1] = [1]);
-  assert (List.interfix 0 [1; 2] = [1; 0; 2]);
-  assert (List.interfix 0 [1; 2; 3] = [1; 0; 2; 0; 3])
+  A.(check (list int)) "interfix 1" [1] (List.interfix 0 [1]);
+  A.(check (list int)) "interfix 2" [1; 0; 2] (List.interfix 0 [1; 2]);
+  A.(check (list int)) "interfix 3" [1; 0; 2; 0; 3] (List.interfix 0 [1; 2; 3])
+
+let test_cases = [
+  A.test_case "list" `Quick test_list;
+]

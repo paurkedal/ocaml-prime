@@ -15,6 +15,8 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
+module A = Alcotest.V1
+
 let rec alt_pow x n = if n = 0 then 1L else Int64.mul x (alt_pow x (n - 1))
 
 let test_arith () =
@@ -45,6 +47,7 @@ let test_bitcount () =
     assert (Prime_int64.bitcount x = count_bits x 0)
   done
 
-let run () =
-  test_arith ();
-  test_bitcount ()
+let test_cases = [
+  A.test_case "arith" `Quick test_arith;
+  A.test_case "bitcount" `Quick test_bitcount;
+]

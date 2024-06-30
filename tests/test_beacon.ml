@@ -1,4 +1,4 @@
-(* Copyright (C) 2020--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2020--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -34,7 +34,7 @@ type t = {
   serial: int;
 }
 
-let run () =
+let test_beacon () =
   let dummy = {beacon = Beacon.dummy; serial = -1} in
   let retained = Array.make 10_000 dummy in
   for _ = 1 to 1_000_000 do
@@ -42,3 +42,7 @@ let run () =
     let grade = Random.float 9.99 +. 0.01 in
     retained.(i) <- Beacon.embed grade (fun beacon -> {beacon; serial = i})
   done
+
+let test_cases = [
+  "beacon", `Quick, test_beacon;
+]

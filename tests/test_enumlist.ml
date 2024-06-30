@@ -15,7 +15,7 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
-open Unprime
+open Alcotest.V1
 open Unprime_list
 
 module L = Prime_enumlist
@@ -58,7 +58,7 @@ let test_push () =
 let test_insert_delete () =
   let n0 = Random.int (1 lsl Random.int 10) in
   let n1 = Random.int (1 lsl Random.int 10) in
-  let a01 = Prime_array.sample ident (n0 + n1) in
+  let a01 = Prime_array.sample Fun.id (n0 + n1) in
   permute_array a01;
   let a0 = Prime_array.slice 0 n0 a01 in
   let a1 = Prime_array.slice n0 (n0 + n1) a01 in
@@ -125,15 +125,19 @@ let test_iteration () =
   in
   assert (y = 2*n - 1)
 
-let run () =
+let test_simple () =
   assert (L.is_empty L.empty);
   assert (L.length L.empty = 0);
   assert (not (L.is_empty (L.singleton 0)));
   assert (L.length (L.singleton 0) = 1);
-  assert (L.get (L.singleton 3) 0 = 3);
-  for _ = 0 to 999 do
-    test_push ();
-    test_insert_delete ();
-    test_cutting ();
-    test_iteration ()
-  done
+  assert (L.get (L.singleton 3) 0 = 3)
+
+let repeat n f () = for _ = 1 to n do f () done
+
+let test_cases = [
+  test_case "simple" `Quick test_simple;
+  test_case "push" `Quick (repeat 1000 test_push);
+  test_case "insert_delete" `Quick (repeat 1000 test_insert_delete);
+  test_case "cutting" `Quick (repeat 1000 test_cutting);
+  test_case "iteration" `Quick (repeat 1000 test_iteration);
+]

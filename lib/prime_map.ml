@@ -15,8 +15,6 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
-open Prime
-
 module type OrderedType = Map.OrderedType
 
 module type S = sig
@@ -55,7 +53,7 @@ module Make (K : OrderedType) = struct
   let search = find_map
 
   let fold2t f m0 m1 =
-    fold (fun k v0 -> try f k v0 (find k m1) with Not_found -> ident) m0
+    fold (fun k v0 acc -> try f k v0 (find k m1) acc with Not_found -> acc) m0
 
   let map2t f =
     merge @@ fun _ x y ->

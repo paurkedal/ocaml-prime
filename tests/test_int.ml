@@ -15,8 +15,7 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
-open OUnit
-open Utils
+module A = Alcotest.V1
 
 let verbose = false
 
@@ -34,31 +33,31 @@ let test_arith () =
   done;
 
   (* Assumed by the implementation of fmod: *)
-  assert_equal_int ((min_int-1) lxor min_int) (-1);
+  A.(check int) "" ((min_int-1) lxor min_int) (-1);
 
   (* fdiv *)
-  assert_equal_int ~msg:"⌊7 / 3⌋"   2 (Prime_int.fdiv 7 3);
-  assert_equal_int ~msg:"⌊-7 / -3⌋" 2 (Prime_int.fdiv (-7) (-3));
-  assert_equal_int ~msg:"⌊-7 / 3⌋" (-3) (Prime_int.fdiv (-7) 3);
-  assert_equal_int ~msg:"⌊7 / -3⌋" (-3) (Prime_int.fdiv 7 (-3));
+  A.(check int) "⌊7 / 3⌋"   2 (Prime_int.fdiv 7 3);
+  A.(check int) "⌊-7 / -3⌋" 2 (Prime_int.fdiv (-7) (-3));
+  A.(check int) "⌊-7 / 3⌋" (-3) (Prime_int.fdiv (-7) 3);
+  A.(check int) "⌊7 / -3⌋" (-3) (Prime_int.fdiv 7 (-3));
 
   (* fmod *)
-  assert_equal_int ~msg:"7 fmod 3"   1 (Prime_int.fmod 7 3);
-  assert_equal_int ~msg:"-7 fmod -3" (-1) (Prime_int.fmod (-7) (-3));
-  assert_equal_int ~msg:"-7 fmod 3"  2 (Prime_int.fmod (-7) 3);
-  assert_equal_int ~msg:"7 fmod -3"  (-2) (Prime_int.fmod 7 (-3));
+  A.(check int) "7 fmod 3"   1 (Prime_int.fmod 7 3);
+  A.(check int) "-7 fmod -3" (-1) (Prime_int.fmod (-7) (-3));
+  A.(check int) "-7 fmod 3"  2 (Prime_int.fmod (-7) 3);
+  A.(check int) "7 fmod -3"  (-2) (Prime_int.fmod 7 (-3));
 
   (* cdiv *)
-  assert_equal_int ~msg:"⌈7 / 3⌉"   3 (Prime_int.cdiv 7 3);
-  assert_equal_int ~msg:"⌈-7 / -3⌉" 3 (Prime_int.cdiv (-7) (-3));
-  assert_equal_int ~msg:"⌈-7 / 3⌉" (-2) (Prime_int.cdiv (-7) 3);
-  assert_equal_int ~msg:"⌈7 / -3⌉" (-2) (Prime_int.cdiv 7 (-3));
+  A.(check int) "⌈7 / 3⌉"   3 (Prime_int.cdiv 7 3);
+  A.(check int) "⌈-7 / -3⌉" 3 (Prime_int.cdiv (-7) (-3));
+  A.(check int) "⌈-7 / 3⌉" (-2) (Prime_int.cdiv (-7) 3);
+  A.(check int) "⌈7 / -3⌉" (-2) (Prime_int.cdiv 7 (-3));
 
   (* cmod *)
-  assert_equal_int ~msg:"7 cmod 3"  (-2) (Prime_int.cmod 7 3);
-  assert_equal_int ~msg:"-7 cmod -3"  2 (Prime_int.cmod (-7) (-3));
-  assert_equal_int ~msg:"-7 cmod 3" (-1) (Prime_int.cmod (-7) 3);
-  assert_equal_int ~msg:"7 cmod -3"   1 (Prime_int.cmod 7 (-3));
+  A.(check int) "7 cmod 3"  (-2) (Prime_int.cmod 7 3);
+  A.(check int) "-7 cmod -3"  2 (Prime_int.cmod (-7) (-3));
+  A.(check int) "-7 cmod 3" (-1) (Prime_int.cmod (-7) 3);
+  A.(check int) "7 cmod -3"   1 (Prime_int.cmod 7 (-3));
 
   (* fdiv and fmod randomised *)
   for _ = 0 to 9999 do
@@ -67,11 +66,11 @@ let test_arith () =
     let y = Random.int (1 lsl ey) - (1 lsl (ey - 1)) in
     if y > 0 then begin
       let q, r = Prime_int.fdiv x y, Prime_int.fmod x y in
-      assert_equal_int ~msg:"y * ⌊x / y⌋ + x fmod y = x" x (y * q + r);
-      assert_equal ~msg:"(x fmod y) has the same sign as y" (y < 0) (r < 0);
+      A.(check int) "y * ⌊x / y⌋ + x fmod y = x" x (y * q + r);
+      A.(check bool) "(x fmod y) has the same sign as y" (y < 0) (r < 0);
       let q, r = Prime_int.cdiv x y, Prime_int.cmod x y in
-      assert_equal_int ~msg:"y * ⌈x / y⌉ + x cmod y = x" x (y * q + r);
-      assert_equal ~msg:"(x cmod y) has the opposite sign of y" (y < 0) (r > 0)
+      A.(check int) "y * ⌈x / y⌉ + x cmod y = x" x (y * q + r);
+      A.(check bool) "(x cmod y) has the opposite sign of y" (y < 0) (r > 0)
     end
   done
 
@@ -153,19 +152,20 @@ let test_bitcount () =
 let test_floor_log2_and_ceil_log2 () =
   for n = 1 to 10000 do
     let i, j = Prime_int.floor_log2 n, Prime_int.ceil_log2 n in
-    if i = j then assert_equal_int n (1 lsl i) else
+    if i = j then A.(check int) "power of 2" n (1 lsl i) else
     begin
-      assert_equal_int 1 (j - i);
+      A.(check int) "j - i" 1 (j - i);
       assert (1 lsl i < n);
       assert (n < 1 lsl j)
     end
   done
 
-let run () =
-  test_arith ();
-  test_gcd ();
-  test_fact ();
-  test_binom ();
-  test_signed_width ();
-  test_bitcount ();
-  test_floor_log2_and_ceil_log2 ()
+let test_cases = [
+  A.test_case "arith" `Quick test_arith;
+  A.test_case "gcd" `Quick test_gcd;
+  A.test_case "fact" `Quick test_fact;
+  A.test_case "binom" `Quick test_binom;
+  A.test_case "signed_width" `Quick test_signed_width;
+  A.test_case "bitcount" `Quick test_bitcount;
+  A.test_case "floor_log2_and_ceil_log2" `Quick test_floor_log2_and_ceil_log2;
+]

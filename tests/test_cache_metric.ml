@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,6 +15,8 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
+open Alcotest.V1
+
 module Cm = Prime_cache_metric
 
 let current_time_r = ref 0.0
@@ -26,7 +28,7 @@ let current_memory_pressure () = p
 let (=~) x y =
   abs_float (x -. y) /. (abs_float x +. abs_float y) < 1e-6
 
-let run () =
+let test_cache_metric () =
   let cm = Cm.create ~current_time ~current_memory_pressure () in
   let access_start = ref (Cm.access_init cm) in
   for i = 1 to 32 do
@@ -39,3 +41,7 @@ let run () =
     current_time_r := float_of_int i;
     access_start := Cm.access_step cm i !access_start
   done
+
+let test_cases = [
+  test_case "cache_metric" `Quick test_cache_metric;
+]

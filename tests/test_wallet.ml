@@ -15,6 +15,7 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
+module A = Alcotest.V1
 open Prime_wallet
 
 let f i = 2*i + 1
@@ -89,6 +90,10 @@ let test n =
   assert (length cowfR = n - nC);
   assert (wfC = cowfC)
 
-let run () =
+let test_misc () =
   for n = 1 to 65 do test n done;
   List.iter test [128; 175; 921; 5000]
+
+let test_cases = [
+  A.test_case "misc" `Quick test_misc;
+]

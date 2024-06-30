@@ -1,4 +1,4 @@
-(* Copyright (C) 2014--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2014--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,9 +15,11 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
+module A = Alcotest.V1
+
 module Int_map = Prime_map.Make (struct type t = int let compare = compare end)
 
-let run () =
+let test_misc () =
   let m = Prime_int.fold_to (fun k -> Int_map.add k (-k)) 100 Int_map.empty in
   let m2 = Int_map.filter (fun k _ -> k mod 2 = 0) m in
   let m3 = Int_map.filter (fun k _ -> k mod 3 = 0) m in
@@ -28,3 +30,7 @@ let run () =
   assert (Int_map.equal (=) a a');
   assert (Int_map.equal (=) b b');
   assert (Int_map.equal (=) ab ab')
+
+let test_cases = [
+  A.test_case "misc" `Quick test_misc;
+]

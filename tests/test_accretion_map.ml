@@ -15,6 +15,7 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
+module A = Alcotest.V1
 module Int_order = struct type t = int let compare = compare end
 
 module List_monoid = struct
@@ -26,24 +27,37 @@ end
 module Am = Prime_accretion_map.Make1 (Int_order) (List_monoid)
 module Rm = Map.Make (Int_order)
 
-let test n =
+let test_special_cases () =
+  A.(check bool) "is_empty empty" true (Am.is_empty Am.empty);
+  A.(check bool) "is_empty singleton" false (Am.is_empty (Am.singleton 0 []));
+  A.(check int) "candinal empty" 0 (Am.cardinal Am.empty);
+  A.(check int) "candinal singleton" 1 (Am.cardinal (Am.singleton 0 []));
+  A.(check (list int)) "result empty" [] (Am.result Am.empty);
+  A.(check (list int)) "result singleton" [11] (Am.result (Am.singleton 0 [11]))
+
+let test_random' n =
   let aux i (rm, am) =
     let k = Random.int n in
     let x = [i] in
     Rm.add k x rm, Am.add k x am
   in
   let rm, am = Prime_int.fold_to aux n (Rm.empty, Am.empty) in
-  assert (Am.cardinal am = Rm.cardinal rm);
-  assert (Am.bindings am = Rm.bindings rm);
-  assert (Am.result am = List.rev (Rm.fold (fun _ x acc -> x @ acc) rm []))
+  A.(check int) "candinal"
+    (Rm.cardinal rm) (Am.cardinal am);
+  A.(check (list (pair int (list int)))) "bindings"
+    (Rm.bindings rm) (Am.bindings am);
+  A.(check (list int)) "result"
+    (List.rev (Rm.fold (fun _ x acc -> x @ acc) rm []))
+    (Am.result am)
 
-let run () =
-  assert (Am.is_empty Am.empty);
-  assert (not (Am.is_empty (Am.singleton 0 [])));
-  assert (Am.cardinal Am.empty = 0);
-  assert (Am.cardinal (Am.singleton 0 []) = 1);
-  assert (Am.result Am.empty = []);
-  assert (Am.result (Am.singleton 0 [11]) = [11]);
+let test_random () =
   for i = 1 to 200 do
-    test i; test i; test i
+    test_random' i;
+    test_random' i;
+    test_random' i
   done
+
+let test_cases = [
+  A.test_case "special cases" `Quick test_special_cases;
+  A.test_case "random" `Quick test_random;
+]

@@ -15,6 +15,8 @@
  * <http://www.gnu.org/licenses/> and <https://spdx.org>, respectively.
  *)
 
+module A = Alcotest.V1
+
 let test_fraction () =
   assert (Prime_float.to_fraction 0.0 = (0, 1));
   let aux i j =
@@ -33,5 +35,6 @@ let test_fraction () =
     aux (Random.int 10000 + 200) (Random.int 10000 + 200)
   done
 
-let run () =
-  test_fraction ()
+let test_cases = [
+  A.test_case "fraction" `Quick test_fraction;
+]
