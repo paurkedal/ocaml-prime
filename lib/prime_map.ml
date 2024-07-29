@@ -22,15 +22,18 @@ module type S = sig
   val app : 'a t -> key -> 'a option
   val pop : key -> 'a t -> ('a * 'a t) option
   val find_map : (key -> 'a -> 'b option) -> 'a t -> 'b option
-  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option [@@deprecated]
-  val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
-  val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
-  val mapi2t : (key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
+  val fold_inter : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
+  val inter : (key -> 'a -> 'b -> 'c option) -> 'a t -> 'b t -> 'c t
   val left_union : 'a t -> 'a t -> 'a t
   val split_union : (key -> 'a -> 'b -> 'c) ->
                     'a t -> 'b t -> 'a t * 'b t * 'c t
   val left_inter : 'a t -> 'b t -> 'a t
   val compl : 'a t -> 'a t -> 'a t
+
+  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option [@@deprecated]
+  val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c [@@deprecated]
+  val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t [@@deprecated]
+  val mapi2t : (key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t [@@deprecated]
 end
 
 module Make (K : OrderedType) = struct
@@ -52,8 +55,15 @@ module Make (K : OrderedType) = struct
 
   let search = find_map
 
-  let fold2t f m0 m1 =
+  let fold_inter f m0 m1 =
     fold (fun k v0 acc -> try f k v0 (find k m1) acc with Not_found -> acc) m0
+  let fold2t = fold_inter
+
+  let inter f =
+    merge @@ fun k x y ->
+    (match x, y with
+     | Some x, Some y -> f k x y
+     | _, _ -> None)
 
   let map2t f =
     merge @@ fun _ x y ->

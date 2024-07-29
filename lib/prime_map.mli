@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -33,24 +33,18 @@ module type S = sig
   (** [find_map f m] returns the first non-[None] result of [f k v] where [k, v]
       runs over the bindings of [m] if it exists, otherwise [None]. *)
 
-  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
-  [@@deprecated "Renamed to find_map."]
-
-  val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
-  (** [fold2t f m0 m1] returns the composition [f kₙ vₙ wₙ ∘ ⋯ ∘ f k₁ v₁ w₁]
+  val fold_inter : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
+  (** [fold_inter f m0 m1] returns the composition [f kₙ vₙ wₙ ∘ ⋯ ∘ f k₁ v₁ w₁]
       where [k₁, …, kₙ] are the coinciding indices of [m0] and [m1], and [v₁,
       …, vₙ] and [w₁, …, wₙ] are the correspoding values from [m0] and [m1],
       respectively. *)
 
-  val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
-  (** [map2t f m0 m1] returns a map which contains a mapping from [k] to [f x0
-      x1] for each [k], [x0], and [x1] such that [m0] maps [k] to [x0] and
-      [m1] maps [k] to [x1]. *)
-
-  val mapi2t : (key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
-  (** [mapi2t f m0 m1] returns a map which contains a mapping from [k] to [f k
-      x0 x1] for each [k], [x0], and [x1] such that [m0] maps [k] to [x0] and
-      [m1] maps [k] to [x1]. *)
+  val inter : (key -> 'a -> 'b -> 'c option) -> 'a t -> 'b t -> 'c t
+  (** [inter f m1 m2] is a new map whose keys are the intersection of the keys
+      of [m1] and [m2] filtered by the optionality of the result, and each
+      mapping to the corresponding non-[None] results.
+      This is the special case of {!Stdlib.Map.merge}, restricted to the
+      intersecting keys. *)
 
   val left_union : 'a t -> 'a t -> 'a t
   (** [left_union m0 m1] is the map whose domain is the union of the domains
@@ -65,10 +59,19 @@ module type S = sig
       a)] of [mA] and [(k, b)] of [mB] sharing [k]. *)
 
   val left_inter : 'a t -> 'b t -> 'a t
-  (** @deprecated Use [mapi2t fst]. *)
+  (** [left_inter m1 m2] is [inter (fun _ x _ -> Some x) m1 m2]. *)
 
   val compl : 'a t -> 'a t -> 'a t
   (** [compl mN mP] is the complement of [mN] relative to [mP]. *)
+
+  val search : (key -> 'a -> 'b option) -> 'a t -> 'b option
+  [@@deprecated "Renamed to find_map."]
+  val fold2t : (key -> 'a -> 'b -> 'c -> 'c) -> 'a t -> 'b t -> 'c -> 'c
+  [@@deprecated "Renamed to fold_inter."]
+  val map2t : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
+  [@@deprecated "Use inter."]
+  val mapi2t : (key -> 'a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
+  [@@deprecated "Use inter."]
 end
 
 module Make (K : OrderedType) : S with type key = K.t
