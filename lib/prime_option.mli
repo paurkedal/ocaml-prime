@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -64,8 +64,15 @@ val fmap : ('a -> 'b option) -> 'a option -> 'b option
 (** [fmap f None] is [None] and [fmap f (Some a)] is [f a].  Functions as
     [filter ∘ map] and as monadic bind. *)
 
+val comp : ('a -> 'b -> 'b) -> 'a option -> 'b -> 'b
+(** This function computes the n-ary composition over elements of an option
+    viewed as a collection of zero or one element.  More precisely [comp f None]
+    is the identity function and [comp f (Some x)] is [f x].  This is also a
+    special case of the generalized fold of the standard library, obtaied by
+    passing `~none:Fun.id`. *)
+
 val fold : ('a -> 'b -> 'b) -> 'a option -> 'b -> 'b
-(** [fold f None] is the identity function and [fold f (Some a)] is [f a]. *)
+[@@deprecated "Renamed to comp to avoid clash with Stdlib.Option.fold."]
 
 val for_all : ('a -> bool) -> 'a option -> bool
 (** [for_all f None] is true and [for_all f (Some a)] is [f a]. *)

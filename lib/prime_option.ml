@@ -1,4 +1,4 @@
-(* Copyright (C) 2013--2022  Petter A. Urkedal <paurkedal@gmail.com>
+(* Copyright (C) 2013--2024  Petter A. Urkedal <paurkedal@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -27,7 +27,8 @@ let flatten = function Some (Some x) -> Some x | _ -> None
 let return x = Some x
 let (>>=) m f = match m with Some x -> f x | None -> None
 
-let fold f = function None -> fun x -> x | Some x -> f x
+let comp f = function None -> fun x -> x | Some x -> f x
+let fold = comp
 let iter f = function None -> () | Some x -> f x
 let for_all f = function None -> true | Some x -> f x
 let exists f = function None -> false | Some x -> f x
