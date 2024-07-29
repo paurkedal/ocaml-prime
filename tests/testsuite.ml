@@ -33,6 +33,7 @@ let tests = [
   "test_priqueue", Test_priqueue.test_cases;
   "test_retraction", Test_retraction.test_cases;
   "test_string", Test_string.test_cases;
+  "test_syntax", Test_syntax.test_cases;
   "test_wallet", Test_wallet.test_cases;
 ]
 

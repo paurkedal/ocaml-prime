@@ -17,6 +17,7 @@
     Prime_option
     Prime_seq
     Prime_string
+    Prime_syntax
     Unprime
     Unprime_array
     Unprime_buffer
